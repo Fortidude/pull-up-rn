@@ -1,0 +1,16 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    </style>
+
+    <style name="DefaultExplainingPermissionsTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">#ffffff</item>
+
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">#ffffff</item>
+
+        <!-- Used for the background -->
+        <item name="android:background">#1C1C1C</item>
+    </style>
+</resources>

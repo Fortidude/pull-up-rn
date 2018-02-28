@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PullUp</string>
+    <string name="facebook_app_id">113866105901991</string>
+    <string name="fb_login_protocol_scheme">fb113866105901991</string>
+</resources>
