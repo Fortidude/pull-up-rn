@@ -1,6 +1,6 @@
 import React from 'react';
 import { BackHandler, Easing, Animated } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, HeaderProps } from 'react-navigation';
 import StackView from 'react-navigation/src/views/StackView/StackViewStyleInterpolator.js';
 
 import { connect } from 'react-redux';
@@ -12,15 +12,13 @@ import {
 } from 'react-navigation-redux-helpers'
 
 import routes from './routes';
-
 import Header from '../components/Header';
-import Theme from '../components/Theme';
 
 export const Navigator = createStackNavigator(routes, {
     headerMode: 'float',
     navigationOptions: {
         gesturesEnabled: true,
-        header: (headerProps) => <Header headerProps={headerProps}/>
+        header: (headerProps: HeaderProps) => <Header headerProps={headerProps} />
     },
 
     // transitionConfig: () => ({
@@ -45,21 +43,20 @@ export const middleware = createReactNavigationReduxMiddleware(
 
 const App = reduxifyNavigator(Navigator, "root");
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     state: state.nav
 });
 
-interface Props {}
+interface Props { }
 class AppWrapper extends React.Component<Props> {
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
     }
 
     render() {
         return (
             <React.Fragment>
-                <App {...this.props}/>
-                <Theme {...this.props}/>
+                <App {...this.props} />
             </React.Fragment>
         )
     }

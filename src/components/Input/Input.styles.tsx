@@ -6,7 +6,7 @@ function getStyle(theme: ThemeInterface) {
     return {
         container: {
             backgroundColor: theme.colors.inputBackground,
-            width: 295,
+            width: '100%',
             height: 65,
             marginBottom: 10,
             borderRadius: 5,

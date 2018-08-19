@@ -13,6 +13,8 @@ const colors = {
     buttonBigShadowColor: '#000000',
     buttonBigTextColor: '#4E43F9',
 
+    linkSmallColor: '#FFF'
+
 };
 
 const borders = {
@@ -23,12 +25,18 @@ const borders = {
 const fonts = {
     fontSize: 17,
     inputFontSize: 18,
-    buttonBigFontSize: 18
+    buttonBigFontSize: 18,
+    linkSmallFontSize: 14
+};
+
+const dimensions = {
+    authContentWidth: 295
 };
 
 export default{
     name: 'light',
     colors,
     borders,
-    fonts
+    fonts,
+    dimensions
 }

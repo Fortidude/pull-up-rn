@@ -6,6 +6,7 @@ export interface ThemeInterface {
     colors: {};
     borders: {};
     fonts: {};
+    dimensions: {}
 }
 
 export default DefaultTheme;

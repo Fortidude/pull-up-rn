@@ -1,18 +1,19 @@
 import React from 'react';
 import { View } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, NavigationDispatch } from 'react-navigation';
 import { connect } from 'react-redux';
 import Styles from './ASampleTemplate.styles';
+import { ThemeInterface } from '../../assets/themes';
 
 interface Props {
-    dispatch: (action) => void;
-    theme: {}
+    dispatch: NavigationDispatch;
+    theme: ThemeInterface
 }
 
 class ASampleTemplate extends React.Component<Props> {
-    style = {};
+    style: any = {};
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.style = Styles(this.props.theme);
@@ -32,7 +33,7 @@ class ASampleTemplate extends React.Component<Props> {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.app.theme
 });

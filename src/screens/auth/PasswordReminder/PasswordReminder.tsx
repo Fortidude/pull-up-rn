@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Button, View } from 'react-native';
+import { ImageBackground, View } from 'react-native';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import getStyle from './PasswordReminder.styles';
+import getStyle from '../auth.styles';
 import I18n from '../../../assets/translations';
+
+import Input from '../../../components/Input';
+import ButtonBig from '../../../components/ButtonBig';
 
 type Props = {
     dispatch: void;
@@ -35,9 +38,17 @@ class PasswordReminder extends Component<Props> {
 
     render() {
         return (
-            <View style={this.style.container}>
-                <Button title={I18n.t('password_reminder.send_link')} onPress={this.sendActivationLink}/>
-            </View>
+            <ImageBackground source={require('./../../../assets/images/backgroundlight.jpg')}
+                             style={this.style.background}>
+                <View style={this.style.container}>
+                    <View style={this.style.container_content}>
+                        <Input placeholder={I18n.t('fields.email')} onChange={() => {}}/>
+                    </View>
+                    <View style={this.style.container_footer}>
+                        <ButtonBig onPress={this.register} text={I18n.t('password_reminder.send_link')}/>
+                    </View>
+                </View>
+            </ImageBackground>
         );
     }
 }

@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from 'react-navigation';
 
-import Login from '../screens/login/Login';
-import Register from '../screens/login/Register';
-import PasswordReminder from '../screens/login/PasswordReminder';
+import Login from '../screens/auth/Login';
+import Register from '../screens/auth/Register';
+import PasswordReminder from '../screens/auth/PasswordReminder';
 
 import Planner from '../screens/planner/Planner';
 import Profile from '../screens/profile/Profile';

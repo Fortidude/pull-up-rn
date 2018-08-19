@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Button, ImageBackground, View } from 'react-native';
+import { Button, Text, View, ImageBackground } from 'react-native';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import getStyle from './Login.styles';
+import getStyle from '../auth.styles';
 import I18n from '../../../assets/translations';
 
 import Input from '../../../components/Input';
@@ -27,40 +27,27 @@ class Login extends Component<Props> {
         }
     }
 
-    goToPlannerPage = () => {
+    register = () => {
         this.props.dispatch(StackActions.reset({
             index: 0,
-            actions: [NavigationActions.navigate({routeName: 'Planner'})],
+            actions: [NavigationActions.navigate({routeName: 'Login'})],
             key: null
         }));
     };
 
-    goToRegisterPage = () => {
-        this.props.dispatch(NavigationActions.navigate({routeName: 'Register'}));
-    };
-
-    goToPasswordReminderPage = () => {
-        this.props.dispatch(NavigationActions.navigate({routeName: 'PasswordReminder'}));
-    };
-
-    login = () => {
-        alert('Login');
-      //  this.goToPlannerPage();
-    };
-
     render() {
-
         return (
             <ImageBackground source={require('./../../../assets/images/backgroundlight.jpg')}
                              style={this.style.background}>
                 <View style={this.style.container}>
-                    <Input placeholder={I18n.t('fields.email')} onChange={() => {}}/>
-                    <Input placeholder={I18n.t('fields.password')} onChange={() => {}}/>
-
-                    <Button title={I18n.t('login.no_account')} onPress={this.goToRegisterPage}/>
-                    <Button title={I18n.t('login.remind_password')} onPress={this.goToPasswordReminderPage}/>
-
-                    <ButtonBig onPress={this.login} text={I18n.t('login.login')}/>
+                    <View style={this.style.container_content}>
+                        <Input placeholder={I18n.t('fields.email')} onChange={() => {}}/>
+                        <Input placeholder={I18n.t('fields.password')} onChange={() => {}}/>
+                        <Input placeholder={I18n.t('fields.password_repeat')} onChange={() => {}}/>
+                    </View>
+                    <View style={this.style.container_footer}>
+                        <ButtonBig onPress={this.register} text={I18n.t('register.register')}/>
+                    </View>
                 </View>
             </ImageBackground>
         );

@@ -6,7 +6,7 @@ let translations = {
             title: "Logowaie",
             login: "Zaloguj się",
             no_account: "Nie masz konta? Dołącz do nas!",
-            remind_password: "Przypomnij hasło"
+            remind_password: "Nie pamiętam hasła"
         },
         password_reminder: {
             send_link: "Wyślij link aktywacyjny"

@@ -2,17 +2,20 @@ import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
+
 import Styles from './ButtonBig.styles';
+import {ThemeInterface} from '../../assets/themes/index'
 
 interface Props {
-    theme: {};
-    value: string
+    theme: ThemeInterface;
+    onPress: () => void;
+    text: string;
 }
 
 class ButtonBig extends React.Component<Props> {
-    style = {};
+    style:any = {};
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.style = Styles(this.props.theme);
@@ -27,13 +30,13 @@ class ButtonBig extends React.Component<Props> {
     render() {
         return (
             <TouchableOpacity style={this.style.container} onPress={this.props.onPress}>
-                <Text style={this.style.text}>Przycisk</Text>
+                <Text style={this.style.text}>{this.props.text}</Text>
             </TouchableOpacity>
         );
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     theme: state.app.theme
 });
 

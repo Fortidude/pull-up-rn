@@ -2,17 +2,21 @@ import React from 'react';
 import { TextInput, View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
+
+import {ThemeInterface} from '../../assets/themes/index'
 import Styles from './Input.styles';
 
 interface Props {
-    theme: {};
-    value: string
+    theme: ThemeInterface;
+    onChange: () => void;
+    value: string;
+    placeholder: string;
 }
 
 class Input extends React.Component<Props> {
-    style = {};
+    style: any = {};
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.style = Styles(this.props.theme);
@@ -29,8 +33,7 @@ class Input extends React.Component<Props> {
             <View style={this.style.container}>
             <TextInput
                 style={this.style.input}
-                onChangeText={() => {
-                }}
+                onChangeText={() => {}}
                 value={this.props.value}
                 placeholder={this.props.placeholder}
                 placeholderTextColor={this.style.placeholderColor}
@@ -40,7 +43,7 @@ class Input extends React.Component<Props> {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     theme: state.app.theme
 });
 
