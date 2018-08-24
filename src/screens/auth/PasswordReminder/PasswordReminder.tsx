@@ -9,10 +9,11 @@ import I18n from '../../../assets/translations';
 
 import Input from '../../../components/Input';
 import ButtonBig from '../../../components/ButtonBig';
+import { ThemeInterface } from '../../../assets/themes';
 
 type Props = {
     dispatch: Dispatch;
-    theme: {};
+    theme: ThemeInterface;
 };
 class PasswordReminder extends Component<Props> {
     style: any;
@@ -58,7 +59,7 @@ class PasswordReminder extends Component<Props> {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.app.theme
 });
