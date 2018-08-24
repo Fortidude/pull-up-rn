@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
+import { Dispatch } from 'redux';
 import { TouchableOpacity, ImageBackground, Text, View } from 'react-native';
-import { NavigationActions, StackActions, NavigationDispatch } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import getStyle from '../auth.styles';
 import I18n from '../../../assets/translations';
-import {ThemeInterface} from '../../../assets/themes/index'
+import {ThemeInterface, ThemeValueInterface} from '../../../assets/themes/index'
  
 import Input from '../../../components/Input';
 import ButtonBig from '../../../components/ButtonBig';
 
 interface Props {
-    dispatch: NavigationDispatch;
+    dispatch: Dispatch;
     theme: ThemeInterface;
 };
 class Login extends Component<Props> {
-    style: any = {};
+    style: ThemeValueInterface;
 
     constructor(props: Props) {
         super(props);
@@ -50,7 +51,6 @@ class Login extends Component<Props> {
     };
 
     render() {
-
         return (
             <ImageBackground source={require('./../../../assets/images/backgroundlight.jpg')}
                              style={this.style.background}>
@@ -58,7 +58,7 @@ class Login extends Component<Props> {
                     <View style={this.style.container_content}>
                         <Input placeholder={I18n.t('fields.email')} onChange={() => {
                         }}/>
-                        <Input placeholder={I18n.t('fields.password')} onChange={() => {
+                        <Input password={true} placeholder={I18n.t('fields.password')} onChange={() => {
                         }}/>
 
                         <TouchableOpacity style={this.style.passwordReminderButton}

@@ -1,17 +1,18 @@
 import React from 'react';
-import { Animated, TouchableOpacity, Text, View, SafeAreaView, LayoutAnimation } from 'react-native';
-import { NavigationActions, NavigationDispatch, HeaderProps } from 'react-navigation';
+import { TouchableOpacity, Text, View, SafeAreaView } from 'react-native';
+import { NavigationActions, HeaderProps } from 'react-navigation';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
 import Styles from './Header.styles';
 import I18n from '../../assets/translations';
-import { ThemeInterface } from '../../assets/themes/index'
+import { ThemeInterface, ThemeValueInterface } from '../../assets/themes/index'
 import RightText from './RightText';
 
 interface Props {
     headerProps: HeaderProps;
-    dispatch: NavigationDispatch;
+    dispatch: Dispatch;
     theme: ThemeInterface
 }
 
@@ -21,7 +22,7 @@ interface State {
 
 class Header extends React.Component<Props, State> {
     previousTitle: string = '';
-    style: any = {};
+    style: ThemeValueInterface;
 
     constructor(props: Props) {
         super(props);

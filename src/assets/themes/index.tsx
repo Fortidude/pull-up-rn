@@ -1,12 +1,14 @@
 import DefaultTheme from './light.theme';
 import DarkTheme from './dark.theme';
 
+export interface ThemeValueInterface {[key: string]: any}
+
 export interface ThemeInterface {
     name: string
-    colors: {[key: string]: any};
-    borders: {[key: string]: any};
-    fonts: {[key: string]: any};
-    dimensions: {[key: string]: any};
+    colors: ThemeValueInterface;
+    borders: ThemeValueInterface;
+    fonts: ThemeValueInterface;
+    dimensions: ThemeValueInterface;
 }
 
 export default DefaultTheme;

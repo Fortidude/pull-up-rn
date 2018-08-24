@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
-import { Button, Text, View, ImageBackground } from 'react-native';
-import { NavigationActions, StackActions } from 'react-navigation';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { View, ImageBackground } from 'react-native';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 import getStyle from '../auth.styles';
 import I18n from '../../../assets/translations';
 
 import Input from '../../../components/Input';
 import ButtonBig from '../../../components/ButtonBig';
+import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
 
 type Props = {
-    dispatch: void;
-    theme: {};
+    dispatch: Dispatch;
+    theme: ThemeInterface;
 };
 class Login extends Component<Props> {
-    style = {};
+    style: ThemeValueInterface;
 
-    constructor(props) {
+    constructor(props:Props) {
         super(props);
         this.style = getStyle(this.props.theme);
     }
@@ -54,7 +56,7 @@ class Login extends Component<Props> {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.app.theme
 });

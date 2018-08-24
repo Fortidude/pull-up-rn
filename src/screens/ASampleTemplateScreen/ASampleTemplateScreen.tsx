@@ -1,25 +1,28 @@
 import React from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 
 import getStyle from './ASampleTemplateScreen.styles';
-import I18n from '../../../assets/translations';
+import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
 
 type Props = {
-    dispatch: void,
-    theme: {},
+    dispatch: Dispatch,
+    theme: ThemeInterface,
 };
 class ASampleTemplateScreen extends React.Component<Props> {
-    constructor(props) {
+    style: ThemeValueInterface;
+
+    constructor(props: Props) {
         super(props);
         this.style = getStyle(this.props.theme);
     }
 
-     componentWillReceiveProps(nextProps: Props) {
-         if (nextProps.theme.name !== this.props.theme.name) {
-             this.style = getStyle(nextProps.theme);
-         }
-     }
+    componentWillReceiveProps(nextProps: Props) {
+        if (nextProps.theme.name !== this.props.theme.name) {
+            this.style = getStyle(nextProps.theme);
+        }
+    }
 
     render() {
         return (
@@ -29,7 +32,7 @@ class ASampleTemplateScreen extends React.Component<Props> {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.app.theme
 });

@@ -3,7 +3,7 @@ import { TextInput, View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import {ThemeInterface} from '../../assets/themes/index'
+import { ThemeInterface, ThemeValueInterface } from '../../assets/themes/index'
 import Styles from './Input.styles';
 
 interface Props {
@@ -11,10 +11,11 @@ interface Props {
     onChange: () => void;
     placeholder: string;
     value?: string;
+    password?: boolean;
 }
 
 class Input extends React.Component<Props> {
-    style: any = {};
+    style: ThemeValueInterface;
 
     constructor(props: Props) {
         super(props);
@@ -31,13 +32,14 @@ class Input extends React.Component<Props> {
     render() {
         return (
             <View style={this.style.container}>
-            <TextInput
-                style={this.style.input}
-                onChangeText={() => {}}
-                value={this.props.value}
-                placeholder={this.props.placeholder}
-                placeholderTextColor={this.style.placeholderColor}
-            />
+                <TextInput
+                    secureTextEntry={this.props.password}
+                    style={this.style.input}
+                    onChangeText={() => { }}
+                    value={this.props.value}
+                    placeholder={this.props.placeholder}
+                    placeholderTextColor={this.style.placeholderColor}
+                />
             </View>
         );
     }

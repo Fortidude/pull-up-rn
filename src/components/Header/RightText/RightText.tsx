@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated } from 'react-native';
 import { connect } from 'react-redux';
-import { ThemeInterface } from '../../../assets/themes';
+import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
 import Styles from './RightText.styles';
 
 interface Props {
@@ -17,7 +17,7 @@ interface State {
 }
 
 class RightText extends React.Component<Props, State> {
-    style: any = {};
+    style: ThemeValueInterface;
     marginLeft = 40;
     marginRight = -40;
 

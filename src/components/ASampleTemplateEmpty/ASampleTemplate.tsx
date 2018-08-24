@@ -1,17 +1,17 @@
 import React from 'react';
+import { Dispatch } from 'redux';
 import { View } from 'react-native';
-import { NavigationActions, NavigationDispatch } from 'react-navigation';
 import { connect } from 'react-redux';
 import Styles from './ASampleTemplate.styles';
-import { ThemeInterface } from '../../assets/themes';
+import { ThemeInterface, ThemeValueInterface } from '../../assets/themes';
 
 interface Props {
-    dispatch: NavigationDispatch;
+    dispatch: Dispatch;
     theme: ThemeInterface
 }
 
 class ASampleTemplate extends React.Component<Props> {
-    style: any = {};
+    style: ThemeValueInterface;
 
     constructor(props: Props) {
         super(props);
