@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ImageBackground, View } from 'react-native';
 import { NavigationActions, StackActions } from 'react-navigation';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
 import getStyle from '../auth.styles';
@@ -10,13 +11,13 @@ import Input from '../../../components/Input';
 import ButtonBig from '../../../components/ButtonBig';
 
 type Props = {
-    dispatch: void;
+    dispatch: Dispatch;
     theme: {};
 };
 class PasswordReminder extends Component<Props> {
-    style = {};
+    style: any;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.style = getStyle(this.props.theme);
     }
@@ -35,6 +36,10 @@ class PasswordReminder extends Component<Props> {
             key: null
         }));
     };
+
+    register = () => {
+        this.props.dispatch(NavigationActions.navigate({routeName: 'Register'}));
+    }
 
     render() {
         return (

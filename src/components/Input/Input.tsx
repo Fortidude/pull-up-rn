@@ -9,8 +9,8 @@ import Styles from './Input.styles';
 interface Props {
     theme: ThemeInterface;
     onChange: () => void;
-    value: string;
     placeholder: string;
+    value?: string;
 }
 
 class Input extends React.Component<Props> {

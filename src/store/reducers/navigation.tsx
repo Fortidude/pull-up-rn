@@ -1,4 +1,4 @@
-import { NavigationState, NavigationActions } from 'react-navigation';
+import { NavigationState, NavigationActions, NavigationAction } from 'react-navigation';
 
 import {Navigator} from '../../router/Navigator';
 
@@ -6,6 +6,7 @@ const initialNavState: NavigationState = null;
 
 function navigation(state = initialNavState, action): NavigationState {
     let nextState;
+    console.log(action);
     switch (action.type) {
         case NavigationActions.NAVIGATE:
             nextState = Navigator.router.getStateForAction(action, state);
