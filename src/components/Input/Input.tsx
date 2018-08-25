@@ -8,7 +8,7 @@ import Styles from './Input.styles';
 
 interface Props {
     theme: ThemeInterface;
-    onChange: () => void;
+    onChange: (value: string) => void;
     placeholder: string;
     value?: string;
     password?: boolean;
@@ -35,7 +35,7 @@ class Input extends React.Component<Props> {
                 <TextInput
                     secureTextEntry={this.props.password}
                     style={this.style.input}
-                    onChangeText={() => { }}
+                    onChangeText={this.props.onChange}
                     value={this.props.value}
                     placeholder={this.props.placeholder}
                     placeholderTextColor={this.style.placeholderColor}
