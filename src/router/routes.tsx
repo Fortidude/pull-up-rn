@@ -16,7 +16,11 @@ import Camera from '../screens/camera/Camera';
 
 const routes = {
     InitPage: {
-        screen: InitPage
+        screen: InitPage,
+        navigationOptions: {
+            header: null,
+            gesturesEnabled: false,
+        }
     },
     Login: {
         screen: Login

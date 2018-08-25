@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 
 import getStyle from './InitPage.styles';
-import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
 import Spinner from '../../components/Spinner';
+import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
 import { AuthActions } from '../../store/actions/auth';
 
 type Props = {

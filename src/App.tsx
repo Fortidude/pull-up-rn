@@ -8,6 +8,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import MainReducer from './store/reducers';
 import rootSaga from './store/sagas';
+import PageLoaderAnimation from './components/PageLoaderAnimation';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -18,12 +19,32 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga);
 
-type Props = {};
-export default class App extends React.Component<Props> {
+interface Props {};
+interface State {
+    appReady: boolean;
+}
+
+export default class App extends React.Component<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            appReady: false
+        }
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({appReady: true});
+        }, 1000);
+    }
+
     render() {
         return (
             <Provider store={store}>
+                <PageLoaderAnimation imageSource={require('./assets/images/logo.png')} backgroundStyle={{backgroundColor: 'rgba(125, 125, 255, 1)',}} isLoaded={this.state.appReady}>
                 <AppWithNavigationState/>
+                </PageLoaderAnimation>
             </Provider>
         )
     }

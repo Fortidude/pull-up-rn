@@ -40,7 +40,6 @@
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
-	
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -62,7 +61,6 @@
 			</dict>
 		</dict>
 	</dict>
-	
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
