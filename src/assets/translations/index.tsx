@@ -23,7 +23,8 @@ let translations = {
             register: "Rejestracja",
             passwordreminder: "Przypomnij hasło",
             profile: "Profil",
-            settings: "Ustawienia"
+            settings: "Ustawienia",
+            initpage: "PullUp!"
         },
 
         fields: {

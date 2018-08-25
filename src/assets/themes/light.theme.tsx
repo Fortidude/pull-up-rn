@@ -6,6 +6,8 @@ const colors = {
 
     backgroundColor: '#F7F7F7',
     cardBackgroundColor: '#FFF',
+    greyBackgroundColor: '#F4F6F7',
+
     borderColor: '#808080',
 
     inputBackground: 'rgba(124,152,253, 0.87)',
@@ -18,7 +20,7 @@ const colors = {
 
     linkSmallColor: '#FFF',
 
-    spinnerColor: mainColor
+    spinnerColor: mainColor,
 };
 
 const borders = {

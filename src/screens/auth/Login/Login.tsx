@@ -11,15 +11,16 @@ import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes/inde
 import Input from '../../../components/Input';
 import ButtonBig from '../../../components/ButtonBig';
 import emailLogin from './onLogin/emailLogin';
+import { AuthActions } from '../../../store/actions/auth';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+    isLoading: boolean;
 };
 interface State {
     email: string;
     password: string;
-    isLoading: boolean;
 }
 class Login extends Component<Props, State> {
     style: ThemeValueInterface;
@@ -30,8 +31,7 @@ class Login extends Component<Props, State> {
 
         this.state = {
             email: '',
-            password: '',
-            isLoading: false,
+            password: ''
         };
     }
 
@@ -41,45 +41,25 @@ class Login extends Component<Props, State> {
         }
     }
 
-    goToPlannerPage = () => {
-        if (this.state.isLoading) {
-            return;
-        }
-
-        this.props.dispatch(StackActions.reset({
-            index: 0,
-            actions: [NavigationActions.navigate({ routeName: 'Planner' })],
-            key: null
-        }));
-    };
-
     goToRegisterPage = () => {
-        if (this.state.isLoading) {
-            return;
-        }
         this.props.dispatch(NavigationActions.navigate({ routeName: 'Register' }));
     };
 
     goToPasswordReminderPage = () => {
-        if (this.state.isLoading) {
-            return;
-        }
-
         this.props.dispatch(NavigationActions.navigate({ routeName: 'PasswordReminder' }));
     };
 
     login = async () => {
-        const onSuccess = () => {
-            this.setState({ isLoading: false }, () => {
-                this.goToPlannerPage();
-            })
+        const onSuccess = (token: string) => {
+            this.props.dispatch(AuthActions.loginWithToken(token));
         }
         const onFailed = () => {
-            this.setState({ isLoading: false, password: '' });
+            this.setState({ password: '' }, () => {
+                this.props.dispatch(AuthActions.loginFailed(''));
+            });
         }
-        this.setState({ isLoading: true }, async () => {
-            await emailLogin.login(this.state.email.toLocaleLowerCase(), this.state.password, this.goToPasswordReminderPage, onSuccess, onFailed);
-        });
+
+        emailLogin.login(this.state.email.toLocaleLowerCase(), this.state.password, this.goToPasswordReminderPage, onSuccess, onFailed);
     };
 
     render() {
@@ -109,7 +89,7 @@ class Login extends Component<Props, State> {
                         </TouchableOpacity>
                     </View>
                     <View style={this.style.container_footer}>
-                        <ButtonBig onPress={this.login} text={I18n.t('login.login')} isLoading={this.state.isLoading} />
+                        <ButtonBig onPress={this.login} text={I18n.t('login.login')} isLoading={this.props.isLoading} />
                         <TouchableOpacity style={this.style.registerButton} onPress={this.goToRegisterPage}>
                             <Text style={this.style.registerButtonText}>{I18n.t('login.no_account')}</Text>
                         </TouchableOpacity>

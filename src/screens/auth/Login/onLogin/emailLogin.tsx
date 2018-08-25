@@ -2,6 +2,7 @@ import { Alert, AsyncStorage } from "react-native";
 
 import { User } from "../../../../api";
 import I18n from '../../../../assets/translations';
+import { Dispatch } from "redux";
 
 class EmailLogin {
     private static instance: EmailLogin;
@@ -20,17 +21,15 @@ class EmailLogin {
         password: string,
         goToPasswordReminderPage: Function,
         successCallback?: Function,
-        failedCallback?: Function
+        failedCallback?: Function,
     ): Promise<void> => {
         try {
             const token = await User.login(username, password);
             if (token) {
-                AsyncStorage.setItem('token', token, () => {
-                    successCallback ? successCallback() : null;
-                });
+                successCallback ? successCallback(token) : null;
             }
         } catch (error) {
-            failedCallback ? failedCallback() : null;
+            failedCallback ? failedCallback(error) : null;
             if (this.wrongPasswordCounter >= 2) {
                 Alert.alert(
                     I18n.t("errors.failed"),

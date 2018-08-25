@@ -7,6 +7,7 @@ import getStyle from './Planner.styles';
 
 import { AppActions } from '../../store/actions/app';
 import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
+import { AuthActions } from '../../store/actions/auth';
 
 type Props = {
     dispatch: Dispatch,
@@ -35,16 +36,26 @@ class Planner extends React.Component<Props> {
         this.props.dispatch(NavigationActions.navigate({ routeName: 'Profile' }));
     };
 
+    logout = () => {
+        this.props.dispatch(AuthActions.logout());
+    }
+
     render() {
         return (
             <View style={this.style.container}>
-                <Text>Planner</Text>
+                <View>
+                    <Text>Planner</Text>
 
-                <Text>{this.props.theme.name}</Text>
-                {this.props.theme.name !== 'dark' && <Button onPress={() => this.changeTheme('dark')} title={'Dark'} />}
-                {this.props.theme.name !== 'light' &&
-                    <Button onPress={() => this.changeTheme('light')} title={'Light'} />}
-                <Button title="Profile" onPress={this.goToProfilePage} />
+                    <Text>{this.props.theme.name}</Text>
+                    {this.props.theme.name !== 'dark' && <Button onPress={() => this.changeTheme('dark')} title={'Dark'} />}
+                    {this.props.theme.name !== 'light' &&
+                        <Button onPress={() => this.changeTheme('light')} title={'Light'} />}
+                    <Button title="Profile" onPress={this.goToProfilePage} />
+                    <Button title="Logout" onPress={this.logout} />
+                </View>
+                <View style={this.style.footer}>
+                    
+                </View>
             </View>
         );
     }

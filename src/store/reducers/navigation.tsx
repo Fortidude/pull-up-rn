@@ -6,7 +6,6 @@ const initialNavState: NavigationState = null;
 
 function navigation(state = initialNavState, action): NavigationState {
     let nextState;
-    console.log(action);
     switch (action.type) {
         case NavigationActions.NAVIGATE:
             nextState = Navigator.router.getStateForAction(action, state);
