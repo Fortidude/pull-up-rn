@@ -15,7 +15,7 @@ function getStyle(theme: ThemeInterface) {
             backgroundColor: theme.colors.backgroundColor,
             position: "relative",
             borderBottomWidth: theme.borders.borderWidth,
-            borderBottomColor: theme.borders.borderColor
+            borderBottomColor: theme.borders.borderDarkColor
         },
 
         left: {

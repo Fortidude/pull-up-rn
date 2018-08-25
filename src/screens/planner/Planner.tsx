@@ -1,13 +1,15 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { NavigationActions, NavigationDispatch } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import { Text, Button, View } from 'react-native';
-import getStyle from './Planner.styles';
 
+import getStyle from './Planner.styles';
 import { AppActions } from '../../store/actions/app';
 import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
 import { AuthActions } from '../../store/actions/auth';
+
+import PlannerFooter from './../../components/PlannerFooter';
 
 type Props = {
     dispatch: Dispatch,
@@ -43,7 +45,7 @@ class Planner extends React.Component<Props> {
     render() {
         return (
             <View style={this.style.container}>
-                <View>
+                <View style={{ backgroundColor: 'white', flex: 1 }}>
                     <Text>Planner</Text>
 
                     <Text>{this.props.theme.name}</Text>
@@ -53,9 +55,7 @@ class Planner extends React.Component<Props> {
                     <Button title="Profile" onPress={this.goToProfilePage} />
                     <Button title="Logout" onPress={this.logout} />
                 </View>
-                <View style={this.style.footer}>
-                    
-                </View>
+                <PlannerFooter/>
             </View>
         );
     }

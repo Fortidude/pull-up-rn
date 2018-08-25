@@ -18,13 +18,13 @@ let translations = {
         },
 
         routes: {
-            planner: "Planner",
+            planner: "Pull Up!",
             login: "Logowanie",
             register: "Rejestracja",
             passwordreminder: "Przypomnij hasło",
             profile: "Profil",
             settings: "Ustawienia",
-            initpage: "PullUp!"
+            initpage: "Pull Up!"
         },
 
         fields: {

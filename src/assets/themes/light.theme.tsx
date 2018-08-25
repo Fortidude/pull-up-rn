@@ -1,6 +1,10 @@
 import {StyleSheet} from 'react-native';
 
 const mainColor = '#4E43F9';
+const greyColor = '#707070';
+
+const mainFontFamily = "Avenir-Light";
+
 const colors = {
     main: mainColor,
 
@@ -8,7 +12,10 @@ const colors = {
     cardBackgroundColor: '#FFF',
     greyBackgroundColor: '#F4F6F7',
 
-    borderColor: '#808080',
+    borderColor: 'rgba(112, 112, 112, 0.2)',
+    borderDarkColor: 'rgba(112, 112, 112, 0.5)',
+
+    plannerFooterButtonColor: greyColor,
 
     inputBackground: 'rgba(124,152,253, 0.87)',
     inputTextColor: '#FFF',
@@ -25,10 +32,12 @@ const colors = {
 
 const borders = {
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.borderColor
+    borderColor: colors.borderColor,
+    borderDarkColor: colors.borderDarkColor
 };
 
 const fonts = {
+    mainFontFamily: mainFontFamily ,
     fontSize: 17,
     inputFontSize: 18,
     buttonBigFontSize: 18,
