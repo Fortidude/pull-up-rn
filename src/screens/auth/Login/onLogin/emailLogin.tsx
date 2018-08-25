@@ -30,6 +30,7 @@ class EmailLogin {
                 });
             }
         } catch (error) {
+            failedCallback ? failedCallback() : null;
             if (this.wrongPasswordCounter >= 2) {
                 Alert.alert(
                     I18n.t("errors.failed"),
@@ -42,7 +43,6 @@ class EmailLogin {
                 );
             } else {
                 this.wrongPasswordCounter++;
-                failedCallback ? failedCallback() : null;
                 Alert.alert(I18n.t("errors.failed"), I18n.t(`errors.${error.toString()}`),
                     [{ text: I18n.t('login.login_alert_ok_button'), onPress: () => { } }],
                     { cancelable: false }

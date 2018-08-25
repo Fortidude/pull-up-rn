@@ -1,3 +1,3 @@
-import ASampleTemplate from './ASampleTemplate';
+import Component from './ASampleTemplate';
 
-export default ASampleTemplate;
+export default Component;

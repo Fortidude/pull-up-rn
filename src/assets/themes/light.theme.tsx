@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native';
 
+const mainColor = '#4E43F9';
 const colors = {
+    main: mainColor,
+
     backgroundColor: '#F7F7F7',
     cardBackgroundColor: '#FFF',
     borderColor: '#808080',
@@ -11,10 +14,11 @@ const colors = {
 
     buttonBigBackgroundColor: '#FFFFFF',
     buttonBigShadowColor: '#000000',
-    buttonBigTextColor: '#4E43F9',
+    buttonBigTextColor: mainColor,
 
-    linkSmallColor: '#FFF'
+    linkSmallColor: '#FFF',
 
+    spinnerColor: mainColor
 };
 
 const borders = {

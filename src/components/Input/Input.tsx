@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, View } from 'react-native';
+import { TextInput, View, KeyboardTypeOptions } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -12,6 +12,12 @@ interface Props {
     placeholder: string;
     value?: string;
     password?: boolean;
+
+    /**
+     * enum("default", 'numeric', 'email-address', "ascii-capable", 'numbers-and-punctuation', 'url', 'number-pad', 'phone-pad', 'name-phone-pad',
+     * 'decimal-pad', 'twitter', 'web-search', 'visible-password')
+     */
+    keyboardType?: KeyboardTypeOptions;
 }
 
 class Input extends React.Component<Props> {
@@ -33,6 +39,8 @@ class Input extends React.Component<Props> {
         return (
             <View style={this.style.container}>
                 <TextInput
+                    keyboardType={this.props.keyboardType || "default"}
+                    autoCapitalize={'none'}
                     secureTextEntry={this.props.password}
                     style={this.style.input}
                     onChangeText={this.props.onChange}

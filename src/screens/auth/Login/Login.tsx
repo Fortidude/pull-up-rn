@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
-import { Alert, TouchableOpacity, ImageBackground, Text, View } from 'react-native';
+import { TouchableOpacity, ImageBackground, Text, View } from 'react-native';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -10,7 +10,6 @@ import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes/inde
 
 import Input from '../../../components/Input';
 import ButtonBig from '../../../components/ButtonBig';
-import { User } from '../../../api';
 import emailLogin from './onLogin/emailLogin';
 
 interface Props {
@@ -20,6 +19,7 @@ interface Props {
 interface State {
     email: string;
     password: string;
+    isLoading: boolean;
 }
 class Login extends Component<Props, State> {
     style: ThemeValueInterface;
@@ -30,7 +30,8 @@ class Login extends Component<Props, State> {
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            isLoading: false,
         };
     }
 
@@ -41,6 +42,10 @@ class Login extends Component<Props, State> {
     }
 
     goToPlannerPage = () => {
+        if (this.state.isLoading) {
+            return;
+        }
+
         this.props.dispatch(StackActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({ routeName: 'Planner' })],
@@ -49,15 +54,32 @@ class Login extends Component<Props, State> {
     };
 
     goToRegisterPage = () => {
+        if (this.state.isLoading) {
+            return;
+        }
         this.props.dispatch(NavigationActions.navigate({ routeName: 'Register' }));
     };
 
     goToPasswordReminderPage = () => {
+        if (this.state.isLoading) {
+            return;
+        }
+
         this.props.dispatch(NavigationActions.navigate({ routeName: 'PasswordReminder' }));
     };
 
     login = async () => {
-        await emailLogin.login(this.state.email.toLocaleLowerCase(), this.state.password, this.goToPasswordReminderPage, this.goToPlannerPage);
+        const onSuccess = () => {
+            this.setState({ isLoading: false }, () => {
+                this.goToPlannerPage();
+            })
+        }
+        const onFailed = () => {
+            this.setState({ isLoading: false, password: '' });
+        }
+        this.setState({ isLoading: true }, async () => {
+            await emailLogin.login(this.state.email.toLocaleLowerCase(), this.state.password, this.goToPasswordReminderPage, onSuccess, onFailed);
+        });
     };
 
     render() {
@@ -66,12 +88,20 @@ class Login extends Component<Props, State> {
                 style={this.style.background}>
                 <View style={this.style.container}>
                     <View style={this.style.container_content}>
-                        <Input placeholder={I18n.t('fields.email')} onChange={(value) => {
-                            this.setState({email: value});
-                        }} />
-                        <Input password={true} placeholder={I18n.t('fields.password')} onChange={(value) => {
-                            this.setState({password: value});
-                        }} />
+                        <Input
+                            value={this.state.email}
+                            keyboardType={"email-address"}
+                            placeholder={I18n.t('fields.email')}
+                            onChange={(value) => {
+                                this.setState({ email: value });
+                            }} />
+                        <Input
+                            value={this.state.password}
+                            password={true}
+                            placeholder={I18n.t('fields.password')}
+                            onChange={(value) => {
+                                this.setState({ password: value });
+                            }} />
 
                         <TouchableOpacity style={this.style.passwordReminderButton}
                             onPress={this.goToPasswordReminderPage}>
@@ -79,7 +109,7 @@ class Login extends Component<Props, State> {
                         </TouchableOpacity>
                     </View>
                     <View style={this.style.container_footer}>
-                        <ButtonBig onPress={this.login} text={I18n.t('login.login')} />
+                        <ButtonBig onPress={this.login} text={I18n.t('login.login')} isLoading={this.state.isLoading} />
                         <TouchableOpacity style={this.style.registerButton} onPress={this.goToRegisterPage}>
                             <Text style={this.style.registerButtonText}>{I18n.t('login.no_account')}</Text>
                         </TouchableOpacity>
