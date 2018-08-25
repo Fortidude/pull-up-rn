@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
-import { TouchableOpacity, ImageBackground, Text, View } from 'react-native';
-import { NavigationActions, StackActions } from 'react-navigation';
+import { TouchableOpacity, ImageBackground, Text, View, KeyboardAvoidingView, Animated, Keyboard, EventSubscription, Platform } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import getStyle from '../auth.styles';
@@ -12,15 +12,16 @@ import Input from '../../../components/Input';
 import ButtonBig from '../../../components/ButtonBig';
 import emailLogin from './onLogin/emailLogin';
 import { AuthActions } from '../../../store/actions/auth';
+import FormContainer from '../components';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
-    isLoading: boolean;
 };
 interface State {
     email: string;
     password: string;
+    isLoading: boolean;
 }
 class Login extends Component<Props, State> {
     style: ThemeValueInterface;
@@ -31,7 +32,8 @@ class Login extends Component<Props, State> {
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            isLoading: false
         };
     }
 
@@ -51,23 +53,29 @@ class Login extends Component<Props, State> {
 
     login = async () => {
         const onSuccess = (token: string) => {
-            this.props.dispatch(AuthActions.loginWithToken(token));
+            this.setState({ isLoading: false }, () => {
+                this.props.dispatch(AuthActions.loginWithToken(token));
+            })
         }
         const onFailed = () => {
-            this.setState({ password: '' }, () => {
+            this.setState({ isLoading: false, password: '' }, () => {
                 this.props.dispatch(AuthActions.loginFailed(''));
             });
         }
 
-        emailLogin.login(this.state.email.toLocaleLowerCase(), this.state.password, this.goToPasswordReminderPage, onSuccess, onFailed);
+        Keyboard.dismiss();
+        this.setState({ isLoading: true }, () => {
+            emailLogin.login(this.state.email.toLocaleLowerCase(), this.state.password, this.goToPasswordReminderPage, onSuccess, onFailed);
+        });
     };
 
     render() {
         return (
             <ImageBackground source={require('./../../../assets/images/backgroundlight.jpg')}
                 style={this.style.background}>
-                <View style={this.style.container}>
-                    <View style={this.style.container_content}>
+
+                <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={80}>
+                    <FormContainer keyboardPadding={30}>
                         <Input
                             value={this.state.email}
                             keyboardType={"email-address"}
@@ -87,14 +95,14 @@ class Login extends Component<Props, State> {
                             onPress={this.goToPasswordReminderPage}>
                             <Text style={this.style.passwordReminderButtonText}>{I18n.t('login.remind_password')}</Text>
                         </TouchableOpacity>
-                    </View>
+                    </FormContainer>
                     <View style={this.style.container_footer}>
-                        <ButtonBig onPress={this.login} text={I18n.t('login.login')} isLoading={this.props.isLoading} />
+                        <ButtonBig onPress={this.login} text={I18n.t('login.login')} isLoading={this.state.isLoading} />
                         <TouchableOpacity style={this.style.registerButton} onPress={this.goToRegisterPage}>
                             <Text style={this.style.registerButtonText}>{I18n.t('login.no_account')}</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </KeyboardAvoidingView>
             </ImageBackground>
         );
     }

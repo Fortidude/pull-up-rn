@@ -5,7 +5,7 @@ function getStyle(theme: ThemeInterface) {
     return {
         backgroundImage: './../../../assets/images/background-light.jpg',
         background: {
-            flex: 1,
+            flex: 1
         },
         container: {
             flex: 1,
@@ -18,13 +18,12 @@ function getStyle(theme: ThemeInterface) {
             flex: 3,
             width: '100%',
             justifyContent: 'flex-start',
-            paddingTop: 150
         },
         container_footer: {
-            flex: 1,
+            flex: 2,
             alignItems: 'center',
-            justifyContent: 'flex-start',
-            paddingBottom: 20
+            justifyContent: 'center',
+          
         },
         passwordReminderButton: {
             alignSelf: 'flex-end'

@@ -1,6 +1,5 @@
-/* @flow */
 
-import * as React from 'react';
+import React from 'react';
 import {
 	Animated,
 	StatusBar,
@@ -8,8 +7,13 @@ import {
 	StyleSheet,
 	MaskedViewIOS,
 } from 'react-native';
+import { connect } from 'react-redux';
+
+import Styles from './Loader.styles';
+import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
 
 type Props = {
+	theme: ThemeInterface,
 	children: React.ReactNode,
 	isLoaded: boolean,
 	imageSource: any,
@@ -21,21 +25,25 @@ type State = {
 	animationDone: boolean,
 };
 
-export default class Loader extends React.Component<Props, State> {
-	static defaultProps = {
-		isLoaded: false,
-	};
+class Loader extends React.Component<Props, State> {
+	style: ThemeValueInterface;
 
-	state = {
-		loadingProgress: new Animated.Value(0),
-		animationDone: false,
-	};
+	constructor(props: Props) {
+		super(props);
+
+		this.style = Styles(this.props.theme);
+
+		this.state = {
+			loadingProgress: new Animated.Value(0),
+			animationDone: false,
+		};
+	}
 
 	componentWillReceiveProps(nextProps: Props) {
 		if (nextProps.isLoaded && !this.props.isLoaded) {
 			Animated.timing(this.state.loadingProgress, {
 				toValue: 100,
-				duration: 1000,
+				duration: 2000,
 				useNativeDriver: true,
 			}).start(() => {
 				this.setState({
@@ -59,7 +67,7 @@ export default class Loader extends React.Component<Props, State> {
 				{
 					scale: this.state.loadingProgress.interpolate({
 						inputRange: [0, 10, 100],
-						outputRange: [1, 0.8, 70],
+						outputRange: [1, 0.5, 70],
 					}),
 				},
 			],
@@ -68,9 +76,12 @@ export default class Loader extends React.Component<Props, State> {
 		const appScale = {
 			transform: [
 				{
+					/**
+					 * @TODO set proper scale using physical device.
+					 */
 					scale: this.state.loadingProgress.interpolate({
-						inputRange: [0, 7, 100],
-						outputRange: [1.1, 1.03, 1],
+						inputRange: [0, 80, 90, 100],
+						outputRange: [1.04, 1.02, 1, 1],
 					}),
 				},
 			],
@@ -80,19 +91,19 @@ export default class Loader extends React.Component<Props, State> {
 			<View style={[StyleSheet.absoluteFill, this.props.backgroundStyle]} />
 		);
 		const fullScreenWhiteLayer = this.state.animationDone ? null : (
-			<View style={[StyleSheet.absoluteFill, styles.fullScreenWhiteLayer]} />
+			<View style={[StyleSheet.absoluteFill, this.style.fullScreenWhiteLayer]} />
 		);
 
 		return (
-			<View style={styles.fullScreen}>
+			<View style={this.style.fullScreen}>
 				<StatusBar animated={true} hidden={!this.state.animationDone} />
 				{fullScreenBackgroundLayer}
 				<MaskedViewIOS
 					style={{ flex: 1 }}
 					maskElement={
-						<View style={styles.centeredFullScreen}>
+						<View style={this.style.centeredFullScreen}>
 							<Animated.Image
-								style={[styles.maskImageStyle, imageScale]}
+								style={[this.style.maskImageStyle, imageScale]}
 								source={this.props.imageSource}
 							/>
 						</View>
@@ -108,20 +119,8 @@ export default class Loader extends React.Component<Props, State> {
 	}
 }
 
-const styles = StyleSheet.create({
-	fullScreen: {
-		flex: 1,
-	},
-	centeredFullScreen: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	maskImageStyle: {
-		height: 100,
-		width: 100,
-	},
-	fullScreenWhiteLayer: {
-		backgroundColor: 'white',
-	},
+const mapStateToProps = (state: any) => ({
+    theme: state.app.theme
 });
+
+export default connect(mapStateToProps)(Loader);
