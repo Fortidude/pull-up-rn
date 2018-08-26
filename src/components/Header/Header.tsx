@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, View, SafeAreaView } from 'react-native';
+import { TouchableOpacity, Text, View, SafeAreaView, StatusBar } from 'react-native';
 import { NavigationActions, HeaderProps } from 'react-navigation';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
@@ -77,7 +77,6 @@ class Header extends React.Component<Props, State> {
                         <Text style={this.style.center.text} numberOfLines={1}>{this.getCurrentTitle()}</Text>
                     </View>
                     <View style={this.style.right.container}>
-
                     </View>
                 </View>
             </SafeAreaView>

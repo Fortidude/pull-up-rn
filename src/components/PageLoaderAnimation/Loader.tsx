@@ -43,7 +43,7 @@ class Loader extends React.Component<Props, State> {
 		if (nextProps.isLoaded && !this.props.isLoaded) {
 			Animated.timing(this.state.loadingProgress, {
 				toValue: 100,
-				duration: 2000,
+				duration: 1200,
 				useNativeDriver: true,
 			}).start(() => {
 				this.setState({
@@ -67,7 +67,7 @@ class Loader extends React.Component<Props, State> {
 				{
 					scale: this.state.loadingProgress.interpolate({
 						inputRange: [0, 10, 100],
-						outputRange: [1, 0.5, 70],
+						outputRange: [1, 0.1, 70],
 					}),
 				},
 			],
@@ -80,8 +80,8 @@ class Loader extends React.Component<Props, State> {
 					 * @TODO set proper scale using physical device.
 					 */
 					scale: this.state.loadingProgress.interpolate({
-						inputRange: [0, 80, 90, 100],
-						outputRange: [1.04, 1.02, 1, 1],
+						inputRange: [0, 70, 100],
+						outputRange: [1.1, 1.01, 1],
 					}),
 				},
 			],
@@ -96,7 +96,7 @@ class Loader extends React.Component<Props, State> {
 
 		return (
 			<View style={this.style.fullScreen}>
-				<StatusBar animated={true} hidden={!this.state.animationDone} />
+				<StatusBar  animated={true} hidden={!this.state.animationDone} />
 				{fullScreenBackgroundLayer}
 				<MaskedViewIOS
 					style={{ flex: 1 }}
