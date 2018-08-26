@@ -1,17 +1,16 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { ThemeInterface } from '../../assets/themes';
+
+const isIphoneX = () => {
+    const { height, width } = Dimensions.get('window');
+    return (Platform.OS === 'ios' && (height === 812 || width === 812));
+}
 
 function getStyle(theme: ThemeInterface) {
     return {
-        safeArea: {
-            height: 64,
-            backgroundColor: theme.colors.backgroundColor,
-
-        },
         header: {
-            flex: 1,
             flexDirection: 'row',
-            height: 50,
+            height: isIphoneX() ? 80 : 64,
             backgroundColor: theme.colors.backgroundColor,
             position: "relative",
             borderBottomWidth: theme.borders.borderWidth,
@@ -21,7 +20,7 @@ function getStyle(theme: ThemeInterface) {
         left: {
             container: {
                 flex: 1,
-               // borderColor: 'red',
+                // borderColor: 'red',
                 paddingLeft: 7,
                 marginBottom: 13,
                 justifyContent: 'flex-end',
@@ -32,7 +31,7 @@ function getStyle(theme: ThemeInterface) {
                 justifyContent: 'flex-start',
                 alignItems: 'flex-end',
             },
-            icon: {marginLeft: -15, marginRight: -15, marginTop: 2}
+            icon: { marginLeft: -15, marginRight: -15, marginTop: 2, marginBottom: -13 }
         },
         center: {
             container: {
@@ -41,7 +40,7 @@ function getStyle(theme: ThemeInterface) {
                 justifyContent: 'flex-end',
                 alignItems: 'center',
             },
-            text: {fontSize: theme.fonts.fontSize}
+            text: { fontSize: theme.fonts.fontSize }
         },
         right: {
             container: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -12,6 +12,7 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     editMode?: boolean;
+    avatar: null|string;
 }
 
 class Avatar extends React.Component<Props> {
@@ -43,7 +44,8 @@ class Avatar extends React.Component<Props> {
         return (
             <TouchableOpacity onPress={this.onPress}>
                 <View style={[this.style.footerAvatar]}>
-                {!this.props.editMode && <Icon name="user-ninja" style={[this.style.icon]} size={40}/>}
+                {!this.props.editMode && !this.props.avatar && <Icon name="user-ninja" style={[this.style.icon]} size={40}/>}
+                {!this.props.editMode && this.props.avatar && <Image style={[this.style.image]} source={{uri: this.props.avatar}}/>}
                 {this.props.editMode && <Icon name="camera" style={[this.style.icon]} size={40}/>}
                 </View>
             </TouchableOpacity>
@@ -53,7 +55,8 @@ class Avatar extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.app.theme
+    theme: state.app.theme,
+    avatar: state.user.current ? state.user.current.avatar : null
 });
 
 export default connect(mapStateToProps)(Avatar);

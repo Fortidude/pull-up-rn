@@ -51,15 +51,13 @@ class RightText extends React.Component<Props, State> {
                 return;
             } else {
                 const toValue = this.state.back ? this.marginRight : this.marginLeft;
-               // this.setState({ back: false }, () => {
-                    Animated.sequence([
-                        Animated.parallel([
-                            Animated.timing(this.state.marginLeft, { toValue: toValue, duration: 0 }),
-                            Animated.timing(this.state.opacity, { toValue: 0, duration: 0 }),
-                        ]),
-                        this.animateShow()
-                    ]).start();
-               // })
+                Animated.sequence([
+                    Animated.parallel([
+                        Animated.timing(this.state.marginLeft, { toValue: toValue, duration: 0 }),
+                        Animated.timing(this.state.opacity, { toValue: 0, duration: 0 }),
+                    ]),
+                    this.animateShow()
+                ]).start();
             }
         }
 

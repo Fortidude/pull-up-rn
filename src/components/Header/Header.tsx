@@ -1,11 +1,11 @@
 import React from 'react';
-import { TouchableOpacity, Text, View, SafeAreaView, StatusBar } from 'react-native';
+import { TouchableOpacity, Text, View, SafeAreaView, StatusBar, Animated } from 'react-native';
 import { NavigationActions, HeaderProps } from 'react-navigation';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
-import Styles from './Header.styles';
+import Styles, { isIphoneX } from './Header.styles';
 import I18n from '../../assets/translations';
 import { ThemeInterface, ThemeValueInterface } from '../../assets/themes/index'
 import RightText from './RightText';
@@ -17,7 +17,7 @@ interface Props {
 }
 
 interface State {
-    back: boolean
+    back: boolean;
 }
 
 class Header extends React.Component<Props, State> {
@@ -65,21 +65,19 @@ class Header extends React.Component<Props, State> {
 
     render() {
         return (
-            <SafeAreaView style={this.style.safeArea}>
-                <View style={this.style.header}>
-                    <View style={this.style.left.container}>
-                        {!!this.previousTitle && <TouchableOpacity onPress={this.onBackPress} style={this.style.left.backButton}>
-                            <Icon name={'chevron-left'} size={50} style={this.style.left.icon} />
-                            <RightText back={this.state.back} value={this.getPreviousTitle()} />
-                        </TouchableOpacity>}
-                    </View>
-                    <View style={this.style.center.container}>
-                        <Text style={this.style.center.text} numberOfLines={1}>{this.getCurrentTitle()}</Text>
-                    </View>
-                    <View style={this.style.right.container}>
-                    </View>
+            <Animated.View style={[this.style.header]}>
+                <View style={this.style.left.container}>
+                    {!!this.previousTitle && <TouchableOpacity onPress={this.onBackPress} style={this.style.left.backButton}>
+                        <Icon name={'chevron-left'} size={50} style={this.style.left.icon} />
+                        <RightText back={this.state.back} value={this.getPreviousTitle()} />
+                    </TouchableOpacity>}
                 </View>
-            </SafeAreaView>
+                <View style={this.style.center.container}>
+                    <Text style={this.style.center.text} numberOfLines={1}>{this.getCurrentTitle()}</Text>
+                </View>
+                <View style={this.style.right.container}>
+                </View>
+            </Animated.View>
         );
     }
 }

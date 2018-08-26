@@ -2,6 +2,8 @@ import ApiHelper from "./apiHelper";
 import { AsyncStorage } from "react-native";
 import jwtDecode from "jwt-decode";
 
+import UserModel from '../models/User';
+
 interface UserInterface {
     login: (username: string, password: string) => Promise<string>;
     register: (email: string, username: string, password: string) => Promise<boolean>;
@@ -102,8 +104,30 @@ class User implements UserInterface {
                 });
 
         });
-        
+
         return isTokenValid;
+    }
+
+    getUserData = async (forceReload = false): Promise<undefined | UserModel> => {
+        let object = {
+            method: 'GET',
+            headers: await ApiHelper.getHeaders(true, true)
+        };
+
+        return await fetch(ApiHelper.getHost() + '/secured/profile/current', object)
+            .then(ApiHelper.checkForResponseErrors)
+            .then(response => response.json())
+            .then((response) => {
+                if (response && response.code && response.code !== 200) {
+                    return;
+                }
+
+                return new UserModel(response);
+            })
+            .catch((error) => {
+                let msg = JSON.stringify(error);
+                throw msg;
+            });
     }
 }
 

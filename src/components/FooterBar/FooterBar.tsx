@@ -47,30 +47,27 @@ class FooterBar extends React.Component<Props, State> {
         }
     }
 
-    getComponentName = (props: Props) => {
-        const routeName = props.nav.routes[props.nav.index].routeName.toLocaleLowerCase();
-        if (this.routesForPlannerFooter.includes(routeName)) {
-            return "Planner";
+    componentWillMount() {
+        if (this.getComponentName(this.props)) {
+            this.runAnimation(this.props);
         }
-
-        if (this.routesForProfileFooter.includes(routeName)) {
-            return "Profile";
-        }
-
-        return null;
     }
 
     componentWillUpdate(nextProps: Props, nextState: State) {
         if (this.getComponentName(nextProps) !== this.getComponentName(this.props)) {
-            this.getAnimateOut().start(() => {
-                this.setComponentByProps(nextProps)
-            });
+            this.runAnimation(nextProps);
         }
+    }
+
+    runAnimation = (props: Props) => {
+        this.getAnimateOut().start(() => {
+            this.setComponentByProps(props)
+        });
     }
 
     getAnimateIn = () => {
         return Animated.timing(this.state.height, {
-            toValue: 65,
+            toValue: 40,
             duration: 300
         })
     }
@@ -84,6 +81,19 @@ class FooterBar extends React.Component<Props, State> {
 
     onComponentLayout = () => {
         this.getAnimateIn().start();
+    }
+
+    getComponentName = (props: Props) => {
+        const routeName = props.nav.routes[props.nav.index].routeName.toLocaleLowerCase();
+        if (this.routesForPlannerFooter.includes(routeName)) {
+            return "Planner";
+        }
+
+        if (this.routesForProfileFooter.includes(routeName)) {
+            return "Profile";
+        }
+
+        return null;
     }
 
     setComponentByProps(props: Props) {
@@ -106,7 +116,7 @@ class FooterBar extends React.Component<Props, State> {
 
     render() {
         return (
-            <Animated.View style={{ backgroundColor: 'white', height: this.state.height }}>
+            <Animated.View style={[this.style.container, { height: this.state.height }]}>
                 {this.state.component}
             </Animated.View>
         );

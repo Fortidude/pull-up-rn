@@ -3,6 +3,7 @@ import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import { AuthActions, AuthTypes } from '../actions/auth';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { User } from '../../api';
+import { UserActions } from '../actions/user';
 
 
 function* checkIfLogged(action: any) {
@@ -22,6 +23,7 @@ function* loginWithToken(action: any) {
 }
 
 function* loginSuccess(action: any) {
+    yield put(UserActions.loadUser());
     yield put(StackActions.reset({
         index: 0,
         actions: [NavigationActions.navigate({ routeName: 'Planner' })],

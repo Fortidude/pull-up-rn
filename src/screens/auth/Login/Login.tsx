@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
-import { TouchableOpacity, ImageBackground, Text, View, KeyboardAvoidingView, Animated, Keyboard, EventSubscription, Platform } from 'react-native';
+import { TouchableOpacity, ImageBackground, Text, View, KeyboardAvoidingView, Animated, Keyboard, EventSubscription, Platform, StyleSheet } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -73,8 +73,8 @@ class Login extends Component<Props, State> {
     render() {
         return (
             <ImageBackground source={Images.loginBackground}
-                onLayout={() => {console.log('layout')}}
-                style={this.style.background}>
+                onLayout={() => {}}
+                style={[this.style.background, StyleSheet.absoluteFill]}>
 
                 <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={80}>
                     <FormContainer keyboardPadding={30}>

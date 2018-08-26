@@ -5,13 +5,11 @@ import { AuthTypes } from '../actions/auth';
 interface AuthState {
     isLogged: boolean;
     isLoading: boolean;
-    user: {};
 }
 
 const initialState: AuthState = {
     isLogged: false,
-    isLoading: false,
-    user: {}
+    isLoading: false
 };
 
 function auth(state = initialState, action: AnyAction): AuthState {

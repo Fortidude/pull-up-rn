@@ -13,10 +13,16 @@ function getStyle(theme: ThemeInterface) {
             justifyContent: 'center',
             shadowColor: theme.colors.plannerFooterAvatarShadow,
             shadowOpacity: 0.3,
-            shadowOffset: {width: 0, height: 2},
+            shadowOffset: {width: 0, height: 0},
+            shadowRadius: 10
         },
         icon: {
             color: 'white'
+        },
+        image: {
+            width: 70,
+            height: 70,
+            borderRadius: 35
         }
     };
 }
