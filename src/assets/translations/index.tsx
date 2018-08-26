@@ -35,7 +35,8 @@ let translations = {
 
         buttons: {
             cancel: "Anuluj",
-            save: "Zapisz"
+            save: "Zapisz",
+            logout: "Wyloguj się"
         },
 
         errors: {

@@ -10,6 +10,7 @@ import MainReducer from './store/reducers';
 import rootSaga from './store/sagas';
 import PageLoaderAnimation from './components/PageLoaderAnimation';
 import FooterBar from './components/FooterBar';
+import Images from './assets/images';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -44,7 +45,7 @@ export default class App extends React.Component<Props, State> {
         return (
             <Provider store={store}>
                 <PageLoaderAnimation
-                    imageSource={require('./assets/images/logo.png')}
+                    imageSource={Images.logoLoaderBackground}
                     backgroundStyle={{ backgroundColor: 'rgba(125, 125, 255, 1)', }}
                     isLoaded={this.state.appReady}>
                     <AppWithNavigationState />

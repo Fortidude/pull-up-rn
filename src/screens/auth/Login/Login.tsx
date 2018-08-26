@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import getStyle from '../auth.styles';
 import I18n from '../../../assets/translations';
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes/index'
-
+import Images from '../../../assets/images';
 import Input from '../../../components/Input';
 import ButtonBig from '../../../components/ButtonBig';
 import emailLogin from './onLogin/emailLogin';
@@ -25,6 +25,7 @@ interface State {
 }
 class Login extends Component<Props, State> {
     style: ThemeValueInterface;
+    image: null;
 
     constructor(props: Props) {
         super(props);
@@ -71,7 +72,8 @@ class Login extends Component<Props, State> {
 
     render() {
         return (
-            <ImageBackground source={require('./../../../assets/images/backgroundlight.jpg')}
+            <ImageBackground source={Images.loginBackground}
+                onLayout={() => {console.log('layout')}}
                 style={this.style.background}>
 
                 <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={80}>

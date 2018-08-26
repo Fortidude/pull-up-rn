@@ -38,10 +38,6 @@ class Planner extends React.Component<Props> {
         this.props.dispatch(NavigationActions.navigate({ routeName: 'Profile' }));
     };
 
-    logout = () => {
-        this.props.dispatch(AuthActions.logout());
-    }
-
     render() {
         return (
             <View style={this.style.container}>
@@ -53,7 +49,6 @@ class Planner extends React.Component<Props> {
                     {this.props.theme.name !== 'light' &&
                         <Button onPress={() => this.changeTheme('light')} title={'Light'} />}
                     <Button title="Profile" onPress={this.goToProfilePage} />
-                    <Button title="Logout" onPress={this.logout} />
                 </View>
             </View>
         );
