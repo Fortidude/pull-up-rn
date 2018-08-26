@@ -1,17 +1,20 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 
-import Styles from './Avatar.styles';
+import Styles from './PlannerFooter.styles';
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
+import Button from '../Button';
+import Avatar from '../Avatar';
 
 interface Props {
+    onLayout?: () => void;
     dispatch: Dispatch;
     theme: ThemeInterface
 }
 
-class Avatar extends React.Component<Props> {
+class PlannerFooter extends React.Component<Props> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
@@ -28,11 +31,15 @@ class Avatar extends React.Component<Props> {
 
     render() {
         return (
-            <TouchableOpacity style={this.style.footerButton}>
-                <View style={this.style.footerAvatar}>
-
-                </View>
-            </TouchableOpacity>
+            <View style={this.style.container} onLayout={this.props.onLayout}>
+                <Button iconName="list" text="Planer" isActive/>
+                <Button iconName="chart-bar" text="Statystyki"/>
+        
+                <Avatar/>
+                
+                <Button iconName="stopwatch" text="Cardio"/>
+                <Button iconName="camera" text="Kamra"/>
+            </View>
         );
     }
 }
@@ -42,4 +49,4 @@ const mapStateToProps = (state: any) => ({
     theme: state.app.theme
 });
 
-export default connect(mapStateToProps)(Avatar);
+export default connect(mapStateToProps)(PlannerFooter);

@@ -1,0 +1,59 @@
+import React from 'react';
+import { Dispatch } from 'redux';
+import { View, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
+import Styles from './Avatar.styles';
+import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
+import { NavigationActions } from 'react-navigation';
+
+interface Props {
+    dispatch: Dispatch;
+    theme: ThemeInterface;
+    editMode?: boolean;
+}
+
+class Avatar extends React.Component<Props> {
+    style: ThemeValueInterface;
+
+    constructor(props: Props) {
+        super(props);
+
+        this.style = Styles(this.props.theme);
+    }
+
+    componentWillReceiveProps(nextProps: Props) {
+        if (nextProps.theme.name !== this.props.theme.name) {
+            this.style = Styles(nextProps.theme);
+        }
+    }
+
+    onPress = () => {
+        if (this.props.editMode) {
+            // @TODO edit avatar / upload image
+
+            return;
+        }
+    
+        this.props.dispatch(NavigationActions.navigate({ routeName: 'Profile' }));
+    }
+
+    render() {
+        return (
+            <TouchableOpacity onPress={this.onPress}>
+                <View style={[this.style.footerAvatar]}>
+                {!this.props.editMode && <Icon name="user-ninja" style={[this.style.icon]} size={40}/>}
+                {this.props.editMode && <Icon name="camera" style={[this.style.icon]} size={40}/>}
+                </View>
+            </TouchableOpacity>
+        );
+    }
+}
+
+const mapStateToProps = (state: any) => ({
+    dispatch: state.dispatch,
+    theme: state.app.theme
+});
+
+export default connect(mapStateToProps)(Avatar);

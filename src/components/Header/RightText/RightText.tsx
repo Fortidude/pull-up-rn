@@ -24,7 +24,6 @@ class RightText extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        console.log('constuctor');
         this.style = Styles(this.props.theme);
         this.state = {
             marginLeft: new Animated.Value(this.marginLeft),

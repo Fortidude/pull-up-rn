@@ -32,7 +32,7 @@ export const Navigator = createStackNavigator(routes, {
     //     }
     // }),
     cardStyle: {
-        backgroundColor: 'transparent'
+        backgroundColor: 'white'
     }
 });
 

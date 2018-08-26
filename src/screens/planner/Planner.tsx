@@ -9,7 +9,7 @@ import { AppActions } from '../../store/actions/app';
 import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
 import { AuthActions } from '../../store/actions/auth';
 
-import PlannerFooter from './../../components/PlannerFooter';
+import PlannerFooter from './../../components/FooterBar/PlannerFooter';
 
 type Props = {
     dispatch: Dispatch,
@@ -55,7 +55,6 @@ class Planner extends React.Component<Props> {
                     <Button title="Profile" onPress={this.goToProfilePage} />
                     <Button title="Logout" onPress={this.logout} />
                 </View>
-                <PlannerFooter/>
             </View>
         );
     }

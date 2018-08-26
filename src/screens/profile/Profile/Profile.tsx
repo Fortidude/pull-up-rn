@@ -1,15 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavigationActions, StackActions } from 'react-navigation';
+import { Dispatch } from 'redux';
+import { NavigationActions } from 'react-navigation';
 import { Button, View } from 'react-native';
+
 import getStyle from './Profile.styles';
+import { ThemeValueInterface, ThemeInterface } from '../../../assets/themes';
 
 type Props = {
-    dispatch: void,
-    theme: {},
+    dispatch: Dispatch,
+    theme: ThemeInterface,
 };
 class Profile extends React.Component<Props> {
-    constructor(props) {
+    style: ThemeValueInterface;
+
+    constructor(props: Props) {
         super(props);
         this.style = getStyle(this.props.theme);
     }
@@ -21,19 +26,21 @@ class Profile extends React.Component<Props> {
     }
 
     goToSettingsPage = () => {
-        this.props.dispatch(NavigationActions.navigate({routeName: 'Settings'}));
+        this.props.dispatch(NavigationActions.navigate({ routeName: 'Settings' }));
     };
 
     render() {
         return (
             <View style={this.style.container}>
-                <Button title="Settings" onPress={this.goToSettingsPage}/>
+                <View style={{ backgroundColor: 'white', flex: 1 }}>
+                    <Button title="Settings" onPress={this.goToSettingsPage} />
+                </View>
             </View>
         );
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.app.theme
 });
