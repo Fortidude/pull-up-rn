@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { Button, View } from 'react-native';
+import { View } from 'react-native';
 
 import getStyle from './Profile.styles';
 import { ThemeValueInterface, ThemeInterface } from '../../../assets/themes';
+import ProfileListItem from '../../../components/ProfileListItem';
 
 type Props = {
     dispatch: Dispatch,
@@ -32,9 +33,9 @@ class Profile extends React.Component<Props> {
     render() {
         return (
             <View style={this.style.container}>
-                <View style={{ backgroundColor: 'white', flex: 1 }}>
-                    <Button title="Settings" onPress={this.goToSettingsPage} />
-                </View>
+                <ProfileListItem icon="cog" text="Settings"/>
+                <ProfileListItem icon="user" text="Option 1"/>
+                <ProfileListItem icon="trash" danger text="Remove my account"/>
             </View>
         );
     }
