@@ -1,14 +1,14 @@
 import React from 'react';
-import { TouchableOpacity, Text, View, SafeAreaView, StatusBar, Animated } from 'react-native';
+import { TouchableOpacity, Text, View, Animated } from 'react-native';
 import { NavigationActions, HeaderProps } from 'react-navigation';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
-import Styles, { isIphoneX } from './Header.styles';
+import Styles from './Header.styles';
 import I18n from '../../assets/translations';
-import { ThemeInterface, ThemeValueInterface } from '../../assets/themes/index'
 import RightText from './RightText';
+import { ThemeInterface, ThemeValueInterface } from '../../assets/themes/index'
 
 interface Props {
     headerProps: HeaderProps;

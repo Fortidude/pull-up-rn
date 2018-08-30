@@ -67,7 +67,7 @@ class FooterBar extends React.Component<Props, State> {
 
     getAnimateIn = () => {
         return Animated.timing(this.state.height, {
-            toValue: 40,
+            toValue: this.style.footerHeight,
             duration: 300
         })
     }

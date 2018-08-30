@@ -26,7 +26,6 @@ function getStyle(theme: ThemeInterface) {
         },
         centerTextContainer: {
             flex: 3,
-           // paddingLeft: 10,
             alignItems: 'flex-start',
             justifyContent: 'center'
         },

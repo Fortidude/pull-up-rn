@@ -1,17 +1,12 @@
 import { ThemeInterface } from '../../../assets/themes';
-import { Dimensions, Platform } from 'react-native';
-
-const isIphoneX = () => {
-    const { height, width } = Dimensions.get('window');
-    return (Platform.OS === 'ios' && (height === 812 || width === 812));
-}
+import DetermineDevice from './../../../service/helpers/DetermineDevice';
 
 function getStyle(theme: ThemeInterface) {
     return {
         container: {
             flexDirection: 'row',
             height: 65,
-            bottom: isIphoneX() ? 40 : 0,
+            bottom: DetermineDevice.isIphoneX() ? 40 : 0,
             width: '100%',
             backgroundColor: theme.colors.greyBackgroundColor,
             borderTopWidth: theme.borders.borderWidth,
