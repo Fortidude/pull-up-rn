@@ -24,7 +24,7 @@ const expireTransform = createExpirationTransform({
 const config = {
     key: 'root',
     version: 2,
-    blacklist: ['nav', 'app'],
+    blacklist: ['nav'],
     transforms: [expireTransform],
     storage,
 };

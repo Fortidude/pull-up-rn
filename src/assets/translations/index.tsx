@@ -1,7 +1,12 @@
 import I18n from 'react-native-i18n';
 
+export const locales:{[key: string]: string} = {
+    en: 'English',
+    pl: 'Polski'
+}
+
 let translations = {
-    en: {
+    pl: {
         login: {
             title: "Logowaie",
             login: "Zaloguj się",
@@ -18,12 +23,18 @@ let translations = {
         },
 
         settings: {
-            theme: "Motyw kolorystyczny"
+            theme: "Motyw kolorystyczny",
+            language: "Język"
         },
 
         themes: {
             light: "dzienny",
             dark: "nocny"
+        },
+
+        locales: {
+            en: 'Anglielski',
+            pl: 'Polski'
         },
 
         routes: {
@@ -34,6 +45,7 @@ let translations = {
             profile: "Profil",
             settings: "Ustawienia",
             themepicker: "Wybierz motyw",
+            languagepicker: "Wybierz język",
             initpage: "Pull Up!"
         },
 
@@ -53,6 +65,12 @@ let translations = {
             "failed": "Nie powiodło się.",
             "Bad credentials": "Błędna nazwa użytkownika lub niepoprawne hasło. Możesz skorzystać z opcji przypomnienia hasła.",
         }
+    },
+    en: {
+        locales: {
+            en: 'English',
+            pl: 'Polish'
+        },
     }
 };
 

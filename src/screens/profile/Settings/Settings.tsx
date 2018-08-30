@@ -5,12 +5,13 @@ import { Dispatch } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import getStyle from './Settings.styles';
 import SettingListItem from '../../../components/SettingListItem';
-import I18n from '../../../assets/translations';
+import I18n, { locales } from '../../../assets/translations';
 import { ThemeValueInterface, ThemeInterface } from '../../../assets/themes';
 
 type Props = {
     dispatch: Dispatch,
     theme: ThemeInterface,
+    locale: string
 };
 class Settings extends React.Component<Props> {
     style: ThemeValueInterface;
@@ -30,6 +31,10 @@ class Settings extends React.Component<Props> {
         this.props.dispatch(NavigationActions.navigate({ routeName: 'ThemePicker' }));
     }
 
+    goToLanguageScreen = () => {
+        this.props.dispatch(NavigationActions.navigate({ routeName: 'LanguagePicker' }));
+    }
+
     render() {
         return (
             <View style={this.style.container}>
@@ -40,6 +45,14 @@ class Settings extends React.Component<Props> {
                     rightText={I18n.t(`themes.${this.props.theme.name}`)}
                     rightArrow 
                 />
+
+                <SettingListItem
+                    icon="language"
+                    text={I18n.t('settings.language')}
+                    onPress={this.goToLanguageScreen}
+                    rightText={locales[this.props.locale]}
+                    rightArrow 
+                />
             </View>
         );
     }
@@ -47,7 +60,8 @@ class Settings extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.app.theme
+    theme: state.app.theme,
+    locale: state.app.locale
 });
 
 export default connect(mapStateToProps)(Settings);

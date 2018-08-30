@@ -16,6 +16,7 @@ interface Props {
     icon?: string;
     danger?: boolean;
     text: string;
+    subText?: string;
 
     rightText?: string;
     rightArrow?: boolean;
@@ -45,6 +46,7 @@ class SettingListItem extends React.Component<Props> {
                 </View>}
                 <View style={this.style.centerTextContainer}>
                     <Text style={this.style.centerText}>{this.props.text}</Text>
+                    {this.props.subText && <Text style={this.style.centerSubText}>{this.props.subText}</Text>}
                 </View>
                 <View style={this.style.rightAdditionalContainer}>
                     <View style={this.style.rightTextIconContainer}>

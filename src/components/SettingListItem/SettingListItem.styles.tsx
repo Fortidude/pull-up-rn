@@ -30,6 +30,11 @@ function getStyle(theme: ThemeInterface) {
         centerText: {
             fontSize: theme.fonts.fontSmallSize
         },
+        centerSubText: {
+            fontSize: theme.fonts.fontSmallerSize,
+            color: theme.colors.subTextColor,
+            marginTop: 2
+        },
         rightAdditionalContainer: {
             flex: 2,
             paddingRight: 24,

@@ -51,6 +51,7 @@ const fonts = {
     fontSize: 17,
     fontSmallSize: 15,
     fontExtraSmallSize: 12,
+    fontSmallerSize: 10,
 
     inputFontSize: 18,
     buttonBigFontSize: 18,

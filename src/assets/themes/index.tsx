@@ -15,7 +15,7 @@ export default DefaultTheme;
 
 export const list = ['light', 'dark'];
 
-export const themes = {
+export const themes: {[key: string]: {}} = {
     light: DefaultTheme,
     dark: DarkTheme
 };

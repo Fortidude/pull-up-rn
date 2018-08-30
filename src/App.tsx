@@ -17,6 +17,7 @@ import PageLoaderAnimation from './components/PageLoaderAnimation';
 import FooterBar from './components/FooterBar';
 import Images from './assets/images';
 import { ThemeValueInterface } from './assets/themes';
+import AppManager from './components/AppManager';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -29,7 +30,7 @@ sagaMiddleware.run(rootSaga);
 let persistor = persistStore(store);
 
 // @TODO purge delete
-persistor.purge();
+//persistor.purge();
 
 interface Props { };
 interface State {
@@ -40,8 +41,8 @@ export default class App extends React.Component<Props, State> {
     style: ThemeValueInterface;
     constructor(props: Props) {
         super(props);
-        this.style = Styles(store.getState().app.theme);
-
+        const appState = store.getState().app;
+        this.style = Styles(appState.theme);
         this.state = {
             appReady: false
         }
@@ -54,9 +55,6 @@ export default class App extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(nextProps: Props) {
-        //if (nextProps.theme.name !== store.app.theme.name) {
-        //     this.style = Styles(nextProps.theme);
-        //}
     }
 
     render() {
@@ -69,6 +67,7 @@ export default class App extends React.Component<Props, State> {
                         isLoaded={this.state.appReady}>
 
                         <AppWithNavigationState />
+                        <AppManager />
                         <FooterBar />
 
                     </PageLoaderAnimation>

@@ -10,6 +10,7 @@ import Planner from '../screens/planner/Planner';
 import Profile from '../screens/profile/Profile';
 import Settings from '../screens/profile/Settings';
 import ThemePicker from '../screens/profile/ThemePicker';
+import LanguagePicker from '../screens/profile/LanguagePicker';
 
 import Effectiveness from '../screens/stats/Effectiveness';
 import Cardio from '../screens/cardio/Cardio';
@@ -43,6 +44,9 @@ const routes = {
     },
     ThemePicker: {
         screen: ThemePicker
+    },
+    LanguagePicker: {
+        screen: LanguagePicker
     },
     Cardio: {
         screen: Cardio
