@@ -6,7 +6,7 @@ import { View } from 'react-native';
 
 import getStyle from './Profile.styles';
 import { ThemeValueInterface, ThemeInterface } from '../../../assets/themes';
-import ProfileListItem from '../../../components/ProfileListItem';
+import SettingListItem from '../../../components/SettingListItem';
 
 type Props = {
     dispatch: Dispatch,
@@ -33,9 +33,9 @@ class Profile extends React.Component<Props> {
     render() {
         return (
             <View style={this.style.container}>
-                <ProfileListItem icon="cog" text="Settings"/>
-                <ProfileListItem icon="user" text="Option 1"/>
-                <ProfileListItem icon="trash" danger text="Remove my account"/>
+                <SettingListItem icon="cog" onPress={this.goToSettingsPage} text="Settings" rightArrow/>
+                <SettingListItem icon="user" onPress={() => {}} text="Option 1"/>
+                <SettingListItem icon="trash" onPress={() => {}} danger text="Remove my account"/>
             </View>
         );
     }

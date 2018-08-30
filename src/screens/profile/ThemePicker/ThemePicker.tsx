@@ -2,17 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { Dispatch } from 'redux';
-import { NavigationActions } from 'react-navigation';
-import getStyle from './Settings.styles';
+
+import { ThemeValueInterface, ThemeInterface, list } from '../../../assets/themes';
+import getStyle from './ThemePicker.styles';
 import SettingListItem from '../../../components/SettingListItem';
-import I18n from '../../../assets/translations';
-import { ThemeValueInterface, ThemeInterface } from '../../../assets/themes';
+import { AppActions } from '../../../store/actions/app';
+import { NavigationActions } from 'react-navigation';
 
 type Props = {
     dispatch: Dispatch,
     theme: ThemeInterface,
 };
-class Settings extends React.Component<Props> {
+class ThemePicker extends React.Component<Props> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
@@ -26,20 +27,24 @@ class Settings extends React.Component<Props> {
         }
     }
 
-    goToThemeScreen = () => {
-        this.props.dispatch(NavigationActions.navigate({ routeName: 'ThemePicker' }));
+    changeTheme = (name: string) => {
+        this.props.dispatch(AppActions.setTheme(name));
+        this.props.dispatch(NavigationActions.back());
+    };
+
+    renderThemes = () => {
+        return list.map((theme, key) =>
+            <SettingListItem key={key}
+                rightCheck={this.props.theme.name === theme}
+                text={theme}
+                onPress={() => this.changeTheme(theme)} />
+        );
     }
 
     render() {
         return (
             <View style={this.style.container}>
-                <SettingListItem
-                    icon="moon"
-                    text={I18n.t('settings.theme')}
-                    onPress={this.goToThemeScreen}
-                    rightText={I18n.t(`themes.${this.props.theme.name}`)}
-                    rightArrow 
-                />
+                {this.renderThemes()}
             </View>
         );
     }
@@ -50,4 +55,4 @@ const mapStateToProps = (state: any) => ({
     theme: state.app.theme
 });
 
-export default connect(mapStateToProps)(Settings);
+export default connect(mapStateToProps)(ThemePicker);

@@ -3,25 +3,30 @@ import { Dispatch } from 'redux';
 import { View, TouchableOpacity, Text, Switch } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
-import Styles from './ProfileListItem.styles';
+import Styles from './SettingListItem.styles';
 import { ThemeInterface, ThemeValueInterface } from '../../assets/themes';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface
 
+    onPress: () => void;
     icon?: string;
     danger?: boolean;
     text: string;
+
+    rightText?: string;
+    rightArrow?: boolean;
+    rightCheck?: boolean;
 }
 
-class ProfileListItem extends React.Component<Props> {
+class SettingListItem extends React.Component<Props> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
         super(props);
-
         this.style = Styles(this.props.theme);
     }
 
@@ -33,17 +38,20 @@ class ProfileListItem extends React.Component<Props> {
 
     render() {
         return (
-            <TouchableOpacity style={this.style.container}>
-                <View style={this.style.leftIconContainer}>
-                    {this.props.icon && <Icon
-                        name={this.props.icon}
-                        style={[this.style.leftIcon, this.props.danger ? this.style.leftIconDanger : {}]} />}
-                </View>
+            <TouchableOpacity style={this.style.container} onPress={this.props.onPress}>
+                {this.props.icon && <View style={this.style.leftIconContainer}>
+                    <Icon name={this.props.icon}
+                        style={[this.style.leftIcon, this.props.danger ? this.style.leftIconDanger : {}]} />
+                </View>}
                 <View style={this.style.centerTextContainer}>
                     <Text style={this.style.centerText}>{this.props.text}</Text>
                 </View>
                 <View style={this.style.rightAdditionalContainer}>
-                    <Switch />
+                    <View style={this.style.rightTextIconContainer}>
+                        {this.props.rightText && <Text style={this.style.rightText}>{this.props.rightText}</Text>}
+                        {this.props.rightArrow && <EvilIcon name="chevron-right" style={this.style.rightArrowIcon}/>}
+                        {this.props.rightCheck && <Icon name="check" style={this.style.rightCheckIcon}/>}
+                    </View>
                 </View>
             </TouchableOpacity>
         );
@@ -55,4 +63,4 @@ const mapStateToProps = (state: any) => ({
     theme: state.app.theme
 });
 
-export default connect(mapStateToProps)(ProfileListItem);
+export default connect(mapStateToProps)(SettingListItem);

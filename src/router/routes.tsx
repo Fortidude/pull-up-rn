@@ -9,6 +9,7 @@ import PasswordReminder from '../screens/auth/PasswordReminder';
 import Planner from '../screens/planner/Planner';
 import Profile from '../screens/profile/Profile';
 import Settings from '../screens/profile/Settings';
+import ThemePicker from '../screens/profile/ThemePicker';
 
 import Effectiveness from '../screens/stats/Effectiveness';
 import Cardio from '../screens/cardio/Cardio';
@@ -39,6 +40,9 @@ const routes = {
     },
     Settings: {
         screen: Settings
+    },
+    ThemePicker: {
+        screen: ThemePicker
     },
     Cardio: {
         screen: Cardio

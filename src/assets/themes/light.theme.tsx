@@ -35,6 +35,8 @@ const colors = {
     linkSmallColor: '#FFF',
 
     spinnerColor: mainColor,
+
+    listItemRightIconColor: greyColor
 };
 
 const borders = {

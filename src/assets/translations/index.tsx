@@ -17,6 +17,15 @@ let translations = {
             register: "Zarejestruj się"
         },
 
+        settings: {
+            theme: "Motyw kolorystyczny"
+        },
+
+        themes: {
+            light: "dzienny",
+            dark: "nocny"
+        },
+
         routes: {
             planner: "Pull Up!",
             login: "Logowanie",
@@ -24,6 +33,7 @@ let translations = {
             passwordreminder: "Przypomnij hasło",
             profile: "Profil",
             settings: "Ustawienia",
+            themepicker: "Wybierz motyw",
             initpage: "Pull Up!"
         },
 

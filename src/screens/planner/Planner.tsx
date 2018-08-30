@@ -30,10 +30,6 @@ class Planner extends React.Component<Props> {
         }
     }
 
-    changeTheme = (name: string) => {
-        this.props.dispatch(AppActions.setTheme(name));
-    };
-
     goToProfilePage = () => {
         this.props.dispatch(NavigationActions.navigate({ routeName: 'Profile' }));
     };
@@ -45,9 +41,6 @@ class Planner extends React.Component<Props> {
                     <Text>Planner</Text>
 
                     <Text>{this.props.theme.name}</Text>
-                    {this.props.theme.name !== 'dark' && <Button onPress={() => this.changeTheme('dark')} title={'Dark'} />}
-                    {this.props.theme.name !== 'light' &&
-                        <Button onPress={() => this.changeTheme('light')} title={'Light'} />}
                     <Button title="Profile" onPress={this.goToProfilePage} />
                 </View>
             </View>

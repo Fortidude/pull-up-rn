@@ -13,7 +13,9 @@ export interface ThemeInterface {
 
 export default DefaultTheme;
 
+export const list = ['light', 'dark'];
+
 export const themes = {
     light: DefaultTheme,
     dark: DarkTheme
-}
+};

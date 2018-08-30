@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import { ThemeInterface } from '../../assets/themes';
 
 function getStyle(theme: ThemeInterface) {
@@ -11,9 +10,7 @@ function getStyle(theme: ThemeInterface) {
             borderBottomColor: theme.borders.borderColor
         },
         leftIconContainer: {
-            
-            paddingLeft: 24,
-            paddingRight: 24,
+            marginLeft: 24,
             alignItems: 'flex-start',
             justifyContent: 'center'
         },
@@ -26,6 +23,7 @@ function getStyle(theme: ThemeInterface) {
         },
         centerTextContainer: {
             flex: 3,
+            marginLeft: 24,
             alignItems: 'flex-start',
             justifyContent: 'center'
         },
@@ -34,9 +32,31 @@ function getStyle(theme: ThemeInterface) {
         },
         rightAdditionalContainer: {
             flex: 2,
-            marginRight: 24,
+            paddingRight: 24,
             alignItems: 'flex-end',
             justifyContent: 'center'
+        },
+        rightTextIconContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        rightText: {
+            fontSize: theme.fonts.fontExtraSmallSize,
+            color: theme.colors.listItemRightIconColor,
+            marginRight: -10
+        },
+        rightArrowIcon: {
+            alignSelf: 'center',
+            color: theme.colors.listItemRightIconColor,
+            fontSize: 50,
+            marginRight: -18,
+            paddingTop: 4
+        },
+        rightCheckIcon: {
+            alignSelf: 'center',
+            color: theme.colors.main,
+            fontSize: 10,
+            paddingTop: 4
         }
     };
 }

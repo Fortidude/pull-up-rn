@@ -6,7 +6,7 @@ import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { persistStore } from 'redux-persist'
+import { persistStore, purgeStoredState } from 'redux-persist'
 import { PersistGate } from 'redux-persist/es/integration/react'
 
 import Styles from './App.styles';
@@ -27,6 +27,9 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga);
 let persistor = persistStore(store);
+
+// @TODO purge delete
+persistor.purge();
 
 interface Props { };
 interface State {
