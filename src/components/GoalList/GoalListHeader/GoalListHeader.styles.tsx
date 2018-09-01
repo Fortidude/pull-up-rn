@@ -25,7 +25,8 @@ function getStyle(theme: ThemeInterface) {
             paddingRight: 18
         },
         toggleIcon: {
-            fontSize: theme.fonts.fontH3Size + 1
+            marginTop: -5,
+            marginRight: -12
         }
     };
 }

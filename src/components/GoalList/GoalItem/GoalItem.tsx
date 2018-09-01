@@ -1,7 +1,9 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
+
 import Styles from './GoalItem.styles';
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
 import Goal from '../../../models/Goal';
@@ -31,7 +33,21 @@ class ExerciseItem extends React.Component<Props> {
     render() {
         return (
             <View style={this.style.exerciseContainer}>
-                <Text>{this.props.goal.exercise.name}</Text>
+                <TouchableOpacity style={this.style.plusIconContainer}>
+                    <View style={this.style.plusIconView}>
+                        <EvilIcon name="close" color={this.props.theme.colors.main} size={42} />
+                    </View>
+                </TouchableOpacity>
+                <View style={this.style.summaryContent}>
+                    <View style={this.style.summaryLeftContent}>
+                        <Text style={this.style.title}>{this.props.goal.exercise.name}</Text>
+                        <Text style={this.style.subTitle}>Weight / Sets</Text>
+                    </View>
+                    <View style={this.style.summaryRightContent}>
+                        <Text style={this.style.infoTitleTop}>Typ: 5x5</Text>
+                        <Text style={this.style.infoTitleBottom}>Brakuje: 2 sety</Text>
+                    </View>
+                </View>
             </View>
         );
     }

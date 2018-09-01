@@ -35,9 +35,11 @@ class ExerciseList extends React.Component<Props> {
         return (
             <View style={this.style.exerciseListContainer}>
                 <GoalListHeader name={this.props.training.name} />
-                {this.props.training.goals.map((goal, key) =>
-                    <GoalItem goal={goal} key={key} />
-                )}
+                <View style={this.style.goalListContainer}>
+                    {this.props.training.goals.map((goal, key) =>
+                        <GoalItem goal={goal} key={key} />
+                    )}
+                </View>
             </View>
         );
     }

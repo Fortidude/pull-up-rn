@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated, Easing } from 'react-native';
 import { connect } from "react-redux";
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
 import Styles from './GoalListHeader.styles';
 import { ThemeInterface, ThemeValueInterface } from "../../../assets/themes";
@@ -49,8 +49,9 @@ class IconComponent extends React.Component<Props, State> {
         })
 
         return (
-            <Animated.View style={{transform: [{rotate: spin}]}}>
-                <Icon style={[this.style.toggleIcon]}
+            <Animated.View style={[this.style.toggleIcon, {transform: [{rotate: spin}]}]}>
+                <EvilIcon
+                    size={40}
                     color={this.props.active ? this.props.theme.colors.main : this.props.theme.colors.fontColor}
                     name={"chevron-down"} />
             </Animated.View>
