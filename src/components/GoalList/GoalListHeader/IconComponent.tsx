@@ -1,0 +1,65 @@
+import React from 'react';
+import { Animated, Easing } from 'react-native';
+import { connect } from "react-redux";
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
+import Styles from './GoalListHeader.styles';
+import { ThemeInterface, ThemeValueInterface } from "../../../assets/themes";
+
+interface Props {
+    theme: ThemeInterface;
+    active: boolean;
+};
+
+interface State {
+    spinValue: any
+}
+
+class IconComponent extends React.Component<Props, State> {
+    style: ThemeValueInterface;
+
+    constructor(props: Props) {
+        super(props);
+
+        this.style = Styles(this.props.theme);
+        this.state = {
+            spinValue: new Animated.Value(0)
+        }
+    }
+
+    componentWillReceiveProps(nextProps: Props) {
+        if (nextProps.theme.name !== this.props.theme.name) {
+            this.style = Styles(nextProps.theme);
+        }
+
+        Animated.timing(
+            this.state.spinValue,
+            {
+                toValue: nextProps.active ? 1 : 0,
+                duration: 150,
+                easing: Easing.linear
+            }
+        ).start()
+    }
+
+    render() {
+        let spin = this.state.spinValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: ["0deg", "90deg"]
+        })
+
+        return (
+            <Animated.View style={{transform: [{rotate: spin}]}}>
+                <Icon style={[this.style.toggleIcon]}
+                    color={this.props.active ? this.props.theme.colors.main : this.props.theme.colors.fontColor}
+                    name={"chevron-down"} />
+            </Animated.View>
+        )
+    }
+}
+
+const mapStateToProps = (state: any) => ({
+    theme: state.settings.theme
+});
+
+export default connect(mapStateToProps)(IconComponent);

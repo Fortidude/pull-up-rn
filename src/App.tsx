@@ -41,8 +41,8 @@ export default class App extends React.Component<Props, State> {
     style: ThemeValueInterface;
     constructor(props: Props) {
         super(props);
-        const appState = store.getState().app;
-        this.style = Styles(appState.theme);
+        const settingsState = store.getState().settings;
+        this.style = Styles(settingsState.theme);
         this.state = {
             appReady: false
         }

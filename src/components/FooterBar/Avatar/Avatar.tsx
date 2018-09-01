@@ -55,7 +55,7 @@ class Avatar extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.app.theme,
+    theme: state.settings.theme,
     avatar: state.user.current ? state.user.current.avatar : null
 });
 

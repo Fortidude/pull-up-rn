@@ -7,8 +7,8 @@ import { ThemeValueInterface, ThemeInterface } from '../../../assets/themes';
 import I18n, { locales } from '../../../assets/translations';
 import getStyle from './LanguagePicker.styles';
 import SettingListItem from '../../../components/SettingListItem';
-import { AppActions } from '../../../store/actions/app';
 import { NavigationActions } from 'react-navigation';
+import { SettingsActions } from '../../../store/actions/settings';
 
 type Props = {
     dispatch: Dispatch,
@@ -30,7 +30,7 @@ class LanguagePicker extends React.Component<Props> {
     }
 
     changeLocale = (locale: string) => {
-        this.props.dispatch(AppActions.setLocale(locale));
+        this.props.dispatch(SettingsActions.setLocale(locale));
         this.props.dispatch(NavigationActions.back());
     };
 
@@ -55,8 +55,8 @@ class LanguagePicker extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.app.theme,
-    locale: state.app.locale
+    theme: state.settings.theme,
+    locale: state.settings.locale
 });
 
 export default connect(mapStateToProps)(LanguagePicker);

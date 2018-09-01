@@ -61,7 +61,7 @@ class Login extends Component<Props> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.app.theme
+    theme: state.settings.theme
 });
 
 export default connect(mapStateToProps)(Login);

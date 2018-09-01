@@ -40,7 +40,7 @@ class ButtonBig extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: any) => ({
-    theme: state.app.theme
+    theme: state.settings.theme
 });
 
 export default connect(mapStateToProps)(ButtonBig);

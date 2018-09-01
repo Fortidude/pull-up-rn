@@ -1,7 +1,5 @@
-import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { ThemeValueInterface } from '../../assets/themes';
 import I18n from './../../assets/translations';
 
 interface Props {
@@ -9,26 +7,15 @@ interface Props {
     locale: string;
 }
 
-class AppManager extends React.Component<Props> {
-    style: ThemeValueInterface;
+const AppManager = (props: Props) => {
+    I18n.locale = props.locale;
 
-    constructor(props: Props) {
-        super(props);
-     
-        I18n.locale = this.props.locale;
-    }
-
-    componentWillReceiveProps(nextProps: Props) {
-    }
-
-    render() {
-        return null;
-    }
+    return null;
 }
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    locale: state.app.locale
+    locale: state.settings.locale
 });
 
 export default connect(mapStateToProps)(AppManager);

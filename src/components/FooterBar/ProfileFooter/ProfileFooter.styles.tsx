@@ -23,7 +23,7 @@ function getStyle(theme: ThemeInterface) {
             color: theme.colors.textColor
         },
         leftSubText: {
-            fontSize: theme.fonts.fontExtraSmallSize,
+            fontSize: theme.fonts.fontH4Size,
             color: theme.colors.subTextColor,
             marginTop: 5,
             marginBottom: 5

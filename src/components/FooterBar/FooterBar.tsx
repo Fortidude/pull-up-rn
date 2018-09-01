@@ -124,7 +124,7 @@ class FooterBar extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => ({
-    theme: state.app.theme,
+    theme: state.settings.theme,
     nav: state.nav
 });
 

@@ -84,7 +84,7 @@ class Header extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.app.theme
+    theme: state.settings.theme
 
 });
 

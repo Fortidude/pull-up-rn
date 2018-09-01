@@ -45,7 +45,7 @@ class PreLoad extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.app.theme,
+    theme: state.settings.theme,
     isLoading: state.auth.isLoading
 });
 

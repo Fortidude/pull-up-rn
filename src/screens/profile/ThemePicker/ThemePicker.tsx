@@ -2,12 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { Dispatch } from 'redux';
+import { NavigationActions } from 'react-navigation';
 
 import { ThemeValueInterface, ThemeInterface, list } from '../../../assets/themes';
 import getStyle from './ThemePicker.styles';
 import SettingListItem from '../../../components/SettingListItem';
-import { AppActions } from '../../../store/actions/app';
-import { NavigationActions } from 'react-navigation';
+import I18n from '../../../assets/translations';
+import { SettingsActions } from '../../../store/actions/settings';
 
 type Props = {
     dispatch: Dispatch,
@@ -28,7 +29,7 @@ class ThemePicker extends React.Component<Props> {
     }
 
     changeTheme = (name: string) => {
-        this.props.dispatch(AppActions.setTheme(name));
+        this.props.dispatch(SettingsActions.setTheme(name));
         this.props.dispatch(NavigationActions.back());
     };
 
@@ -36,7 +37,7 @@ class ThemePicker extends React.Component<Props> {
         return list.map((theme, key) =>
             <SettingListItem key={key}
                 rightCheck={this.props.theme.name === theme}
-                text={theme}
+                text={I18n.t(`themes.${theme}`)}
                 onPress={() => this.changeTheme(theme)} />
         );
     }
@@ -52,7 +53,7 @@ class ThemePicker extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.app.theme
+    theme: state.settings.theme
 });
 
 export default connect(mapStateToProps)(ThemePicker);

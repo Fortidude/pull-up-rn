@@ -7,6 +7,11 @@ export const locales:{[key: string]: string} = {
 
 let translations = {
     pl: {
+        mics: {
+            effectiveness: "skuteczność",
+            left: "pozostało"
+        },
+
         login: {
             title: "Logowaie",
             login: "Zaloguj się",
@@ -28,8 +33,8 @@ let translations = {
         },
 
         themes: {
-            light: "dzienny",
-            dark: "nocny"
+            light: "Dzienny",
+            dark: "Nocny"
         },
 
         locales: {

@@ -11,8 +11,11 @@ import { connect } from 'react-redux';
 
 import Styles from './Loader.styles';
 import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
+import { Dispatch } from 'redux';
+import { AppActions } from '../../store/actions/app';
 
 type Props = {
+	dispatch: Dispatch,
 	theme: ThemeInterface,
 	children: React.ReactNode,
 	isLoaded: boolean,
@@ -48,7 +51,7 @@ class Loader extends React.Component<Props, State> {
 			}).start(() => {
 				this.setState({
 					animationDone: true,
-				});
+				}, () => this.props.dispatch(AppActions.appLoaded()));
 			});
 		}
 	}
@@ -96,7 +99,7 @@ class Loader extends React.Component<Props, State> {
 
 		return (
 			<View style={this.style.fullScreen}>
-				<StatusBar  animated={true} hidden={!this.state.animationDone} />
+				<StatusBar animated={true} hidden={!this.state.animationDone} />
 				{fullScreenBackgroundLayer}
 				<MaskedViewIOS
 					style={{ flex: 1 }}
@@ -120,7 +123,8 @@ class Loader extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => ({
-    theme: state.app.theme
+	dispatch: state.dispatch,
+	theme: state.settings.theme
 });
 
 export default connect(mapStateToProps)(Loader);

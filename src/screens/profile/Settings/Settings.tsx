@@ -60,8 +60,8 @@ class Settings extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.app.theme,
-    locale: state.app.locale
+    theme: state.settings.theme,
+    locale: state.settings.locale
 });
 
 export default connect(mapStateToProps)(Settings);

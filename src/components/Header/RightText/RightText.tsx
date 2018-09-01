@@ -94,7 +94,7 @@ class RightText extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => ({
-    theme: state.app.theme
+    theme: state.settings.theme
 });
 
 export default connect(mapStateToProps)(RightText);

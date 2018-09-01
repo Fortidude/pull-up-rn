@@ -1,15 +1,10 @@
 export enum AppTypes {
-    setTheme = '[APP] SET THEME',
-    setLocale = '[APP] SET LANGUAGE'
+    appLoaded = '[APP] APP LOADED'
 }
 
 export const AppActions = {
-    setTheme: (theme: string) => ({
-        type: AppTypes.setTheme,
-        payload: {theme: theme}
+    appLoaded: () => ({
+        type: AppTypes.appLoaded,
+        payload: {}
     }),
-    setLocale: (locale: string) => ({
-        type: AppTypes.setLocale,
-        payload: {locale: locale}
-    })
 };

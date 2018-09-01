@@ -1,15 +1,14 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
-import { Text, Button, View } from 'react-native';
+import { View } from 'react-native';
 
+import I18n from '../../assets/translations';
 import getStyle from './Planner.styles';
-import { AppActions } from '../../store/actions/app';
 import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
-import { AuthActions } from '../../store/actions/auth';
 
-import PlannerFooter from './../../components/FooterBar/PlannerFooter';
+import CircleProgress from '../../components/CircleProgress';
+import PlannerList from './PlannerList';
 
 type Props = {
     dispatch: Dispatch,
@@ -30,18 +29,22 @@ class Planner extends React.Component<Props> {
         }
     }
 
-    goToProfilePage = () => {
-        this.props.dispatch(NavigationActions.navigate({ routeName: 'Profile' }));
-    };
+    componentDidMount() {
+    }
 
     render() {
         return (
             <View style={this.style.container}>
-                <View style={{ backgroundColor: 'white', flex: 1 }}>
-                    <Text>Planner</Text>
-
-                    <Text>{this.props.theme.name}</Text>
-                    <Button title="Profile" onPress={this.goToProfilePage} />
+                <View style={this.style.topCirclesContainer}>
+                    <View style={[this.style.topCircleContainer, this.style.topCircleLeft]}>
+                        <CircleProgress fill={33} progressWidth={2} subTitle={I18n.t('mics.effectiveness')} />
+                    </View>
+                    <View style={[this.style.topCircleContainer, this.style.topCircleRight]}>
+                        <CircleProgress fill={75} progressWidth={3} title={"5 dni"} subTitle={I18n.t('mics.left')} />
+                    </View>
+                </View>
+                <View style={this.style.listContainer}>
+                    <PlannerList/>
                 </View>
             </View>
         );
@@ -50,7 +53,7 @@ class Planner extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.app.theme
+    theme: state.settings.theme
 });
 
 export default connect(mapStateToProps)(Planner);

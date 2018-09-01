@@ -20,6 +20,8 @@ const colors = {
     borderColor: 'rgba(112, 112, 112, 0.2)',
     borderDarkColor: 'rgba(112, 112, 112, 0.5)',
 
+    shadowColor: '#000000',
+
     plannerFooterButtonColor: greyColor,
     plannerFooterAvatarBackground: 'rgba(189, 189, 189, 0.8)',
     plannerFooterAvatarShadow: '#000000',
@@ -49,9 +51,12 @@ const fonts = {
     mainFontFamily: mainFontFamily,
 
     fontSize: 17,
-    fontSmallSize: 15,
-    fontExtraSmallSize: 12,
-    fontSmallerSize: 10,
+
+    fontH1Size: 20,
+    fontH3Size: 15,
+    fontH4Size: 12,
+    fontH5Size: 10,
+    fontH6Size: 7,
 
     inputFontSize: 18,
     buttonBigFontSize: 18,
