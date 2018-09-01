@@ -6,8 +6,6 @@ function getStyle(theme: ThemeInterface) {
         exerciseListContainer: {
             backgroundColor: 'transparent',
             marginBottom: 20
-        },
-        goalListContainer: {
         }
     };
 }

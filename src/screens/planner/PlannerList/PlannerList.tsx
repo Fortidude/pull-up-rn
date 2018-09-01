@@ -34,8 +34,8 @@ class PlannerList extends React.Component<Props, State> {
             <FlatList
                 showsVerticalScrollIndicator={false}
                 data={this.state.trainings}
-                renderItem={({ item, separators }) => (
-                    <GoalList training={item} />
+                renderItem={({ item, index }) => (
+                    <GoalList training={item} isFirst={index === 0}/>
                 )}
             />
         );

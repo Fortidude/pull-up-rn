@@ -21,9 +21,10 @@ class IconComponent extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        console.log(props.active);
         this.style = Styles(this.props.theme);
         this.state = {
-            spinValue: new Animated.Value(0)
+            spinValue: new Animated.Value(props.active ? 0 : 1)
         }
     }
 
@@ -31,11 +32,13 @@ class IconComponent extends React.Component<Props, State> {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
         }
+    }
 
+    componentDidUpdate() {
         Animated.timing(
             this.state.spinValue,
             {
-                toValue: nextProps.active ? 1 : 0,
+                toValue: this.props.active ? 0 : 1,
                 duration: 150,
                 easing: Easing.linear
             }
@@ -48,11 +51,12 @@ class IconComponent extends React.Component<Props, State> {
             outputRange: ["0deg", "90deg"]
         })
 
+        console.log(this.props.active);
         return (
             <Animated.View style={[this.style.toggleIcon, {transform: [{rotate: spin}]}]}>
                 <EvilIcon
                     size={40}
-                    color={this.props.active ? this.props.theme.colors.main : this.props.theme.colors.fontColor}
+                    color={this.props.active ? this.props.theme.colors.fontColor : this.props.theme.colors.main}
                     name={"chevron-down"} />
             </Animated.View>
         )

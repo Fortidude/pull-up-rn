@@ -8,21 +8,32 @@ import Styles from './GoalList.styles';
 import GoalListHeader from './GoalListHeader';
 import GoalItem from './GoalItem';
 import Training from '../../models/Training';
+import GoalListContainer from './GoalListContainer/GoalListContainer';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
 
     training: Training
+    isFirst?: boolean;
 }
 
-class ExerciseList extends React.Component<Props> {
+interface State {
+    toggled: boolean;
+}
+
+class ExerciseList extends React.Component<Props, State> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
         super(props);
 
+        const toggled = !!props.isFirst;
+
         this.style = Styles(this.props.theme);
+        this.state = {
+            toggled: toggled
+        }
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -31,15 +42,23 @@ class ExerciseList extends React.Component<Props> {
         }
     }
 
+    countHeight = () => this.props.training.goals.length * 70;
+    toggleList = () => {
+        const toggled = !this.state.toggled;
+        this.setState({ toggled: toggled });
+    }
+
     render() {
         return (
             <View style={this.style.exerciseListContainer}>
-                <GoalListHeader name={this.props.training.name} />
-                <View style={this.style.goalListContainer}>
-                    {this.props.training.goals.map((goal, key) =>
-                        <GoalItem goal={goal} key={key} />
-                    )}
-                </View>
+                <GoalListHeader active={this.state.toggled} onButtonClick={this.toggleList} name={this.props.training.name} />
+                <GoalListContainer active={this.state.toggled} height={this.countHeight()}>
+                    <React.Fragment>
+                        {this.props.training.goals.map((goal, key) =>
+                            <GoalItem goal={goal} key={key} />
+                        )}
+                    </React.Fragment>
+                </GoalListContainer>
             </View>
         );
     }

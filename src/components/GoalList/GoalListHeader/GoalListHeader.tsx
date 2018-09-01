@@ -12,12 +12,11 @@ interface Props {
     theme: ThemeInterface;
 
     name: string;
-    active?: boolean;
+    active: boolean;
+    onButtonClick: () => void;
 }
 
-interface State {
-    active: boolean;
-}
+interface State {}
 
 class GoalListHeader extends React.Component<Props, State> {
     style: ThemeValueInterface;
@@ -26,16 +25,12 @@ class GoalListHeader extends React.Component<Props, State> {
         super(props);
 
         this.style = Styles(this.props.theme);
-        this.state = {
-            active: !!this.props.active
-        }
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
         return nextProps.name !== this.props.name
             || nextProps.theme.name !== this.props.theme.name
-            || nextProps.active !== this.props.active
-            || nextState.active !== this.state.active
+            || nextProps.active !== this.props.active;
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -50,8 +45,8 @@ class GoalListHeader extends React.Component<Props, State> {
                 <Text style={this.style.title}>
                     {this.props.name}
                 </Text>
-                <TouchableOpacity style={this.style.toggleButton} onPress={() => this.setState({ active: !this.state.active })}>
-                    <IconComponent active={this.state.active} />
+                <TouchableOpacity style={this.style.toggleButton} onPress={this.props.onButtonClick}>
+                    <IconComponent active={!!this.props.active} />
                 </TouchableOpacity>
             </View>
         );
