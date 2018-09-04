@@ -7,13 +7,15 @@ import navigation from './navigation';
 import auth from './auth';
 import user from './user';
 import settings from './settings';
+import modal from './modal';
 
 const reducers = {
     app: app,
     auth: auth,
     nav: navigation,
     user: user,
-    settings: settings
+    settings: settings,
+    modal: modal
 };
 
 const expireTransform = createExpirationTransform({
@@ -26,7 +28,7 @@ const expireTransform = createExpirationTransform({
 const config = {
     key: 'root',
     version: 2,
-    blacklist: ['app', 'nav'],
+    blacklist: ['app', 'nav', 'modal'],
     transforms: [expireTransform],
     storage,
 };

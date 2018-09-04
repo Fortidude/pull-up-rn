@@ -29,6 +29,15 @@ function getStyle(theme: ThemeInterface) {
             paddingBottom: 90,
             paddingRight: 18,
             paddingLeft: 22
+        },
+
+        profileModalContainer: {
+            backgroundColor: theme.colors.backgroundColor,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
         }
     };
 }

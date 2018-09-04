@@ -7,6 +7,7 @@ import { View } from 'react-native';
 import getStyle from './Profile.styles';
 import { ThemeValueInterface, ThemeInterface } from '../../../assets/themes';
 import SettingListItem from '../../../components/SettingListItem';
+import { ModalActions } from '../../../store/actions/modal';
 
 type Props = {
     dispatch: Dispatch,
@@ -30,11 +31,15 @@ class Profile extends React.Component<Props> {
         this.props.dispatch(NavigationActions.navigate({ routeName: 'Settings' }));
     };
 
+    closeModal = () => {
+        this.props.dispatch(ModalActions.profileClose());
+    }
+
     render() {
         return (
             <View style={this.style.container}>
                 <SettingListItem icon="cog" onPress={this.goToSettingsPage} text="Settings" rightArrow/>
-                <SettingListItem icon="user" onPress={() => {}} text="Option 1"/>
+                <SettingListItem icon="user" onPress={this.closeModal} text="Option 1"/>
                 <SettingListItem icon="trash" onPress={() => {}} danger text="Remove my account"/>
             </View>
         );

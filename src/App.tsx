@@ -18,6 +18,7 @@ import FooterBar from './components/FooterBar';
 import Images from './assets/images';
 import { ThemeValueInterface } from './assets/themes';
 import AppManager from './components/AppManager';
+import ModalManager from './components/ModalManager';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -30,7 +31,7 @@ sagaMiddleware.run(rootSaga);
 let persistor = persistStore(store);
 
 // @TODO purge delete
-//persistor.purge();
+persistor.purge();
 
 interface Props { };
 interface State {
@@ -68,6 +69,7 @@ export default class App extends React.Component<Props, State> {
 
                         <AppWithNavigationState />
                         <AppManager />
+                        <ModalManager />
                         <FooterBar />
 
                     </PageLoaderAnimation>

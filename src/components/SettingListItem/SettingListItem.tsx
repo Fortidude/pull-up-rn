@@ -45,8 +45,8 @@ class SettingListItem extends React.Component<Props> {
                         style={[this.style.leftIcon, this.props.danger ? this.style.leftIconDanger : {}]} />
                 </View>}
                 <View style={this.style.centerTextContainer}>
-                    <Text style={this.style.centerText}>{this.props.text}</Text>
-                    {this.props.subText && <Text style={this.style.centerSubText}>{this.props.subText}</Text>}
+                    <Text numberOfLines={1} style={this.style.centerText}>{this.props.text}</Text>
+                    {this.props.subText && <Text numberOfLines={1} style={this.style.centerSubText}>{this.props.subText}</Text>}
                 </View>
                 <View style={this.style.rightAdditionalContainer}>
                     <View style={this.style.rightTextIconContainer}>

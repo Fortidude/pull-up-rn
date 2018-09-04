@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, Modal, Animated } from 'react-native';
 
 import I18n from '../../assets/translations';
 import getStyle from './Planner.styles';
@@ -9,18 +9,26 @@ import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
 
 import CircleProgress from '../../components/CircleProgress';
 import PlannerList from './PlannerList';
+import Profile from '../profile/Profile';
 
-type Props = {
-    dispatch: Dispatch,
-    getStyle: void
-    theme: ThemeInterface,
+interface Props {
+    dispatch: Dispatch;
+    theme: ThemeInterface;
+    profileModalVisible: boolean;
 };
-class Planner extends React.Component<Props> {
+interface State {
+    profileModalTop: any;
+}
+
+class Planner extends React.Component<Props, State> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
         super(props);
-        this.style = getStyle(this.props.theme);
+        this.style = getStyle(props.theme);
+        this.state = {
+            profileModalTop: new Animated.Value(props.profileModalVisible ? 0 : 100)
+        }
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -29,10 +37,24 @@ class Planner extends React.Component<Props> {
         }
     }
 
-    componentDidMount() {
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.profileModalVisible !== this.props.profileModalVisible) {
+            const modalVisible = this.props.profileModalVisible;
+
+            console.log('animate');
+           Animated.timing(this.state.profileModalTop, {
+               toValue: modalVisible ? 0 : 100,
+               duration: 500
+           }).start();
+        }
     }
 
     render() {
+        const profileModalTop = this.state.profileModalTop.interpolate({
+            inputRange: [0, 100],
+            outputRange: ["0%", "100%"]
+        })
+
         return (
             <View style={this.style.container}>
                 <View style={this.style.topCirclesContainer}>
@@ -46,6 +68,10 @@ class Planner extends React.Component<Props> {
                 <View style={this.style.listContainer}>
                     <PlannerList/>
                 </View>
+
+                <Animated.View style={[this.style.profileModalContainer, {top: profileModalTop}]}>
+                    <Profile/>
+                </Animated.View>
             </View>
         );
     }
@@ -53,7 +79,8 @@ class Planner extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    profileModalVisible: state.modal.profileModalVisible
 });
 
 export default connect(mapStateToProps)(Planner);

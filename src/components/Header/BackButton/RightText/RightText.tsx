@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated } from 'react-native';
 import { connect } from 'react-redux';
-import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
+import { ThemeInterface, ThemeValueInterface } from '../../../../assets/themes';
 import Styles from './RightText.styles';
 
 interface Props {

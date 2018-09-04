@@ -6,10 +6,12 @@ import Styles from './FooterBar.styles';
 import { ThemeInterface, ThemeValueInterface } from '../../assets/themes';
 import PlannerFooter from './PlannerFooter';
 import ProfileFooter from './ProfileFooter';
+import { ModalState } from '../../store/reducers/modal';
 
 interface Props {
     theme: ThemeInterface;
-    nav: { index: number, routes: { routeName: string }[] }
+    nav: { index: number, routes: { routeName: string }[] },
+    modal: ModalState
 }
 
 interface State {
@@ -85,11 +87,12 @@ class FooterBar extends React.Component<Props, State> {
 
     getComponentName = (props: Props) => {
         const routeName = props.nav.routes[props.nav.index].routeName.toLocaleLowerCase();
-        if (this.routesForPlannerFooter.includes(routeName)) {
+        const ProfileModalVisible = props.modal.profileModalVisible;
+        if (this.routesForPlannerFooter.includes(routeName) && !ProfileModalVisible) {
             return "Planner";
         }
 
-        if (this.routesForProfileFooter.includes(routeName)) {
+        if (this.routesForProfileFooter.includes(routeName) || ProfileModalVisible) {
             return "Profile";
         }
 
@@ -125,7 +128,8 @@ class FooterBar extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     theme: state.settings.theme,
-    nav: state.nav
+    nav: state.nav,
+    modal: state.modal
 });
 
 export default connect(mapStateToProps)(FooterBar);

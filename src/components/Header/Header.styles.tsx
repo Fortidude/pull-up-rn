@@ -19,14 +19,7 @@ function getStyle(theme: ThemeInterface) {
                 paddingLeft: 7,
                 marginBottom: 13,
                 justifyContent: 'flex-end',
-            },
-            backButton: {
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'flex-end',
-            },
-            icon: { marginLeft: -15, marginRight: -15, marginTop: 2, marginBottom: -13 }
+            }
         },
         center: {
             container: {

@@ -21,7 +21,6 @@ class IconComponent extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        console.log(props.active);
         this.style = Styles(this.props.theme);
         this.state = {
             spinValue: new Animated.Value(props.active ? 0 : 1)
@@ -51,7 +50,6 @@ class IconComponent extends React.Component<Props, State> {
             outputRange: ["0deg", "90deg"]
         })
 
-        console.log(this.props.active);
         return (
             <Animated.View style={[this.style.toggleIcon, {transform: [{rotate: spin}]}]}>
                 <EvilIcon

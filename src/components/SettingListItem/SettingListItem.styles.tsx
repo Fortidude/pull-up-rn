@@ -11,7 +11,8 @@ function getStyle(theme: ThemeInterface) {
         },
         leftIconContainer: {
             marginLeft: 24,
-            alignItems: 'flex-start',
+            width: 24,
+            alignItems: 'center',
             justifyContent: 'center'
         },
         leftIcon: {

@@ -12,7 +12,7 @@ interface SettingsState {
 
 const initialState: SettingsState = {
     theme: DefaultTheme,
-    locale: 'en'
+    locale: 'pl'
 };
 
 function settings(state = initialState, action: AnyAction): SettingsState {

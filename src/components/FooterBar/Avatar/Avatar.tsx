@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Styles from './Avatar.styles';
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
 import { NavigationActions } from 'react-navigation';
+import { ModalActions } from '../../../store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;
@@ -37,7 +38,8 @@ class Avatar extends React.Component<Props> {
             return;
         }
     
-        this.props.dispatch(NavigationActions.navigate({ routeName: 'Profile' }));
+        //this.props.dispatch(NavigationActions.navigate({ routeName: 'Profile' }));
+        this.props.dispatch(ModalActions.profileOpen());
     }
 
     render() {
