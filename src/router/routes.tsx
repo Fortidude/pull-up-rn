@@ -7,7 +7,6 @@ import Register from '../screens/auth/Register';
 import PasswordReminder from '../screens/auth/PasswordReminder';
 
 import Planner from '../screens/planner/Planner';
-import Profile from '../screens/profile/Profile';
 import Settings from '../screens/profile/Settings';
 import ThemePicker from '../screens/profile/ThemePicker';
 import LanguagePicker from '../screens/profile/LanguagePicker';
@@ -35,9 +34,6 @@ const routes = {
     },
     Planner: {
         screen: Planner
-    },
-    Profile: {
-        screen: Profile
     },
     Settings: {
         screen: Settings

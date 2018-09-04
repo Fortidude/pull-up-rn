@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { FlatList } from 'react-native';
+import { FlatList, Animated } from 'react-native';
 import { connect } from 'react-redux';
 
 import Data from '../../../api/data';
@@ -9,18 +9,25 @@ import Training from '../../../models/Training';
 
 interface Props {
     dispatch: Dispatch;
+    onScroll?: (position: number) => void;
 }
 
 interface State {
-    trainings: Training[]
+    trainings: Training[];
+    scrollY: any;
 }
 
 class PlannerList extends React.Component<Props, State> {
+    static defaultProps = {
+        onScroll: (position: number) => { }
+    }
+
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            trainings: []
+            trainings: [],
+            scrollY: new Animated.Value(0),
         }
     }
 
@@ -32,10 +39,22 @@ class PlannerList extends React.Component<Props, State> {
     render() {
         return (
             <FlatList
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+                    {
+                        listener: (event) => {
+                            this.props.onScroll(event.nativeEvent.contentOffset.y);
+                            //  const current = event.nativeEvent.contentOffset.y;
+                            //  const height = this.state.predefined_trainings_height_max*2;
+                            //  const endPosition = this.scrollEndPosition;
+                            //  const directionUp = this.scrollEndVelocity > 0;
+                        }
+                    }
+                )}
                 showsVerticalScrollIndicator={false}
                 data={this.state.trainings}
                 renderItem={({ item, index }) => (
-                    <GoalList training={item} isFirst={index === 0}/>
+                    <GoalList training={item} isFirst={index === 0} />
                 )}
             />
         );
