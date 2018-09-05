@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, Text } from 'react-native';
+import { View, Text, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
@@ -19,6 +19,7 @@ interface Props {
     title?: string;
     subTitle?: string;
     showBigTitle?: boolean;
+    size?: Animated.Value | number;
 
     fill: number;
 }
@@ -32,6 +33,7 @@ class CircleProgress extends React.Component<Props> {
         rotation: 0,
         tintColor: null,
         fill: 0,
+        size: 80,
         showBigTitle: false,
         onAnimationComplete: () => { }
     }
@@ -64,7 +66,7 @@ class CircleProgress extends React.Component<Props> {
         return (
             <View style={this.style.circle}>
                 <AnimatedCircularProgress
-                    size={80}
+                    size={this.props.size}
                     lineCap="round"
                     fill={this.getFill()}
                     duration={this.props.fill * 20}

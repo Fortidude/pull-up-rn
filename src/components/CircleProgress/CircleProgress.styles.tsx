@@ -15,7 +15,7 @@ function getStyle(theme: ThemeInterface) {
             shadowRadius: 10
         },
         progressBar: {
-            position: 'absolute'
+            //position: 'relative'
         },
         title: {
             fontSize: theme.fonts.fontH3Size,

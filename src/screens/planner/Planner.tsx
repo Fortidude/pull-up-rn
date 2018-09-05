@@ -7,7 +7,6 @@ import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
 import I18n from '../../assets/translations';
 import getStyle from './Planner.styles';
 import PlannerList from './PlannerList';
-import Profile from '../profile/Profile';
 import TopProgressBar from './TopProgressBar';
 import ProfileModal from '../../components/ProfileModal';
 
@@ -16,7 +15,9 @@ interface Props {
     theme: ThemeInterface;
     profileModalVisible: boolean;
 };
-interface State {}
+interface State {
+    plannerListScrollPositionY: Animated.Value;
+}
 
 class Planner extends React.Component<Props, State> {
     style: ThemeValueInterface;
@@ -24,7 +25,9 @@ class Planner extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.style = getStyle(props.theme);
-        this.state = {}
+        this.state = {
+            plannerListScrollPositionY: new Animated.Value(0)
+        }
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -39,12 +42,9 @@ class Planner extends React.Component<Props, State> {
     render() {
         return (
             <View style={this.style.container}>
-                <TopProgressBar />
-                <View style={this.style.listContainer}>
-                    <PlannerList />
-                </View>
-
-                <ProfileModal/>
+                <TopProgressBar scrollViewPositionY={this.state.plannerListScrollPositionY}/>
+                <PlannerList onScroll={(value) => this.state.plannerListScrollPositionY.setValue(value)}/>
+                <ProfileModal />
             </View>
         );
     }
