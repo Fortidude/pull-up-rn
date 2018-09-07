@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { View, Animated } from 'react-native';
+import { View, Animated, Easing } from 'react-native';
 
 import getStyle from './Profile.styles';
 import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
@@ -38,9 +38,10 @@ class ProfileModal extends React.Component<Props, State> {
     componentDidUpdate(prevProps: Props) {
         if (prevProps.profileModalVisible !== this.props.profileModalVisible) {
             const modalVisible = this.props.profileModalVisible;
-            Animated.timing(this.state.profileModalTop, {
+            Animated.spring(this.state.profileModalTop, {
                 toValue: modalVisible ? 0 : 100,
-                duration: 300
+                friction: 6,
+                tension: 50,
             }).start();
         }
     }

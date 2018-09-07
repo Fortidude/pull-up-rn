@@ -54,23 +54,11 @@ class PlannerList extends React.Component<Props, State> {
                         [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
                         {
                             listener: (event) => {
-                                const position = event.nativeEvent.contentOffset.y - this.offset;
-                                if (position > 0 && position <= 110) {
-                                    this.props.onScroll(position);
-                                } else if (position < 0 && position >= -110) {
-                                    this.props.onScroll(position + 110);
-                                }
-                                //  const current = event.nativeEvent.contentOffset.y;
-                                //  const height = this.state.predefined_trainings_height_max*2;
-                                //  const endPosition = this.scrollEndPosition;
-                                //  const directionUp = this.scrollEndVelocity > 0;
+                                this.props.onScroll(event.nativeEvent.contentOffset.y);
                             }
                         }
                     )}
-                    onScrollBeginDrag={event => {
-                        this.offset = event.nativeEvent.contentOffset.y;
-                    }}
-                    contentContainerStyle={{paddingTop: 110}}
+                    scrollEventThrottle={1}
                     showsVerticalScrollIndicator={false}
                     data={this.state.trainings}
                     renderItem={({ item, index }) => (

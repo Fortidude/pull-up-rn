@@ -5,6 +5,7 @@ function getStyle(theme: ThemeInterface) {
     return {
         container: {
             flex: 1,
+            zIndex: 2,
             backgroundColor: theme.colors.cardBackgroundColor,
             position: 'absolute',
             top: 0,

@@ -5,17 +5,25 @@ const width = Dimensions.get('window').width;
 const height = 110;
 const circleSize = 80;
 const circlePositionFromEdge = ((width / 2) - circleSize) * 2 / 3;
-const circlePositionFromTop = (height - circleSize) / 2;
+const circlePositionFromTop = (110 - circleSize) / 2;
 function getStyle(theme: ThemeInterface) {
     return {
-        topCirclesContainer: {
-            position: 'absolute',
-            height: height,
-            overflow: 'hidden',
-            zIndex: 2,
-            width: width,
+
+        topContainerHeight: height,
+        topContainer: {
             backgroundColor: theme.colors.backgroundColor,
-            flexDirection: 'row',
+            top: 0,
+            height: 110,
+            width: width,
+            position: 'absolute',
+            borderBottomWidth: theme.borders.borderWidth,
+            borderBottomColor: theme.borders.borderColor
+        },
+        topCirclesContainer: {
+            backgroundColor: theme.colors.backgroundColor,
+            zIndex: 2,
+            flex: 1,
+            flexDirection: 'row'
         },
         topCircleContainer: {
             flex: 1,
@@ -27,6 +35,28 @@ function getStyle(theme: ThemeInterface) {
         topCircleRight: {
             alignItems: 'flex-end',
             paddingRight: circlePositionFromEdge
+        },
+        triangleCorner: {
+
+          },
+        topToggledButton: {
+            width: 120,
+            height: 120,
+            borderRadius: 80,
+            backgroundColor: theme.colors.backgroundColor,
+            borderWidth: theme.borders.borderWidth,
+            borderColor: theme.borders.borderColor,
+          //  transform: [
+          //    {scaleX: 2}
+          //  ],
+            position: 'absolute',
+            marginLeft: (width-60) / 2,
+            marginRight: (width-60) / 2,
+            bottom: -20,
+            alignItems: 'center',
+            justifySelf: 'center',
+            alignSelf: 'center',
+            zIndex: 1
         },
     };
 }
