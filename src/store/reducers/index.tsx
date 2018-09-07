@@ -8,6 +8,7 @@ import auth from './auth';
 import user from './user';
 import settings from './settings';
 import modal from './modal';
+import planner from './planner';
 
 const reducers = {
     app: app,
@@ -15,7 +16,8 @@ const reducers = {
     nav: navigation,
     user: user,
     settings: settings,
-    modal: modal
+    modal: modal,
+    planner: planner
 };
 
 const expireTransform = createExpirationTransform({

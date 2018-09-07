@@ -63,12 +63,15 @@ let translations = {
         buttons: {
             cancel: "Anuluj",
             save: "Zapisz",
-            logout: "Wyloguj się"
+            logout: "Wyloguj się",
+            ok: 'OK'
         },
 
         errors: {
             "failed": "Nie powiodło się.",
             "Bad credentials": "Błędna nazwa użytkownika lub niepoprawne hasło. Możesz skorzystać z opcji przypomnienia hasła.",
+            "no_internet_connection": "Brak połączenia z serwerem.",
+            "no_internet_connection_text": "Pracujesz w trybie offline. Nadal możesz wysyłać sety czy modyfikować oraz tworzyć treningi. Synchronizacja danych nastąpi przy ponownym połaczeniu z internetem."
         }
     },
     en: {

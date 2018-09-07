@@ -5,18 +5,20 @@ import { connect } from 'react-redux';
 
 import Data from '../../../api/data';
 import GoalList from '../../../components/GoalList';
-import Training from '../../../models/Training';
 import getStyle from './PlannerList.styles';
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
+import Planner from '../../../models/Planner';
+import { PlannerActions } from '../../../store/actions/planner';
 
 interface Props {
     dispatch: Dispatch;
-    theme: ThemeInterface
+    theme: ThemeInterface;
+    planner: Planner;
+    plannerLoaded: boolean;
     onScroll?: (position: number) => void;
 }
 
 interface State {
-    trainings: Training[];
     scrollY: any;
 }
 
@@ -30,14 +32,14 @@ class PlannerList extends React.Component<Props, State> {
         super(props);
         this.style = getStyle(props.theme)
         this.state = {
-            trainings: [],
             scrollY: new Animated.Value(0),
         }
     }
 
     async componentWillMount() {
-        const planner = await Data.getPlannerByTrainings();
-        this.setState({ trainings: planner.trainings });
+        if (!this.props.plannerLoaded) {
+            this.props.dispatch(PlannerActions.loadByTrainings());
+        }
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -60,7 +62,7 @@ class PlannerList extends React.Component<Props, State> {
                     )}
                     scrollEventThrottle={1}
                     showsVerticalScrollIndicator={false}
-                    data={this.state.trainings}
+                    data={this.props.planner.trainings}
                     renderItem={({ item, index }) => (
                         <GoalList training={item} isFirst={index === 0} />
                     )}
@@ -72,7 +74,9 @@ class PlannerList extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    planner: state.planner.byTrainings,
+    plannerLoaded: state.planner.loadedByTrainings,
 });
 
 export default connect(mapStateToProps)(PlannerList);

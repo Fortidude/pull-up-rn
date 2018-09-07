@@ -2,7 +2,7 @@ import React from 'react';
 import { Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { ThemeInterface, ThemeValueInterface } from '../../../../assets/themes';
-import Styles from './RightText.styles';
+import Styles from './LeftText.styles';
 
 interface Props {
     theme: ThemeInterface;
@@ -16,7 +16,7 @@ interface State {
     back: boolean;
 }
 
-class RightText extends React.Component<Props, State> {
+class LeftText extends React.Component<Props, State> {
     style: ThemeValueInterface;
     marginLeft = 40;
     marginRight = -40;
@@ -97,4 +97,4 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme
 });
 
-export default connect(mapStateToProps)(RightText);
+export default connect(mapStateToProps)(LeftText);

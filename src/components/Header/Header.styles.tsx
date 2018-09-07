@@ -15,7 +15,6 @@ function getStyle(theme: ThemeInterface) {
         left: {
             container: {
                 flex: 1,
-                // borderColor: 'red',
                 paddingLeft: 7,
                 marginBottom: 13,
                 justifyContent: 'flex-end',
@@ -33,8 +32,10 @@ function getStyle(theme: ThemeInterface) {
         right: {
             container: {
                 flex: 1,
+                marginRight: 10,
                 marginBottom: 13,
                 justifyContent: 'flex-end',
+                alignItems: 'flex-end'
             }
         }
     };

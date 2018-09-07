@@ -6,13 +6,15 @@ import { connect } from 'react-redux';
 
 import Styles from './Header.styles';
 import I18n from '../../assets/translations';
-import { ThemeInterface, ThemeValueInterface } from '../../assets/themes/index'
 import BackButton from './BackButton';
+import { ThemeInterface, ThemeValueInterface } from '../../assets/themes/index';
+import RightIconNotification from './RightIconNotification';
 
 interface Props {
     headerProps: HeaderProps;
     dispatch: Dispatch;
-    theme: ThemeInterface
+    theme: ThemeInterface;
+    isOnline: boolean;
 }
 
 interface State {}
@@ -47,6 +49,7 @@ class Header extends React.Component<Props, State> {
                     <Text style={this.style.center.text} numberOfLines={1}>{this.getCurrentTitle()}</Text>
                 </View>
                 <View style={this.style.right.container}>
+                    <RightIconNotification/>
                 </View>
             </Animated.View>
         );
@@ -55,7 +58,8 @@ class Header extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    isOnline: state.app.isOnline
 });
 
 export default connect(mapStateToProps)(Header);

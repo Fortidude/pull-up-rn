@@ -27,6 +27,10 @@ class Data implements DataInterface {
         return await this.getFetchData('/secured/goal/planner/list', 'goal_planner_list');
     }
 
+    public pingServer = async (): Promise<any> => {
+        return await this.getFetchData('/');
+    }
+
     private getFetchData = async (url: string, cacheKey?: string) => {
         let object = {
             method: 'GET',

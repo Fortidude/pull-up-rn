@@ -114,6 +114,13 @@ class User implements UserInterface {
             headers: await ApiHelper.getHeaders(true, true)
         };
 
+        let user = await AsyncStorage.getItem('user');
+        if (user) {
+            console.log('USER LOADED FROM STORAGE');
+            return new UserModel(JSON.parse(user));
+        }
+
+        console.log('USER LOADED FROM API');
         return await fetch(ApiHelper.getHost() + '/secured/profile/current', object)
             .then(ApiHelper.checkForResponseErrors)
             .then(response => response.json())
@@ -122,6 +129,7 @@ class User implements UserInterface {
                     return;
                 }
 
+                AsyncStorage.setItem('user', JSON.stringify(response));
                 return new UserModel(response);
             })
             .catch((error) => {

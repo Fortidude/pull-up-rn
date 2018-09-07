@@ -19,6 +19,7 @@ type Props = {
 	theme: ThemeInterface,
 	children: React.ReactNode,
 	isLoaded: boolean,
+	isNetworkChecked: boolean;
 	imageSource: any,
 	backgroundStyle: any,
 };
@@ -42,8 +43,12 @@ class Loader extends React.Component<Props, State> {
 		};
 	}
 
+	appIsReady = (props: Props) => {
+		return props.isNetworkChecked && props.isLoaded;
+	}
+
 	componentWillReceiveProps(nextProps: Props) {
-		if (nextProps.isLoaded && !this.props.isLoaded) {
+		if (this.appIsReady(nextProps)) {
 			Animated.timing(this.state.loadingProgress, {
 				toValue: 100,
 				duration: 1200,
@@ -124,7 +129,8 @@ class Loader extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
 	dispatch: state.dispatch,
-	theme: state.settings.theme
+	theme: state.settings.theme,
+	isNetworkChecked: state.app.networkChecked
 });
 
 export default connect(mapStateToProps)(Loader);

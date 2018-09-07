@@ -6,7 +6,7 @@ import { HeaderProps, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
 import Styles from './BackButton.styles';
-import RightText from './RightText';
+import LeftText from './LeftText';
 import I18n from '../../../assets/translations';
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
 import { ModalState } from '../../../store/reducers/modal';
@@ -77,7 +77,7 @@ class BackButton extends React.Component<Props, State> {
             <React.Fragment>
                 {!!this.previousTitle && <TouchableOpacity onPress={this.onBackPress} style={this.style.backButton}>
                     <Icon name={'chevron-left'} size={50} style={this.style.icon} />
-                    <RightText back={this.state.back} value={this.getPreviousTitle()} />
+                    <LeftText back={this.state.back} value={this.getPreviousTitle()} />
                 </TouchableOpacity>}
             </React.Fragment>
         );
