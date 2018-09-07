@@ -2,12 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { View, Animated, Easing } from 'react-native';
+import { Animated, Dimensions } from 'react-native';
 
 import getStyle from './Profile.styles';
 import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
 import SettingListItem from '../SettingListItem';
 import { ModalActions } from '../../store/actions/modal';
+
+const height = Dimensions.get('window').height;
 
 interface Props {
     dispatch: Dispatch;
@@ -25,7 +27,7 @@ class ProfileModal extends React.Component<Props, State> {
         super(props);
         this.style = getStyle(this.props.theme);
         this.state = {
-            profileModalTop: new Animated.Value(props.profileModalVisible ? 0 : 100)
+            profileModalTop: new Animated.Value(props.profileModalVisible ? 0 : height)
         }
     }
 
@@ -39,9 +41,8 @@ class ProfileModal extends React.Component<Props, State> {
         if (prevProps.profileModalVisible !== this.props.profileModalVisible) {
             const modalVisible = this.props.profileModalVisible;
             Animated.spring(this.state.profileModalTop, {
-                toValue: modalVisible ? 0 : 100,
-                friction: 6,
-                tension: 50,
+                toValue: modalVisible ? 0 : height,
+                useNativeDriver: true
             }).start();
         }
     }
@@ -55,13 +56,9 @@ class ProfileModal extends React.Component<Props, State> {
     }
 
     render() {
-        const profileModalTop = this.state.profileModalTop.interpolate({
-            inputRange: [0, 100],
-            outputRange: ["0%", "100%"]
-        })
 
         return (
-            <Animated.View style={[this.style.container, { top: profileModalTop }]}>
+            <Animated.View style={[this.style.container, {transform: [{ translateY: this.state.profileModalTop }] }]}>
 
                 <SettingListItem icon="cog" onPress={this.goToSettingsPage} text="Settings" rightArrow />
                 <SettingListItem icon="user" onPress={this.closeModal} text="Option 1" />

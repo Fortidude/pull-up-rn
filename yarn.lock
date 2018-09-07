@@ -4581,6 +4581,12 @@ react-native-linear-gradient@^2.4.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-motion@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-motion/-/react-native-motion-0.2.0.tgz#2a3920a52926f80ce19b9ba77a43efaf930c2fd4"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-safe-area-view@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.7.0.tgz#38f5ab9368d6ef9e5d18ab64212938af3ec39421"

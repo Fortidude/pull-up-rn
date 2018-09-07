@@ -39,7 +39,8 @@ class IconComponent extends React.Component<Props, State> {
             {
                 toValue: this.props.active ? 0 : 1,
                 duration: 150,
-                easing: Easing.linear
+                easing: Easing.linear,
+                useNativeDriver: true
             }
         ).start()
     }

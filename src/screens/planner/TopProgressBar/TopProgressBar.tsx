@@ -46,7 +46,8 @@ class TopProgressBar extends React.Component<Props, State> {
     toggleHeader = (toggle: boolean) => {
         this.offset = toggle ? 110 : 0;
         Animated.spring(this.state.swipePosition, {
-            toValue: this.offset
+            toValue: this.offset,
+            useNativeDriver: true
         }).start();
     }
 
@@ -107,10 +108,11 @@ class TopProgressBar extends React.Component<Props, State> {
                             <CircleProgress fill={75} progressWidth={3} title={"5 dni"} subTitle={I18n.t('mics.left')} />
                         </View>
                     </View>
-                    <Animated.View
-                        style={[this.style.topToggledButton]}>
-                        <Animated.View style={{transform: [{rotate: spinTogglerButton}],  position: 'absolute', bottom: 0}}>
-                        </Animated.View>
+                    <Animated.View style={[this.style.toggleButtonContainer]}>
+                        <View style={this.style.toggleButton}>
+                            <View style={[this.style.toggleButtonBar, { bottom: 10 }]}></View>
+                            <View style={[this.style.toggleButtonBar, { bottom: 8 }]}></View>
+                        </View>
                     </Animated.View>
                 </Animated.View>
             </React.Fragment>

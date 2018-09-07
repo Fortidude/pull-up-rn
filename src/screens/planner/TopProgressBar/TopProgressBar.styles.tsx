@@ -39,7 +39,7 @@ function getStyle(theme: ThemeInterface) {
         triangleCorner: {
 
           },
-        topToggledButton: {
+        toggleButtonContainer: {
             width: 120,
             height: 120,
             borderRadius: 80,
@@ -58,6 +58,16 @@ function getStyle(theme: ThemeInterface) {
             alignSelf: 'center',
             zIndex: 1
         },
+
+        toggleButton: {
+            position: 'absolute',
+             bottom: 0
+        },
+        toggleButtonBar: {
+            borderWidth: theme.borders.borderWidth,
+            borderColor: theme.borders.borderColor,
+            width: 10
+        }
     };
 }
 
