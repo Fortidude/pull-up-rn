@@ -41,14 +41,14 @@ class GoalListHeader extends React.Component<Props, State> {
 
     render() {
         return (
-            <View style={this.style.trainingHeaderContainer}>
+            <TouchableOpacity style={this.style.trainingHeaderContainer}  onPress={this.props.onButtonClick}>
                 <Text style={this.style.title}>
                     {this.props.name}
                 </Text>
-                <TouchableOpacity style={this.style.toggleButton} onPress={this.props.onButtonClick}>
+                <View style={this.style.toggleButton}>
                     <IconComponent active={!!this.props.active} />
-                </TouchableOpacity>
-            </View>
+                </View>
+            </TouchableOpacity>
         );
     }
 }

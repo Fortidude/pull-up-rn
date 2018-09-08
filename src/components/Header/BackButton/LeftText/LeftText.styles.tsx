@@ -2,7 +2,9 @@ import { ThemeInterface } from '../../../../assets/themes';
 
 function getStyle(theme: ThemeInterface) {
     return {
-        text: {fontSize: theme.fonts.fontSize}
+        text: {
+            fontSize: theme.fonts.fontSize
+        }
     };
 }
 

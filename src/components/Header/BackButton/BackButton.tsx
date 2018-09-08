@@ -36,22 +36,50 @@ class BackButton extends React.Component<Props, State> {
         }
     }
 
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
+        const nextRoute = nextProps.headerProps.scene.route.routeName.toLocaleLowerCase();
+        const currentRoute = this.getRawCurrentTitle();
+
+        const willProfileModal = nextProps.modal.profileModalVisible;
+        const isProfileModal = this.props.modal.profileModalVisible;
+
+        return nextRoute !== currentRoute || willProfileModal !== isProfileModal || nextProps.theme.name !== this.props.theme.name;
+    }
+
     componentWillReceiveProps(nextProps: Props) {
-        const profileModalVisible = nextProps.modal.profileModalVisible;
-        if (profileModalVisible) {
-            this.previousTitle = 'planner';
-        } else if (!!nextProps.headerProps.scene.index) {
-            let currentIndex = nextProps.headerProps.scene.index;
-            this.previousTitle = nextProps.headerProps.scenes[currentIndex - 1].route.routeName;
-        } else {
-            this.previousTitle = '';
-        }
+        this.setupTitle(nextProps);
 
         this.setState({ back: false });
 
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
         }
+    }
+
+    setupTitle = (props: Props) => {
+        const profileModalVisible = props.modal.profileModalVisible;
+        const nextTitle = props.headerProps.scene.route.routeName.toLocaleLowerCase();
+        const indexExist = !!props.headerProps.scene.index;
+
+        if (profileModalVisible && nextTitle === 'planner') {
+            this.previousTitle = 'planner';
+            return;
+        }
+
+        if (indexExist) {
+            const currentIndex = props.headerProps.scene.index;
+            let previousTitle = props.headerProps.scenes[currentIndex - 1].route.routeName.toLocaleLowerCase();
+            if (previousTitle === 'planner' && profileModalVisible) {
+                previousTitle = 'profile';
+            }
+
+            console.log(previousTitle, profileModalVisible);
+            this.previousTitle = previousTitle;
+            return;
+        }
+
+        this.previousTitle = '';
+
     }
 
     getRawCurrentTitle = () => this.props.headerProps.scene.route.routeName;

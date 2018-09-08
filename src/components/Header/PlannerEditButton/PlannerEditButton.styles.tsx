@@ -9,7 +9,10 @@ function getStyle(theme: ThemeInterface) {
             justifyContent: 'flex-start',
             alignItems: 'flex-end',
         },
-        icon: { marginLeft: -15, marginRight: -15, marginBottom: -13, marginTop: 22 }
+        text: {
+            fontSize: theme.fonts.fontSize,
+            color: theme.colors.main
+        }
     };
 }
 

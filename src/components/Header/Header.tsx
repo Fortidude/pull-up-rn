@@ -9,12 +9,14 @@ import I18n from '../../assets/translations';
 import BackButton from './BackButton';
 import { ThemeInterface, ThemeValueInterface } from '../../assets/themes/index';
 import RightIconNotification from './RightIconNotification';
+import PlannerEditButton from './PlannerEditButton';
 
 interface Props {
     headerProps: HeaderProps;
     dispatch: Dispatch;
     theme: ThemeInterface;
     isOnline: boolean;
+    profileModalVisible: boolean;
 }
 
 interface State {}
@@ -39,11 +41,20 @@ class Header extends React.Component<Props, State> {
         return I18n.t(`routes.${routeName.toLocaleLowerCase()}`);
     };
 
+    showRightButton = () => {
+        const routeName = this.getRawCurrentTitle().toLocaleLowerCase();
+        if (routeName === 'planner' && !this.props.profileModalVisible) {
+            return <PlannerEditButton/>
+        } 
+
+        return <BackButton headerProps={this.props.headerProps}/>
+    }
+
     render() {
         return (
             <Animated.View style={[this.style.header]}>
                 <View style={this.style.left.container}>
-                    <BackButton headerProps={this.props.headerProps}/>
+                    {this.showRightButton()}
                 </View>
                 <View style={this.style.center.container}>
                     <Text style={this.style.center.text} numberOfLines={1}>{this.getCurrentTitle()}</Text>
@@ -59,7 +70,8 @@ class Header extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    isOnline: state.app.isOnline
+    isOnline: state.app.isOnline,
+    profileModalVisible: state.modal.profileModalVisible,
 });
 
 export default connect(mapStateToProps)(Header);

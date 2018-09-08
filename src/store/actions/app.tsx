@@ -1,7 +1,8 @@
 export enum AppTypes {
     appLoaded = '[APP] APP LOADED',
     isOnline = '[APP] IS ONLINE',
-    isOffline = '[APP] IS OFFLINE'
+    isOffline = '[APP] IS OFFLINE',
+    togglePlannerEdit = '[APP] TOGGLE PLANNER EDIT'
 }
 
 export const AppActions = {
@@ -16,5 +17,9 @@ export const AppActions = {
     isOffline: () => ({
         type: AppTypes.isOffline,
         payload: {}
+    }),
+    togglePlannerEdit: (edit: boolean) => ({
+        type: AppTypes.togglePlannerEdit,
+        payload: {edit: edit}
     })
 };

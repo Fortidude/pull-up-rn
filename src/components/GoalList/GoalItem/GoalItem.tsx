@@ -13,6 +13,7 @@ import SwipeItem from '../../SwipeItem';
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+    plannerEditMode: boolean;
 
     goal: Goal;
 
@@ -31,15 +32,23 @@ class ExerciseItem extends React.Component<Props> {
     }
 
     componentDidMount() {
-        this.refs.swipeItem.getSwipePosition().addListener(({value}) => {
+        this.refs.swipeItem.getSwipePosition().addListener(({ value }) => {
             this.swipeItemPosition.setValue(value);
         });
-    
     }
 
     componentWillReceiveProps(nextProps: Props) {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
+        }
+
+
+        if (nextProps.plannerEditMode && !this.props.plannerEditMode) {
+            setTimeout(() => {
+                this.refs.swipeItem.forceOpenRight();
+            }, 300);
+        } else if (!nextProps.plannerEditMode && this.props.plannerEditMode) {
+            this.refs.swipeItem.forceClose();
         }
     }
 
@@ -80,11 +89,11 @@ class ExerciseItem extends React.Component<Props> {
                         </View>
                     </TouchableOpacity>
                     <View style={this.style.summaryContent}>
-                        <Animated.View style={[this.style.summaryLeftContent, {left: summaryContentLeft}]}>
+                        <Animated.View style={[this.style.summaryLeftContent, { left: summaryContentLeft }]}>
                             <Text style={this.style.title}>{this.props.goal.exercise.name}</Text>
                             <Text style={this.style.subTitle}>Weight / Sets</Text>
                         </Animated.View>
-                        <Animated.View style={[this.style.summaryRightContent, {opacity: opacityContentRight}]}>
+                        <Animated.View style={[this.style.summaryRightContent, { opacity: opacityContentRight }]}>
                             <Text style={this.style.infoTitleTop}>Typ: 5x5</Text>
                             <Text style={this.style.infoTitleBottom}>Brakuje: 2 sety</Text>
                         </Animated.View>
@@ -97,7 +106,8 @@ class ExerciseItem extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    plannerEditMode: state.app.plannerEditMode
 });
 
 export default connect(mapStateToProps)(ExerciseItem);

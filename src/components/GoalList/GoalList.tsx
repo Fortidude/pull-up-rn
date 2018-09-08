@@ -13,6 +13,7 @@ import GoalListContainer from './GoalListContainer/GoalListContainer';
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+    plannerEditMode: boolean;
 
     training: Training
     isFirst?: boolean;
@@ -41,6 +42,14 @@ class ExerciseList extends React.Component<Props, State> {
     componentWillReceiveProps(nextProps: Props) {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
+        }
+
+        if (nextProps.plannerEditMode && !this.props.plannerEditMode) {
+            this.setState({ toggled: true });
+        } else if (!nextProps.plannerEditMode && this.props.plannerEditMode) {
+            setTimeout(() => {
+                this.setState({ toggled: false });
+            }, 200);
         }
     }
 
@@ -71,7 +80,8 @@ class ExerciseList extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    plannerEditMode: state.app.plannerEditMode
 });
 
 export default connect(mapStateToProps)(ExerciseList);

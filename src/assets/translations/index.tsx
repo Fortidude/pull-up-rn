@@ -62,9 +62,12 @@ let translations = {
 
         buttons: {
             cancel: "Anuluj",
+            close: "Zamknij",
+            edit: "Edycja",
+            finish: "Zakończ",
             save: "Zapisz",
             logout: "Wyloguj się",
-            ok: 'OK'
+            ok: "OK"
         },
 
         errors: {

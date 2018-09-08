@@ -19,6 +19,7 @@ interface State {
 
 class SwipeItem extends React.Component<Props, State> {
     style: ThemeValueInterface;
+    closed = true;
     offset = 0;
 
     constructor(props: Props) {
@@ -39,30 +40,40 @@ class SwipeItem extends React.Component<Props, State> {
     }
 
     forceOpenRight = () => {
+        this.closed = false;
         Animated.spring(this.state.swipePosition, {
-            toValue: this.getMaxLeftSwipe()
-        }).start();   
+            toValue: this.getMaxLeftSwipe(),
+            friction: 5,
+            tension: 40
+        }).start();
     }
 
     forceClose = () => {
+        this.closed = true;
         Animated.spring(this.state.swipePosition, {
-            toValue: 0
-        }).start();   
+            toValue: 0,
+            friction: 5,
+            tension: 40
+        }).start();
     }
 
-    close = () => {
+    toggle = () => {
         const currentValue = this.state.swipePosition._value;
         const maxLeftNeeded = this.getMaxLeftSwipe();
-        
+
         let toValue = 0
-        let requiredRatio = currentValue === 0 ? 0.1 : 0.9
+        let requiredRatio = this.closed ? 0.1 : 0.9
         if (currentValue <= maxLeftNeeded * requiredRatio) {
             toValue = maxLeftNeeded;
         }
 
+        this.closed = toValue === 0;
+
         this.offset = toValue;
         Animated.spring(this.state.swipePosition, {
-            toValue: toValue
+            toValue: toValue,
+            friction: 5,
+            tension: 40
         }).start();
     }
 
@@ -100,6 +111,7 @@ class SwipeItem extends React.Component<Props, State> {
         return this.state.swipePosition.interpolate({
             inputRange: [maxSwipe, 0],
             outputRange: [-(maxSwipe), 0],
+            extrapolate: 'extend'
         });
     }
 
@@ -109,6 +121,7 @@ class SwipeItem extends React.Component<Props, State> {
         return this.state.swipePosition.interpolate({
             inputRange: [maxSwipe, 0],
             outputRange: [buttonWidth, 0],
+            extrapolate: 'extend'
         })
     }
 
@@ -126,20 +139,20 @@ class SwipeItem extends React.Component<Props, State> {
                     this.props.onMoveBegin();
                 }
             },
-            onPanResponderMove: (evt, {moveX, moveY, dx, dy}) => {
-                this.state.swipePosition.setValue(dx + this.offset);
+            onPanResponderMove: (evt, { moveX, moveY, dx, dy }) => {
+                this.state.swipePosition.setValue(Math.round(dx + this.offset));
             },
             onPanResponderRelease: () => {
                 if (this.props.onMoveEnd) {
                     this.props.onMoveEnd();
                 }
-                this.close();
+                this.toggle();
             },
             onPanResponderTerminate: () => {
                 if (this.props.onMoveEnd) {
                     this.props.onMoveEnd();
                 }
-                this.close();
+                this.toggle();
             }
         });
     }
