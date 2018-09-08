@@ -71,6 +71,7 @@ function getStyle(theme: ThemeInterface) {
         buttonReorderContainer: {
             justifyContent: 'center',
             alignItems: 'center',
+            flex: 1,
             flexDirection: 'row'
         },
         iconReorder: {
@@ -81,7 +82,7 @@ function getStyle(theme: ThemeInterface) {
         buttonRemoveContainer: {
             justifyContent: 'center',
             alignItems: 'center',
-
+            flex: 1,
             flexDirection: 'row'
         },
         iconRemove: {

@@ -5,7 +5,7 @@ const width = Dimensions.get('window').width;
 const height = 110;
 const circleSize = 80;
 const circlePositionFromEdge = ((width / 2) - circleSize) * 2 / 3;
-const circlePositionFromTop = (110 - circleSize) / 2;
+const circlePositionFromBottom = (110 - circleSize) / 2;
 function getStyle(theme: ThemeInterface) {
     return {
 
@@ -13,21 +13,37 @@ function getStyle(theme: ThemeInterface) {
         topContainer: {
             backgroundColor: theme.colors.backgroundColor,
             top: 0,
-            height: 110,
+            height: height,
             width: width,
             position: 'absolute',
             borderBottomWidth: theme.borders.borderWidth,
             borderBottomColor: theme.borders.borderColor
         },
-        topCirclesContainer: {
+
+        contentContainer: {
             backgroundColor: theme.colors.backgroundColor,
             zIndex: 2,
             flex: 1,
             flexDirection: 'row'
         },
+        background: {
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            top: -600,
+            justifyContent: 'flex-end',
+            backgroundColor: theme.colors.backgroundColor,
+        },
+        circlesContainer: {
+            flexDirection: 'row',
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: circlePositionFromBottom
+        },
         topCircleContainer: {
             flex: 1,
-            top: circlePositionFromTop,
         },
         topCircleLeft: {
             paddingLeft: circlePositionFromEdge
@@ -42,16 +58,13 @@ function getStyle(theme: ThemeInterface) {
         toggleButtonContainer: {
             width: 120,
             height: 120,
-            borderRadius: 80,
+            borderRadius: 50,
             backgroundColor: theme.colors.backgroundColor,
             borderWidth: theme.borders.borderWidth,
             borderColor: theme.borders.borderColor,
-          //  transform: [
-          //    {scaleX: 2}
-          //  ],
             position: 'absolute',
-            marginLeft: (width-60) / 2,
-            marginRight: (width-60) / 2,
+            marginLeft: (width - 60) / 2,
+            marginRight: (width - 60) / 2,
             bottom: -20,
             alignItems: 'center',
             justifySelf: 'center',

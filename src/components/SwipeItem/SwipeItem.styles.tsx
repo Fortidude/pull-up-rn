@@ -9,7 +9,7 @@ function getStyle() {
         rightButtonsContainer: {
             flexDirection: 'row',
             overflow: 'hidden',
-            position: 'relative'
+           // position: 'relative'
         }
     };
 }

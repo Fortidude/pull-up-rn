@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, Animated, TouchableOpacity, PanResponder } from 'react-native';
+import { View, Animated, PanResponder, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
@@ -8,6 +8,7 @@ import Styles from './TopProgressBar.styles';
 import CircleProgress from '../../../components/CircleProgress';
 import I18n from '../../../assets/translations';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import Input from '../../../components/Input';
 
 
 interface Props {
@@ -22,6 +23,7 @@ interface State {
 class TopProgressBar extends React.Component<Props, State> {
     style: ThemeValueInterface;
     offset = 0;
+    closed = true;
     static defaultProps = {
         scrollViewPositionY: new Animated.Value(0)
     }
@@ -30,7 +32,7 @@ class TopProgressBar extends React.Component<Props, State> {
         super(props);
 
         this.style = Styles(this.props.theme);
-        this.props.scrollViewPositionY.addListener(() => this.toggleHeader(false));
+        this.props.scrollViewPositionY.addListener(() => this.forceClose());
 
         this.state = {
             swipePosition: new Animated.Value(0)
@@ -43,32 +45,65 @@ class TopProgressBar extends React.Component<Props, State> {
         }
     }
 
-    toggleHeader = (toggle: boolean) => {
-        this.offset = toggle ? 110 : 0;
+    forceClose = async () => {
+        this.offset = 0;
+        this.closed = true;
         Animated.spring(this.state.swipePosition, {
-            toValue: this.offset,
+            toValue: 0,
+            useNativeDriver: true
+        }).start();
+    }
+
+
+    toggleHeader = async () => {
+        const currentPosition = this.state.swipePosition._value;
+        const maxHeight = this.style.topContainerHeight;
+
+        let toValue = 0
+        let requiredRatio = this.closed ? 0.1 : 0.9
+        console.log(currentPosition, maxHeight, requiredRatio);
+        if (currentPosition >= maxHeight * requiredRatio) {
+            toValue = maxHeight;
+        }
+
+        if (currentPosition >= maxHeight * 1.2 && !this.closed) {
+            toValue = 0;
+        }
+
+        this.closed = toValue === 0;
+        this.offset = toValue;
+
+        if (currentPosition === maxHeight || currentPosition === 0) {
+            return;
+        }
+
+        Animated.spring(this.state.swipePosition, {
+            toValue: toValue,
+
+            friction: 5,
+            tension: 40,
             useNativeDriver: true
         }).start();
     }
 
     render() {
-        const clampedValue = Animated.diffClamp(
-            this.state.swipePosition.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 1],
-                extrapolateLeft: 'clamp',
-            }), 0, this.style.topContainerHeight
-        );
-        const headerTranslate = clampedValue.interpolate({
+        // const clampedValue = Animated.diffClamp(
+        //     this.state.swipePosition.interpolate({
+        //         inputRange: [0, 1],
+        //         outputRange: [0, 1],
+        //         extrapolateLeft: 'clamp',
+        //     }), 0, this.style.topContainerHeight
+        // );
+        const headerTranslate = this.state.swipePosition.interpolate({
             inputRange: [0, this.style.topContainerHeight],
             outputRange: [-(this.style.topContainerHeight), 0],
-            extrapolate: 'clamp',
+            //extrapolate: 'clamp',
         });
-        const spinTogglerButton = clampedValue.interpolate({
-            inputRange: [0, this.style.topContainerHeight],
-            outputRange: ["0deg", "180deg"],
-            extrapolate: 'clamp',
-        })
+        // const spinTogglerButton = clampedValue.interpolate({
+        //     inputRange: [0, this.style.topContainerHeight],
+        //     outputRange: ["0deg", "180deg"],
+        //     extrapolate: 'clamp',
+        // })
 
         const _panResponder = PanResponder.create({
             onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -83,29 +118,30 @@ class TopProgressBar extends React.Component<Props, State> {
             onPanResponderMove: (evt, gestureState) => {
                 this.state.swipePosition.setValue(gestureState.dy + this.offset);
             },
-            onPanResponderRelease: (evt, gestureState) => {
-                const offset = gestureState.dy + this.offset;
-                this.offset = offset > 110 ? 110 : offset < -110 ? 0 : Math.abs(offset);
-                if (this.offset <= 50 && this.offset !== 0) {
-                    this.toggleHeader(false);
-                } else if (this.offset > 50 && this.offset !== 110) {
-                    this.toggleHeader(true);
-                }
+            onPanResponderRelease: () => {
+                this.toggleHeader();
             },
+            onPanResponderTerminate: () => {
+                this.toggleHeader();
+            }
         });
 
         return (
             <React.Fragment>
                 <Animated.View {..._panResponder.panHandlers} style={[this.style.topContainer, {
-                    transform: [{ translateY: headerTranslate }],
+                    transform: [{ translateY: (headerTranslate) }],
                     zIndex: 1
                 }]}>
-                    <View style={this.style.topCirclesContainer}>
-                        <View style={[this.style.topCircleContainer, this.style.topCircleLeft]}>
-                            <CircleProgress fill={33} progressWidth={2} subTitle={I18n.t('mics.effectiveness')} />
-                        </View>
-                        <View style={[this.style.topCircleContainer, this.style.topCircleRight]}>
-                            <CircleProgress fill={75} progressWidth={3} title={"5 dni"} subTitle={I18n.t('mics.left')} />
+                    <View style={this.style.contentContainer}>
+                        <View style={this.style.background}>
+                            <View style={this.style.circlesContainer}>
+                                <View style={[this.style.topCircleContainer, this.style.topCircleLeft]}>
+                                    <CircleProgress fill={33} progressWidth={2} subTitle={I18n.t('mics.effectiveness')} />
+                                </View>
+                                <View style={[this.style.topCircleContainer, this.style.topCircleRight]}>
+                                    <CircleProgress fill={75} progressWidth={3} title={"5 dni"} subTitle={I18n.t('mics.left')} />
+                                </View>
+                            </View>
                         </View>
                     </View>
                     <Animated.View style={[this.style.toggleButtonContainer]}>

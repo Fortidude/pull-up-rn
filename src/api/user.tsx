@@ -37,7 +37,6 @@ class User implements UserInterface {
             .then(response => response.json())
             .then(ApiHelper.checkForResponseErrors)
             .then((response) => {
-                console.log(response);
                 if (!response.token) {
                     throw "Token not received"
                 }
@@ -116,11 +115,9 @@ class User implements UserInterface {
 
         let user = await AsyncStorage.getItem('user');
         if (user) {
-            console.log('USER LOADED FROM STORAGE');
             return new UserModel(JSON.parse(user));
         }
 
-        console.log('USER LOADED FROM API');
         return await fetch(ApiHelper.getHost() + '/secured/profile/current', object)
             .then(ApiHelper.checkForResponseErrors)
             .then(response => response.json())

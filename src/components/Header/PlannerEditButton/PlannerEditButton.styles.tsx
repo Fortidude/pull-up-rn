@@ -10,6 +10,7 @@ function getStyle(theme: ThemeInterface) {
             alignItems: 'flex-end',
         },
         text: {
+            marginLeft: 10,
             fontSize: theme.fonts.fontSize,
             color: theme.colors.main
         }

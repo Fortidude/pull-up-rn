@@ -30,7 +30,6 @@ class AppManager extends React.Component<Props> {
         data.pingServer()
                 .then(response => {
                     if (!this.props.isOnline || !this.props.isNetworkChecked) {
-                        console.log(this.props);
                         this.props.dispatch(AppActions.isOnline());
                     }
                 })

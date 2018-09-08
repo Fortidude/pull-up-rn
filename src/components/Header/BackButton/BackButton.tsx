@@ -73,7 +73,6 @@ class BackButton extends React.Component<Props, State> {
                 previousTitle = 'profile';
             }
 
-            console.log(previousTitle, profileModalVisible);
             this.previousTitle = previousTitle;
             return;
         }

@@ -16,7 +16,7 @@ interface Props {
     planner: Planner;
     plannerLoaded: boolean;
     isOnline: boolean;
-    onScroll?: (position: number) => void;
+    scrollBegin?: () => void;
 }
 
 interface State {
@@ -27,7 +27,7 @@ class PlannerList extends React.Component<Props, State> {
     flatListReference: any;
 
     static defaultProps = {
-        onScroll: (position: number) => { }
+        scrollBegin: () => { }
     }
 
     constructor(props: Props) {
@@ -56,14 +56,16 @@ class PlannerList extends React.Component<Props, State> {
         return (
             <View style={this.style.listContainer}>
                 <FlatList
+                keyboardDismissMode={"interactive"}
+                keyboardShouldPersistTaps="never"
                     ref={ref => this.flatListReference = ref}
+                    onScrollBeginDrag={this.props.scrollBegin}
                     scrollEventThrottle={1}
                     showsVerticalScrollIndicator={false}
                     data={this.props.planner.trainings}
                     renderItem={({ item, index }) => (
                         <GoalList
                             toggleParentScroll={(enable) => {
-                                console.log(`ENABLE: ${enable}`);
                                 this.flatListReference.getScrollResponder().setNativeProps({ scrollEnabled: enable })
                             }}
                             training={item}

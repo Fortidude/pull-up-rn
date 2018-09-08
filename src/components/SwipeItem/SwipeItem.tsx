@@ -68,7 +68,6 @@ class SwipeItem extends React.Component<Props, State> {
         }
 
         this.closed = toValue === 0;
-
         this.offset = toValue;
         Animated.spring(this.state.swipePosition, {
             toValue: toValue,
