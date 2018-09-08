@@ -1,14 +1,18 @@
 import {StyleSheet} from 'react-native';
 
 const mainColor = '#4E43F9';
-const redColor = '#FF3B30'
+const redColor = '#FF3B30';
+const yellowColor = '#FF9500';
 const greyColor = '#707070';
+const greenColor = '#27AE60';
 
 const mainFontFamily = "Avenir-Light";
 
 const colors = {
     main: mainColor,
     danger: redColor,
+    warning: yellowColor,
+    success: greenColor,
 
     textColor: '#000000',
     subTextColor: greyColor,

@@ -14,7 +14,7 @@ interface AppState {
 const initialState: AppState = {
     loaded: false,
     networkChecked: false,
-    isOnline: false
+    isOnline: true
 };
 
 function app(state = initialState, action: AnyAction): AppState {

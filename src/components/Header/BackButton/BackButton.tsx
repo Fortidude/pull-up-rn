@@ -47,8 +47,6 @@ class BackButton extends React.Component<Props, State> {
             this.previousTitle = '';
         }
 
-        console.log(this.previousTitle);
-
         this.setState({ back: false });
 
         if (nextProps.theme.name !== this.props.theme.name) {

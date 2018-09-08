@@ -16,6 +16,8 @@ interface Props {
 
     training: Training
     isFirst?: boolean;
+
+    toggleParentScroll?: (enable: boolean) => void,
 }
 
 interface State {
@@ -55,7 +57,10 @@ class ExerciseList extends React.Component<Props, State> {
                 <GoalListContainer active={this.state.toggled} height={this.countHeight()}>
                     <React.Fragment>
                         {this.props.training.goals.map((goal, key) =>
-                            <GoalItem goal={goal} key={key} />
+                            <GoalItem
+                                toggleParentScroll={this.props.toggleParentScroll}
+                                goal={goal}
+                                key={key} />
                         )}
                     </React.Fragment>
                 </GoalListContainer>

@@ -3,6 +3,12 @@ import { ThemeInterface } from '../../../assets/themes';
 
 function getStyle(theme: ThemeInterface) {
     return {
+        swipeout: {
+            backgroundColor: 'transparent',
+
+            borderBottomWidth: theme.borders.borderWidth,
+            borderBottomColor: theme.borders.borderColor
+        },
         exerciseContainer: {
             backgroundColor: 'transparent',
             height: 70,
@@ -10,7 +16,10 @@ function getStyle(theme: ThemeInterface) {
         },
         plusIconContainer: {
             width: 70,
-            height: 70,
+            height: 71,
+            bottom: -1,
+            //position: 'absolute'
+            backgroundColor: 'white',
             justifyContent: 'center',
             alignItems: 'center'
         },
@@ -23,9 +32,7 @@ function getStyle(theme: ThemeInterface) {
             width: '100%',
             paddingRight: 18,
             flexDirection: 'row',
-            flex: 1,
-            borderBottomWidth: theme.borders.borderWidth,
-            borderBottomColor: theme.borders.borderColor
+            flex: 1
         },
         summaryLeftContent: {
             justifyContent: 'center',
@@ -60,6 +67,27 @@ function getStyle(theme: ThemeInterface) {
             fontFamily: theme.fonts.mainFontFamily,
             color: theme.colors.subTextColor,
             marginTop: 1,
+        },
+        buttonReorderContainer: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 1,
+            flexDirection: 'row'
+        },
+        iconReorder: {
+            transform: [{rotate: '90deg'}],
+            color: theme.colors.warning,
+            fontSize: 20,
+        },
+        buttonRemoveContainer: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 1,
+            flexDirection: 'row'
+        },
+        iconRemove: {
+            color: theme.colors.danger,
+            fontSize: 20,
         }
     };
 }

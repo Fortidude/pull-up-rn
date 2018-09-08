@@ -12,7 +12,8 @@ interface Props {
 }
 
 interface State {
-    opacity: Animated.Value;
+    offlineOpacity: Animated.Value;
+    onlineOpacity: Animated.Value;
     delay: number;
 }
 
@@ -26,7 +27,8 @@ class RightIconNotification extends React.Component<Props, State> {
 
         this.style = Styles(this.props.theme);
         this.state = {
-            opacity: new Animated.Value(0),
+            offlineOpacity: new Animated.Value(0),
+            onlineOpacity: new Animated.Value(0),
             delay: 750
         }
     }
@@ -36,7 +38,9 @@ class RightIconNotification extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        this.animate();
+        if (!this.props.isOnline) {
+            this.runAnimateInterval();
+        }
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -44,29 +48,61 @@ class RightIconNotification extends React.Component<Props, State> {
             this.style = Styles(nextProps.theme);
         }
 
-        if (nextProps.isOnline && !this.props.isOnline) {
-            this.animate();
+        if (!nextProps.isOnline) {
+            this.runAnimateInterval();
+        } else if (nextProps.isOnline && !this.props.isOnline) {
+            this.animateOnline();
         }
     }
 
-    animate = () => {
+    runAnimateInterval = () => {
         clearInterval(this.interval);
 
         this.interval = setInterval(() => {
             this.number++;
-            const value = this.state.opacity._value;
+            const offlineOpacity = this.state.offlineOpacity._value;
 
-            if (this.number >= 5 || value === 0) {
+            if (this.number >= 5 || offlineOpacity === 0) {
                 this.number = 0;
-                Animated.timing(this.state.opacity, {
-                    toValue: value === 0 ? 1 : 0,
-                    duration: this.state.delay - 1
-                }).start();
+                this.animate(offlineOpacity === 0 ? 1 : 0);
             }
         }, this.state.delay + 1);
     }
 
+    animate = (value: number) => {
+        Animated.timing(this.state.offlineOpacity, {
+            toValue: value,
+            duration: this.state.delay - 1
+        }).start();
+    }
+
+    animateOnline = () => {
+        clearInterval(this.interval);
+       // const offlineOpacity = this.state.offlineOpacity._value;
+
+        Animated.sequence([
+            Animated.timing(this.state.offlineOpacity, {
+                toValue: 0,
+                duration: this.state.delay - 1
+            }),
+            Animated.timing(this.state.onlineOpacity, {
+                toValue: 1,
+                duration: this.state.delay - 1,
+                delay: this.state.delay + 1
+            }),
+            Animated.timing(this.state.onlineOpacity, {
+                toValue: 0,
+                duration: this.state.delay - 1,
+                delay: this.state.delay * 2 + 2
+            })
+        ]).start();
+    }
+
     alertInformation = () => {
+        if (this.props.isOnline) {
+            return;
+        }
+        
         Alert.alert(I18n.t("errors.no_internet_connection"), I18n.t(`errors.no_internet_connection_text`),
             [{ text: I18n.t('buttons.ok'), onPress: () => { } }],
             { cancelable: false }
@@ -75,9 +111,12 @@ class RightIconNotification extends React.Component<Props, State> {
 
     render() {
         return (
-            <TouchableOpacity onPress={this.alertInformation}>
-                <Animated.View style={[this.style.container, { opacity: this.state.opacity }]}>
+            <TouchableOpacity style={this.style.container} onPress={this.alertInformation}>
+                <Animated.View style={[{ position: 'absolute', opacity: this.state.offlineOpacity }]}>
                     <Icon name="wifi-off" size={15} color={this.props.theme.colors.danger} />
+                </Animated.View>
+                <Animated.View style={[{ position: 'absolute', opacity: this.state.onlineOpacity }]}>
+                    <Icon name="wifi" size={15} color={this.props.theme.colors.success} />
                 </Animated.View>
             </TouchableOpacity>
         );
