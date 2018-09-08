@@ -1,9 +1,7 @@
 import React, { ReactFragment } from 'react';
-import { Dispatch } from 'redux';
 import { Animated, PanResponder, View, Text } from 'react-native';
-import { connect } from 'react-redux';
 import Styles from './SwipeItem.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../assets/themes';
+import { ThemeValueInterface } from '../../assets/themes';
 
 interface Props {
     children: ReactFragment;
@@ -102,7 +100,6 @@ class SwipeItem extends React.Component<Props, State> {
         return this.state.swipePosition.interpolate({
             inputRange: [maxSwipe, 0],
             outputRange: [-(maxSwipe), 0],
-            extrapolate: 'clamp'
         });
     }
 
@@ -112,7 +109,6 @@ class SwipeItem extends React.Component<Props, State> {
         return this.state.swipePosition.interpolate({
             inputRange: [maxSwipe, 0],
             outputRange: [buttonWidth, 0],
-            extrapolate: 'clamp'
         })
     }
 

@@ -53,7 +53,6 @@ class ExerciseItem extends React.Component<Props> {
             </TouchableOpacity>
         ];
 
-
         const summaryContentLeft = this.swipeItemPosition.interpolate({
             inputRange: [-100, 0],
             outputRange: [50, 0],

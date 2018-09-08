@@ -48,25 +48,25 @@ function getStyle(theme: ThemeInterface) {
             fontFamily: theme.fonts.mainFontFamily,
             fontWeight: '500',
             color: theme.colors.textColor,
-            marginBottom: 1,
+            lineHeight: 22
         },
         subTitle: {
             fontSize: theme.fonts.fontH4Size,
             fontFamily: theme.fonts.mainFontFamily,
             color: theme.colors.subTextColor,
-            marginTop: 1,
+            lineHeight: 22
         },
         infoTitleTop: {
             fontSize: theme.fonts.fontH4Size,
             fontFamily: theme.fonts.mainFontFamily,
             color: theme.colors.subTextColor,
-            marginBottom: 1,
+            lineHeight: 22
         },
         infoTitleBottom: {
             fontSize: theme.fonts.fontH4Size,
             fontFamily: theme.fonts.mainFontFamily,
             color: theme.colors.subTextColor,
-            marginTop: 1,
+            lineHeight: 22
         },
         buttonReorderContainer: {
             justifyContent: 'center',
