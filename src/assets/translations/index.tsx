@@ -9,7 +9,8 @@ let translations = {
     pl: {
         mics: {
             effectiveness: "skuteczność",
-            left: "pozostało"
+            left: "pozostało",
+            of: 'z'
         },
 
         login: {
@@ -30,6 +31,10 @@ let translations = {
         settings: {
             theme: "Motyw kolorystyczny",
             language: "Język"
+        },
+
+        planner: {
+            done_of: "Wykonano",
         },
 
         themes: {
@@ -55,12 +60,15 @@ let translations = {
         },
 
         fields: {
+            additional_weight: "Dodatkowy ciężar? (KG)",
             email: "Email",
+            number_of_reps_done: "Ilość wykonanych powtórzeń",
             password: "Hasło",
-            password_repeat: "Powtórz hasło"
+            password_repeat: "Powtórz hasło",
         },
 
         buttons: {
+            add_set: "Dodaj set",
             cancel: "Anuluj",
             close: "Zamknij",
             edit: "Edycja",

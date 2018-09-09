@@ -41,6 +41,11 @@ class FormContainer extends React.Component<Props, State> {
         this.keyboardDidHideListener = Keyboard.addListener(keyboardHideEvent, this._keyboardDidHide);
     }
 
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    }
+
     componentWillReceiveProps(nextProps: Props) {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = getStyle(nextProps.theme);

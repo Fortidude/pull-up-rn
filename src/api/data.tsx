@@ -28,7 +28,8 @@ class Data implements DataInterface {
     }
 
     public pingServer = async (): Promise<any> => {
-        return await this.getFetchData('/');
+        return await fetch(ApiHelper.getHost(), { method: 'GET' })
+            .then(() => { return true });
     }
 
     private getFetchData = async (url: string, cacheKey?: string) => {

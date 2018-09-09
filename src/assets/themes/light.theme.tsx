@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 
 const mainColor = '#4E43F9';
 const redColor = '#FF3B30';
+const blueColor = '#007AFF',
 const yellowColor = '#FF9500';
 const greyColor = '#707070';
 const greenColor = '#27AE60';
@@ -13,6 +14,7 @@ const colors = {
     danger: redColor,
     warning: yellowColor,
     success: greenColor,
+    blue: blueColor,
 
     textColor: '#000000',
     subTextColor: greyColor,
@@ -22,17 +24,24 @@ const colors = {
     greyBackgroundColor: '#F4F6F7',
 
     borderColor: 'rgba(112, 112, 112, 0.2)',
+    borderLightColor: 'rgba(8, 20, 31, 0.13)',
     borderDarkColor: 'rgba(112, 112, 112, 0.5)',
 
     shadowColor: '#000000',
+    modalBackgroundColor: 'rgba(0, 0, 0, 0.4)',
 
     plannerFooterButtonColor: greyColor,
     plannerFooterAvatarBackground: 'rgba(189, 189, 189, 0.8)',
     plannerFooterAvatarShadow: '#000000',
 
-    inputBackground: 'rgba(124,152,253, 0.87)',
-    inputTextColor: '#FFF',
-    inputPlaceholderTextColor: '#E5E5E5',
+    authInputBackground: 'rgba(124,152,253, 0.87)',
+    authInputTextColor: '#FFF',
+    authInputPlaceholderTextColor: '#E5E5E5',
+
+    formLabelColor: '#636366',
+    formInputBackground: '#ffffff',
+    formInputTextColor: '#000000',
+    formInputPlaceholderTextColor: greyColor,
 
     buttonBigBackgroundColor: '#FFFFFF',
     buttonBigShadowColor: '#000000',
@@ -48,6 +57,7 @@ const colors = {
 const borders = {
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: colors.borderColor,
+    borderLightColor: colors.borderLightColor,
     borderDarkColor: colors.borderDarkColor
 };
 

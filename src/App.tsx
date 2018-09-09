@@ -69,8 +69,8 @@ export default class App extends React.Component<Props, State> {
 
                         <AppWithNavigationState />
                         <AppManager />
-                        <ModalManager />
                         <FooterBar />
+                        <ModalManager />
 
                     </PageLoaderAnimation>
                 </Provider>

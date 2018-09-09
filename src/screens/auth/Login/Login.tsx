@@ -79,6 +79,7 @@ class Login extends Component<Props, State> {
                 <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={80}>
                     <FormContainer keyboardPadding={30}>
                         <Input
+                            authStyle
                             value={this.state.email}
                             keyboardType={"email-address"}
                             placeholder={I18n.t('fields.email')}
@@ -86,6 +87,7 @@ class Login extends Component<Props, State> {
                                 this.setState({ email: value });
                             }} />
                         <Input
+                            authStyle
                             value={this.state.password}
                             password={true}
                             placeholder={I18n.t('fields.password')}

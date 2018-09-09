@@ -9,9 +9,13 @@ import Styles from './Input.styles';
 interface Props {
     theme: ThemeInterface;
     onChange: (value: string) => void;
-    placeholder: string;
+    placeholder?: string;
     value?: string;
     password?: boolean;
+
+    small?: boolean;
+    authStyle?: boolean;
+    style?: {};
 
     /**
      * enum("default", 'numeric', 'email-address', "ascii-capable", 'numbers-and-punctuation', 'url', 'number-pad', 'phone-pad', 'name-phone-pad',
@@ -36,13 +40,17 @@ class Input extends React.Component<Props> {
     }
 
     render() {
+        const height = this.props.small ? 30 : 65;
+        const containerStyle = this.props.authStyle ? this.style.authContainer : this.style.formContainer;
+        const inputStyle = this.props.authStyle ? this.style.authInput : this.style.formInput;
+
         return (
-            <View style={this.style.container}>
+            <View style={[this.style.container, {height: height}, containerStyle, this.props.style]}>
                 <TextInput
                     keyboardType={this.props.keyboardType || "default"}
                     autoCapitalize={'none'}
                     secureTextEntry={this.props.password}
-                    style={this.style.input}
+                    style={[this.style.input, inputStyle]}
                     onChangeText={this.props.onChange}
                     value={this.props.value}
                     placeholder={this.props.placeholder}

@@ -45,9 +45,9 @@ class Login extends Component<Props> {
                 <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={80}>
                     <FormContainer keyboardPadding={30}>
                         <View style={this.style.container_content}>
-                            <Input placeholder={I18n.t('fields.email')} onChange={() => { }} />
-                            <Input placeholder={I18n.t('fields.password')} onChange={() => { }} />
-                            <Input placeholder={I18n.t('fields.password_repeat')} onChange={() => { }} />
+                            <Input authStyle placeholder={I18n.t('fields.email')} onChange={() => { }} />
+                            <Input authStyle placeholder={I18n.t('fields.password')} onChange={() => { }} />
+                            <Input authStyle placeholder={I18n.t('fields.password_repeat')} onChange={() => { }} />
                         </View>
                     </FormContainer>
                     <View style={this.style.container_footer}>

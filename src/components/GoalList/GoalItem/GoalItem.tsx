@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Text, View, TouchableOpacity, Animated } from 'react-native';
+import { Text, View, TouchableOpacity, Animated, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -9,6 +9,8 @@ import Styles from './GoalItem.styles';
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
 import Goal from '../../../models/Goal';
 import SwipeItem from '../../SwipeItem';
+import { ModalActions } from '../../../store/actions/modal';
+import { PlannerActions } from '../../../store/actions/planner';
 
 interface Props {
     dispatch: Dispatch;
@@ -52,6 +54,11 @@ class ExerciseItem extends React.Component<Props> {
         }
     }
 
+    onAddSetPress = () => {
+        this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
+        this.props.dispatch(ModalActions.addSetOpen());
+    }
+
     render() {
         const rightButtons = [
             <TouchableOpacity style={[this.style.buttonReorderContainer]}>
@@ -82,12 +89,12 @@ class ExerciseItem extends React.Component<Props> {
                 onMoveBegin={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(false) : null}
                 onMoveEnd={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(true) : null}
             >
-                <View style={this.style.exerciseContainer}>
-                    <TouchableOpacity style={this.style.plusIconContainer}>
+                <TouchableOpacity style={this.style.exerciseContainer} onPress={this.onAddSetPress}>
+                    <View style={this.style.plusIconContainer}>
                         <View style={this.style.plusIconView}>
                             <EvilIcon name="close" color={this.props.theme.colors.main} size={42} />
                         </View>
-                    </TouchableOpacity>
+                    </View>
                     <View style={this.style.summaryContent}>
                         <Animated.View style={[this.style.summaryLeftContent, { left: summaryContentLeft }]}>
                             <Text style={this.style.title}>{this.props.goal.exercise.name}</Text>
@@ -98,7 +105,7 @@ class ExerciseItem extends React.Component<Props> {
                             <Text style={this.style.infoTitleBottom}>Brakuje: 2 sety</Text>
                         </Animated.View>
                     </View>
-                </View>
+                </TouchableOpacity>
             </SwipeItem>
         );
     }

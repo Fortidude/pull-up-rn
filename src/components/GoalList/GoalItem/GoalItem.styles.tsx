@@ -5,9 +5,6 @@ function getStyle(theme: ThemeInterface) {
     return {
         swipeout: {
             backgroundColor: 'transparent',
-
-            borderBottomWidth: theme.borders.borderWidth,
-            borderBottomColor: theme.borders.borderColor
         },
         exerciseContainer: {
             backgroundColor: 'transparent',
@@ -18,21 +15,22 @@ function getStyle(theme: ThemeInterface) {
             width: 70,
             height: 71,
             bottom: -1,
-            //position: 'absolute'
             backgroundColor: 'white',
             justifyContent: 'center',
             alignItems: 'center'
         },
         plusIconView: {
             marginLeft: -22,
-            transform: [{ rotate: '45deg' }],
+            transform: [{ rotate: '45deg' }]
         },
         summaryContent: {
             height: 70,
             width: '100%',
             paddingRight: 18,
             flexDirection: 'row',
-            flex: 1
+            flex: 1,
+            borderBottomWidth: theme.borders.borderWidth,
+            borderBottomColor: theme.borders.borderColor
         },
         summaryLeftContent: {
             justifyContent: 'center',

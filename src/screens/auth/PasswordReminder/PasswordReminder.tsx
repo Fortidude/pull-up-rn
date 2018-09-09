@@ -49,7 +49,7 @@ class PasswordReminder extends Component<Props> {
                 style={this.style.background}>
                 <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={80}>
                     <FormContainer keyboardPadding={100}>
-                        <Input placeholder={I18n.t('fields.email')} onChange={() => { }} />
+                        <Input authStyle placeholder={I18n.t('fields.email')} onChange={() => { }} />
                     </FormContainer>
                     <View style={this.style.container_footer}>
                         <ButtonBig onPress={this.register} text={I18n.t('password_reminder.send_link')} />
