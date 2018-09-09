@@ -10,6 +10,7 @@ import IconComponent from './IconComponent';
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+    plannerEditMode: boolean;
 
     name: string;
     active: boolean;
@@ -30,7 +31,8 @@ class GoalListHeader extends React.Component<Props, State> {
     shouldComponentUpdate(nextProps: Props, nextState: State) {
         return nextProps.name !== this.props.name
             || nextProps.theme.name !== this.props.theme.name
-            || nextProps.active !== this.props.active;
+            || nextProps.active !== this.props.active
+            || nextProps.plannerEditMode !== this.props.plannerEditMode;
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -55,7 +57,8 @@ class GoalListHeader extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    plannerEditMode: state.app.plannerEditMode
 });
 
 export default connect(mapStateToProps)(GoalListHeader);

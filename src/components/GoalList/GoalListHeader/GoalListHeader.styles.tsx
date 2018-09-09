@@ -26,7 +26,7 @@ function getStyle(theme: ThemeInterface) {
         },
         toggleIcon: {
             marginTop: -5,
-            marginRight: -12
+            marginRight: -13
         }
     };
 }

@@ -17,6 +17,7 @@ interface Props {
 
     goal: Goal;
 
+    isToggled: boolean;
     toggleParentScroll?: (enable: boolean) => void,
 }
 
@@ -42,11 +43,10 @@ class ExerciseItem extends React.Component<Props> {
             this.style = Styles(nextProps.theme);
         }
 
-
         if (nextProps.plannerEditMode && !this.props.plannerEditMode) {
             setTimeout(() => {
                 this.refs.swipeItem.forceOpenRight();
-            }, 300);
+            }, this.props.isToggled ? 0 : 300);
         } else if (!nextProps.plannerEditMode && this.props.plannerEditMode) {
             this.refs.swipeItem.forceClose();
         }

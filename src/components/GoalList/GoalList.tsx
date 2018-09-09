@@ -46,15 +46,15 @@ class ExerciseList extends React.Component<Props, State> {
 
         if (nextProps.plannerEditMode && !this.props.plannerEditMode) {
             this.setState({ toggled: true });
-        } else if (!nextProps.plannerEditMode && this.props.plannerEditMode) {
-            setTimeout(() => {
-                this.setState({ toggled: false });
-            }, 200);
         }
     }
 
-    countHeight = () => this.props.training.goals.length * 70;
+    countGoals = () => this.props.training.goals.length
+    countHeight = () => this.countGoals() * 70;
     toggleList = () => {
+        if (this.props.plannerEditMode) {
+            return;
+        }
         const toggled = !this.state.toggled;
         this.setState({ toggled: toggled });
     }
@@ -68,6 +68,7 @@ class ExerciseList extends React.Component<Props, State> {
                         {this.props.training.goals.map((goal, key) =>
                             <GoalItem
                                 toggleParentScroll={this.props.toggleParentScroll}
+                                isToggled={this.state.toggled}
                                 goal={goal}
                                 key={key} />
                         )}
