@@ -1,7 +1,8 @@
+import { SetInterface } from "./Set";
 import Training from "./Training";
 
 interface PlannerInterface {
-    [key: string]: any
+    trainings: Training[];
 }
 
 interface DataInterface {
@@ -16,6 +17,22 @@ class Planner implements PlannerInterface {
         for (let name in data) {
             this.trainings.push(new Training(name, data[name]));
        }
+    }
+
+    /**
+     * NOT WORKING FROM REDUX, OFC
+     */
+    addSetToGoal = (set: SetInterface) => {
+        let added = false;
+        this.trainings.forEach((training: Training, key: number) => {
+            if (added) {
+                return;
+            }
+
+            added = training.addSetToGoal(set);
+        });
+
+        return added;
     }
 }
 

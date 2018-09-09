@@ -4,6 +4,7 @@ export enum SyncTypes {
 
     synchronize = '[SYNC] SYNCHRONIZE',
     synchronizeSuccess = '[SYNC] SYNCHRONIZE SUCCESS',
+    synchronizeFailed = '[SYNC] SYNCHRONIZE FAILED',
 }
 
 export const SyncActions = {
@@ -12,7 +13,7 @@ export const SyncActions = {
         payload: { url: url, headers: headers }
     }),
     removeRequest: (key: string) => ({
-        type: SyncTypes.addRequest,
+        type: SyncTypes.removeRequest,
         payload: { key: key }
     }),
 
@@ -22,6 +23,10 @@ export const SyncActions = {
     }),
     synchronizeSuccess: () => ({
         type: SyncTypes.synchronizeSuccess,
+        payload: {}
+    }),
+    synchronizeFailed: () => ({
+        type: SyncTypes.synchronizeFailed,
         payload: {}
     })
 };

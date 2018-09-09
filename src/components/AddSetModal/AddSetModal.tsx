@@ -19,13 +19,22 @@ interface Props {
     goal: Goal
 }
 
-class AddSetModal extends React.Component<Props> {
+interface State {
+    value: number | null;
+    extraWeight: number | null;
+}
+
+class AddSetModal extends React.Component<Props, State> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
         super(props);
 
         this.style = Styles(this.props.theme);
+        this.state = {
+            value: null,
+            extraWeight: null
+        }
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -39,7 +48,11 @@ class AddSetModal extends React.Component<Props> {
     }
 
     success = () => {
-        //this.props.dispatch(ModalActions.addSetClose());
+        if (!this.state.value) {
+            return;
+        }
+
+        this.props.dispatch(PlannerActions.createSet(this.props.goal, this.state.value, this.state.extraWeight));
     }
 
     cancel = () => {
@@ -65,13 +78,15 @@ class AddSetModal extends React.Component<Props> {
                         <Text style={this.style.form.label}>{I18n.t('fields.number_of_reps_done')}</Text>
                         <Input small
                             keyboardType={"numeric"}
-                            onChange={() => { }}
+                            value={this.state.value ? this.state.value.toString() : undefined}
+                            onChange={(value) => this.setState({value: parseInt(value)})}
                         />
-                        
+
                         <Text style={this.style.form.label}>{I18n.t('fields.additional_weight')}</Text>
                         <Input small
                             keyboardType={"numeric"}
-                            onChange={() => { }}
+                            value={this.state.extraWeight ? this.state.extraWeight.toString() : undefined}
+                            onChange={(extraWeight) => this.setState({extraWeight: parseInt(extraWeight)})}
                         />
                     </View>
                 </View>

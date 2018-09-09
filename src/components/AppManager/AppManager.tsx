@@ -3,13 +3,15 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import I18n from './../../assets/translations';
 import { AppActions } from '../../store/actions/app';
-import data from '../../api/data';
+import Data from '../../api/data';
+import { SyncActions } from '../../store/actions/sync';
 
 interface Props {
     dispatch: Dispatch;
     locale: string;
     isOnline: boolean;
     isNetworkChecked: boolean;
+    anythingToSync: boolean;
 }
 
 class AppManager extends React.Component<Props> {
@@ -20,6 +22,8 @@ class AppManager extends React.Component<Props> {
     }
 
     componentWillMount() {
+        Data.setDispatch(this.props.dispatch);
+
         this.checkIfOnline();
         setInterval(() => {
             this.checkIfOnline()
@@ -27,13 +31,18 @@ class AppManager extends React.Component<Props> {
     }
 
     checkIfOnline = () => {
-        data.pingServer()
+        Data.pingServer()
+                // IS ONLINE
                 .then(response => {
+                    // run only if was not online or never checkec before 
                     if (!this.props.isOnline || !this.props.isNetworkChecked) {
                         this.props.dispatch(AppActions.isOnline());
+                        this.props.dispatch(SyncActions.synchronize());
                     }
                 })
+                // IS OFFLINE
                 .catch(err => {
+                    // run only if was online or never checked before
                     if (this.props.isOnline || !this.props.isNetworkChecked) {
                         this.props.dispatch(AppActions.isOffline());
                     }
@@ -49,7 +58,8 @@ const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     locale: state.settings.locale,
     isOnline: state.app.isOnline,
-    isNetworkChecked: state.app.networkChecked
+    isNetworkChecked: state.app.networkChecked,
+    anythingToSync: state.sync.items.length > 0,
 });
 
 export default connect(mapStateToProps)(AppManager);

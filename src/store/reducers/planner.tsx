@@ -30,6 +30,10 @@ function planner(state = initialState, action: AnyAction): PlannerState {
             return { ...state, loading: false, error: action.payload.error }
         case PlannerTypes.selectGoal:
             return { ...state, goalSelected: action.payload.goal}
+        case PlannerTypes.createSetSuccess:
+            const planner = state.byTrainings;
+            // @TODO
+            //planner.addSetToGoal(action.payload.setCreated);
         default:
             return state;
     }

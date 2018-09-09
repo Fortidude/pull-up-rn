@@ -4,6 +4,7 @@ import { SyncTypes } from '../actions/sync';
 import DefaultTheme, { themes } from '../../assets/themes';
 import { locales } from '../../assets/translations';
 import I18n from '../../assets/translations';
+import { ApiHelper } from '../../api';
 
 interface SyncState {
     syncing: boolean;
@@ -21,7 +22,7 @@ function sync(state = initialState, action: AnyAction): SyncState {
             const items: { [key: string]: any } = state.items;
             let randomKey: boolean | string = false;
             while (!randomKey || (randomKey in items)) {
-                randomKey = ('abcdefghijklmnopqrstuvwxyz').split('')[(Math.floor(Math.random() * 26))];
+                randomKey = ApiHelper.guid();
             }
 
             items[randomKey] = action.payload;
@@ -36,7 +37,9 @@ function sync(state = initialState, action: AnyAction): SyncState {
         case SyncTypes.synchronize:
             return { ...state, syncing: true }
         case SyncTypes.synchronizeSuccess:
-            return { ...state, syncing: false, items: [] }
+            return { ...state, syncing: false }
+        case SyncTypes.synchronizeFailed:
+            return { ...state, syncing: false }
         default:
             return state;
     }

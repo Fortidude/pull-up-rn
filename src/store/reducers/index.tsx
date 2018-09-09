@@ -9,6 +9,7 @@ import user from './user';
 import settings from './settings';
 import modal from './modal';
 import planner from './planner';
+import sync from './sync';
 
 const reducers = {
     app: app,
@@ -17,7 +18,8 @@ const reducers = {
     user: user,
     settings: settings,
     modal: modal,
-    planner: planner
+    planner: planner,
+    sync: sync
 };
 
 const expireTransform = createExpirationTransform({

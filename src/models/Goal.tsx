@@ -1,4 +1,5 @@
 import { Exercise } from "./Exercise";
+import { SetInterface } from "./Set";
 
 interface Goal {
     [key: string]: any
@@ -20,7 +21,7 @@ class Goal implements Goal {
     requiredSets: number;
     requiredType: string;
     requiredWeight: number;
-    sets: [];
+    sets: SetInterface[];
 
     constructor(data: Goal) {
         this.id = data.id;
@@ -38,6 +39,12 @@ class Goal implements Goal {
         this.requiredType = data.required_type;
         this.requiredWeight = data.required_weight;
         this.sets = data.sets;
+    }
+
+    sortSetsByDate = () => {
+        this.sets.sort((setA: SetInterface, setB: SetInterface) => {
+            return new Date(setB.date).getTime() - new Date(setA.date).getTime();
+        })
     }
 }
 
