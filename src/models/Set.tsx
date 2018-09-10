@@ -1,7 +1,7 @@
 import Goal from "./Goal";
 
 interface SetInterface {
-    goal: Goal;
+    goal: Goal|string;
     reps?: number;
     time?: number;
     weight?: number | null | undefined;
@@ -9,3 +9,11 @@ interface SetInterface {
 }
 
 export { SetInterface } 
+
+const sortSetsByDate = (setA: SetInterface, setB: SetInterface) => {
+    return new Date(setB.date).getTime() - new Date(setA.date).getTime();
+}
+
+export {
+    sortSetsByDate
+}

@@ -25,13 +25,11 @@ function* synchronize(action: any) {
 
         try {
             const response = yield call(Data.callManual, url, headers);
-            console.log(response);
             if (response) {
                 synchronized++;
                 yield put(SyncActions.removeRequest(key));
             }
         } catch (err) {
-            console.log(err);
             yield put(SyncActions.synchronizeFailed());
         }
     }

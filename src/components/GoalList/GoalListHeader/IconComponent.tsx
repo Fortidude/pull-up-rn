@@ -49,7 +49,6 @@ class IconComponent extends React.Component<Props, State> {
     }
 
     animateToggle() {
-        console.log(`animate Toggle ${this.props.active}`);
         Animated.timing(
             this.state.spinValue,
             {

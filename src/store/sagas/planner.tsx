@@ -26,7 +26,7 @@ function* createSet(action: any) {
         const type = goal.requiredType === 'none' ? 'reps' : goal.requiredType;
         const data: SetInterface = {
             goal: goal.id,
-            data: new Date(),
+            date: new Date(),
             weight: extraWeight,
             [type]: value,
         }

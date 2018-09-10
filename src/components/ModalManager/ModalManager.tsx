@@ -68,10 +68,8 @@ class ModalManager extends React.Component<Props, State> {
         }
 
         if (this.isModalVisible(nextProps)) {
-            console.log('show');
             this.showModal();
         } else {
-            console.log('hide');
             this.hideModal();
         }
     }

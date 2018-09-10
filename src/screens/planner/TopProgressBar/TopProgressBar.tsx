@@ -61,7 +61,6 @@ class TopProgressBar extends React.Component<Props, State> {
 
         let toValue = 0
         let requiredRatio = this.closed ? 0.1 : 0.9
-        console.log(currentPosition, maxHeight, requiredRatio);
         if (currentPosition >= maxHeight * requiredRatio) {
             toValue = maxHeight;
         }

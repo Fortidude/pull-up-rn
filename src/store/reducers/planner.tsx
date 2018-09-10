@@ -1,15 +1,15 @@
 import { AnyAction } from 'redux';
 
 import { PlannerTypes } from '../actions/planner';
-import Planner from '../../models/Planner';
+import Planner, { addSetToGoal } from '../../models/Planner';
 import Goal from '../../models/Goal';
 
 interface PlannerState {
     loading: boolean;
     loadedByTrainings: boolean;
     byTrainings: Planner;
-    goalSelected: Goal|null;
-    error: string|null
+    goalSelected: Goal | null;
+    error: string | null
 }
 
 const initialState: PlannerState = {
@@ -29,11 +29,11 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.loadByTrainingsFailed:
             return { ...state, loading: false, error: action.payload.error }
         case PlannerTypes.selectGoal:
-            return { ...state, goalSelected: action.payload.goal}
+            return { ...state, goalSelected: action.payload.goal }
         case PlannerTypes.createSetSuccess:
             const planner = state.byTrainings;
-            // @TODO
-            //planner.addSetToGoal(action.payload.setCreated);
+            addSetToGoal(action.payload.setCreated, planner);
+            return { ...state, byTrainings: planner }
         default:
             return state;
     }

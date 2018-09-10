@@ -1,11 +1,25 @@
 import { Exercise } from "./Exercise";
 import { SetInterface } from "./Set";
 
-interface Goal {
-    [key: string]: any
+interface GoalInterface {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    description: string;
+    exercise: Exercise;
+    lastSetValue: number
+    leftThisCircuit: number;
+    doneThisCircuit: number;
+    name: string;
+    requiredAmount: number;
+    requiredReps: number;
+    requiredSets: number;
+    requiredType: string;
+    requiredWeight: number;
+    sets: SetInterface[];
 }
 
-class Goal implements Goal {
+class Goal implements GoalInterface {
 
     id: string;
     createdAt: Date;
@@ -23,7 +37,7 @@ class Goal implements Goal {
     requiredWeight: number;
     sets: SetInterface[];
 
-    constructor(data: Goal) {
+    constructor(data: { [key: string]: any }) {
         this.id = data.id;
         this.createdAt = new Date(data.created_at);
         this.updatedAt = new Date(data.updated_at);
@@ -38,12 +52,11 @@ class Goal implements Goal {
         this.requiredSets = data.required_sets;
         this.requiredType = data.required_type;
         this.requiredWeight = data.required_weight;
-        this.sets = data.sets;
-    }
-
-    sortSetsByDate = () => {
-        this.sets.sort((setA: SetInterface, setB: SetInterface) => {
-            return new Date(setB.date).getTime() - new Date(setA.date).getTime();
+        this.sets = [];
+        data.sets.forEach(set => {
+            if (Object.keys(set).length > 0) {
+                this.sets.push(set);
+            }
         })
     }
 }

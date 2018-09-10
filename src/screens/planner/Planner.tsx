@@ -44,7 +44,6 @@ class Planner extends React.Component<Props, State> {
             <View style={this.style.container}>
                 <TopProgressBar scrollViewPositionY={this.state.plannerListScrollPositionY}/>
                 <PlannerList scrollBegin={() => {
-                    console.log('started');
                     const value = this.state.plannerListScrollPositionY._value;
                     this.state.plannerListScrollPositionY.setValue(value + 1);
                 }}/>
