@@ -35,7 +35,7 @@ class Goal implements GoalInterface {
     requiredSets: number;
     requiredType: string;
     requiredWeight: number;
-    sets: SetInterface[];
+    sets: SetInterface[] = [];
 
     constructor(data: { [key: string]: any }) {
         this.id = data.id;

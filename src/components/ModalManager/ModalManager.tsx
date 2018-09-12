@@ -80,7 +80,7 @@ class ModalManager extends React.Component<Props, State> {
     }
 
     _keyboardDidHide = () => {
-        Animated.spring(this.state.containerTranslateY, { toValue: -HEIGHT }).start();
+        Animated.spring(this.state.containerTranslateY, { toValue: 0 }).start();
     }
 
     isModalVisible = (nextProps: Props): boolean => {
@@ -103,7 +103,9 @@ class ModalManager extends React.Component<Props, State> {
     }
 
     hideModal = () => {
-        this.keyboardDidHideListener.remove();
+        if (this.keyboardDidHideListener) {
+            this.keyboardDidHideListener.remove();
+        }
         Keyboard.dismiss();
         Animated.parallel([
             Animated.timing(this.state.containerTranslateY, { toValue: -HEIGHT, duration: 300 }),

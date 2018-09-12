@@ -12,7 +12,7 @@ interface AppState {
     plannerEditMode: boolean;
 }
 
-const initialState: AppState = {
+export const initialState: AppState = {
     loaded: false,
     networkChecked: false,
     isOnline: true,

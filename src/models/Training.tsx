@@ -20,16 +20,3 @@ class Training implements TrainingInterface {
 }
 
 export default Training;
-
-const addSetToGoal = (set: SetInterface): boolean => {
-    // let added = false;
-    // this.goals.forEach((goal: Goal, key: number) => {
-    //     if (goal.id === set.goal.id) {
-    //         goal.sets.push(set);
-    //         goal.sortSetsByDate();
-    //         added = true;
-    //     }
-    // })
-
-    // return added;
-}

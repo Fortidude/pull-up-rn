@@ -16,7 +16,11 @@ function getStyle(theme: ThemeInterface) {
             flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            shadowColor: theme.colors.shadowColor,
+            shadowOpacity: 0.3,
+            shadowOffset: {width: 0, height: 0},
+            shadowRadius: 10
         }
     };
 }

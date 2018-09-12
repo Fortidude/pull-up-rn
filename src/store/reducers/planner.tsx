@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 
 import { PlannerTypes } from '../actions/planner';
-import Planner, { addSetToGoal } from '../../models/Planner';
+import Planner, { PlannerMethods } from '../../models/Planner';
 import Goal from '../../models/Goal';
 
 interface PlannerState {
@@ -32,7 +32,7 @@ function planner(state = initialState, action: AnyAction): PlannerState {
             return { ...state, goalSelected: action.payload.goal }
         case PlannerTypes.createSetSuccess:
             const planner = state.byTrainings;
-            addSetToGoal(action.payload.setCreated, planner);
+            PlannerMethods.addSetToGoal(action.payload.setCreated, planner);
             return { ...state, byTrainings: planner }
         default:
             return state;

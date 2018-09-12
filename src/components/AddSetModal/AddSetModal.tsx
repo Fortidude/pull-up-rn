@@ -69,9 +69,9 @@ class AddSetModal extends React.Component<Props, State> {
                 <ModalHeader text={exercise.name} />
                 <View style={this.style.content}>
                     <View style={this.style.textLine.container}>
-                        <Text style={this.style.textLine.textLeft}>{I18n.t('planner.done_of')}: {goal.doneThisCircuit} {I18n.t('mics.of')} {goal.requiredAmount}</Text>
+                        <Text style={this.style.textLine.textLeft} numberOfLines={1}>{I18n.t('planner.done_of')}: {goal.doneThisCircuit} {I18n.t('mics.of')} {goal.requiredAmount}</Text>
                         {variant &&
-                            <Text style={this.style.textLine.textRight}>{variant.name}</Text>
+                            <Text style={this.style.textLine.textRight} numberOfLines={1}>{variant.name}</Text>
                         }
                     </View>
                     <View style={this.style.form.container}>

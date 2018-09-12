@@ -23,25 +23,41 @@ class Planner implements PlannerInterface {
 
 export default Planner;
 
-const addSetToGoal = (set: SetInterface, planner: PlannerInterface) => {
-    let added = false;
-    planner.trainings.forEach((training: Training, key: number) => {
-        if (added) {
-            return;
+class PlannerMethodsClass {
+    private static instance: PlannerMethodsClass;
+
+    private constructor() { }
+    static getInstance() {
+        if (!PlannerMethodsClass.instance) {
+            PlannerMethodsClass.instance = new PlannerMethodsClass();
         }
+        return PlannerMethodsClass.instance;
+    }
 
-        training.goals.forEach((goal: Goal, key: number) => {
-            if ((typeof set.goal === 'string' && set.goal === goal.id) || goal.id === set.goal.id) {
-                goal.sets.push(set);
-                goal.sets.sort(sortSetsByDate);
-                added = true;
+    addSetToGoal = (set: SetInterface, planner: PlannerInterface) => {
+        let added = false;
+        const goalId: string = typeof set.goal === 'string' ? set.goal : set.goal.id;
+        set.goal = goalId;
+
+        planner.trainings.forEach((training: Training, key: number) => {
+            if (added) {
+                return;
             }
-        });
-    });
 
-    return added;
+            training.goals.forEach((goal: Goal, key: number) => {
+                if (goal.id === goalId) {
+                    goal.sets.push(set);
+                    goal.sets.sort(sortSetsByDate);
+                    added = true;
+                }
+            });
+        });
+
+        return added;
+    }
 }
 
+const PlannerMethods = PlannerMethodsClass.getInstance();
 export {
-    addSetToGoal
+    PlannerMethods
 }

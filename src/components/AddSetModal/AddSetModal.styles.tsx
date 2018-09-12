@@ -21,7 +21,7 @@ function getStyle(theme: ThemeInterface) {
                 flexDirection: 'row'
             },
             textLeft: {
-                flex: 1,
+                flex: 2,
                 fontSize: theme.fonts.fontH3Size,
                 fontFamily: theme.fonts.mainFontFamily,
                 color: theme.colors.textColor
