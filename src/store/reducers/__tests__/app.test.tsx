@@ -14,21 +14,19 @@ describe('app reducer', () => {
     })
 
     it('should handle app loaded reducer', () => {
-        const initialStateAppLoaded = Object.assign({}, initialState, { loaded: true, networkChecked: false });
+        const initialStateAppLoaded = {...initialState, loaded: true, networkChecked: false };
         expect(app(initialState, { type: AppTypes.appLoaded }))
             .toEqual(initialStateAppLoaded);
-
     })
 
     it('should handle is online reducer', () => {
-        const expectedStateIsOnline = Object.assign({}, initialState, { isOnline: true, networkChecked: true });
+        const expectedStateIsOnline = {...initialState, isOnline: true, networkChecked: true };
         expect(app(initialState, { type: AppTypes.isOnline }))
             .toEqual(expectedStateIsOnline);
     })
 
     it('should handle is offline reducer', () => {
-
-        const expectedStateIsOffline = Object.assign({}, initialState, { isOnline: false, networkChecked: true });
+        const expectedStateIsOffline = {...initialState, isOnline: false, networkChecked: true };
         expect(app(initialState, { type: AppTypes.isOffline }))
             .toEqual(expectedStateIsOffline);
     })

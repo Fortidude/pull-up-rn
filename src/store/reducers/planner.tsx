@@ -12,7 +12,7 @@ interface PlannerState {
     error: string | null
 }
 
-const initialState: PlannerState = {
+export const initialState: PlannerState = {
     loading: false,
     loadedByTrainings: false,
     byTrainings: new Planner({}),
@@ -23,17 +23,17 @@ const initialState: PlannerState = {
 function planner(state = initialState, action: AnyAction): PlannerState {
     switch (action.type) {
         case PlannerTypes.loadByTrainings:
-            return { ...state, loading: true };
+            return Object.assign({}, state, { loading: true });
         case PlannerTypes.loadByTrainingsSuccess:
-            return { ...state, loading: false, loadedByTrainings: true, byTrainings: action.payload.planner }
+            return Object.assign({}, state, { loading: false, loadedByTrainings: true, byTrainings: action.payload.planner });
         case PlannerTypes.loadByTrainingsFailed:
-            return { ...state, loading: false, error: action.payload.error }
+            return Object.assign({}, state, { loading: false, error: action.payload.error });
         case PlannerTypes.selectGoal:
-            return { ...state, goalSelected: action.payload.goal }
+            return Object.assign({}, state, { goalSelected: action.payload.goal });
         case PlannerTypes.createSetSuccess:
-            const planner = state.byTrainings;
+            const planner = Object.assign({}, state.byTrainings);
             PlannerMethods.addSetToGoal(action.payload.setCreated, planner);
-            return { ...state, byTrainings: planner }
+            return Object.assign({}, state, { byTrainings: planner });
         default:
             return state;
     }

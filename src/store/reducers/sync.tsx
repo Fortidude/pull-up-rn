@@ -1,17 +1,14 @@
 import { AnyAction } from 'redux';
 
 import { SyncTypes } from '../actions/sync';
-import DefaultTheme, { themes } from '../../assets/themes';
-import { locales } from '../../assets/translations';
-import I18n from '../../assets/translations';
 import { ApiHelper } from '../../api';
 
 interface SyncState {
     syncing: boolean;
-    items: {};
+    items: { [key: string]: string };
 }
 
-const initialState: SyncState = {
+export const initialState: SyncState = {
     syncing: false,
     items: {}
 };
@@ -19,27 +16,27 @@ const initialState: SyncState = {
 function sync(state = initialState, action: AnyAction): SyncState {
     switch (action.type) {
         case SyncTypes.addRequest: {
-            const items: { [key: string]: any } = state.items;
+            const items: { [key: string]: any } = Object.assign({}, state.items);
             let randomKey: boolean | string = false;
             while (!randomKey || (randomKey in items)) {
                 randomKey = ApiHelper.guid();
             }
 
             items[randomKey] = action.payload;
-            return { ...state, items: items };
+            return Object.assign({}, state, { items: items });
         }
         case SyncTypes.removeRequest: {
-            const items: { [key: string]: any } = state.items;
+            const items: { [key: string]: any } = Object.assign({}, state.items);
             const key = action.payload.key;
             delete items[key];
-            return { ...state, items: items }
+            return Object.assign({}, state, { items: items });
         }
         case SyncTypes.synchronize:
-            return { ...state, syncing: true }
+            return Object.assign({}, state, { syncing: true });
         case SyncTypes.synchronizeSuccess:
-            return { ...state, syncing: false }
+            return Object.assign({}, state, { syncing: false });
         case SyncTypes.synchronizeFailed:
-            return { ...state, syncing: false }
+            return Object.assign({}, state, { syncing: false });
         default:
             return state;
     }

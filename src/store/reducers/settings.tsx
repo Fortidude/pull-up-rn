@@ -10,7 +10,7 @@ interface SettingsState {
     locale: string;
 }
 
-const initialState: SettingsState = {
+export const initialState: SettingsState = {
     theme: DefaultTheme,
     locale: 'pl'
 };
