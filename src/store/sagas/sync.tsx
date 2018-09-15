@@ -3,7 +3,7 @@ import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import { SyncTypes, SyncActions } from '../actions/sync';
 import { Data } from '../../api';
 
-const getItemsToSync = (state) => state.sync.items;
+export const getItemsToSync = (state) => state.sync.items;
 
 /**
  * 
@@ -11,9 +11,10 @@ const getItemsToSync = (state) => state.sync.items;
  * 
  * @param action 
  */
-function* synchronize(action: any) {
+export function* synchronize(action: any) {
     const items: { [key: string]: any } = yield select(getItemsToSync);
-    const toSync = items.length;
+    
+    const toSync = Object.keys(items).length;
     let synchronized = 0;
     for (let key in items) {
         const { url, headers } = items[key];

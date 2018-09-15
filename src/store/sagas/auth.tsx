@@ -50,3 +50,6 @@ function* authSaga() {
 }
 
 export default authSaga;
+export {
+    loginWithToken
+}

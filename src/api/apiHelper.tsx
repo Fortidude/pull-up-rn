@@ -32,15 +32,31 @@ class ApiHelper implements ApiInterface {
      *      .catch(error => {});
      */
     public checkForResponseErrors = (response: { [key: string]: any }) => {
+        const DEFAULT_SERVER_ERROR_MESSAGE = "SERVER_ERROR";
         if (response && typeof response.code !== 'undefined' && response.code !== 200) {
-            throw response.message ? response.message.replace('.', '_') : 'SERVER_ERROR';
+            if (response.message) {
+                throw new Error(response.message.replace('.', '_'));
+            }
+
+            switch (response.code) {
+                case 500:
+                    throw new Error(DEFAULT_SERVER_ERROR_MESSAGE);
+                case 404:
+                    throw new Error("NOT_FOUND");
+                case 401:
+                    throw new Error("UNAUTHORIZED");
+                case 400:
+                    throw new Error("BAD_REQUEST");
+                default:
+                    throw new Error(DEFAULT_SERVER_ERROR_MESSAGE);
+            }
         }
 
         if (response) {
             return response;
         }
 
-        throw "SERVER_ERROR";
+        throw new Error(DEFAULT_SERVER_ERROR_MESSAGE);
     };
 
     public guid = (): string => {
@@ -60,7 +76,7 @@ class ApiHelper implements ApiInterface {
         if (useToken) {
             await AsyncStorage.getItem('token', (error, token) => {
                 if (!token) {
-                    throw "Token not found";
+                    throw new Error("TOKEN_NOT_FOUND");
                 }
 
                 headers['Authorization'] = `Bearer ${token}`;
