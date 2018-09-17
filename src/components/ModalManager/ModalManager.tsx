@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Styles from './ModalManager.styles';
 import { ThemeInterface, ThemeValueInterface } from '../../assets/themes'; import { ModalState } from '../../store/reducers/modal';
 import AddSetModal from '../AddSetModal';
+import { toHumanSize } from 'i18n-js';
 
 const HEIGHT = Dimensions.get('window').height;
 
@@ -16,6 +17,8 @@ interface Props {
 
 interface State {
     showOverlay: boolean;
+    cancelPressed: boolean;
+    keyboardVisible: boolean;
     overlayOpacity: Animated.Value;
     containerTranslateY: Animated.Value;
 }
@@ -32,6 +35,8 @@ class ModalManager extends React.Component<Props, State> {
         this.style = Styles(this.props.theme);
         this.state = {
             showOverlay: false,
+            cancelPressed: false,
+            keyboardVisible: false,
             overlayOpacity: new Animated.Value(0),
             containerTranslateY: new Animated.Value(-HEIGHT)
         }
@@ -51,14 +56,15 @@ class ModalManager extends React.Component<Props, State> {
         if (this.keyboardDidShowListener) {
             this.keyboardDidShowListener.remove();
         }
-        
+
         if (this.keyboardDidHideListener) {
             this.keyboardDidHideListener.remove();
         }
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
-        return nextProps.theme.name !== this.props.theme.name || nextProps.modal !== this.props.modal
+        return nextProps.theme.name !== this.props.theme.name
+            || nextProps.modal !== this.props.modal
             || nextState.showOverlay !== this.state.showOverlay
     }
 
@@ -77,15 +83,20 @@ class ModalManager extends React.Component<Props, State> {
     _keyboardDidShow = (event: any) => {
         const keyboardHeight = event.endCoordinates.height;
         Animated.spring(this.state.containerTranslateY, { toValue: -(keyboardHeight / 2) }).start();
+        this.setState({ keyboardVisible: true });
     }
 
     _keyboardDidHide = () => {
-        Animated.spring(this.state.containerTranslateY, { toValue: 0 }).start();
+        if (this.state.cancelPressed) {
+            this._animateClose();
+        } else {
+            Animated.spring(this.state.containerTranslateY, { toValue: 0 }).start();
+        }
     }
 
     isModalVisible = (nextProps: Props): boolean => {
         let visible = false;
-        const modals = nextProps.modal;
+        const modals: { [key: string]: any } = nextProps.modal;
         Object.keys(modals).forEach(modalName => {
             visible = visible || (modals[modalName] && modalName !== 'profileModalVisible');
         });
@@ -94,6 +105,7 @@ class ModalManager extends React.Component<Props, State> {
     }
 
     showModal = () => {
+        console.log(`containerTranslateY show modal ${this.state.containerTranslateY._value}`);
         this.setState({ showOverlay: true }, () => {
             Animated.sequence([
                 Animated.timing(this.state.overlayOpacity, { toValue: 1, duration: 150 }),
@@ -103,15 +115,28 @@ class ModalManager extends React.Component<Props, State> {
     }
 
     hideModal = () => {
-        if (this.keyboardDidHideListener) {
-            this.keyboardDidHideListener.remove();
-        }
-        Keyboard.dismiss();
+        this.setState({ cancelPressed: true }, () => {
+            if (this.state.keyboardVisible) {
+                Keyboard.dismiss();
+            } else {
+                this._animateClose();
+            }
+        });
+        // Animated.parallel([
+        //     Animated.timing(this.state.containerTranslateY, { toValue: -HEIGHT, duration: 300 }),
+        //     Animated.timing(this.state.overlayOpacity, { toValue: 0, duration: 150, delay: 100 })
+        // ]).start(() => {
+        //     console.log(`containerTranslateY hide modal ${this.state.containerTranslateY._value}`);
+        //     this.setState({ showOverlay: false });
+        // });
+    }
+
+    _animateClose = () => {
         Animated.parallel([
             Animated.timing(this.state.containerTranslateY, { toValue: -HEIGHT, duration: 300 }),
             Animated.timing(this.state.overlayOpacity, { toValue: 0, duration: 150, delay: 100 })
         ]).start(() => {
-            this.setState({ showOverlay: false });
+            this.setState({ showOverlay: false, cancelPressed: false, keyboardVisible: false });
         });
     }
 

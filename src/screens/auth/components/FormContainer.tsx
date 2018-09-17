@@ -29,7 +29,9 @@ class FormContainer extends React.Component<Props, State> {
         this.state = {
             formPaddingTop: new Animated.Value(150)
         }
+    }
 
+    componentWillMount() {
         let keyboardShowEvent = "keyboardDidShow";
         let keyboardHideEvent = "keyboardDidHide";
         if (Platform.OS === 'ios') {
@@ -42,8 +44,13 @@ class FormContainer extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
-        this.keyboardDidShowListener.remove();
-        this.keyboardDidHideListener.remove();
+        if (this.keyboardDidShowListener) {
+            this.keyboardDidShowListener.remove();
+        }
+
+        if (this.keyboardDidHideListener) {
+            this.keyboardDidHideListener.remove();
+        }
     }
 
     componentWillReceiveProps(nextProps: Props) {

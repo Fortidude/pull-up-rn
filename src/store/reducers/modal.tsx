@@ -1,6 +1,7 @@
 import { AnyAction } from 'redux';
 
 import { ModalTypes } from '../actions/modal';
+import { AuthTypes } from '../actions/auth';
 
 export interface ModalState {
     addSetModalVisible: boolean
@@ -15,13 +16,15 @@ const initialState: ModalState = {
 function modal(state = initialState, action: AnyAction): ModalState {
     switch (action.type) {
         case ModalTypes.profileOpen:
-            return { ...state, profileModalVisible: true };
+            return Object.assign({}, state, { profileModalVisible: true });
         case ModalTypes.profileClose:
-            return { ...state, profileModalVisible: false };
+            return Object.assign({}, state, { profileModalVisible: false });
         case ModalTypes.addSetOpen:
-            return { ...state, addSetModalVisible: true };
+            return Object.assign({}, state, { addSetModalVisible: true });
         case ModalTypes.addSetClose:
-            return { ...state, addSetModalVisible: false };
+            return Object.assign({}, state, { addSetModalVisible: false });
+        case AuthTypes.logout:
+            return Object.assign({}, initialState)
         default:
             return state;
     }

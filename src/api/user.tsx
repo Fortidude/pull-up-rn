@@ -61,33 +61,21 @@ class User implements UserInterface {
         return false;
     }
 
-    isUserLoggedAndTokenValid = async (forceRequest = false): Promise<boolean> => {
+    isUserLoggedAndTokenValid = async (forceRequest: boolean = false): Promise<boolean> => {
         let isTokenValid = false;
         await AsyncStorage.getItem('token', async (error, token) => {
             if (!token) {
                 isTokenValid = false;
                 return;
             }
-
-            let tokenDecoded: { [key: string]: any } = jwtDecode(token);
-            if (!forceRequest && tokenDecoded.exp) {
-                let expirationAt = new Date(parseInt(tokenDecoded.exp) * 1000);
-
-                /**
-                 * @TODO isOnline ?
-                 */
-                const isOnline = true;
-                if (expirationAt > new Date(Date.now() + 86400)) {
-                    isTokenValid = true;
-                    return;
-                } else if (!isOnline) {
-                    isTokenValid = false
-                    return;
-                }
+            if (!forceRequest && ApiHelper.validateJwt(token)) {
+                isTokenValid = true;
+                return;
             }
 
             let object = { method: 'GET', headers: { 'Authorization': 'Bearer ' + token } };
             await fetch(ApiHelper.getHost() + '/secured/check_token', object)
+                .then(response => response.json())
                 .then(ApiHelper.checkForResponseErrors)
                 .then((response) => {
                     if (response && response.status && response.status === 200) {
@@ -99,7 +87,7 @@ class User implements UserInterface {
                 })
                 .catch((error) => {
                     let msg = JSON.stringify(error);
-                    throw msg;
+                    throw new Error(msg);
                 });
 
         });

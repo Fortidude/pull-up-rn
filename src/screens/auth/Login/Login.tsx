@@ -76,8 +76,8 @@ class Login extends Component<Props, State> {
                 onLayout={() => {}}
                 style={[this.style.background, StyleSheet.absoluteFill]}>
 
-                <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={80}>
-                    <FormContainer keyboardPadding={30}>
+                <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={0}>
+                    <FormContainer keyboardPadding={100}>
                         <Input
                             authStyle
                             value={this.state.email}

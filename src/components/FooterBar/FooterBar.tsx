@@ -43,12 +43,6 @@ class FooterBar extends React.Component<Props, State> {
         }
     }
 
-    componentWillReceiveProps(nextProps: Props) {
-        if (nextProps.theme.name !== this.props.theme.name) {
-            this.style = Styles(nextProps.theme);
-        }
-    }
-
     componentWillMount() {
         if (this.getComponentName(this.props)) {
             this.runAnimation(this.props);
@@ -56,7 +50,13 @@ class FooterBar extends React.Component<Props, State> {
     }
 
     componentWillUpdate(nextProps: Props, nextState: State) {
-        if (this.getComponentName(nextProps) !== this.getComponentName(this.props)) {
+        if (nextProps.theme.name !== this.props.theme.name) {
+            this.style = Styles(nextProps.theme);
+        }
+
+        const currName = this.getComponentName(this.props);
+        const nextName = this.getComponentName(nextProps);
+        if (currName !== nextName) {
             this.runAnimation(nextProps);
         }
     }
@@ -101,23 +101,25 @@ class FooterBar extends React.Component<Props, State> {
 
     setComponentByProps(props: Props) {
         const componentName = this.getComponentName(props);
-        let footerComponent = null;
+        const state: State = this.state;
 
         switch (componentName) {
             case "Planner":
-                footerComponent = this.plannerFooter;
+                state.component = this.plannerFooter;
                 break;
             case "Profile":
-                footerComponent = this.profileFooter;
+                state.component = this.profileFooter;
                 break;
             default:
-                footerComponent = null;
+                state.component = null;
         }
-
-        this.setState({ component: footerComponent });
+        this.setState(state);
     }
 
     render() {
+        if (!this.state.component) {
+            return null;
+        }
         return (
             <Animated.View style={[this.style.container, { height: this.state.height }]}>
                 {this.state.component}

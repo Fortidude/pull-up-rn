@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, View, KeyboardAvoidingView } from 'react-native';
+import { ImageBackground, View, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
@@ -46,8 +46,8 @@ class PasswordReminder extends Component<Props> {
     render() {
         return (
             <ImageBackground source={require('./../../../assets/images/backgroundlight.jpg')}
-                style={this.style.background}>
-                <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={80}>
+                style={[this.style.background, StyleSheet.absoluteFill]}>
+                <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={0}>
                     <FormContainer keyboardPadding={100}>
                         <Input authStyle placeholder={I18n.t('fields.email')} onChange={() => { }} />
                     </FormContainer>

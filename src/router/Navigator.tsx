@@ -17,7 +17,7 @@ export const Navigator = createStackNavigator(routes, {
         header: (headerProps: HeaderProps) => <Header headerProps={headerProps} />
     },
     cardStyle: {
-        backgroundColor: 'white'
+        backgroundColor: 'transparent'
     }
 });
 

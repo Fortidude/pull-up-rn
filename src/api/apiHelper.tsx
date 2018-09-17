@@ -1,4 +1,5 @@
 import { AsyncStorage } from "react-native";
+import jwtDecode from "jwt-decode";
 
 interface ApiInterface { };
 class ApiHelper implements ApiInterface {
@@ -66,6 +67,17 @@ class ApiHelper implements ApiInterface {
                 .substring(1);
         }
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
+
+    public validateJwt = (token: string) => {
+        let tokenDecoded: { [key: string]: any } = jwtDecode(token);
+        if (tokenDecoded.exp && tokenDecoded.roles && tokenDecoded.username) {
+            let expirationAt = new Date(parseInt(tokenDecoded.exp) * 1000);
+            console.log(expirationAt > new Date(Date.now() + 86400));
+            return expirationAt > new Date(Date.now() + 86400);
+        }
+
+        return false;
     }
 
     /**

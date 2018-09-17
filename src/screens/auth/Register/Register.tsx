@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { View, ImageBackground, KeyboardAvoidingView } from 'react-native';
+import { View, ImageBackground, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { NavigationActions, StackActions } from 'react-navigation';
 
 import getStyle from '../auth.styles';
@@ -41,9 +41,9 @@ class Login extends Component<Props> {
     render() {
         return (
             <ImageBackground source={require('./../../../assets/images/backgroundlight.jpg')}
-                style={this.style.background}>
-                <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={80}>
-                    <FormContainer keyboardPadding={30}>
+                style={[this.style.background, StyleSheet.absoluteFill]}>
+                <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={0}>
+                    <FormContainer keyboardPadding={100}>
                         <View style={this.style.container_content}>
                             <Input authStyle placeholder={I18n.t('fields.email')} onChange={() => { }} />
                             <Input authStyle placeholder={I18n.t('fields.password')} onChange={() => { }} />
