@@ -4,6 +4,7 @@ import { ModalTypes } from '../actions/modal';
 import { AuthTypes } from '../actions/auth';
 
 export interface ModalState {
+    [key: string]: any,
     addSetModalVisible: boolean
     profileModalVisible: boolean
 }

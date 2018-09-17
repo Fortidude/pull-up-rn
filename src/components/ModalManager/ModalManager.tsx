@@ -40,7 +40,9 @@ class ModalManager extends React.Component<Props, State> {
             overlayOpacity: new Animated.Value(0),
             containerTranslateY: new Animated.Value(-HEIGHT)
         }
+    }
 
+    componentWillMount() {
         let keyboardShowEvent = "keyboardDidShow";
         let keyboardHideEvent = "keyboardDidHide";
         if (Platform.OS === 'ios') {
@@ -63,8 +65,8 @@ class ModalManager extends React.Component<Props, State> {
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
-        return nextProps.theme.name !== this.props.theme.name
-            || nextProps.modal !== this.props.modal
+        return this.isModalVisible(nextProps) !== this.isModalVisible(this.props)
+            || nextProps.theme.name !== this.props.theme.name
             || nextState.showOverlay !== this.state.showOverlay
     }
 
@@ -81,6 +83,10 @@ class ModalManager extends React.Component<Props, State> {
     }
 
     _keyboardDidShow = (event: any) => {
+        if (!this.isModalVisible(this.props)) {
+            return
+        }
+
         const keyboardHeight = event.endCoordinates.height;
         Animated.spring(this.state.containerTranslateY, { toValue: -(keyboardHeight / 2) }).start();
         this.setState({ keyboardVisible: true });
@@ -89,23 +95,24 @@ class ModalManager extends React.Component<Props, State> {
     _keyboardDidHide = () => {
         if (this.state.cancelPressed) {
             this._animateClose();
-        } else {
+            return;
+        }
+
+        if (this.isModalVisible(this.props)) {
             Animated.spring(this.state.containerTranslateY, { toValue: 0 }).start();
         }
     }
 
-    isModalVisible = (nextProps: Props): boolean => {
+    isModalVisible = (props: Props): boolean => {
         let visible = false;
-        const modals: { [key: string]: any } = nextProps.modal;
-        Object.keys(modals).forEach(modalName => {
-            visible = visible || (modals[modalName] && modalName !== 'profileModalVisible');
+        Object.keys(props.modal).forEach(modalName => {
+            visible = (visible || (props.modal[modalName] && modalName !== 'profileModalVisible'));
         });
 
         return visible;
     }
 
     showModal = () => {
-        console.log(`containerTranslateY show modal ${this.state.containerTranslateY._value}`);
         this.setState({ showOverlay: true }, () => {
             Animated.sequence([
                 Animated.timing(this.state.overlayOpacity, { toValue: 1, duration: 150 }),
@@ -119,16 +126,9 @@ class ModalManager extends React.Component<Props, State> {
             if (this.state.keyboardVisible) {
                 Keyboard.dismiss();
             } else {
-                this._animateClose();
+                this._animateClose();   
             }
         });
-        // Animated.parallel([
-        //     Animated.timing(this.state.containerTranslateY, { toValue: -HEIGHT, duration: 300 }),
-        //     Animated.timing(this.state.overlayOpacity, { toValue: 0, duration: 150, delay: 100 })
-        // ]).start(() => {
-        //     console.log(`containerTranslateY hide modal ${this.state.containerTranslateY._value}`);
-        //     this.setState({ showOverlay: false });
-        // });
     }
 
     _animateClose = () => {
