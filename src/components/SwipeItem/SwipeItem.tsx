@@ -31,10 +31,6 @@ class SwipeItem extends React.Component<Props, State> {
         }
     }
 
-    shouldComponentUpdate() {
-        return false;
-    }
-
     getSwipePosition = () => {
         return this.state.swipePosition;
     }

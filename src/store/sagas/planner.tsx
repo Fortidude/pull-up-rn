@@ -5,7 +5,6 @@ import { Data } from '../../api';
 import Goal from '../../models/Goal';
 import { SetInterface } from '../../models/Set';
 
-
 function* loadByTrainings() {
     const isOnline = yield select(state => state.app.isOnline);
     if (isOnline) {
@@ -21,6 +20,13 @@ function* loadByTrainings() {
 }
 
 function* createSet(action: any) {
+    const isLoading = yield select(state => state.planner.createSetLoading);
+    if (isLoading) {
+        return;
+    }
+
+    yield put(PlannerActions.createSetLoading());
+
     const { goal, value, extraWeight } = action.payload;
     try {
         const type = goal.requiredType === 'none' ? 'reps' : goal.requiredType;

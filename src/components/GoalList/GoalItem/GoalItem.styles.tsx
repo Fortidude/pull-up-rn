@@ -32,14 +32,21 @@ function getStyle(theme: ThemeInterface) {
             borderBottomWidth: theme.borders.borderWidth,
             borderBottomColor: theme.borders.borderColor
         },
+        progressBar: {
+            height: 0,
+            position: 'absolute',
+            bottom: -theme.borders.borderWidth,
+            borderBottomWidth: theme.borders.borderWidth,
+            borderBottomColor: theme.colors.main
+        },
         summaryLeftContent: {
             justifyContent: 'center',
-            flex: 1
+            flex: 4
         },
         summaryRightContent: {
             justifyContent: 'center',
             alignItems: 'flex-end',
-            flex: 1
+            flex: 3
         },
         title: {
             fontSize: theme.fonts.fontH3Size,
@@ -54,17 +61,25 @@ function getStyle(theme: ThemeInterface) {
             color: theme.colors.subTextColor,
             lineHeight: 22
         },
+        infoTitleTopContainer: {
+            flexDirection: 'row'
+        },
         infoTitleTop: {
             fontSize: theme.fonts.fontH4Size,
             fontFamily: theme.fonts.mainFontFamily,
             color: theme.colors.subTextColor,
-            lineHeight: 22
+            lineHeight: 22,
+           // textAlign: 'right'
+        },
+        infoTitleBottomContainer: {
+            flexDirection: 'row'
         },
         infoTitleBottom: {
             fontSize: theme.fonts.fontH4Size,
             fontFamily: theme.fonts.mainFontFamily,
             color: theme.colors.subTextColor,
-            lineHeight: 22
+            lineHeight: 22,
+           // textAlign: 'right'
         },
         buttonReorderContainer: {
             justifyContent: 'center',

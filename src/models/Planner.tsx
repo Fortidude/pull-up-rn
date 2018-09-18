@@ -1,6 +1,6 @@
 import { SetInterface, sortSetsByDate } from "./Set";
 import Training from "./Training";
-import Goal from "./Goal";
+import Goal, { GoalInterface } from "./Goal";
 
 interface PlannerInterface {
     trainings: Training[];
@@ -48,12 +48,43 @@ class PlannerMethodsClass {
                 if (goal.id === goalId) {
                     goal.sets.push(set);
                     goal.sets.sort(sortSetsByDate);
+
+                    console.log(this, this.recountGoal);
+                    this.recountGoal(goal, set);
+
                     added = true;
                 }
             });
         });
 
         return added;
+    }
+
+    recountGoal = (goal: GoalInterface, set: SetInterface) => {
+        goal.doneThisCircuit = parseInt(goal.doneThisCircuit);
+        goal.requiredAmount = parseInt(goal.requiredAmount);
+        switch (goal.requiredType) {
+            case 'sets': {
+                goal.doneThisCircuit += 1;
+                break;
+            }
+            case 'reps': {
+                goal.doneThisCircuit += parseInt(set.reps);
+                break;
+            }
+            case 'time': {
+                goal.doneThisCircuit += parseInt(set.time);
+                break;
+            }
+            case 'weight': {
+                goal.doneThisCircuit += parseInt(set.weight);
+                break;
+            }
+        }
+
+        if (goal.requiredAmount) {
+            goal.leftThisCircuit = goal.requiredAmount - goal.doneThisCircuit;
+        }
     }
 }
 

@@ -20,7 +20,6 @@ function getStyle(theme: ThemeInterface) {
             text: {
                 fontSize: theme.fonts.fontSize,
                 fontFamily: theme.fonts.mainFontFamily,
-                color: theme.colors.main
             }
         },
         betweenButtons: {

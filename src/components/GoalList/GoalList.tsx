@@ -47,6 +47,7 @@ class ExerciseList extends React.Component<Props, State> {
         if (nextProps.plannerEditMode && !this.props.plannerEditMode) {
             this.setState({ toggled: true });
         }
+
     }
 
     countGoals = () => this.props.training.goals.length
@@ -65,12 +66,13 @@ class ExerciseList extends React.Component<Props, State> {
                 <GoalListHeader active={this.state.toggled} onButtonClick={this.toggleList} name={this.props.training.name} />
                 <GoalListContainer active={this.state.toggled} height={this.countHeight()}>
                     <React.Fragment>
-                        {this.props.training.goals.map((goal, key) =>
-                            <GoalItem
+                        {this.props.training.goals.map((goal, key) => {
+                            return (<GoalItem
                                 toggleParentScroll={this.props.toggleParentScroll}
                                 isToggled={this.state.toggled}
                                 goal={goal}
-                                key={key} />
+                                key={key} />);
+                        }
                         )}
                     </React.Fragment>
                 </GoalListContainer>

@@ -6,8 +6,12 @@ function getStyle(theme: ThemeInterface) {
         trainingHeaderContainer: {
             backgroundColor: 'transparent',
             height: 48,
+            marginTop: 15,
+            marginBottom: 5,
             width: '100%',
             flexDirection: 'row',
+            // borderColor: 'red',
+            // borderWidth: 1
         },
         title: {
             flex: 1,

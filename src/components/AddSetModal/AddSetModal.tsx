@@ -15,6 +15,7 @@ import Input from '../Input';
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+    createSetLoading: boolean;
 
     goal: Goal
 }
@@ -48,7 +49,7 @@ class AddSetModal extends React.Component<Props, State> {
     }
 
     success = () => {
-        if (!this.state.value) {
+        if (!this.state.value || this.props.createSetLoading) {
             return;
         }
 
@@ -79,18 +80,19 @@ class AddSetModal extends React.Component<Props, State> {
                         <Input small
                             keyboardType={"numeric"}
                             value={this.state.value ? this.state.value.toString() : undefined}
-                            onChange={(value) => this.setState({value: parseInt(value)})}
+                            onChange={(value) => this.setState({ value: parseInt(value) })}
                         />
 
                         <Text style={this.style.form.label}>{I18n.t('fields.additional_weight')}</Text>
                         <Input small
                             keyboardType={"numeric"}
                             value={this.state.extraWeight ? this.state.extraWeight.toString() : undefined}
-                            onChange={(extraWeight) => this.setState({extraWeight: parseInt(extraWeight)})}
+                            onChange={(extraWeight) => this.setState({ extraWeight: parseInt(extraWeight) })}
                         />
                     </View>
                 </View>
                 <ModalFooter
+                    loading={this.props.createSetLoading}
                     cancelText={I18n.t('buttons.cancel')}
                     onCancel={this.cancel}
                     successText={I18n.t('buttons.add_set')}
@@ -103,7 +105,8 @@ class AddSetModal extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    goal: state.planner.goalSelected
+    goal: state.planner.goalSelected,
+    createSetLoading: state.planner.createSetLoading
 });
 
 export default connect(mapStateToProps)(AddSetModal);

@@ -2,6 +2,7 @@ import { AnyAction } from 'redux';
 
 import { ModalTypes } from '../actions/modal';
 import { AuthTypes } from '../actions/auth';
+import { PlannerTypes } from '../actions/planner';
 
 export interface ModalState {
     [key: string]: any,
@@ -25,7 +26,9 @@ function modal(state = initialState, action: AnyAction): ModalState {
         case ModalTypes.addSetClose:
             return Object.assign({}, state, { addSetModalVisible: false });
         case AuthTypes.logout:
-            return Object.assign({}, initialState)
+            return Object.assign({}, initialState);
+        case PlannerTypes.createSetSuccess:
+            return Object.assign({}, state, { addSetModalVisible: false });
         default:
             return state;
     }

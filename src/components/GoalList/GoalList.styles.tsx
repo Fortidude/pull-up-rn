@@ -4,8 +4,8 @@ import { ThemeInterface } from '../../assets/themes';
 function getStyle(theme: ThemeInterface) {
     return {
         exerciseListContainer: {
-            backgroundColor: 'transparent',
-            marginBottom: 20
+            backgroundColor: theme.colors.cardBackgroundColor,
+            marginBottom: 0
         }
     };
 }

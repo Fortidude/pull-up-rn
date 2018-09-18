@@ -11,17 +11,14 @@ class Exercise implements ExerciseInterface {
     name: string
     isCardio: boolean;
     description: string;
-    exerciseVariant: ExerciseVariant|null = null;
+    exerciseVariant: ExerciseVariant;
 
     constructor(data: ExerciseInterface, dataVariant: ExerciseVariantInterface) {
         this.id = data.id
         this.name = data.name;
         this.isCardio = data.is_cardio;
         this.description = data.description;
-        
-        if (dataVariant) {
-            this.exerciseVariant = new ExerciseVariant(dataVariant);
-        }
+        this.exerciseVariant = new ExerciseVariant(dataVariant);
     }
 }
 
@@ -31,9 +28,9 @@ class ExerciseVariant implements ExerciseVariantInterface {
     description: string;
 
     constructor(data: ExerciseVariantInterface) {
-        this.id = data.id
-        this.name = data.name;
-        this.description = data.description;
+        this.id = data ? data.id : null
+        this.name = data ? data.name : null;
+        this.description = data ? data.description : null;
     }
 }
 

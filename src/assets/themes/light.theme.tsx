@@ -18,6 +18,7 @@ const colors = {
 
     textColor: '#000000',
     subTextColor: greyColor,
+    disableText: greyColor,
 
     backgroundColor: '#F7F7F7',
     cardBackgroundColor: '#FFF',

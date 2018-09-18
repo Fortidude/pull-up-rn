@@ -1,7 +1,7 @@
 import { Exercise } from "./Exercise";
 import { SetInterface } from "./Set";
 
-interface GoalInterface {
+export interface GoalInterface {
     id: string;
     createdAt: Date;
     updatedAt: Date;
@@ -43,15 +43,15 @@ class Goal implements GoalInterface {
         this.updatedAt = new Date(data.updated_at);
         this.exercise = new Exercise(data.exercise, data.exercise_variant);
         this.description = data.description;
-        this.doneThisCircuit = data.done_this_circuit;
-        this.leftThisCircuit = data.left_this_circuit;
-        this.lastSetValue = data.last_set_value;
+        this.doneThisCircuit = parseInt(data.done_this_circuit);
+        this.leftThisCircuit = parseInt(data.left_this_circuit);
+        this.lastSetValue = parseInt(data.last_set_value);
         this.name = data.name;
-        this.requiredAmount = data.required_amount;
-        this.requiredReps = data.required_reps;
-        this.requiredSets = data.required_sets;
+        this.requiredAmount = parseInt(data.required_amount);
+        this.requiredReps = parseInt(data.required_reps);
+        this.requiredSets = parseInt(data.required_sets);
+        this.requiredWeight = parseInt(data.required_weight);
         this.requiredType = data.required_type;
-        this.requiredWeight = data.required_weight;
         this.sets = [];
         data.sets.forEach(set => {
             if (Object.keys(set).length > 0) {

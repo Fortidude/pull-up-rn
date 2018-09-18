@@ -34,7 +34,16 @@ let translations = {
         },
 
         planner: {
-            done_of: "Wykonano",
+            done_of: "Zrobiono",
+            missing: "Brakuje",
+            type: "Typ",
+            types: {
+                none: "Brak",
+                sets: "Sety",
+                reps: "Powtórzenia",
+                time: "Czas",
+                weight: "waga"
+            }
         },
 
         themes: {

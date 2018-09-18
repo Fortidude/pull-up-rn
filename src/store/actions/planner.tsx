@@ -10,6 +10,7 @@ export enum PlannerTypes {
     selectGoal = '[PLANNER] SELECT GOAL',
 
     createSet = '[PLANNER] CREATE SET',
+    createSetLoading = '[PLANNER] CREATE SET LOADING',
     createSetSuccess = '[PLANNER] CREATE SET SUCCESS',
     createSetFailed = '[PLANNER] CREATE SET FAILED',
 }
@@ -21,29 +22,33 @@ export const PlannerActions = {
     }),
     loadByTrainingsSuccess: (planner: Planner) => ({
         type: PlannerTypes.loadByTrainingsSuccess,
-        payload: {planner}
+        payload: { planner }
     }),
     loadByTrainingsFailed: (error: string) => ({
         type: PlannerTypes.loadByTrainingsFailed,
-        payload: {error}
+        payload: { error }
     }),
 
-    selectGoal: (goal: Goal|null) => ({
+    selectGoal: (goal: Goal | null) => ({
         type: PlannerTypes.selectGoal,
-        payload: {goal}
+        payload: { goal }
     }),
 
-    createSet: (goal: Goal, value: number, extraWeight: number|null) => ({
+    createSet: (goal: Goal, value: number, extraWeight: number | null) => ({
         type: PlannerTypes.createSet,
-        payload: {goal, value, extraWeight}
+        payload: { goal, value, extraWeight }
+    }),
+    createSetLoading: () => ({
+        type: PlannerTypes.createSetLoading,
+        payload: {}
     }),
     createSetSuccess: (setCreated: SetInterface) => ({
         type: PlannerTypes.createSetSuccess,
-        payload: {setCreated}
+        payload: { setCreated }
     }),
     createSetFailed: (error: string) => ({
         type: PlannerTypes.createSetFailed,
-        payload: {error}
+        payload: { error }
     }),
 
 };
