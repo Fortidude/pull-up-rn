@@ -9,6 +9,7 @@ import GoalListHeader from './GoalListHeader';
 import GoalItem from './GoalItem';
 import Training from '../../models/Training';
 import GoalListContainer from './GoalListContainer/GoalListContainer';
+import { ModalActions } from '../../store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;
@@ -54,6 +55,7 @@ class ExerciseList extends React.Component<Props, State> {
     countHeight = () => this.countGoals() * 70;
     toggleList = () => {
         if (this.props.plannerEditMode) {
+            this.props.dispatch(ModalActions.goalCreateOpen());
             return;
         }
         const toggled = !this.state.toggled;

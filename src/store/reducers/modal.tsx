@@ -6,12 +6,14 @@ import { PlannerTypes } from '../actions/planner';
 
 export interface ModalState {
     [key: string]: any,
-    addSetModalVisible: boolean
-    profileModalVisible: boolean
+    addSetModalVisible: boolean;
+    goalCreateModalVisible: boolean;
+    profileModalVisible: boolean;
 }
 
 const initialState: ModalState = {
     addSetModalVisible: false,
+    goalCreateModalVisible: false,
     profileModalVisible: false
 };
 
@@ -21,10 +23,17 @@ function modal(state = initialState, action: AnyAction): ModalState {
             return Object.assign({}, state, { profileModalVisible: true });
         case ModalTypes.profileClose:
             return Object.assign({}, state, { profileModalVisible: false });
+            
         case ModalTypes.addSetOpen:
             return Object.assign({}, state, { addSetModalVisible: true });
         case ModalTypes.addSetClose:
             return Object.assign({}, state, { addSetModalVisible: false });
+
+        case ModalTypes.goalCreateOpen:
+            return Object.assign({}, state, { goalCreateModalVisible: true });
+        case ModalTypes.goalCreateClose:
+            return Object.assign({}, state, { goalCreateModalVisible: false });
+
         case AuthTypes.logout:
             return Object.assign({}, initialState);
         case PlannerTypes.createSetSuccess:

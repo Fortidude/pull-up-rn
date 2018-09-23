@@ -3,7 +3,10 @@ export enum ModalTypes {
     profileClose = '[MODAL] CLOSE PROFILE',
 
     addSetOpen = '[MODAL] OPEN ADD SET',
-    addSetClose = '[MODAL] CLOSE ADD SET'
+    addSetClose = '[MODAL] CLOSE ADD SET',
+
+    goalCreateOpen = '[MODAL] OPEN CREATE GOAL',
+    goalCreateClose = '[MODAL] CLOSE CREATE GOAL'
 }
 
 export const ModalActions = {
@@ -23,5 +26,15 @@ export const ModalActions = {
     addSetClose: () => ({
         type: ModalTypes.addSetClose,
         payload: {}
+    }),
+
+    goalCreateOpen: () => ({
+        type: ModalTypes.goalCreateOpen,
+        payload: {}
+    }),
+    goalCreateClose: () => ({
+        type: ModalTypes.goalCreateClose,
+        payload: {}
     })
+    
 };

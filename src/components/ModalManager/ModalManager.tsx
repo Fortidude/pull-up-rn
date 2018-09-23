@@ -2,10 +2,12 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { Animated, Dimensions, KeyboardAvoidingView, Keyboard, EventSubscription, Platform } from 'react-native';
 import { connect } from 'react-redux';
+
 import Styles from './ModalManager.styles';
 import { ThemeInterface, ThemeValueInterface } from '../../assets/themes'; import { ModalState } from '../../store/reducers/modal';
+
 import AddSetModal from '../AddSetModal';
-import { toHumanSize } from 'i18n-js';
+import CreateGoalModal from '../CreateGoalModal';
 
 const HEIGHT = Dimensions.get('window').height;
 
@@ -21,6 +23,9 @@ interface State {
     keyboardVisible: boolean;
     overlayOpacity: Animated.Value;
     containerTranslateY: Animated.Value;
+
+    addSetModal: boolean;
+    createGoalModal: boolean;
 }
 
 class ModalManager extends React.Component<Props, State> {
@@ -38,7 +43,10 @@ class ModalManager extends React.Component<Props, State> {
             cancelPressed: false,
             keyboardVisible: false,
             overlayOpacity: new Animated.Value(0),
-            containerTranslateY: new Animated.Value(-HEIGHT)
+            containerTranslateY: new Animated.Value(-HEIGHT),
+
+            addSetModal: false,
+            createGoalModal: false
         }
     }
 
@@ -76,9 +84,9 @@ class ModalManager extends React.Component<Props, State> {
         }
 
         if (this.isModalVisible(nextProps)) {
-            this.showModal();
+            this.showModal(nextProps);
         } else {
-            this.hideModal();
+            this.hideModal(nextProps);
         }
     }
 
@@ -94,7 +102,7 @@ class ModalManager extends React.Component<Props, State> {
 
     _keyboardDidHide = () => {
         if (this.state.cancelPressed) {
-            this._animateClose();
+            this._animateClose(this.props);
             return;
         }
 
@@ -112,8 +120,11 @@ class ModalManager extends React.Component<Props, State> {
         return visible;
     }
 
-    showModal = () => {
-        this.setState({ showOverlay: true }, () => {
+    showModal = (props: Props) => {
+        const state = this._getToggledState(props);
+        state.showOverlay = true;
+
+        this.setState(state, () => {
             Animated.sequence([
                 Animated.timing(this.state.overlayOpacity, { toValue: 1, duration: 150 }),
                 Animated.spring(this.state.containerTranslateY, { toValue: 0 })
@@ -121,22 +132,35 @@ class ModalManager extends React.Component<Props, State> {
         });
     }
 
-    hideModal = () => {
+    hideModal = (props: Props) => {
         this.setState({ cancelPressed: true }, () => {
             if (this.state.keyboardVisible) {
                 Keyboard.dismiss();
             } else {
-                this._animateClose();   
+                this._animateClose(props);
             }
         });
     }
 
-    _animateClose = () => {
+    _getToggledState = (props: Props) => {
+        const state: State = Object.assign({}, this.state);
+        state.addSetModal = props.modal.addSetModalVisible;
+        state.createGoalModal = props.modal.goalCreateModalVisible;
+
+        return state;
+    }
+
+    _animateClose = (props: Props) => {
         Animated.parallel([
             Animated.timing(this.state.containerTranslateY, { toValue: -HEIGHT, duration: 300 }),
             Animated.timing(this.state.overlayOpacity, { toValue: 0, duration: 150, delay: 100 })
         ]).start(() => {
-            this.setState({ showOverlay: false, cancelPressed: false, keyboardVisible: false });
+            const state = Object.assign(
+                {},
+                this._getToggledState(props),
+                { showOverlay: false, cancelPressed: false, keyboardVisible: false }
+            );
+            this.setState(state);
         });
     }
 
@@ -144,6 +168,8 @@ class ModalManager extends React.Component<Props, State> {
         if (!this.state.showOverlay) {
             return (null);
         };
+
+        console.log(this.state);
 
         const background = this.state.overlayOpacity.interpolate({
             inputRange: [0, 1],
@@ -153,7 +179,8 @@ class ModalManager extends React.Component<Props, State> {
         return (
             <Animated.View style={[this.style.overlay, { backgroundColor: background }]}>
                 <Animated.View style={[this.style.container, { transform: [{ translateY: this.state.containerTranslateY }] }]}>
-                    <AddSetModal />
+                    {!!this.state.addSetModal && <AddSetModal />}
+                    {!!this.state.createGoalModal && <CreateGoalModal />}
                 </Animated.View>
             </Animated.View>
         );
