@@ -9,6 +9,7 @@ describe('ther User -> isUserLoggedAndTokenValid', () => {
     })
 
     it('token is invalid', async () => {
+        // @ts-ignore
         fetch.mockResponse(JSON.stringify({ "status": 401 }))
 
         const tokenInvalid = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwidXNlcm5hbWUiOiJ0ZXN0X3VzZXIiLCJpYXQiOjE1MzY1MTc0MzUsImV4cCI6MTMzOTA0NTc2MiwianRpIjoiNjUzYTIyMGQtNGQ2MC00YzlhLThiM2MtZWM1NWYxNDdhM2Y4In0.kvyKJ5-XxOAEkoxKZEvgRXoJ4SKSNNPHs6PKWGnugxY";

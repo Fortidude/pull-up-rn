@@ -73,7 +73,6 @@ class ApiHelper implements ApiInterface {
         let tokenDecoded: { [key: string]: any } = jwtDecode(token);
         if (tokenDecoded.exp && tokenDecoded.roles && tokenDecoded.username) {
             let expirationAt = new Date(parseInt(tokenDecoded.exp) * 1000);
-            console.log(expirationAt > new Date(Date.now() + 86400));
             return expirationAt > new Date(Date.now() + 86400);
         }
 

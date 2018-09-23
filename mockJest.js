@@ -51,4 +51,10 @@ export default class MockStorage {
 const storageCache = {};
 const AsyncStorage = new MockStorage(storageCache);
 
-jest.setMock('AsyncStorage', AsyncStorage)
+jest.setMock('AsyncStorage', AsyncStorage);
+
+const StyleSheetMock = {
+    hairlineWidth: 1,
+    absoluteFill: {}
+}
+jest.setMock('StyleSheet', StyleSheetMock);

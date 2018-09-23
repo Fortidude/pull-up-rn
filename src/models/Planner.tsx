@@ -49,7 +49,6 @@ class PlannerMethodsClass {
                     goal.sets.push(set);
                     goal.sets.sort(sortSetsByDate);
 
-                    console.log(this, this.recountGoal);
                     this.recountGoal(goal, set);
 
                     added = true;
@@ -61,7 +60,9 @@ class PlannerMethodsClass {
     }
 
     recountGoal = (goal: GoalInterface, set: SetInterface) => {
+        // @ts-ignore
         goal.doneThisCircuit = parseInt(goal.doneThisCircuit);
+        // @ts-ignore
         goal.requiredAmount = parseInt(goal.requiredAmount);
         switch (goal.requiredType) {
             case 'sets': {
@@ -69,14 +70,17 @@ class PlannerMethodsClass {
                 break;
             }
             case 'reps': {
+                // @ts-ignore
                 goal.doneThisCircuit += parseInt(set.reps);
                 break;
             }
             case 'time': {
+                // @ts-ignore
                 goal.doneThisCircuit += parseInt(set.time);
                 break;
             }
             case 'weight': {
+                // @ts-ignore
                 goal.doneThisCircuit += parseInt(set.weight);
                 break;
             }

@@ -9,6 +9,7 @@ jest.mock('react-native-i18n', () => ({
 }));
 
 describe('settings reducer', () => {
+    // @ts-ignore
     expect(settings(undefined, {})).toEqual(initialState)
 
     it('should set locale', () => {
