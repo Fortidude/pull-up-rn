@@ -24,7 +24,7 @@ interface Props {
     toggleParentScroll?: (enable: boolean) => void,
 }
 
-interface state {
+interface State {
     goal: Goal
 }
 
@@ -33,6 +33,7 @@ class GoalItem extends React.Component<Props, State> {
     scrolling: boolean;
     swipeItemPosition = new Animated.Value(0);
     progressPercent = new Animated.Value(0);
+    swipeItemRef: any;
 
     constructor(props: Props) {
         super(props);
@@ -44,7 +45,8 @@ class GoalItem extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        this.refs.swipeItem.getSwipePosition().addListener(({ value }) => {
+        // @ts-ignore
+        this.swipeItemRef.getSwipePosition().addListener(({ value }) => {
             this.swipeItemPosition.setValue(value);
         });
 
@@ -59,10 +61,10 @@ class GoalItem extends React.Component<Props, State> {
 
         if (nextProps.plannerEditMode && !this.props.plannerEditMode) {
             setTimeout(() => {
-                this.refs.swipeItem.forceOpenRight();
+                this.swipeItemRef.forceOpenRight();
             }, this.props.isToggled ? 0 : 300);
         } else if (!nextProps.plannerEditMode && this.props.plannerEditMode) {
-            this.refs.swipeItem.forceClose();
+            this.swipeItemRef.forceClose();
         }
     }
 
@@ -119,7 +121,7 @@ class GoalItem extends React.Component<Props, State> {
 
         return (
             <SwipeItem style={this.style.swipeout}
-                ref={'swipeItem'}
+                ref={ref => this.swipeItemRef = ref}
                 rightButtons={rightButtons}
                 onMoveBegin={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(false) : null}
                 onMoveEnd={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(true) : null}
@@ -133,15 +135,14 @@ class GoalItem extends React.Component<Props, State> {
                     <View style={this.style.summaryContent}>
                         <Animated.View style={[this.style.summaryLeftContent, { left: summaryContentLeft }]}>
                             <Text style={this.style.title}>{goal.exercise.name} </Text>
-                            <Text style={this.style.subTitle}>{goal.exercise.exerciseVariant.name} </Text>
+                            {!!goal.exercise.exerciseVariant.name && <Text style={this.style.subTitle}>{goal.exercise.exerciseVariant.name} </Text>}
                         </Animated.View>
                         <Animated.View style={[this.style.summaryRightContent, { opacity: opacityContentRight }]}>
-
                             <View style={this.style.infoTitleTopContainer}>
                                 <Text style={[this.style.infoTitleTop, { flex: 3 }]}>{I18n.t('planner.done_of')}: </Text>
                                 <Text style={[this.style.infoTitleTop, { flex: 2, textAlign: 'right' }]} numberOfLines={1}>
                                     {this.props.goal.doneThisCircuit}
-                                    {this.props.goal.requiredAmount && <Text> / {this.props.goal.requiredAmount}</Text>}
+                                    {!!this.props.goal.requiredAmount && <Text> / {this.props.goal.requiredAmount}</Text>}
                                 </Text>
                             </View>
                             <View style={this.style.infoTitleBottomContainer}>
