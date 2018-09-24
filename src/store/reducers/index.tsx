@@ -1,4 +1,6 @@
 import storage from 'redux-persist/es/storage'
+
+// @ts-ignore
 import createExpirationTransform from 'redux-persist-transform-expire';
 import { persistCombineReducers } from 'redux-persist'
 
@@ -10,15 +12,17 @@ import settings from './settings';
 import modal from './modal';
 import planner from './planner';
 import sync from './sync';
+import exercise from './exercise';
 
 const reducers = {
     app: app,
     auth: auth,
+    exercise: exercise,
+    modal: modal,
     nav: navigation,
     user: user,
-    settings: settings,
-    modal: modal,
     planner: planner,
+    settings: settings,
     sync: sync
 };
 

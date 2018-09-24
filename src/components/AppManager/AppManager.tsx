@@ -5,6 +5,8 @@ import I18n from './../../assets/translations';
 import { AppActions } from '../../store/actions/app';
 import Data from '../../api/data';
 import { SyncActions } from '../../store/actions/sync';
+import { Exercise } from '../../models/Exercise';
+import { ExerciseActions } from '../../store/actions/exercise';
 
 interface Props {
     dispatch: Dispatch;
@@ -12,6 +14,7 @@ interface Props {
     isOnline: boolean;
     isNetworkChecked: boolean;
     anythingToSync: boolean;
+    exercisesLoaded: boolean;
 }
 
 class AppManager extends React.Component<Props> {
@@ -39,6 +42,8 @@ class AppManager extends React.Component<Props> {
                         this.props.dispatch(AppActions.isOnline());
                         this.props.dispatch(SyncActions.synchronize());
                     }
+
+                    this.runWhenOnline();
                 })
                 // IS OFFLINE
                 .catch(err => {
@@ -47,6 +52,16 @@ class AppManager extends React.Component<Props> {
                         this.props.dispatch(AppActions.isOffline());
                     }
                 });
+    }
+
+    runWhenOnline = () => {
+        this.loadExercises();
+    }
+
+    loadExercises = () => {
+        if (!this.props.exercisesLoaded) {
+            this.props.dispatch(ExerciseActions.loadExercises());
+        }
     }
 
     render() {
@@ -60,6 +75,7 @@ const mapStateToProps = (state: any) => ({
     isOnline: state.app.isOnline,
     isNetworkChecked: state.app.networkChecked,
     anythingToSync: state.sync.items.length > 0,
+    exercisesLoaded: state.exercise.loaded
 });
 
 export default connect(mapStateToProps)(AppManager);

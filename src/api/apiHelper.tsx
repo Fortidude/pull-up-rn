@@ -34,12 +34,14 @@ class ApiHelper implements ApiInterface {
      */
     public checkForResponseErrors = (response: { [key: string]: any }) => {
         const DEFAULT_SERVER_ERROR_MESSAGE = "SERVER_ERROR";
-        if (response && typeof response.code !== 'undefined' && response.code !== 200) {
+        
+        const code = response.code || response.status || false;
+        if (response && typeof code !== 'undefined' && code !== 200) {
             if (response.message) {
                 throw new Error(response.message.replace('.', '_'));
             }
 
-            switch (response.code) {
+            switch (code) {
                 case 500:
                     throw new Error(DEFAULT_SERVER_ERROR_MESSAGE);
                 case 404:

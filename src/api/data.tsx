@@ -33,15 +33,19 @@ class Data implements DataInterface {
         return await this.getFetchData('/secured/goal/planner/list', 'goal_planner_list');
     }
 
+    public getExerciseList = async (): Promise<Planner> => {
+        return await this.getFetchData('/secured/exercise/list', 'exercise_list');
+    }
+
     public postCreateSet = async (data: { [key: string]: any }): Promise<ResponseStatus> => {
         return await this.postFetchData('/secured/goal/set/create', data);
     }
 
-    private getFetchData = async (url: string, cacheKey?: string) => {
+    private getFetchData = async (url: string, cacheKey?: string, useToken: boolean = true, asJson: boolean = true) => {
         const apiUrl = ApiHelper.getHost() + url;
         const object = {
             method: 'GET',
-            headers: await ApiHelper.getHeaders(true, true)
+            headers: await ApiHelper.getHeaders(useToken, asJson)
         };
 
         // console.log('__FETCH__', url);
@@ -51,7 +55,8 @@ class Data implements DataInterface {
             .then(function (response) {
                 return response;
             })
-            .catch((error) => {
+            .catch((error: Error) => {
+                console.log(apiUrl);
                 throw error;
             });
     }
@@ -87,7 +92,6 @@ class Data implements DataInterface {
                 return response;
             })
             .catch((error) => {
-                console.log(error);
                 throw error;
             });
     }

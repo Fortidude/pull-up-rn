@@ -38,7 +38,7 @@ class PlannerList extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        if (!this.props.plannerLoaded) {
+        if (!this.props.plannerLoaded && this.props.isOnline) {
             this.props.dispatch(PlannerActions.loadByTrainings());
         }
     }

@@ -2,10 +2,10 @@ import { AsyncStorage } from 'react-native';
 import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import { PlannerActions, PlannerTypes } from '../actions/planner';
 import { Data } from '../../api';
-import Goal from '../../models/Goal';
 import { SetInterface } from '../../models/Set';
 
 function* loadByTrainings() {
+    //@ts-ignore
     const isOnline = yield select(state => state.app.isOnline);
     if (isOnline) {
         yield put(PlannerActions.loadByTrainingsFailed('OFFLINE'));
@@ -20,6 +20,7 @@ function* loadByTrainings() {
 }
 
 function* createSet(action: any) {
+    //@ts-ignore
     const isLoading = yield select(state => state.planner.createSetLoading);
     if (isLoading) {
         return;

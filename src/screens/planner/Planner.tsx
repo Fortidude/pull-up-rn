@@ -1,10 +1,9 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { View, Modal, Animated } from 'react-native';
+import { View, Animated } from 'react-native';
 
 import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
-import I18n from '../../assets/translations';
 import getStyle from './Planner.styles';
 import PlannerList from './PlannerList';
 import TopProgressBar from './TopProgressBar';
@@ -44,6 +43,7 @@ class Planner extends React.Component<Props, State> {
             <View style={this.style.container}>
                 <TopProgressBar scrollViewPositionY={this.state.plannerListScrollPositionY}/>
                 <PlannerList scrollBegin={() => {
+                    // @ts-ignore
                     const value = this.state.plannerListScrollPositionY._value;
                     this.state.plannerListScrollPositionY.setValue(value + 1);
                 }}/>
