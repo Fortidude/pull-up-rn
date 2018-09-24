@@ -1,4 +1,4 @@
-import { Exercise } from "./Exercise";
+import { Exercise, ExerciseVariant } from "./Exercise";
 import { SetInterface } from "./Set";
 
 export interface GoalInterface {
@@ -17,6 +17,15 @@ export interface GoalInterface {
     requiredType: string;
     requiredWeight: number;
     sets: SetInterface[];
+}
+
+interface NewGoalInterface {
+    name: string | null;
+    description: string | null;
+    exercise: Exercise | null;
+    exerciseVariant: ExerciseVariant | null;
+    type: "sets" | "reps" | "time" | null;
+    requiredAmount: number | null;
 }
 
 class Goal implements GoalInterface {
@@ -62,3 +71,6 @@ class Goal implements GoalInterface {
 }
 
 export default Goal;
+export {
+    NewGoalInterface
+}

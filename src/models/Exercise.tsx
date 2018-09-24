@@ -1,3 +1,5 @@
+import ValidateUUID from '../service/helpers/ValidateUUID';
+
 interface ExerciseInterface {
     [key: string]: any
 }
@@ -34,8 +36,13 @@ class ExerciseVariant implements ExerciseVariantInterface {
     }
 }
 
+const validateExercise = (exercise: Exercise | null) => {
+    return exercise !== null && typeof exercise.name === 'string' && exercise.name.length > 2 && ValidateUUID(exercise.id);
+}
+
 export {
     Exercise,
-    ExerciseVariant
+    ExerciseVariant,
+    validateExercise
 }
 

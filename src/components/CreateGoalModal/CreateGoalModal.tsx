@@ -14,7 +14,10 @@ import I18n from '../../assets/translations';
 import { ModalActions } from '../../store/actions/modal';
 import { PlannerActions } from '../../store/actions/planner';
 
+import { Exercise, ExerciseVariant } from '../../models/Exercise';
+
 import Input from '../Input';
+import validate from './components/validate';
 
 interface Props {
     dispatch: Dispatch;
@@ -22,7 +25,12 @@ interface Props {
 }
 
 interface State {
-    value: number | null;
+    name: string | null;
+    description: string | null;
+    exercise: Exercise | null;
+    exerciseVariant: ExerciseVariant | null;
+    type: "sets" | "reps" | "time" | null;
+    requiredAmount: number | null;
 }
 
 class CreateGoalModal extends React.Component<Props, State> {
@@ -33,7 +41,12 @@ class CreateGoalModal extends React.Component<Props, State> {
 
         this.style = Styles(this.props.theme);
         this.state = {
-            value: null
+            name: null,
+            description: null,
+            exercise: null,
+            exerciseVariant: null,
+            type: 'sets',
+            requiredAmount: null
         }
     }
 
@@ -48,7 +61,7 @@ class CreateGoalModal extends React.Component<Props, State> {
     }
 
     success = () => {
-        if (!this.state.value) {
+        if (!validate(this.state)) {
             return;
         }
     }
@@ -65,21 +78,23 @@ class CreateGoalModal extends React.Component<Props, State> {
                 <View style={this.style.content}>
                     <View style={this.style.textLine.container}>
                         <Text style={this.style.textLine.textLeft} numberOfLines={1}>Text</Text>
-                        
+
                     </View>
                     <View style={this.style.form.container}>
-                        <Text style={this.style.form.label}>Label</Text>
+                        // NAME
+                        <Text style={this.style.form.label}>Nazwa (t)</Text>
                         <Input small
-                            keyboardType={"numeric"}
-                            value={this.state.value ? this.state.value.toString() : undefined}
-                            onChange={(value) => this.setState({ value: parseInt(value) })}
+                            keyboardType={"default"}
+                            value={this.state.name ? this.state.name.toString() : undefined}
+                            onChange={(value) => this.setState({ name: value })}
                         />
 
-                        <Text style={this.style.form.label}>Label 2</Text>
+                        // EXERCISE
+                        <Text style={this.style.form.label}>Cwiczenie (t)</Text>
                         <Input small
                             keyboardType={"numeric"}
-                            value={this.state.value ? this.state.value.toString() : undefined}
-                            onChange={(extraWeight) => this.setState({ value: parseInt(extraWeight) })}
+                            value={this.state.exercise ? this.state.exercise.name : undefined}
+                            onChange={(exercise) => this.setState({ exercise: this._findExerciseByName(exercise) })}
                         />
                     </View>
                 </View>
@@ -92,11 +107,16 @@ class CreateGoalModal extends React.Component<Props, State> {
             </View>
         );
     }
+
+    _findExerciseByName = (name: string) => {
+        return null;
+    }
 }
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    exercises: []
 });
 
 export default connect(mapStateToProps)(CreateGoalModal);
