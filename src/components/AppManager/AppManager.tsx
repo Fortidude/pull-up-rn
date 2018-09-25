@@ -7,6 +7,7 @@ import Data from '../../api/data';
 import { SyncActions } from '../../store/actions/sync';
 import { Exercise } from '../../models/Exercise';
 import { ExerciseActions } from '../../store/actions/exercise';
+import { ModalActions } from '../../store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;
@@ -18,7 +19,7 @@ interface Props {
 }
 
 class AppManager extends React.Component<Props> {
-    constructor(props:Props) {
+    constructor(props: Props) {
         super(props);
 
         I18n.locale = props.locale;
@@ -35,23 +36,26 @@ class AppManager extends React.Component<Props> {
 
     checkIfOnline = () => {
         Data.pingServer()
-                // IS ONLINE
-                .then(response => {
-                    // run only if was not online or never checkec before 
-                    if (!this.props.isOnline || !this.props.isNetworkChecked) {
-                        this.props.dispatch(AppActions.isOnline());
-                        this.props.dispatch(SyncActions.synchronize());
-                    }
+            // IS ONLINE
+            .then(response => {
+                // run only if was not online or never checkec before 
+                if (!this.props.isOnline || !this.props.isNetworkChecked) {
+                    this.props.dispatch(AppActions.isOnline());
+                    this.props.dispatch(SyncActions.synchronize());
 
-                    this.runWhenOnline();
-                })
-                // IS OFFLINE
-                .catch(err => {
-                    // run only if was online or never checked before
-                    if (this.props.isOnline || !this.props.isNetworkChecked) {
-                        this.props.dispatch(AppActions.isOffline());
-                    }
-                });
+                    // @TODO for test purpose
+                    //this.props.dispatch(ModalActions.goalCreateOpen());
+                }
+
+                this.runWhenOnline();
+            })
+            // IS OFFLINE
+            .catch(err => {
+                // run only if was online or never checked before
+                if (this.props.isOnline || !this.props.isNetworkChecked) {
+                    this.props.dispatch(AppActions.isOffline());
+                }
+            });
     }
 
     runWhenOnline = () => {

@@ -6,7 +6,7 @@ function getStyle(theme: ThemeInterface) {
         container: {
             backgroundColor: theme.colors.backgroundColor,
             borderRadius: 15,
-            height: 255,
+            height: 450,
             width: 270
         },
 
@@ -38,11 +38,16 @@ function getStyle(theme: ThemeInterface) {
             container: {
                 marginTop: 15,
             },
-            label: {     
+            label: {
                 fontSize: theme.fonts.fontH4Size,
                 fontFamily: theme.fonts.mainFontFamily,
                 color: theme.colors.formLabelColor,
                 marginBottom: 1
+            },
+            switch: {
+                container: { flexDirection: 'row' },
+                left: { flex: 3 },
+                right: { flex: 1, alignItems: 'flex-end' }
             }
         }
     };

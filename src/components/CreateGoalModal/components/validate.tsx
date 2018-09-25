@@ -1,9 +1,12 @@
 import { NewGoalInterface } from "../../../models/Goal";
 import { Exercise, validateExercise } from "../../../models/Exercise";
 
-const validateName = (name: string | null) => typeof name === 'string' && name.length > 2;
+const validateName = (name: string | null) => true;//typeof name === 'string' && name.length > 2;
 const validateDescription = (description: string | null) => true // not required;
-const validateType = (type: string | null) => type === 'sets' || type === 'reps' || type === 'time';
+const validateType = (type: string | null) => {
+    type = type ? type.toLocaleLowerCase() : null;
+    return type === 'sets' || type === 'reps' || type === 'time'
+};
 
 export default (state: NewGoalInterface) => {
     return validateName(state.name)

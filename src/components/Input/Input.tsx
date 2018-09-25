@@ -11,10 +11,12 @@ interface Props {
     onChange: (value: string) => void;
     placeholder?: string;
     value?: string;
-    password?: boolean;
 
+    disabled?: boolean;
+    password?: boolean;
     small?: boolean;
     authStyle?: boolean;
+
     style?: {};
 
     /**
@@ -47,6 +49,9 @@ class Input extends React.Component<Props> {
         return (
             <View style={[this.style.container, {height: height}, containerStyle, this.props.style]}>
                 <TextInput
+                    contextMenuHidden={this.props.disabled}
+                    selectTextOnFocus={!this.props.disabled}
+                    editable={!this.props.disabled}
                     keyboardType={this.props.keyboardType || "default"}
                     autoCapitalize={'none'}
                     secureTextEntry={this.props.password}

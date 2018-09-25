@@ -6,6 +6,7 @@ import UserModel from '../models/User';
 import Planner from "../models/Planner";
 import { Dispatch } from "redux";
 import { SyncActions } from "../store/actions/sync";
+import { Exercise } from "../models/Exercise";
 
 interface ResponseStatus { status: boolean };
 
@@ -34,7 +35,8 @@ class Data implements DataInterface {
     }
 
     public getExerciseList = async (): Promise<Planner> => {
-        return await this.getFetchData('/secured/exercise/list', 'exercise_list');
+        const collection = await this.getFetchData('/secured/exercise/list', 'exercise_list');
+        return collection.map((exercise: any) => new Exercise(exercise));
     }
 
     public postCreateSet = async (data: { [key: string]: any }): Promise<ResponseStatus> => {

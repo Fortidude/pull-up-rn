@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Animated, Dimensions, KeyboardAvoidingView, Keyboard, EventSubscription, Platform } from 'react-native';
+import { Animated, Dimensions, KeyboardAvoidingView, Keyboard, EventSubscription, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './ModalManager.styles';
@@ -178,10 +178,10 @@ class ModalManager extends React.Component<Props, State> {
 
         return (
             <Animated.View style={[this.style.overlay, { backgroundColor: background }]}>
-                <Animated.View style={[this.style.container, { transform: [{ translateY: this.state.containerTranslateY }] }]}>
+                <Animated.ScrollView onScroll={() => {Keyboard.dismiss()}} contentContainerStyle={this.style.container} style={{ transform: [{ translateY: this.state.containerTranslateY }] }}>
                     {!!this.state.addSetModal && <AddSetModal />}
                     {!!this.state.createGoalModal && <CreateGoalModal />}
-                </Animated.View>
+                </Animated.ScrollView>
             </Animated.View>
         );
     }
