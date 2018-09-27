@@ -1,10 +1,11 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Animated, Dimensions, KeyboardAvoidingView, Keyboard, EventSubscription, Platform, ScrollView } from 'react-native';
+import { Animated, Dimensions, Keyboard, EventSubscription, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './ModalManager.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../assets/themes'; import { ModalState } from '../../store/reducers/modal';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+import { ModalState } from 'src/store/reducers/modal';
 
 import AddSetModal from './Modals/AddSetModal';
 import CreateGoalModal from './Modals/CreateGoalModal';

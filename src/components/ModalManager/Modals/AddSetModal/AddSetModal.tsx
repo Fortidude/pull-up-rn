@@ -2,16 +2,18 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import Styles from './AddSetModal.styles';
 
-import { ThemeInterface, ThemeValueInterface } from '../../../../assets/themes';
-import ModalFooter from '../../../ModalManager/ModalFooter';
-import { ModalActions } from '../../../../store/actions/modal';
-import ModalHeader from '../../../ModalManager/ModalHeader';
-import I18n from '../../../../assets/translations';
-import { PlannerActions } from '../../../../store/actions/planner';
-import Goal from '../../../../models/Goal';
-import Input from '../../../Input';
+import Styles from './AddSetModal.styles';
+import I18n from 'src/assets/translations';
+import { ModalActions } from 'src/store/actions/modal';
+
+import Goal from 'src/models/Goal';
+import { PlannerActions } from 'src/store/actions/planner';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+
+import ModalFooter from 'src/components/ModalManager/ModalFooter';
+import ModalHeader from 'src/components/ModalManager/ModalHeader';
+import Input from 'src/components/Input';
 
 interface Props {
     dispatch: Dispatch;

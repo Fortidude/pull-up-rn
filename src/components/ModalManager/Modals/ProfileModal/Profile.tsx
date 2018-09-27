@@ -5,9 +5,10 @@ import { NavigationActions } from 'react-navigation';
 import { Animated, Dimensions } from 'react-native';
 
 import getStyle from './Profile.styles';
-import { ThemeValueInterface, ThemeInterface } from '../../../../assets/themes';
-import SettingListItem from '../../../SettingListItem';
-import { ModalActions } from '../../../../store/actions/modal';
+import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
+import { ModalActions } from 'src/store/actions/modal';
+
+import SettingListItem from 'src/components/SettingListItem';
 
 const height = Dimensions.get('window').height;
 

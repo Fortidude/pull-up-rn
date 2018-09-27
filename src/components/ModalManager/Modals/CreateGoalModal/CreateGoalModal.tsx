@@ -1,24 +1,24 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Text, View, ActionSheetIOS, TouchableOpacity, Animated, Switch } from 'react-native';
+import { Text, View, Switch } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './CreateGoalModal.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../../../assets/themes';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 
-import ModalFooter from '../../../ModalManager/ModalFooter';
-import ModalHeader from '../../../ModalManager/ModalHeader';
+import ModalFooter from 'src/components/ModalManager/ModalFooter';
+import ModalHeader from 'src/components/ModalManager/ModalHeader';
 
-import I18n from '../../../../assets/translations';
+import I18n from 'src/assets/translations';
 
-import { ModalActions } from '../../../../store/actions/modal';
-import { PlannerActions } from '../../../../store/actions/planner';
+import { ModalActions } from 'src/store/actions/modal';
+import { PlannerActions } from 'src/store/actions/planner';
 
-import { Exercise, ExerciseVariant } from '../../../../models/Exercise';
+import { Exercise, ExerciseVariant } from 'src/models/Exercise';
 
-import Input from '../../../Input';
+import Input from 'src/components/Input';
+import Select from 'src/components/Select';
 import validate, { validateType } from './components/validate';
-import Select from '../../../Select';
 
 type GoalType = "sets" | "reps" | "time" | null;
 

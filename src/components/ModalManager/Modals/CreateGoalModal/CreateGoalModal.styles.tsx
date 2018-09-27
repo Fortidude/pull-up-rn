@@ -1,4 +1,4 @@
-import { ThemeInterface } from '../../../../assets/themes';
+import { ThemeInterface } from 'src/assets/themes';
 
 function getStyle(theme: ThemeInterface) {
     return {
