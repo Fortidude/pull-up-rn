@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Animated, Dimensions, Keyboard, EventSubscription, Platform } from 'react-native';
+import { Animated, Dimensions, Keyboard, EventSubscription, Platform, Easing } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './ModalManager.styles';
@@ -38,7 +38,10 @@ const MODALS_HANDLED = [
     'addSetModalVisible',
     'goalCreateModalVisible',
     'pickerModalVisible'
-]
+];
+
+const OPEN_MODAL_ANIMATION_OPTION = { duration: 400, easing: Easing.bezier(0.4, 1, 0.4, 1) }
+const CLOSE_MODAL_ANIMATION_OPTION = { duration: 300, easing: Easing.bezier(1, 0.2, 1, 0.2) }
 
 /**
  * 
@@ -157,16 +160,18 @@ class ModalManager extends React.Component<Props, State> {
 
         // picker animate before setState - faster, but other modals may not working.
         if (this.isPickerModalVisible(props)) {
-            Animated.spring(this.state.pickerBottomPosition, { toValue: 20 }).start();
+            Animated.timing(this.state.pickerBottomPosition, { toValue: 20, ...OPEN_MODAL_ANIMATION_OPTION }).start();
         }
 
         this.setState(state, () => {
             const modalAnimations = [
-                Animated.timing(this.state.overlayOpacity, { toValue: 1, duration: 150 }),
+                Animated.timing(this.state.overlayOpacity, { toValue: 1, duration: 150, }),
             ];
 
             if (!this.isPickerModalVisible(props) && this.isModalVisible(props) === 1) {
-                modalAnimations.push(Animated.spring(this.state.containerTranslateY, { toValue: 0 }));
+                modalAnimations.push(
+                    Animated.timing(this.state.containerTranslateY, { toValue: 0, ...OPEN_MODAL_ANIMATION_OPTION })
+                );
             }
 
             Animated.sequence(modalAnimations).start();
@@ -183,6 +188,21 @@ class ModalManager extends React.Component<Props, State> {
         });
     }
 
+    hidePickerModal = (props: Props) => {
+        let isAnotherModalVisible = false;
+        MODALS_HANDLED.forEach(modalName => {
+            if (modalName !== 'pickerModalVisible' && !isAnotherModalVisible) {
+                isAnotherModalVisible = props.modal[modalName] && MODALS_HANDLED.includes(modalName);
+            }
+        });
+
+        if (!isAnotherModalVisible) {
+            this._animateClose(props);
+        } else {
+            this._animateClosePicker(props);
+        }
+    }
+
     _getToggledState = (props: Props) => {
         const state: State = Object.assign({}, this.state);
         state.addSetModal = props.modal.addSetModalVisible;
@@ -195,8 +215,8 @@ class ModalManager extends React.Component<Props, State> {
 
     _animateClose = (props: Props) => {
         Animated.parallel([
-            Animated.timing(this.state.containerTranslateY, { toValue: -HEIGHT, duration: 300 }),
-            Animated.timing(this.state.pickerBottomPosition, { toValue: -HEIGHT, duration: 300 }),
+            Animated.timing(this.state.containerTranslateY, { toValue: -HEIGHT, ...CLOSE_MODAL_ANIMATION_OPTION }),
+            Animated.timing(this.state.pickerBottomPosition, { toValue: -HEIGHT, ...CLOSE_MODAL_ANIMATION_OPTION }),
             Animated.timing(this.state.overlayOpacity, { toValue: 0, duration: 150, delay: 100 })
         ]).start(() => {
             const state = Object.assign(
@@ -204,25 +224,15 @@ class ModalManager extends React.Component<Props, State> {
                 this._getToggledState(props),
                 { showOverlay: false, cancelPressed: false, keyboardVisible: false }
             );
+
             this.setState(state);
         });
     }
 
     _animateClosePicker = (props: Props) => {
-        let anotherModalIsVisible = false;
-        MODALS_HANDLED.forEach(modalName => {
-            if (modalName !== 'pickerModalVisible' && !anotherModalIsVisible) {
-                anotherModalIsVisible = props.modal[modalName] && MODALS_HANDLED.includes(modalName);
-            }
-        });
-
-        if (!anotherModalIsVisible) {
-            this._animateClose(props);
-        } else {
-            Animated.spring(this.state.pickerBottomPosition, { toValue: -HEIGHT }).start(() => {
-                console.log('closed');
-            });
-        }
+        Animated.timing(this.state.pickerBottomPosition, {
+            toValue: -HEIGHT, ...CLOSE_MODAL_ANIMATION_OPTION
+        }).start();
     }
 
     render() {
