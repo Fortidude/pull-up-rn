@@ -1,11 +1,11 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import Styles from './ButtonBig.styles';
-import {ThemeInterface} from '../../assets/themes/index'
-import Spinner from '../Spinner';
+
+import {ThemeInterface} from 'src/assets/themes/index'
+import Spinner from 'src/components/Spinner';
 
 interface Props {
     theme: ThemeInterface;

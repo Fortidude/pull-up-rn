@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 import Styles from './CircleProgress.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../assets/themes';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 
 interface Props {
     appLoaded: boolean;

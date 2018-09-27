@@ -4,9 +4,9 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './PlannerFooter.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
-import Button from '../Button';
-import Avatar from '../Avatar';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+import Button from 'src/components/FooterBar/Button';
+import Avatar from 'src/components/FooterBar/Avatar';
 
 interface Props {
     onLayout?: () => void;

@@ -7,7 +7,7 @@ import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
 import getStyle from './Planner.styles';
 import PlannerList from './PlannerList';
 import TopProgressBar from './TopProgressBar';
-import ProfileModal from '../../components/ProfileModal';
+import ProfileModal from '../../components/ModalManager/Modals/ProfileModal';
 
 interface Props {
     dispatch: Dispatch;

@@ -5,9 +5,8 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Styles from './Avatar.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
-import { NavigationActions } from 'react-navigation';
-import { ModalActions } from '../../../store/actions/modal';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+import { ModalActions } from 'src/store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;

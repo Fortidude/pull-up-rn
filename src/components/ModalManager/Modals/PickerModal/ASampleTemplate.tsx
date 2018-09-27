@@ -2,9 +2,8 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-
 import Styles from './ASampleTemplate.styles';
-import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+import { ThemeInterface, ThemeValueInterface } from '../../assets/themes';
 
 interface Props {
     dispatch: Dispatch;

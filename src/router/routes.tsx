@@ -1,19 +1,20 @@
 import { createBottomTabNavigator } from 'react-navigation';
 
-import InitPage from '../screens/initPage';
+//import InitPage from 'src/screens/initPage';
+import InitPage from 'src/screens/initPage';
 
-import Login from '../screens/auth/Login';
-import Register from '../screens/auth/Register';
-import PasswordReminder from '../screens/auth/PasswordReminder';
+import Login from 'src/screens/auth/Login';
+import Register from 'src/screens/auth/Register';
+import PasswordReminder from 'src/screens/auth/PasswordReminder';
 
-import Planner from '../screens/planner/Planner';
-import Settings from '../screens/profile/Settings';
-import ThemePicker from '../screens/profile/ThemePicker';
-import LanguagePicker from '../screens/profile/LanguagePicker';
+import Planner from 'src/screens/planner/Planner';
+import Settings from 'src/screens/profile/Settings';
+import ThemePicker from 'src/screens/profile/ThemePicker';
+import LanguagePicker from 'src/screens/profile/LanguagePicker';
 
-import Effectiveness from '../screens/stats/Effectiveness';
-import Cardio from '../screens/cardio/Cardio';
-import Camera from '../screens/camera/Camera';
+import Effectiveness from 'src/screens/stats/Effectiveness';
+import Cardio from 'src/screens/cardio/Cardio';
+import Camera from 'src/screens/camera/Camera';
 
 const routes = {
     InitPage: {

@@ -1,13 +1,13 @@
 import React from 'React';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import I18n from './../../assets/translations';
-import { AppActions } from '../../store/actions/app';
-import Data from '../../api/data';
-import { SyncActions } from '../../store/actions/sync';
-import { Exercise } from '../../models/Exercise';
-import { ExerciseActions } from '../../store/actions/exercise';
-import { ModalActions } from '../../store/actions/modal';
+
+import I18n from 'src/assets/translations';
+import Data from 'src/api/data';
+
+import { AppActions } from 'src/store/actions/app';
+import { SyncActions } from 'src/store/actions/sync';
+import { ExerciseActions } from 'src/store/actions/exercise';
 
 interface Props {
     dispatch: Dispatch;

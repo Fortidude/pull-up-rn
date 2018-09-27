@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Styles from './Button.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 
 interface Props {
     dispatch: Dispatch;

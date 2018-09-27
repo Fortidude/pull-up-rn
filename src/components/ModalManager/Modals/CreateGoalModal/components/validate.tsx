@@ -1,5 +1,5 @@
-import { NewGoalInterface } from "../../../models/Goal";
-import { Exercise, validateExercise } from "../../../models/Exercise";
+import { NewGoalInterface } from "../../../../../models/Goal";
+import { validateExercise } from "../../../../../models/Exercise";
 
 const validateName = (name: string | null) => true;//typeof name === 'string' && name.length > 2;
 const validateDescription = (description: string | null) => true // not required;

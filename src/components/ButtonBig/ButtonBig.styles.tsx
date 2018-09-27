@@ -1,7 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { ThemeInterface } from '../../assets/themes';
+import { Dimensions } from 'react-native';
+import { ThemeInterface } from 'src/assets/themes';
 
-const width = Dimensions.get('window').width;
 function getStyle(theme: ThemeInterface) {
     return {
         container: {

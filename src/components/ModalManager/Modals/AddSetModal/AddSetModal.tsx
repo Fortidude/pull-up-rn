@@ -3,14 +3,15 @@ import { Dispatch } from 'redux';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import Styles from './AddSetModal.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../assets/themes';
-import ModalFooter from '../ModalManager/ModalFooter';
-import { ModalActions } from '../../store/actions/modal';
-import ModalHeader from '../ModalManager/ModalHeader';
-import I18n from '../../assets/translations';
-import { PlannerActions } from '../../store/actions/planner';
-import Goal from '../../models/Goal';
-import Input from '../Input';
+
+import { ThemeInterface, ThemeValueInterface } from '../../../../assets/themes';
+import ModalFooter from '../../../ModalManager/ModalFooter';
+import { ModalActions } from '../../../../store/actions/modal';
+import ModalHeader from '../../../ModalManager/ModalHeader';
+import I18n from '../../../../assets/translations';
+import { PlannerActions } from '../../../../store/actions/planner';
+import Goal from '../../../../models/Goal';
+import Input from '../../../Input';
 
 interface Props {
     dispatch: Dispatch;

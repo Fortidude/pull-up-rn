@@ -23,6 +23,7 @@ export const Navigator = createStackNavigator(routes, {
 
 export const middleware = createReactNavigationReduxMiddleware(
     'root',
+    //@ts-ignore
     state => state.nav,
 );
 
@@ -37,7 +38,7 @@ class AppWrapper extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
-
+    
     render() {
         return (
             <React.Fragment>

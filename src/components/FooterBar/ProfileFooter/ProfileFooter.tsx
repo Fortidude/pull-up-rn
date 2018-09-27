@@ -4,11 +4,13 @@ import { View, Text, TouchableOpacity, ActionSheetIOS } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
+import { AuthActions } from 'src/store/actions/auth';
+
 import Styles from './ProfileFooter.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
-import I18n from './../../../assets/translations';
-import Avatar from '../Avatar';
-import { AuthActions } from '../../../store/actions/auth';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+import I18n from 'src/assets/translations';
+
+import Avatar from 'src/components/FooterBar/Avatar';
 
 interface Props {
     onLayout?: () => void;

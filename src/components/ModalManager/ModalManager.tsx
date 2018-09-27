@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import Styles from './ModalManager.styles';
 import { ThemeInterface, ThemeValueInterface } from '../../assets/themes'; import { ModalState } from '../../store/reducers/modal';
 
-import AddSetModal from '../AddSetModal';
-import CreateGoalModal from '../CreateGoalModal';
+import AddSetModal from './Modals/AddSetModal';
+import CreateGoalModal from './Modals/CreateGoalModal';
 
 const HEIGHT = Dimensions.get('window').height;
 

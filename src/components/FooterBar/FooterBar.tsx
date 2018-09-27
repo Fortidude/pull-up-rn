@@ -3,10 +3,10 @@ import { Animated } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './FooterBar.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../assets/themes';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import PlannerFooter from './PlannerFooter';
 import ProfileFooter from './ProfileFooter';
-import { ModalState } from '../../store/reducers/modal';
+import { ModalState } from 'src/store/reducers/modal';
 
 interface Props {
     theme: ThemeInterface;

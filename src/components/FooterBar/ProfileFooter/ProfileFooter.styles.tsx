@@ -1,5 +1,5 @@
-import { ThemeInterface } from '../../../assets/themes';
-import DetermineDevice from './../../../service/helpers/DetermineDevice';
+import { ThemeInterface } from 'src/assets/themes';
+import DetermineDevice from 'src/service/helpers/DetermineDevice';
 
 function getStyle(theme: ThemeInterface) {
     return {

@@ -4,21 +4,21 @@ import { Text, View, ActionSheetIOS, TouchableOpacity, Animated, Switch } from '
 import { connect } from 'react-redux';
 
 import Styles from './CreateGoalModal.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../assets/themes';
+import { ThemeInterface, ThemeValueInterface } from '../../../../assets/themes';
 
-import ModalFooter from '../ModalManager/ModalFooter';
-import ModalHeader from '../ModalManager/ModalHeader';
+import ModalFooter from '../../../ModalManager/ModalFooter';
+import ModalHeader from '../../../ModalManager/ModalHeader';
 
-import I18n from '../../assets/translations';
+import I18n from '../../../../assets/translations';
 
-import { ModalActions } from '../../store/actions/modal';
-import { PlannerActions } from '../../store/actions/planner';
+import { ModalActions } from '../../../../store/actions/modal';
+import { PlannerActions } from '../../../../store/actions/planner';
 
-import { Exercise, ExerciseVariant } from '../../models/Exercise';
+import { Exercise, ExerciseVariant } from '../../../../models/Exercise';
 
-import Input from '../Input';
+import Input from '../../../Input';
 import validate, { validateType } from './components/validate';
-import Select from '../Select';
+import Select from '../../../Select';
 
 type GoalType = "sets" | "reps" | "time" | null;
 
