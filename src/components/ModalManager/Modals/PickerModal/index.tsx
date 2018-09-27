@@ -1,3 +1,3 @@
-import Component from './ASampleTemplate';
+import Component from './PickerModal';
 
 export default Component;

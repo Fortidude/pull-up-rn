@@ -5,9 +5,13 @@ import Icon from 'react-native-vector-icons/EvilIcons';
 
 import { ThemeInterface, ThemeValueInterface } from '../../assets/themes/index'
 import Styles from './Select.styles';
+import { Dispatch } from 'redux';
+import { ModalActions } from '../../store/actions/modal';
 
 interface Props {
+    dispatch: Dispatch;
     theme: ThemeInterface;
+
     onChange: (value: string) => void;
     placeholder?: string;
     small?: boolean;
@@ -37,17 +41,21 @@ class Select extends React.Component<Props> {
             return;
         }
 
-        const options = ['Cancel', ...this.props.options];
+        const onPick = (index: number) => {
+            this.props.onChange(this.props.options[index]);
+        }
 
-        ActionSheetIOS.showActionSheetWithOptions({
-            options: options,
-            cancelButtonIndex: 0
-        },
-            (buttonIndex) => {
-                if (buttonIndex > 0) {
-                    this.props.onChange(this.props.options[buttonIndex - 1]);
-                }
-            });
+        this.props.dispatch(ModalActions.pickerOpen(this.props.options, true, onPick));
+
+        // ActionSheetIOS.showActionSheetWithOptions({
+        //     options: options,
+        //     cancelButtonIndex: 0
+        // },
+        //     (buttonIndex) => {
+        //         if (buttonIndex > 0) {
+        //             this.props.onChange(this.props.options[buttonIndex - 1]);
+        //         }
+        //     });
     }
 
     render() {
@@ -71,6 +79,7 @@ class Select extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: any) => ({
+    dispatch: state.dispatch,
     theme: state.settings.theme
 });
 

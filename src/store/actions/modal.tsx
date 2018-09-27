@@ -6,7 +6,10 @@ export enum ModalTypes {
     addSetClose = '[MODAL] CLOSE ADD SET',
 
     goalCreateOpen = '[MODAL] OPEN CREATE GOAL',
-    goalCreateClose = '[MODAL] CLOSE CREATE GOAL'
+    goalCreateClose = '[MODAL] CLOSE CREATE GOAL',
+
+    pickerOpen = '[MODAL] OPEN PICKER',
+    pickerClose = '[MODAL] CLOSE PICKER'
 }
 
 export const ModalActions = {
@@ -35,6 +38,14 @@ export const ModalActions = {
     goalCreateClose: () => ({
         type: ModalTypes.goalCreateClose,
         payload: {}
-    })
+    }),
     
+    pickerOpen: (options: string[], cancelButton: boolean = true, callback = (index: number) => {}) => ({
+        type: ModalTypes.pickerOpen,
+        payload: {options, cancelButton, callback}
+    }),
+    pickerClose: () => ({
+        type: ModalTypes.pickerClose,
+        payload: {}
+    })
 };

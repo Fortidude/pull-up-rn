@@ -1,22 +1,29 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import Styles from './PickerModal.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+import { ModalActions } from '../../../../store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;
-    theme: ThemeInterface
+    theme: ThemeInterface;
+
+    options: [];
+    cancelButton: boolean;
+    callback: (index: number) => void;
 }
 
-class ASampleTemplate extends React.Component<Props> {
+class PickerModal extends React.Component<Props> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
         super(props);
 
         this.style = Styles(this.props.theme);
+
+        console.log("picker build");
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -25,9 +32,25 @@ class ASampleTemplate extends React.Component<Props> {
         }
     }
 
+    pickOption = (index: number) => {
+        this.props.callback(index);
+        this.closeModal();
+    }
+
+    closeModal = () => {
+        this.props.dispatch(ModalActions.pickerClose());
+    }
+
     render() {
         return (
-            <View style={this.style.sampleElement}>
+            <View style={this.style.container}>
+                {this.props.options.map((option, key) => {
+                    return <TouchableOpacity key={key} onPress={() => this.pickOption(key)}><Text>{option}</Text></TouchableOpacity>
+                })}
+
+                {this.props.cancelButton && <TouchableOpacity onPress={this.closeModal}>
+                    <Text>Close</Text>
+                </TouchableOpacity>}
             </View>
         );
     }
@@ -38,4 +61,4 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme
 });
 
-export default connect(mapStateToProps)(ASampleTemplate);
+export default connect(mapStateToProps)(PickerModal);

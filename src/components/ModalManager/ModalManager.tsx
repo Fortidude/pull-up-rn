@@ -9,6 +9,7 @@ import { ModalState } from 'src/store/reducers/modal';
 
 import AddSetModal from './Modals/AddSetModal';
 import CreateGoalModal from './Modals/CreateGoalModal';
+import PickerModal from './Modals/PickerModal';
 
 const HEIGHT = Dimensions.get('window').height;
 
@@ -27,8 +28,23 @@ interface State {
 
     addSetModal: boolean;
     createGoalModal: boolean;
+
+    pickerBottomPosition: Animated.Value;
+    pickerModal: boolean;
+    pickerOptions: any
 }
 
+const MODALS_HANDLED = [
+    'addSetModalVisible',
+    'goalCreateModalVisible',
+    'pickerModalVisible'
+]
+
+/**
+ * 
+ * @TODO Refactorings, tests. A lot mess over here :/ 
+ * 
+ */
 class ModalManager extends React.Component<Props, State> {
     style: ThemeValueInterface;
 
@@ -47,7 +63,11 @@ class ModalManager extends React.Component<Props, State> {
             containerTranslateY: new Animated.Value(-HEIGHT),
 
             addSetModal: false,
-            createGoalModal: false
+            createGoalModal: false,
+
+            pickerBottomPosition: new Animated.Value(-HEIGHT),
+            pickerModal: false,
+            pickerOptions: {}
         }
     }
 
@@ -74,7 +94,7 @@ class ModalManager extends React.Component<Props, State> {
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
-        return this.isModalVisible(nextProps) !== this.isModalVisible(this.props)
+        return this.isModalVisible(this.props) !== this.isModalVisible(nextProps)
             || nextProps.theme.name !== this.props.theme.name
             || nextState.showOverlay !== this.state.showOverlay
     }
@@ -84,15 +104,18 @@ class ModalManager extends React.Component<Props, State> {
             this.style = Styles(nextProps.theme);
         }
 
-        if (this.isModalVisible(nextProps)) {
+        if (this.isModalVisible(nextProps) > 0) {
             this.showModal(nextProps);
+            if (!this.isPickerModalVisible(nextProps)) {
+                this._animateClosePicker(nextProps);
+            }
         } else {
             this.hideModal(nextProps);
         }
     }
 
     _keyboardDidShow = (event: any) => {
-        if (!this.isModalVisible(this.props)) {
+        if (this.isModalVisible(this.props) === 0) {
             return
         }
 
@@ -107,29 +130,46 @@ class ModalManager extends React.Component<Props, State> {
             return;
         }
 
-        if (this.isModalVisible(this.props)) {
+        if (this.isModalVisible(this.props) > 0) {
             Animated.spring(this.state.containerTranslateY, { toValue: 0 }).start();
         }
     }
 
-    isModalVisible = (props: Props): boolean => {
-        let visible = false;
-        Object.keys(props.modal).forEach(modalName => {
-            visible = (visible || (props.modal[modalName] && modalName !== 'profileModalVisible'));
+    isModalVisible = (props: Props): number => {
+        let visible: number = 0;
+
+        MODALS_HANDLED.forEach(modalName => {
+            if ((props.modal[modalName] && MODALS_HANDLED.includes(modalName))) {
+                visible++;
+            }
         });
 
         return visible;
+    }
+
+    isPickerModalVisible = (props: Props) => {
+        return props.modal['pickerModalVisible'];
     }
 
     showModal = (props: Props) => {
         const state = this._getToggledState(props);
         state.showOverlay = true;
 
+        // picker animate before setState - faster, but other modals may not working.
+        if (this.isPickerModalVisible(props)) {
+            Animated.spring(this.state.pickerBottomPosition, { toValue: 20 }).start();
+        }
+
         this.setState(state, () => {
-            Animated.sequence([
+            const modalAnimations = [
                 Animated.timing(this.state.overlayOpacity, { toValue: 1, duration: 150 }),
-                Animated.spring(this.state.containerTranslateY, { toValue: 0 })
-            ]).start();
+            ];
+
+            if (!this.isPickerModalVisible(props) && this.isModalVisible(props) === 1) {
+                modalAnimations.push(Animated.spring(this.state.containerTranslateY, { toValue: 0 }));
+            }
+
+            Animated.sequence(modalAnimations).start();
         });
     }
 
@@ -147,6 +187,8 @@ class ModalManager extends React.Component<Props, State> {
         const state: State = Object.assign({}, this.state);
         state.addSetModal = props.modal.addSetModalVisible;
         state.createGoalModal = props.modal.goalCreateModalVisible;
+        state.pickerModal = props.modal.pickerModalVisible;
+        state.pickerOptions = props.modal.pickerOptions;
 
         return state;
     }
@@ -154,6 +196,7 @@ class ModalManager extends React.Component<Props, State> {
     _animateClose = (props: Props) => {
         Animated.parallel([
             Animated.timing(this.state.containerTranslateY, { toValue: -HEIGHT, duration: 300 }),
+            Animated.timing(this.state.pickerBottomPosition, { toValue: -HEIGHT, duration: 300 }),
             Animated.timing(this.state.overlayOpacity, { toValue: 0, duration: 150, delay: 100 })
         ]).start(() => {
             const state = Object.assign(
@@ -165,12 +208,27 @@ class ModalManager extends React.Component<Props, State> {
         });
     }
 
+    _animateClosePicker = (props: Props) => {
+        let anotherModalIsVisible = false;
+        MODALS_HANDLED.forEach(modalName => {
+            if (modalName !== 'pickerModalVisible' && !anotherModalIsVisible) {
+                anotherModalIsVisible = props.modal[modalName] && MODALS_HANDLED.includes(modalName);
+            }
+        });
+
+        if (!anotherModalIsVisible) {
+            this._animateClose(props);
+        } else {
+            Animated.spring(this.state.pickerBottomPosition, { toValue: -HEIGHT }).start(() => {
+                console.log('closed');
+            });
+        }
+    }
+
     render() {
         if (!this.state.showOverlay) {
             return (null);
         };
-
-        console.log(this.state);
 
         const background = this.state.overlayOpacity.interpolate({
             inputRange: [0, 1],
@@ -178,12 +236,18 @@ class ModalManager extends React.Component<Props, State> {
         })
 
         return (
-            <Animated.View style={[this.style.overlay, { backgroundColor: background }]}>
-                <Animated.ScrollView onScroll={() => {Keyboard.dismiss()}} contentContainerStyle={this.style.container} style={{ transform: [{ translateY: this.state.containerTranslateY }] }}>
-                    {!!this.state.addSetModal && <AddSetModal />}
-                    {!!this.state.createGoalModal && <CreateGoalModal />}
-                </Animated.ScrollView>
-            </Animated.View>
+            <React.Fragment>
+                <Animated.View style={[this.style.overlay, { backgroundColor: background }]}>
+                    <Animated.ScrollView onScroll={() => { Keyboard.dismiss() }} contentContainerStyle={this.style.container} style={{ transform: [{ translateY: this.state.containerTranslateY }] }}>
+                        {!!this.state.addSetModal && <AddSetModal />}
+                        {!!this.state.createGoalModal && <CreateGoalModal />}
+                    </Animated.ScrollView>
+
+                    <Animated.ScrollView style={{ bottom: this.state.pickerBottomPosition, position: 'absolute' }}>
+                        <PickerModal {...this.state.pickerOptions} />
+                    </Animated.ScrollView>
+                </Animated.View>
+            </React.Fragment>
         );
     }
 }
