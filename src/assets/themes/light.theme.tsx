@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 const mainColor = '#4E43F9';
 const redColor = '#FF3B30';
-const blueColor = '#007AFF',
+const blueColor = '#007AFF';
 const yellowColor = '#FF9500';
 const greyColor = '#707070';
 const greenColor = '#27AE60';

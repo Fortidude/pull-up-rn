@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Animated, Dimensions, Keyboard, EventSubscription, Platform, ScrollView } from 'react-native';
+import { Animated, Dimensions, Keyboard, EventSubscription, Platform } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './ModalManager.styles';

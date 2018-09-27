@@ -33,7 +33,7 @@ const mapStateToProps = (state: any) => ({
     state: state.nav
 });
 
-interface Props { }
+interface Props { state: any; dispatch: any }
 class AppWrapper extends React.Component<Props> {
     constructor(props: Props) {
         super(props);

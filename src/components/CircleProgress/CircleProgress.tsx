@@ -2,6 +2,8 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { View, Text, Animated } from 'react-native';
 import { connect } from 'react-redux';
+
+//@ts-ignore
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 import Styles from './CircleProgress.styles';
