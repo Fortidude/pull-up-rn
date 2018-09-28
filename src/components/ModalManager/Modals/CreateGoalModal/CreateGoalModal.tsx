@@ -26,6 +26,8 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     exercises: Exercise[];
+
+    overlay?: boolean;
 }
 
 interface State {
@@ -89,7 +91,6 @@ class CreateGoalModal extends React.Component<Props, State> {
     }
 
     pickType = (type: GoalType | string) => {
-        console.log(type, validateType(type));
         if (type === this.NONE_TYPE_NANE || !validateType(type)) {
             this.setState({ type: null, typeWithAI: false });
             return;
@@ -102,6 +103,7 @@ class CreateGoalModal extends React.Component<Props, State> {
     render() {
         return (
             <View style={this.style.container}>
+                {this.props.overlay && <View style={this.style.overlay}></View>}
                 <ModalHeader text={"Utwórz cel"} />
                 <View style={this.style.content}>
                     <View style={this.style.textLine.container}>

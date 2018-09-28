@@ -1,5 +1,7 @@
+import { Dimensions } from 'react-native';
 import { ThemeInterface } from 'src/assets/themes';
 
+const WIDTH = Dimensions.get('window').width;
 function getStyle(theme: ThemeInterface) {
     return {
         overlay: {
@@ -16,6 +18,7 @@ function getStyle(theme: ThemeInterface) {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
+            width: WIDTH,
             shadowColor: theme.colors.shadowColor,
             shadowOpacity: 0.3,
             shadowOffset: {width: 0, height: 0},

@@ -13,6 +13,7 @@ interface Props {
     dispatch: Dispatch;
     locale: string;
     isOnline: boolean;
+    isLogged: boolean;
     isNetworkChecked: boolean;
     anythingToSync: boolean;
     exercisesLoaded: boolean;
@@ -59,7 +60,9 @@ class AppManager extends React.Component<Props> {
     }
 
     runWhenOnline = () => {
-        this.loadExercises();
+        if (this.props.isLogged) {
+            this.loadExercises();
+        }
     }
 
     loadExercises = () => {
@@ -77,6 +80,7 @@ const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     locale: state.settings.locale,
     isOnline: state.app.isOnline,
+    isLogged: state.auth.isLogged,
     isNetworkChecked: state.app.networkChecked,
     anythingToSync: state.sync.items.length > 0,
     exercisesLoaded: state.exercise.loaded

@@ -42,7 +42,7 @@ class EmailLogin {
                 );
             } else {
                 this.wrongPasswordCounter++;
-                Alert.alert(I18n.t("errors.failed"), I18n.t(`errors.${error.toString()}`),
+                Alert.alert(I18n.t("errors.failed"), I18n.t(`errors.${error.toString().replace('Error: ', '')}`),
                     [{ text: I18n.t('login.login_alert_ok_button'), onPress: () => { } }],
                     { cancelable: false }
                 );

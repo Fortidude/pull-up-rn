@@ -40,7 +40,8 @@ class SwipeItem extends React.Component<Props, State> {
         Animated.spring(this.state.swipePosition, {
             toValue: this.getMaxLeftSwipe(),
             friction: 5,
-            tension: 40
+            tension: 40,
+            useNativeDriver: true
         }).start();
     }
 
@@ -49,7 +50,8 @@ class SwipeItem extends React.Component<Props, State> {
         Animated.spring(this.state.swipePosition, {
             toValue: 0,
             friction: 5,
-            tension: 40
+            tension: 40,
+            useNativeDriver: true
         }).start();
     }
 
@@ -68,7 +70,8 @@ class SwipeItem extends React.Component<Props, State> {
         Animated.spring(this.state.swipePosition, {
             toValue: toValue,
             friction: 5,
-            tension: 40
+            tension: 40,
+            useNativeDriver: true
         }).start();
     }
 
@@ -82,13 +85,12 @@ class SwipeItem extends React.Component<Props, State> {
                     <View>
                         {this.props.children}
                     </View>
-
                 </Animated.View>
 
 
 
                 {rightButtons.map((button, key) => (
-                    <Animated.View key={key} style={[this.style.rightButtonsContainer, { right: this.getRightButtonRightPosition(), width: this.getRightButtonWidth() }]}>
+                    <Animated.View key={key} style={[this.style.rightButtonsContainer, { width: 50, right: -this.getMaxLeftSwipe(), transform: [{translateX: this.getRightButtonTranslateX()}] }]}>
                         {button}
                     </Animated.View>
                 ))}
@@ -106,6 +108,15 @@ class SwipeItem extends React.Component<Props, State> {
         return this.state.swipePosition.interpolate({
             inputRange: [maxSwipe, 0],
             outputRange: [-(maxSwipe), 0],
+            extrapolate: 'extend'
+        });
+    }
+
+    getRightButtonTranslateX = () => {
+        const maxSwipe = this.getMaxLeftSwipe();
+        return this.state.swipePosition.interpolate({
+            inputRange: [maxSwipe * 2, maxSwipe*1.5],
+            outputRange: [maxSwipe*0.1, 0],
             extrapolate: 'extend'
         });
     }

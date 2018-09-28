@@ -3,11 +3,12 @@ import { ThemeInterface } from '../../../assets/themes';
 
 function getStyle(theme: ThemeInterface) {
     return {
-        backButton: {
+        editButton: {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'flex-start',
             alignItems: 'flex-end',
+            paddingBottom: 13,
         },
         text: {
             marginLeft: 10,

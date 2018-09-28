@@ -1,10 +1,13 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+
 import Styles from './PickerModal.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
-import { ModalActions } from '../../../../store/actions/modal';
+import { ModalActions } from 'src/store/actions/modal';
+
+import I18n from 'src/assets/translations';
 
 interface Props {
     dispatch: Dispatch;
@@ -22,8 +25,6 @@ class PickerModal extends React.Component<Props> {
         super(props);
 
         this.style = Styles(this.props.theme);
-
-        console.log("picker build");
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -44,15 +45,34 @@ class PickerModal extends React.Component<Props> {
     render() {
         return (
             <View style={this.style.container}>
-                {this.props.options.map((option, key) => {
-                    return <TouchableOpacity key={key} onPress={() => this.pickOption(key)}><Text>{option}</Text></TouchableOpacity>
-                })}
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    style={this.style.buttonsContainer}
+                >
+                    {this._renderPickerOptions()}
+                </ScrollView>
 
-                {this.props.cancelButton && <TouchableOpacity onPress={this.closeModal}>
-                    <Text>Close</Text>
-                </TouchableOpacity>}
+                <View style={this.style.buttonsContainer}>
+                    {this.props.cancelButton && <TouchableOpacity style={this.style.button} onPress={this.closeModal}>
+                        <Text style={this.style.cancelText}>{I18n.t('buttons.cancel')}</Text>
+                    </TouchableOpacity>}
+                </View>
             </View>
         );
+    }
+
+    _renderPickerOptions = () => {
+        if (!this.props.options) {
+            return null;
+        }
+
+        return this.props.options.map((option, key) => {
+            return <TouchableOpacity key={key}
+                style={this.style.button}
+                onPress={() => this.pickOption(key)}>
+                <Text style={this.style.text}>{option}</Text>
+            </TouchableOpacity>
+        });
     }
 }
 

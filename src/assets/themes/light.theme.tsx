@@ -30,6 +30,7 @@ const colors = {
 
     shadowColor: '#000000',
     modalBackgroundColor: 'rgba(0, 0, 0, 0.4)',
+    modalBackgroundColorLight: 'rgba(0, 0, 0, 0.2)',
 
     plannerFooterButtonColor: greyColor,
     plannerFooterAvatarBackground: 'rgba(189, 189, 189, 0.8)',
@@ -59,7 +60,9 @@ const borders = {
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: colors.borderColor,
     borderLightColor: colors.borderLightColor,
-    borderDarkColor: colors.borderDarkColor
+    borderDarkColor: colors.borderDarkColor,
+
+    modalRadius: 15
 };
 
 const fonts = {

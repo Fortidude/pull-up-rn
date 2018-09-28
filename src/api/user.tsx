@@ -34,8 +34,8 @@ class User implements UserInterface {
         };
 
         const result = fetch(ApiHelper.getHost() + '/login_check', object)
-            .then(response => response.json())
             .then(ApiHelper.checkForResponseErrors)
+            .then(response => response.json())
             .then((response) => {
                 if (!response.token) {
                     throw "Token not received"
@@ -75,8 +75,8 @@ class User implements UserInterface {
 
             let object = { method: 'GET', headers: { 'Authorization': 'Bearer ' + token } };
             await fetch(ApiHelper.getHost() + '/secured/check_token', object)
-                .then(response => response.json())
                 .then(ApiHelper.checkForResponseErrors)
+                .then(response => response.json())
                 .then((response) => {
                     if (response && response.status && response.status === 200) {
                         isTokenValid = true;

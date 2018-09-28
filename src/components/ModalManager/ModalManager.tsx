@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Animated, Dimensions, Keyboard, EventSubscription, Platform, Easing } from 'react-native';
+import { Animated, Dimensions, Keyboard, EventSubscription, Platform, Easing, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './ModalManager.styles';
@@ -40,8 +40,8 @@ const MODALS_HANDLED = [
     'pickerModalVisible'
 ];
 
-const OPEN_MODAL_ANIMATION_OPTION = { duration: 400, easing: Easing.bezier(0.4, 1, 0.4, 1) }
-const CLOSE_MODAL_ANIMATION_OPTION = { duration: 300, easing: Easing.bezier(1, 0.2, 1, 0.2) }
+const OPEN_MODAL_ANIMATION_OPTION = { duration: 400, easing: Easing.bezier(0, 1.1, 0, 1) }
+const CLOSE_MODAL_ANIMATION_OPTION = { duration: 200, easing: Easing.bezier(0.95, 0.05, 0.795, 0.035) }
 
 /**
  * 
@@ -100,6 +100,7 @@ class ModalManager extends React.Component<Props, State> {
         return this.isModalVisible(this.props) !== this.isModalVisible(nextProps)
             || nextProps.theme.name !== this.props.theme.name
             || nextState.showOverlay !== this.state.showOverlay
+            || nextState.pickerOptions !== this.state.pickerOptions
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -108,10 +109,10 @@ class ModalManager extends React.Component<Props, State> {
         }
 
         if (this.isModalVisible(nextProps) > 0) {
-            this.showModal(nextProps);
-            if (!this.isPickerModalVisible(nextProps)) {
+            if (this.isPickerModalVisible(this.props) && !this.isPickerModalVisible(nextProps)) {
                 this._animateClosePicker(nextProps);
             }
+            this.showModal(nextProps);
         } else {
             this.hideModal(nextProps);
         }
@@ -136,6 +137,8 @@ class ModalManager extends React.Component<Props, State> {
         if (this.isModalVisible(this.props) > 0) {
             Animated.spring(this.state.containerTranslateY, { toValue: 0 }).start();
         }
+
+        this.setState({ keyboardVisible: false });
     }
 
     isModalVisible = (props: Props): number => {
@@ -160,7 +163,7 @@ class ModalManager extends React.Component<Props, State> {
 
         // picker animate before setState - faster, but other modals may not working.
         if (this.isPickerModalVisible(props)) {
-            Animated.timing(this.state.pickerBottomPosition, { toValue: 20, ...OPEN_MODAL_ANIMATION_OPTION }).start();
+            Animated.timing(this.state.pickerBottomPosition, { toValue: 0, ...OPEN_MODAL_ANIMATION_OPTION }).start();
         }
 
         this.setState(state, () => {
@@ -174,7 +177,7 @@ class ModalManager extends React.Component<Props, State> {
                 );
             }
 
-            Animated.sequence(modalAnimations).start();
+            Animated.parallel(modalAnimations).start();
         });
     }
 
@@ -222,7 +225,7 @@ class ModalManager extends React.Component<Props, State> {
             const state = Object.assign(
                 {},
                 this._getToggledState(props),
-                { showOverlay: false, cancelPressed: false, keyboardVisible: false }
+                { showOverlay: false, cancelPressed: false, keyboardVisible: false, pickerOptions: {} }
             );
 
             this.setState(state);
@@ -232,7 +235,9 @@ class ModalManager extends React.Component<Props, State> {
     _animateClosePicker = (props: Props) => {
         Animated.timing(this.state.pickerBottomPosition, {
             toValue: -HEIGHT, ...CLOSE_MODAL_ANIMATION_OPTION
-        }).start();
+        }).start(() => {
+            this.setState({ pickerOptions: {} });
+        });
     }
 
     render() {
@@ -248,17 +253,29 @@ class ModalManager extends React.Component<Props, State> {
         return (
             <React.Fragment>
                 <Animated.View style={[this.style.overlay, { backgroundColor: background }]}>
-                    <Animated.ScrollView onScroll={() => { Keyboard.dismiss() }} contentContainerStyle={this.style.container} style={{ transform: [{ translateY: this.state.containerTranslateY }] }}>
-                        {!!this.state.addSetModal && <AddSetModal />}
-                        {!!this.state.createGoalModal && <CreateGoalModal />}
+                    <Animated.ScrollView
+                        pointerEvents={this.state.pickerModal ? 'none' : 'auto'}
+                        scrollEnabled={this._scrollEnabled()}
+                        onScroll={() => { Keyboard.dismiss() }}
+                        contentContainerStyle={this.style.container}
+                        style={[{ transform: [{ translateY: this.state.containerTranslateY }] }]}
+                    >
+
+                        {!!this.state.addSetModal && <AddSetModal style={this.state.pickerModal ? { backgroundColor: 'rgba(0,0,0,0.5)' } : {}} />}
+                        {!!this.state.createGoalModal && <CreateGoalModal overlay={this.state.pickerModal} />}
+
                     </Animated.ScrollView>
 
-                    <Animated.ScrollView style={{ bottom: this.state.pickerBottomPosition, position: 'absolute' }}>
+                    <Animated.View style={{ bottom: this.state.pickerBottomPosition, position: 'absolute' }}>
                         <PickerModal {...this.state.pickerOptions} />
-                    </Animated.ScrollView>
+                    </Animated.View>
                 </Animated.View>
             </React.Fragment>
         );
+    }
+
+    _scrollEnabled = () => {
+        return !this.state.pickerModal
     }
 }
 

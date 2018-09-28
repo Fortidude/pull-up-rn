@@ -37,6 +37,9 @@ class ApiHelper implements ApiInterface {
         
         const code = response.code || response.status || false;
         if (response && typeof code !== 'undefined' && code !== 200) {
+            if (__DEV__) {
+                console.log(response);
+            }
             if (response.message) {
                 throw new Error(response.message.replace('.', '_'));
             }

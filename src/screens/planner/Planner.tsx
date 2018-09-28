@@ -23,6 +23,7 @@ class Planner extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
+
         this.style = getStyle(props.theme);
         this.state = {
             plannerListScrollPositionY: new Animated.Value(0)

@@ -4,7 +4,7 @@ function getStyle(theme: ThemeInterface) {
     return {
         container: {
             backgroundColor: theme.colors.backgroundColor,
-            borderRadius: 15,
+            borderRadius: theme.borders.modalRadius,
             height: 255,
             width: 270
         },

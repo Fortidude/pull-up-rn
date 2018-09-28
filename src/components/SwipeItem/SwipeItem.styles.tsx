@@ -1,9 +1,10 @@
 function getStyle() {
     return {
         container: {
-            backgroundColor: 'transparent',
+            backgroundColor: 'white',
             flexDirextion: 'row',
-            width: '100%'
+            width: '100%',
+            zIndex: 2
         },
 
         rightButtonsContainer: {

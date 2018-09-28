@@ -45,11 +45,7 @@ class GoalItem extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        // @ts-ignore
-        this.swipeItemRef.getSwipePosition().addListener(({ value }) => {
-            this.swipeItemPosition.setValue(value);
-        });
-
+        this.swipeItemPosition = this.swipeItemRef.getSwipePosition();
         this.animateProgress();
     }
 
@@ -62,7 +58,7 @@ class GoalItem extends React.Component<Props, State> {
         if (nextProps.plannerEditMode && !this.props.plannerEditMode) {
             setTimeout(() => {
                 this.swipeItemRef.forceOpenRight();
-            }, this.props.isToggled ? 0 : 300);
+            }, this.props.isToggled ? 0 : 400);
         } else if (!nextProps.plannerEditMode && this.props.plannerEditMode) {
             this.swipeItemRef.forceClose();
         }
@@ -133,7 +129,7 @@ class GoalItem extends React.Component<Props, State> {
                         </View>
                     </View>
                     <View style={this.style.summaryContent}>
-                        <Animated.View style={[this.style.summaryLeftContent, { left: summaryContentLeft }]}>
+                        <Animated.View style={[this.style.summaryLeftContent, { transform: [{translateX: summaryContentLeft}] }]}>
                             <Text style={this.style.title}>{goal.exercise.name} </Text>
                             {!!goal.exercise.exerciseVariant.name && <Text style={this.style.subTitle}>{goal.exercise.exerciseVariant.name} </Text>}
                         </Animated.View>

@@ -16,7 +16,7 @@ function getStyle(theme: ThemeInterface) {
             container: {
                 flex: 1,
                 paddingLeft: 7,
-                marginBottom: 13,
+                //marginBottom: 13,
                 justifyContent: 'flex-end',
             }
         },

@@ -8,6 +8,7 @@ function getStyle(theme: ThemeInterface) {
             flexDirection: 'row',
             justifyContent: 'flex-start',
             alignItems: 'flex-end',
+            paddingBottom: 13
         },
         icon: { marginLeft: -15, marginRight: -15, marginBottom: -13, marginTop: 22 }
     };

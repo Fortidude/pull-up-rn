@@ -48,10 +48,10 @@ class GoalListContainer extends React.Component<Props, State> {
             Animated.timing(this.state.viewHeight, {
                 toValue: this.props.active ? this.props.height : 0,
                 duration: 200,
-                delay: this.props.active ? 0 : 50,
+                delay: this.props.active ? 0 : 100,
             }),
             Animated.timing(this.state.viewOpacity, {
-                toValue: this.props.active ? 1 : 1,
+                toValue: this.props.active ? 1 : 0,
                 duration: 200,
                 delay: this.props.active ? 100 : 0,
                 

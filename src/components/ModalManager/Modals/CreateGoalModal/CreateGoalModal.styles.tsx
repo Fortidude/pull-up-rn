@@ -1,10 +1,17 @@
 import { ThemeInterface } from 'src/assets/themes';
+import { StyleSheet } from 'react-native';
 
 function getStyle(theme: ThemeInterface) {
     return {
+        overlay: [StyleSheet.absoluteFill, {
+            backgroundColor: theme.colors.modalBackgroundColorLight,
+             zIndex: 5, 
+             borderRadius: theme.borders.modalRadius
+            }],
+
         container: {
             backgroundColor: theme.colors.backgroundColor,
-            borderRadius: 15,
+            borderRadius: theme.borders.modalRadius,
             height: 450,
             width: 270
         },

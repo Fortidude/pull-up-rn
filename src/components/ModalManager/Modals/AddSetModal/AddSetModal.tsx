@@ -21,6 +21,7 @@ interface Props {
     createSetLoading: boolean;
 
     goal: Goal
+    style?: any
 }
 
 interface State {
@@ -69,7 +70,7 @@ class AddSetModal extends React.Component<Props, State> {
         const variant = exercise.exerciseVariant || null;
 
         return (
-            <View style={this.style.container}>
+            <View style={[this.style.container, this.props.style]}>
                 <ModalHeader text={exercise.name} />
                 <View style={this.style.content}>
                     <View style={this.style.textLine.container}>
