@@ -1,11 +1,12 @@
-import { ThemeInterface } from '../../assets/themes';
-import DetermineDevice from './../../service/helpers/DetermineDevice';
+import { ThemeInterface } from 'src/assets/themes';
+import DetermineDevice from 'src/service/helpers/DetermineDevice';
 
+export const HEADER_HEIGHT = DetermineDevice.isIphoneX() ? 80 : 64;
 function getStyle(theme: ThemeInterface) {
     return {
         header: {
             flexDirection: 'row',
-            height: DetermineDevice.isIphoneX() ? 80 : 64,
+            height: HEADER_HEIGHT,
             backgroundColor: theme.colors.backgroundColor,
             position: "relative",
             borderBottomWidth: theme.borders.borderWidth,

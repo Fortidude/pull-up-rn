@@ -1,4 +1,3 @@
-import { Dimensions } from 'react-native';
 import { ThemeInterface } from 'src/assets/themes';
 
 function getStyle(theme: ThemeInterface) {
@@ -8,11 +7,13 @@ function getStyle(theme: ThemeInterface) {
             width: 295,
             height: 50,
             borderRadius: 5,
-            shadowColor: theme.colors.buttonBigShadowColor,
-            shadowOpacity: 0.5,
-            shadowOffset: {width: 0, height: 3},
             alignItems: 'center',
             justifyContent: 'center'
+        },
+        containerShadow: {
+            shadowColor: theme.colors.buttonBigShadowColor,
+            shadowOpacity: 0.5,
+            shadowOffset: {width: 0, height: 3}
         },
         text: {
             color: theme.colors.buttonBigTextColor,

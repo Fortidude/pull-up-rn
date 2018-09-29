@@ -1,14 +1,17 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { FlatList, Animated, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import GoalList from '../../../components/GoalList';
 import getStyle from './PlannerList.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
-import Planner from '../../../models/Planner';
-import { PlannerActions } from '../../../store/actions/planner';
-import { GoalInterface } from '../../../models/Goal';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+import { PlannerActions } from 'src/store/actions/planner';
+
+import Planner from 'src/models/Planner';
+import { GoalInterface } from 'src/models/Goal';
+
+import GoalList from 'src/components/GoalList';
+import EmptyList from 'src/components/GoalList/EmptyList';
 
 interface Props {
     dispatch: Dispatch;
@@ -70,6 +73,7 @@ class PlannerList extends React.Component<Props, State> {
                     showsVerticalScrollIndicator={false}
                     data={this.props.planner.trainings}
                     extraData={this.props.goalSelected}
+                    ListEmptyComponent={<EmptyList />}
                     renderItem={({ item, index }) => (
                         <GoalList
                             toggleParentScroll={(enable) => {
