@@ -19,10 +19,12 @@ function getStyle(theme: ThemeInterface) {
             marginLeft: 23
         },
         leftMainText: {
+            fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontSize,
             color: theme.colors.textColor
         },
         leftSubText: {
+            fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH4Size,
             color: theme.colors.subTextColor,
             marginTop: 5,
@@ -36,6 +38,7 @@ function getStyle(theme: ThemeInterface) {
             marginRight: 23
         },
         rightSideText: {
+            fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontSize,
             color: theme.colors.danger
         },

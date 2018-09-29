@@ -29,9 +29,11 @@ function getStyle(theme: ThemeInterface) {
             justifyContent: 'center'
         },
         centerText: {
+            fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH3Size
         },
         centerSubText: {
+            fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH5Size,
             color: theme.colors.subTextColor,
             marginTop: 2
@@ -47,6 +49,7 @@ function getStyle(theme: ThemeInterface) {
             alignItems: 'center',
         },
         rightText: {
+            fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH4Size,
             color: theme.colors.listItemRightIconColor,
             marginRight: -10
