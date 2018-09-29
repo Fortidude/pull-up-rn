@@ -2,6 +2,7 @@ import { AnyAction } from 'redux';
 
 import { ExerciseTypes } from '../actions/exercise';
 import { Exercise } from '../../models/Exercise';
+import { AuthTypes } from '../actions/auth';
 
 interface ExerciseState {
     loaded: boolean;
@@ -29,6 +30,9 @@ function exercise(state = initialState, action: AnyAction): ExerciseState {
         }
         case ExerciseTypes.startFetching: {
             return Object.assign({}, state, { loading: true })
+        }
+        case AuthTypes.logout: {
+            return Object.assign({}, initialState);
         }
         default:
             return state;

@@ -88,8 +88,8 @@ let translations = {
         },
 
         errors: {
-            "failed": "Nie powiodło się.",
             "Bad credentials": "Błędna nazwa użytkownika lub niepoprawne hasło. Możesz skorzystać z opcji przypomnienia hasła.",
+            "failed": "Nie powiodło się.",
             "no_internet_connection": "Brak połączenia z serwerem.",
             "no_internet_connection_text": "Pracujesz w trybie offline. Nadal możesz wysyłać sety czy modyfikować oraz tworzyć treningi. Synchronizacja danych nastąpi przy ponownym połaczeniu z internetem.",
             "SERVER_ERROR": "Wystąpił błąd. Spróbuj ponownie."

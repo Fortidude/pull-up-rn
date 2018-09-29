@@ -36,9 +36,6 @@ class Planner extends React.Component<Props, State> {
         }
     }
 
-    componentDidUpdate(prevProps: Props) {
-    }
-
     render() {
         return (
             <View style={this.style.container}>

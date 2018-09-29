@@ -2,6 +2,7 @@ import { AnyAction } from 'redux';
 
 import { SyncTypes } from '../actions/sync';
 import { ApiHelper } from '../../api';
+import { AuthTypes } from '../actions/auth';
 
 interface SyncState {
     syncing: boolean;
@@ -37,6 +38,8 @@ function sync(state = initialState, action: AnyAction): SyncState {
             return Object.assign({}, state, { syncing: false });
         case SyncTypes.synchronizeFailed:
             return Object.assign({}, state, { syncing: false });
+        case AuthTypes.logout:
+            return Object.assign({}, initialState);
         default:
             return state;
     }

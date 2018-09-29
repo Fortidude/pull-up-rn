@@ -3,6 +3,7 @@ import { AnyAction } from 'redux';
 import { PlannerTypes } from '../actions/planner';
 import Planner, { PlannerMethods } from '../../models/Planner';
 import Goal from '../../models/Goal';
+import { AuthTypes } from '../actions/auth';
 
 interface PlannerState {
     loading: boolean;
@@ -46,6 +47,9 @@ function planner(state = initialState, action: AnyAction): PlannerState {
 
         case PlannerTypes.createSetFailed:
             return Object.assign({}, state, { createSetLoading: false })
+
+        case AuthTypes.logout:
+            return Object.assign({}, initialState);
 
         default:
             return state;

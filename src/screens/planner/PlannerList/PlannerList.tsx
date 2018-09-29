@@ -17,6 +17,7 @@ interface Props {
     plannerLoaded: boolean;
     goalSelected: GoalInterface | null;
     isOnline: boolean;
+    isLogged: boolean;
     scrollBegin?: () => void;
 }
 
@@ -44,6 +45,10 @@ class PlannerList extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(nextProps: Props) {
+        if (!nextProps.isLogged) {
+            return;
+        }
+
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = getStyle(nextProps.theme);
         }
@@ -85,7 +90,8 @@ const mapStateToProps = (state: any) => ({
     planner: state.planner.byTrainings,
     goalSelected: state.planner.goalSelected,
     plannerLoaded: state.planner.loadedByTrainings,
-    isOnline: state.app.isOnline
+    isOnline: state.app.isOnline,
+    isLogged: state.auth.isLogged
 });
 
 export default connect(mapStateToProps)(PlannerList);
