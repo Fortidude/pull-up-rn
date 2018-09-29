@@ -6,7 +6,7 @@ import UserModel from '../models/User';
 
 interface UserInterface {
     login: (username: string, password: string) => Promise<string>;
-    register: (email: string, username: string, password: string) => Promise<boolean>;
+    register: (email: string, username: string, password: string) => Promise<boolean|string>;
 }
 
 class User implements UserInterface {
@@ -33,7 +33,7 @@ class User implements UserInterface {
             })
         };
 
-        const result = fetch(ApiHelper.getHost() + '/login_check', object)
+        const result = await fetch(ApiHelper.getHost() + '/login_check', object)
             .then(ApiHelper.checkForResponseErrors)
             .then(response => response.json())
             .then((response) => {
@@ -57,8 +57,27 @@ class User implements UserInterface {
         return result;
     }
 
-    register = async (email: string, username: string, password: string): Promise<boolean> => {
-        return false;
+    register = async (email: string, username: string, password: string): Promise<boolean|string> => {
+        let object = {
+            method: "POST",
+            headers: await ApiHelper.getHeaders(false, true),
+            body: JSON.stringify({
+                email: email,
+                username: username,
+                password: password
+            })
+        };
+
+        const result = await fetch(ApiHelper.getHost() + '/register', object)
+            .then(ApiHelper.checkForResponseErrors)
+            .then(response => response.json())
+            .then((response) => {
+                return true;
+            }).catch(err => {
+                return err.message;
+            }) 
+
+        return result;
     }
 
     isUserLoggedAndTokenValid = async (forceRequest: boolean = false): Promise<boolean> => {

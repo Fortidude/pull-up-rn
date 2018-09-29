@@ -25,7 +25,15 @@ let translations = {
             send_link: "Wyślij link aktywacyjny"
         },
         register: {
-            register: "Zarejestruj się"
+            register: "Zarejestruj się",
+            success_title: "Konto utworzone",
+            success_text: "Możesz się teraz zalogować.",
+
+            errors: {
+                email: "Adres email jest nie poprawny",
+                password_length_not_valid: "Podane hasło jest za krótkie.\nWymagane minimum 5 znaków",
+                password_not_match: "Podane hasła nie są takie same"
+            }
         },
 
         settings: {
@@ -92,6 +100,7 @@ let translations = {
             "failed": "Nie powiodło się.",
             "no_internet_connection": "Brak połączenia z serwerem.",
             "no_internet_connection_text": "Pracujesz w trybie offline. Nadal możesz wysyłać sety czy modyfikować oraz tworzyć treningi. Synchronizacja danych nastąpi przy ponownym połaczeniu z internetem.",
+            "USER_ALREADY_EXIST": "Użytkownik już istnieje",
             "SERVER_ERROR": "Wystąpił błąd. Spróbuj ponownie."
         }
     },

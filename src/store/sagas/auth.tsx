@@ -4,6 +4,7 @@ import { AuthActions, AuthTypes } from '../actions/auth';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { User } from '../../api';
 import { UserActions } from '../actions/user';
+import Register from '../../screens/auth/Register';
 
 
 function* checkIfLogged(action: any) {
@@ -31,6 +32,16 @@ function* loginSuccess(action: any) {
     }));
 }
 
+function* register(action: any) {
+    const { email, username, password } = action.payload;
+    const result = yield User.register(email, username, password);
+    if (result && result === true) {
+        yield put(AuthActions.registerSuccess());
+    } else {
+        yield put(AuthActions.registerFailed(result));
+    }
+}
+
 function* logout(action: any) {
     yield AsyncStorage.removeItem('token');
     yield put(StackActions.reset({
@@ -45,6 +56,7 @@ function* authSaga() {
         takeEvery(AuthTypes.checkIfLogged, checkIfLogged),
         takeEvery(AuthTypes.loginWithToken, loginWithToken),
         takeEvery(AuthTypes.loginSuccess, loginSuccess),
+        takeEvery(AuthTypes.register, register),
         takeEvery(AuthTypes.logout, logout)
     ]);
 }

@@ -34,15 +34,15 @@ class ApiHelper implements ApiInterface {
      */
     public checkForResponseErrors = (response: { [key: string]: any }) => {
         const DEFAULT_SERVER_ERROR_MESSAGE = "SERVER_ERROR";
-        
+
         const code = response.code || response.status || false;
         if (typeof code !== 'undefined' && (code && code !== 200)) {
             if (response._bodyText) {
-              //  response = JSON.parse(response._bodyText);
+                response = JSON.parse(response._bodyText);
             }
 
             if (__DEV__) {
-               // console.log(response);
+                console.log(response);
             }
 
             if (response.message) {

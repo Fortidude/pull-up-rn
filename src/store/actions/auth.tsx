@@ -3,6 +3,11 @@ export enum AuthTypes {
     loginWithToken = '[AUTH] LOGIN WITH TOKEN',
     loginSuccess = '[AUTH] LOGIN SUCCESS',
     loginFailed = '[AUTH] LOGIN FAILED',
+
+    register = '[AUTH] REGISTER',
+    registerSuccess = '[AUTH] REGISTER SUCCESS',
+    registerFailed = '[AUTH] REGISTER FAILED',
+
     logout = '[AUTH] LOGOUT',
 }
 
@@ -23,6 +28,20 @@ export const AuthActions = {
         type: AuthTypes.loginFailed,
         payload: { error: error }
     }),
+
+    register: (email: string, username: string, password: string) => ({
+        type: AuthTypes.register,
+        payload: {email, username, password}
+    }),
+    registerSuccess: () => ({
+        type: AuthTypes.registerSuccess,
+        payload: {}
+    }),
+    registerFailed: (error: string) => ({
+        type: AuthTypes.registerFailed,
+        payload: {error: error}
+    }),
+
     logout: () => ({
         type: AuthTypes.logout,
         payload: {}

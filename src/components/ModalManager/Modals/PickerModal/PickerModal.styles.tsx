@@ -16,7 +16,11 @@ function getStyle(theme: ThemeInterface) {
 
         buttonsContainer: {
             backgroundColor: theme.colors.backgroundColor,
-            borderRadius: theme.borders.modalRadius,
+            borderRadius: theme.borders.modalRadius
+        },
+
+        cancelContainer: {
+            marginTop: 10,
             marginBottom: 20
         },
 
