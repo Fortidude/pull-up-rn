@@ -31,7 +31,7 @@ class EmptyList extends React.Component<Props> {
     render() {
         return (
             <View style={this.style.container}>
-                <ButtonBig noShadow text={"Dodaj swój pierwszy trening"} onPress={() => {}} />
+                <ButtonBig lightShadow text={"Dodaj swój pierwszy trening"} onPress={() => {}} />
             </View>
         );
     }

@@ -13,7 +13,12 @@ function getStyle(theme: ThemeInterface) {
         containerShadow: {
             shadowColor: theme.colors.buttonBigShadowColor,
             shadowOpacity: 0.5,
-            shadowOffset: {width: 0, height: 3}
+            shadowOffset: { width: 0, height: 3 }
+        },
+        containerLightShadow: {
+            shadowColor: theme.colors.buttonBigShadowColor,
+            shadowOpacity: 0.1,
+            shadowOffset: { width: 0, height: 2 }
         },
         text: {
             color: theme.colors.buttonBigTextColor,

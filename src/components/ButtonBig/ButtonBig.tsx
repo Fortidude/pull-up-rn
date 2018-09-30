@@ -12,7 +12,7 @@ interface Props {
     onPress: () => void;
     text: string;
     isLoading?: boolean;
-    noShadow?: boolean;
+    lightShadow?: boolean;
 }
 
 class ButtonBig extends React.Component<Props> {
@@ -32,7 +32,7 @@ class ButtonBig extends React.Component<Props> {
 
     render() {
         return (
-            <TouchableOpacity style={[this.style.container, this.props.noShadow ? {} : this.style.containerShadow]} onPress={this.props.onPress}>
+            <TouchableOpacity style={[this.style.container, this.props.lightShadow ? this.style.containerLightShadow : this.style.containerShadow]} onPress={this.props.onPress}>
                 {!this.props.isLoading && <Text style={this.style.text}>{this.props.text}</Text>}
                 {this.props.isLoading && <Spinner/>}
             </TouchableOpacity>

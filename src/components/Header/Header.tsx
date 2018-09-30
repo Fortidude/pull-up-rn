@@ -17,6 +17,7 @@ interface Props {
     theme: ThemeInterface;
     isOnline: boolean;
     profileModalVisible: boolean;
+    plannerIsEmpty: boolean;
 }
 
 interface State {}
@@ -43,7 +44,7 @@ class Header extends React.Component<Props, State> {
 
     showRightButton = () => {
         const routeName = this.getRawCurrentTitle().toLocaleLowerCase();
-        if (routeName === 'planner' && !this.props.profileModalVisible) {
+        if (routeName === 'planner' && !this.props.profileModalVisible && !this.props.plannerIsEmpty) {
             return <PlannerEditButton/>
         } 
 
@@ -72,6 +73,7 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme,
     isOnline: state.app.isOnline,
     profileModalVisible: state.modal.profileModalVisible,
+    plannerIsEmpty: state.planner.byTrainingsEmpty
 });
 
 export default connect(mapStateToProps)(Header);

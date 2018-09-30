@@ -8,7 +8,10 @@ import { AuthTypes } from '../actions/auth';
 interface PlannerState {
     loading: boolean;
     loadedByTrainings: boolean;
+
     byTrainings: Planner;
+    byTrainingsEmpty: boolean;
+
     goalSelected: Goal | null;
     createSetLoading: boolean;
     error: string | null
@@ -17,7 +20,10 @@ interface PlannerState {
 export const initialState: PlannerState = {
     loading: false,
     loadedByTrainings: false,
+
     byTrainings: new Planner({}),
+    byTrainingsEmpty: true,
+
     goalSelected: null,
     createSetLoading: false,
     error: null
@@ -29,7 +35,12 @@ function planner(state = initialState, action: AnyAction): PlannerState {
             return Object.assign({}, state, { loading: true });
 
         case PlannerTypes.loadByTrainingsSuccess:
-            return Object.assign({}, state, { loading: false, loadedByTrainings: true, byTrainings: action.payload.planner });
+            return Object.assign({}, state, {
+                loading: false,
+                loadedByTrainings: true,
+                byTrainings: action.payload.planner,
+                byTrainingsEmpty: action.payload.planner.trainings.length === 0
+            });
 
         case PlannerTypes.loadByTrainingsFailed:
             return Object.assign({}, state, { loading: false, error: action.payload.error });
