@@ -43,6 +43,10 @@ class Data implements DataInterface {
         return await this.postFetchData('/secured/goal/set/create', data);
     }
 
+    public postCreateSection = async (name: string, description: string = ''): Promise<ResponseStatus> => {
+        return await this.postFetchData('/secured/section/create', { name, description });
+    }
+
     private getFetchData = async (url: string, cacheKey?: string, useToken: boolean = true, asJson: boolean = true) => {
         const apiUrl = ApiHelper.getHost() + url;
         const object = {

@@ -11,7 +11,8 @@ import Avatar from 'src/components/FooterBar/Avatar';
 interface Props {
     onLayout?: () => void;
     dispatch: Dispatch;
-    theme: ThemeInterface
+    theme: ThemeInterface;
+    plannerEditMode: boolean;
 }
 
 class PlannerFooter extends React.Component<Props> {
@@ -46,7 +47,8 @@ class PlannerFooter extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    plannerEditMode: state.app.plannerEditMode
 });
 
 export default connect(mapStateToProps)(PlannerFooter);

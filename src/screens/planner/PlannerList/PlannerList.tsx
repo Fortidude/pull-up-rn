@@ -10,14 +10,15 @@ import { PlannerActions } from 'src/store/actions/planner';
 import Planner from 'src/models/Planner';
 import { GoalInterface } from 'src/models/Goal';
 
-import GoalList from 'src/components/GoalList';
-import EmptyList from 'src/components/GoalList/EmptyList';
+import GoalList from 'src/components/TrainingSection';
+import EmptyList from 'src/components/TrainingSection/EmptyList';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     planner: Planner;
     plannerLoaded: boolean;
+    plannerEditMode: boolean;
     goalSelected: GoalInterface | null;
     isOnline: boolean;
     isLogged: boolean;
@@ -76,7 +77,7 @@ class PlannerList extends React.Component<Props, State> {
                     ListEmptyComponent={<EmptyList />}
                     renderItem={({ item, index }) => (
                         <GoalList
-                            toggleParentScroll={(enable) => {
+                            toggleParentScroll={(enable: boolean) => {
                                 this.flatListReference.getScrollResponder().setNativeProps({ scrollEnabled: enable })
                             }}
                             training={item}
@@ -93,6 +94,7 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme,
     planner: state.planner.byTrainings,
     goalSelected: state.planner.goalSelected,
+    plannerEditMode: state.app.plannerEditMode,
     plannerLoaded: state.planner.loadedByTrainings,
     isOnline: state.app.isOnline,
     isLogged: state.auth.isLogged

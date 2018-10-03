@@ -13,6 +13,10 @@ export enum PlannerTypes {
     createSetLoading = '[PLANNER] CREATE SET LOADING',
     createSetSuccess = '[PLANNER] CREATE SET SUCCESS',
     createSetFailed = '[PLANNER] CREATE SET FAILED',
+
+    createSection = '[PLANNER] CREATE SECTION',
+    createSectionSuccess = '[PLANNER] CREATE SECTION SUCCESS',
+    createSectionFailed = '[PLANNER] CREATE SECTION FAILED'
 }
 
 export const PlannerActions = {
@@ -51,4 +55,16 @@ export const PlannerActions = {
         payload: { error }
     }),
 
+    createSection: (name: string, description: string = '') => ({
+        type: PlannerTypes.createSection,
+        payload: { name, description }
+    }),
+    createSectionSucces: (name: string, description: string) => ({
+        type: PlannerTypes.createSectionSuccess,
+        payload: { name, description }
+    }),
+    createSectionFailed: (error: string) => ({
+        type: PlannerTypes.createSectionSuccess,
+        payload: { error }
+    })
 };

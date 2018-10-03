@@ -41,7 +41,7 @@ class ApiHelper implements ApiInterface {
                 response = JSON.parse(response._bodyText);
             }
 
-            if (__DEV__) {
+            if (__DEV__ && typeof __TEST__ === 'undefined') {
                 console.log(response);
             }
 

@@ -2,6 +2,7 @@
  * Mock fetch method
  */
 global.fetch = require('jest-fetch-mock');
+__TEST__ = true;
 
 /**
  * Mock AsyncStorage mthod

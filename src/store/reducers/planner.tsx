@@ -1,9 +1,11 @@
 import { AnyAction } from 'redux';
 
-import { PlannerTypes } from '../actions/planner';
-import Planner, { PlannerMethods } from '../../models/Planner';
-import Goal from '../../models/Goal';
-import { AuthTypes } from '../actions/auth';
+import { PlannerTypes } from 'src/store/actions/planner';
+import { AuthTypes } from 'src/store/actions/auth';
+
+import Planner, { PlannerMethods } from 'src/models/Planner';
+import Goal from 'src/models/Goal';
+import Training from 'src/models/Training';
 
 interface PlannerState {
     loading: boolean;
@@ -58,6 +60,14 @@ function planner(state = initialState, action: AnyAction): PlannerState {
 
         case PlannerTypes.createSetFailed:
             return Object.assign({}, state, { createSetLoading: false })
+
+        case PlannerTypes.createSectionSuccess: {
+            const { name, description } = action.payload;
+            const planner = Object.assign({}, state.byTrainings);
+            planner.trainings.unshift(new Training(name, []));
+
+            return Object.assign({}, state, { byTrainings: planner, byTrainingsEmpty: false });
+        }
 
         case AuthTypes.logout:
             return Object.assign({}, initialState);

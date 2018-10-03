@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 
 import Styles from './EmptyList.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
-import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import ButtonBig from '../../ButtonBig';
+import { ModalActions } from '../../../store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;
@@ -28,10 +28,14 @@ class EmptyList extends React.Component<Props> {
         }
     }
 
+    openAddTrainingSectionModal = () => {
+        this.props.dispatch(ModalActions.addTrainingSectionOpen());
+    }
+
     render() {
         return (
             <View style={this.style.container}>
-                <ButtonBig lightShadow text={"Dodaj swój pierwszy trening"} onPress={() => {}} />
+                <ButtonBig lightShadow text={"Dodaj swój pierwszy trening"} onPress={this.openAddTrainingSectionModal} />
             </View>
         );
     }

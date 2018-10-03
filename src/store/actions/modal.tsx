@@ -5,6 +5,9 @@ export enum ModalTypes {
     addSetOpen = '[MODAL] OPEN ADD SET',
     addSetClose = '[MODAL] CLOSE ADD SET',
 
+    addTrainingSectionOpen = '[MODAL] OPEN ADD TRAINING SECTION',
+    addTrainingSectionClose = '[MODAL] CLOSE ADD TRAINING SECTION',
+
     goalCreateOpen = '[MODAL] OPEN CREATE GOAL',
     goalCreateClose = '[MODAL] CLOSE CREATE GOAL',
 
@@ -28,6 +31,15 @@ export const ModalActions = {
     }),
     addSetClose: () => ({
         type: ModalTypes.addSetClose,
+        payload: {}
+    }),
+
+    addTrainingSectionOpen: () => ({
+        type: ModalTypes.addTrainingSectionOpen,
+        payload: {}
+    }),
+    addTrainingSectionClose: () => ({
+        type: ModalTypes.addTrainingSectionClose,
         payload: {}
     }),
 

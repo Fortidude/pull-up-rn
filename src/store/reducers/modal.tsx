@@ -7,8 +7,9 @@ import { PlannerTypes } from '../actions/planner';
 export interface ModalState {
     [key: string]: any,
     addSetModalVisible: boolean;
-    goalCreateModalVisible: boolean;
     profileModalVisible: boolean;
+    goalCreateModalVisible: boolean;
+    addTrainingSectionModalVisible: boolean
 
     pickerModalVisible: boolean;
     pickerOptions: {
@@ -26,8 +27,9 @@ const defaultPickerOptions = {
 
 const initialState: ModalState = {
     addSetModalVisible: false,
-    goalCreateModalVisible: false,
     profileModalVisible: false,
+    goalCreateModalVisible: false,
+    addTrainingSectionModalVisible: false,
 
     pickerModalVisible: false,
     pickerOptions: defaultPickerOptions
@@ -45,11 +47,16 @@ function modal(state = initialState, action: AnyAction): ModalState {
         case ModalTypes.addSetClose:
             return Object.assign({}, state, { addSetModalVisible: false });
 
+        case ModalTypes.addTrainingSectionOpen:
+            return Object.assign({}, state, { addTrainingSectionModalVisible: true });
+        case ModalTypes.addTrainingSectionClose:
+            return Object.assign({}, state, { addTrainingSectionModalVisible: false });
+
         case ModalTypes.goalCreateOpen:
             return Object.assign({}, state, { goalCreateModalVisible: true });
         case ModalTypes.goalCreateClose:
             return Object.assign({}, state, { goalCreateModalVisible: false });
-            
+
         case ModalTypes.pickerOpen:
             return Object.assign({}, state, { pickerModalVisible: true, pickerOptions: { ...action.payload } });
         case ModalTypes.pickerClose:
@@ -59,6 +66,8 @@ function modal(state = initialState, action: AnyAction): ModalState {
             return Object.assign({}, initialState);
         case PlannerTypes.createSetSuccess:
             return Object.assign({}, state, { addSetModalVisible: false });
+        case PlannerTypes.createSectionSuccess:
+            return Object.assign({}, state, { addTrainingSectionModalVisible: false });
         default:
             return state;
     }

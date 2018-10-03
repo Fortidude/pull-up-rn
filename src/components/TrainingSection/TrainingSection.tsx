@@ -3,13 +3,14 @@ import { Dispatch } from 'redux';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 
-import { ThemeInterface, ThemeValueInterface } from '../../assets/themes';
-import Styles from './GoalList.styles';
+import Styles from './TrainingSection.styles';
+import GoalListContainer from './GoalListContainer/GoalListContainer';
 import GoalListHeader from './GoalListHeader';
 import GoalItem from './GoalItem';
-import Training from '../../models/Training';
-import GoalListContainer from './GoalListContainer/GoalListContainer';
-import { ModalActions } from '../../store/actions/modal';
+
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+import Training from 'src/models/Training';
+import { ModalActions } from 'src/store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;
@@ -26,7 +27,7 @@ interface State {
     toggled: boolean;
 }
 
-class ExerciseList extends React.Component<Props, State> {
+class TrainingSection extends React.Component<Props, State> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
@@ -89,4 +90,4 @@ const mapStateToProps = (state: any) => ({
     plannerEditMode: state.app.plannerEditMode
 });
 
-export default connect(mapStateToProps)(ExerciseList);
+export default connect(mapStateToProps)(TrainingSection);

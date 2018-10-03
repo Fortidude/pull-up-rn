@@ -41,6 +41,12 @@ let translations = {
             language: "Język"
         },
 
+        modals: {
+            addTreningSection: {
+                title: "Dodaj Trening"
+            }
+        },
+
         planner: {
             done_of: "Zrobiono",
             missing: "Brakuje",
@@ -82,9 +88,11 @@ let translations = {
             number_of_reps_done: "Ilość wykonanych powtórzeń",
             password: "Hasło",
             password_repeat: "Powtórz hasło",
+            type_name: "Podaj nazwę"
         },
 
         buttons: {
+            add: "Dodaj",
             add_set: "Dodaj set",
             cancel: "Anuluj",
             close: "Zamknij",

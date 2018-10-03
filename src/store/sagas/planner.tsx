@@ -26,10 +26,9 @@ function* createSet(action: any) {
         return;
     }
 
-    yield put(PlannerActions.createSetLoading());
-
-    const { goal, value, extraWeight } = action.payload;
     try {
+        yield put(PlannerActions.createSetLoading());
+        const { goal, value, extraWeight } = action.payload;
         const type = goal.requiredType === 'none' ? 'reps' : goal.requiredType;
         const data: SetInterface = {
             goal: goal.id,
@@ -50,10 +49,26 @@ function* createSet(action: any) {
     }
 }
 
+function* createSection(action: any) {
+    try {
+        const { name, description } = action.payload;
+        const result = yield Data.postCreateSection(name, description);
+        if (!result.status) {
+            console.log(`createSection sagas, line 58`, result);
+            throw 'ERROR';
+        }
+
+        yield put(PlannerActions.createSectionSucces(name, description));
+    } catch (err) {
+        yield put(PlannerActions.createSectionFailed(err));
+    }
+}
+
 function* plannerSaga() {
     yield all([
         takeEvery(PlannerTypes.loadByTrainings, loadByTrainings),
         takeEvery(PlannerTypes.createSet, createSet),
+        takeEvery(PlannerTypes.createSection, createSection)
     ]);
 }
 

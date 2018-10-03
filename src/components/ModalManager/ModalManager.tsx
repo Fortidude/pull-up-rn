@@ -10,6 +10,7 @@ import { ModalState } from 'src/store/reducers/modal';
 import AddSetModal from './Modals/AddSetModal';
 import CreateGoalModal from './Modals/CreateGoalModal';
 import PickerModal from './Modals/PickerModal';
+import AddTrainingSectionModal from './Modals/AddTrainingSectionModal';
 
 const HEIGHT = Dimensions.get('window').height;
 
@@ -28,6 +29,7 @@ interface State {
 
     addSetModal: boolean;
     createGoalModal: boolean;
+    addTrainingSectionModal: boolean
 
     pickerBottomPosition: Animated.Value;
     pickerModal: boolean;
@@ -37,6 +39,7 @@ interface State {
 const MODALS_HANDLED = [
     'addSetModalVisible',
     'goalCreateModalVisible',
+    'addTrainingSectionModalVisible',
     'pickerModalVisible'
 ];
 
@@ -67,6 +70,7 @@ class ModalManager extends React.Component<Props, State> {
 
             addSetModal: false,
             createGoalModal: false,
+            addTrainingSectionModal: false,
 
             pickerBottomPosition: new Animated.Value(-HEIGHT),
             pickerModal: false,
@@ -210,6 +214,7 @@ class ModalManager extends React.Component<Props, State> {
         const state: State = Object.assign({}, this.state);
         state.addSetModal = props.modal.addSetModalVisible;
         state.createGoalModal = props.modal.goalCreateModalVisible;
+        state.addTrainingSectionModal = props.modal.addTrainingSectionModalVisible;
         state.pickerModal = props.modal.pickerModalVisible;
         state.pickerOptions = props.modal.pickerOptions;
 
@@ -263,6 +268,7 @@ class ModalManager extends React.Component<Props, State> {
 
                         {!!this.state.addSetModal && <AddSetModal style={this.state.pickerModal ? { backgroundColor: 'rgba(0,0,0,0.5)' } : {}} />}
                         {!!this.state.createGoalModal && <CreateGoalModal overlay={this.state.pickerModal} />}
+                        {!!this.state.addTrainingSectionModal && <AddTrainingSectionModal />}
 
                     </Animated.ScrollView>
 

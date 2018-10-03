@@ -48,7 +48,7 @@ class ProfileFooter extends React.Component<Props> {
                     <Text style={this.style.leftMainText}>Username</Text>
                     <Text style={this.style.leftSubText}>User</Text>
                 </View>
-                <Avatar editMode />
+                <Avatar profileEditMode />
                 <TouchableOpacity style={this.style.rightSide} onPress={this.logoutAsk}>
                     <Text style={this.style.rightSideText}>{I18n.t('buttons.logout')}</Text>
                     <Icon name={"sign-out-alt"} style={this.style.rightSideIcon} />
