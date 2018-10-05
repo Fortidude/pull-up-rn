@@ -259,6 +259,7 @@ class ModalManager extends React.Component<Props, State> {
             <React.Fragment>
                 <Animated.View style={[this.style.overlay, { backgroundColor: background }]}>
                     <Animated.ScrollView
+                        keyboardShouldPersistTaps={"always"}
                         pointerEvents={this.state.pickerModal ? 'none' : 'auto'}
                         scrollEnabled={this._scrollEnabled()}
                         onScroll={() => { Keyboard.dismiss() }}

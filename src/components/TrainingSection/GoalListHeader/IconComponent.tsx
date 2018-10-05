@@ -29,8 +29,10 @@ class IconComponent extends React.Component<Props, State> {
         this.state = {
             spinValue: new Animated.Value(props.active ? 0 : 1),
             scaleValue: new Animated.Value(1),
-            iconPlus: false
+            iconPlus: !props.plannerEditMode
         }
+
+        this.animatePlus();
     }
 
     componentWillReceiveProps(nextProps: Props) {
