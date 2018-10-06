@@ -22,10 +22,13 @@ interface Props {
 
     isToggled: boolean;
     toggleParentScroll?: (enable: boolean) => void,
+
+    onMoveToSection: (goalId: string, onPickCallback?: () => void, onDispatchCallback?: () => void) => void;
 }
 
 interface State {
-    goal: Goal
+    animeteOut: boolean;
+    goal: Goal;
 }
 
 class GoalItem extends React.Component<Props, State> {
@@ -35,11 +38,14 @@ class GoalItem extends React.Component<Props, State> {
     progressPercent = new Animated.Value(0);
     swipeItemRef: any;
 
+    unMounted = false;
+
     constructor(props: Props) {
         super(props);
 
         this.style = Styles(this.props.theme);
         this.state = {
+            animeteOut: false,
             goal: Object.assign({}, props.goal)
         }
     }
@@ -47,10 +53,17 @@ class GoalItem extends React.Component<Props, State> {
     componentDidMount() {
         this.swipeItemPosition = this.swipeItemRef.getSwipePosition();
         this.animateProgress();
+
+        /**
+         * @TODO 
+         * 
+         * Goal data not animating on Swipe element pan responder.
+         * Only after state update.
+         */
+        this.forceUpdate();
     }
 
     componentWillReceiveProps(nextProps: Props) {
-
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
         }
@@ -72,6 +85,10 @@ class GoalItem extends React.Component<Props, State> {
         }
     }
 
+    componentWillUnmount() {
+        this.unMounted = true;
+    }
+
     onAddSetPress = () => {
         this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
         this.props.dispatch(ModalActions.addSetOpen());
@@ -85,10 +102,26 @@ class GoalItem extends React.Component<Props, State> {
         }).start();
     }
 
+    onMoveToOtherSection = () => {
+        const onPickCallback = () => {
+            if (!this.unMounted) {
+                this.setState({ animeteOut: true });
+            }
+        }
+
+        const onDispatchCallback = () => {
+            if (!this.unMounted) {
+                this.setState({ animeteOut: false });
+            }
+        }
+
+        this.props.onMoveToSection(this.state.goal.id, onPickCallback, onDispatchCallback);
+    }
+
     render() {
         let goal = this.state.goal;
         const rightButtons = [
-            <TouchableOpacity style={[this.style.buttonReorderContainer]}>
+            <TouchableOpacity onPress={this.onMoveToOtherSection} style={[this.style.buttonReorderContainer]}>
                 <Icon name="exchange-alt" solid={true} style={this.style.iconReorder} />
             </TouchableOpacity>,
             <TouchableOpacity style={[this.style.buttonRemoveContainer]}>
@@ -117,6 +150,7 @@ class GoalItem extends React.Component<Props, State> {
 
         return (
             <SwipeItem style={this.style.swipeout}
+                animateOut={this.state.animeteOut}
                 ref={ref => this.swipeItemRef = ref}
                 rightButtons={rightButtons}
                 onMoveBegin={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(false) : null}
@@ -129,7 +163,7 @@ class GoalItem extends React.Component<Props, State> {
                         </View>
                     </View>
                     <View style={this.style.summaryContent}>
-                        <Animated.View style={[this.style.summaryLeftContent, { transform: [{translateX: summaryContentLeft}] }]}>
+                        <Animated.View style={[this.style.summaryLeftContent, { transform: [{ translateX: summaryContentLeft }] }]}>
                             <Text style={this.style.title}>{goal.exercise.name} </Text>
                             {!!goal.exercise.exerciseVariant.name && <Text style={this.style.subTitle}>{goal.exercise.exerciseVariant.name} </Text>}
                         </Animated.View>

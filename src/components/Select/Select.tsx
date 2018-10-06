@@ -46,16 +46,6 @@ class Select extends React.Component<Props> {
         }
 
         this.props.dispatch(ModalActions.pickerOpen(this.props.options, true, onPick));
-
-        // ActionSheetIOS.showActionSheetWithOptions({
-        //     options: options,
-        //     cancelButtonIndex: 0
-        // },
-        //     (buttonIndex) => {
-        //         if (buttonIndex > 0) {
-        //             this.props.onChange(this.props.options[buttonIndex - 1]);
-        //         }
-        //     });
     }
 
     render() {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View } from 'react-native';
+import { LayoutAnimation, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './TrainingSection.styles';
@@ -17,6 +17,7 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     plannerEditMode: boolean;
+    sections: string[];
 
     training: Training
     isFirst?: boolean;
@@ -65,6 +66,18 @@ class TrainingSection extends React.Component<Props, State> {
         this.setState({ toggled: toggled });
     }
 
+    moveGoalToSection = (goalId: string, onPickCallback?: () => void, onDispatchCallback?: () => void) => {
+        const options = this.props.sections;
+        const onPick = (index: number) => {
+            onPickCallback ? onPickCallback() : null;
+            setTimeout(() => {
+                this.props.dispatch(PlannerActions.moveGoalToSection(goalId, options[index]));
+                onDispatchCallback ? onDispatchCallback() : null;
+            }, onPickCallback ? 700 : 0);
+        }
+        this.props.dispatch(ModalActions.pickerOpen(options, true, onPick));
+    }
+
     render() {
         return (
             <View style={this.style.exerciseListContainer}>
@@ -73,10 +86,11 @@ class TrainingSection extends React.Component<Props, State> {
                     <React.Fragment>
                         {this.props.training.goals.map((goal, key) => {
                             return (<GoalItem
+                                onMoveToSection={this.moveGoalToSection}
                                 toggleParentScroll={this.props.toggleParentScroll}
                                 isToggled={this.state.toggled}
                                 goal={goal}
-                                key={key} />);
+                                key={`${this.props.training.key}-${goal.id}`} />);
                         }
                         )}
                     </React.Fragment>
@@ -89,7 +103,8 @@ class TrainingSection extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    plannerEditMode: state.app.plannerEditMode
+    plannerEditMode: state.app.plannerEditMode,
+    sections: state.planner.byTrainings.trainings.map((training: Training) => training.name)
 });
 
 export default connect(mapStateToProps)(TrainingSection);

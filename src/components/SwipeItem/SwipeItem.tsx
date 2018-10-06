@@ -8,6 +8,7 @@ interface Props {
     style?: StyleSheet;
     rightButtons?: ReactFragment[];
     rightButtonWidth?: number;
+    animateOut?: boolean;
 
     onMoveBegin?: () => void;
     onMoveEnd?: () => void;
@@ -15,6 +16,7 @@ interface Props {
 
 interface State {
     swipePosition: Animated.Value;
+    opacity: Animated.Value;
 }
 
 class SwipeItem extends React.Component<Props, State> {
@@ -27,7 +29,22 @@ class SwipeItem extends React.Component<Props, State> {
 
         this.style = Styles();
         this.state = {
-            swipePosition: new Animated.Value(0)
+            swipePosition: new Animated.Value(0),
+            opacity: new Animated.Value(0)
+        }
+    }
+
+    componentDidMount() {
+        this._turnOnOpacity();
+    }
+
+    componentWillReceiveProps(nextProps: Props) {
+        if (!this.props.animateOut && nextProps.animateOut) {
+            this._turnOffOpacity();
+        }
+
+        if (this.props.animateOut && !nextProps.animateOut) {
+            this._turnOnOpacity();
         }
     }
 
@@ -79,7 +96,7 @@ class SwipeItem extends React.Component<Props, State> {
         const rightButtons = this.props.rightButtons || [];
 
         return (
-            <View style={{ flexDirection: 'row' }}>
+            <Animated.View style={[{ flexDirection: 'row', opacity: this.state.opacity }]}>
                 <Animated.View {...this.panResponder().panHandlers}
                     style={[this.props.style, this.style.container, { transform: [{ translateX: this.state.swipePosition }] }]}>
                     <View>
@@ -90,11 +107,11 @@ class SwipeItem extends React.Component<Props, State> {
 
 
                 {rightButtons.map((button, key) => (
-                    <Animated.View key={key} style={[this.style.rightButtonsContainer, { width: 50, right: -this.getMaxLeftSwipe(), transform: [{translateX: this.getRightButtonTranslateX()}] }]}>
+                    <Animated.View key={key} style={[this.style.rightButtonsContainer, { width: 50, right: -this.getMaxLeftSwipe(), transform: [{ translateX: this.getRightButtonTranslateX() }] }]}>
                         {button}
                     </Animated.View>
                 ))}
-            </View>
+            </Animated.View>
         );
     }
 
@@ -115,8 +132,8 @@ class SwipeItem extends React.Component<Props, State> {
     getRightButtonTranslateX = () => {
         const maxSwipe = this.getMaxLeftSwipe();
         return this.state.swipePosition.interpolate({
-            inputRange: [maxSwipe * 2, maxSwipe*1.5],
-            outputRange: [maxSwipe*0.1, 0],
+            inputRange: [maxSwipe * 2, maxSwipe * 1.5],
+            outputRange: [maxSwipe * 0.1, 0],
             extrapolate: 'extend'
         });
     }
@@ -161,6 +178,22 @@ class SwipeItem extends React.Component<Props, State> {
                 this.toggle();
             }
         });
+    }
+
+    _turnOnOpacity = () => {
+        Animated.timing(this.state.opacity, {
+            toValue: 1,
+            duration: 600,
+            useNativeDriver: true
+        }).start();
+    }
+
+    _turnOffOpacity = () => {
+        Animated.timing(this.state.opacity, {
+            toValue: 0,
+            duration: 600,
+            useNativeDriver: true
+        }).start();
     }
 }
 
