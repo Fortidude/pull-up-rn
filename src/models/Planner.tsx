@@ -111,7 +111,7 @@ class PlannerMethodsClass {
             }
 
             const goalIndex = oldSection.goals.findIndex(goalTemp => goalTemp.id === goalId);
-            
+
             if (goalIndex > -1) {
                 goalIndexInOldSection = goalIndex;
                 oldSectionIndex = index;
@@ -125,6 +125,29 @@ class PlannerMethodsClass {
 
         planner.trainings[oldSectionIndex].goals.splice(goalIndexInOldSection, 1);
         planner.trainings[newSectionIndex].goals.push(Object.assign({}, goal));
+
+        return planner;
+    }
+
+    /**
+     * Tested by redux Planner tests
+     */
+    removeGoal = (goalId: string, planner: Planner): Planner => {
+        let sectionIndex: number | null = null;
+        let goalIndex: number | null = null;
+
+        planner.trainings.forEach((section, index) => {
+            const foundIndex = section.goals.findIndex(goal => goal.id === goalId);
+
+            if (foundIndex > -1) {
+                sectionIndex = index;
+                goalIndex = foundIndex;
+            }
+        });
+
+        if (sectionIndex !== null && goalIndex !== null) {
+            planner.trainings[sectionIndex].goals.splice(goalIndex, 1);
+        }
 
         return planner;
     }

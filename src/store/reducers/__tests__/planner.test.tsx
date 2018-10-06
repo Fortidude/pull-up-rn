@@ -165,4 +165,23 @@ describe('planner reducer', () => {
         expect(() => planner(state, PlannerActions.moveGoalToSection("some-fake-goal-id", sectionName)))
             .toThrowError(new Error('GOAL_NOT_FOUND'));
     })
+
+    it('should remove goal', () => {
+        const state = Object.assign(initialState, {
+            byTrainings: new Planner({ "section name": [goalOne, goalTwo], "second section": [] }),
+            byTrainingsEmpty: false,
+            loadedByTrainings: true,
+            loading: false
+        });
+
+        const goalId = goalOne.id;
+
+        const newState = planner(state, PlannerActions.removeGoal(goalId));
+        const expectedState = Object.assign({}, state, {
+            byTrainings: new Planner({ "section name": [goalTwo], "second section": [] })
+        })
+
+        expect(JSON.stringify(newState))
+            .toEqual(JSON.stringify(expectedState));
+    })
 });

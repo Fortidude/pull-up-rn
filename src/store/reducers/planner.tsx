@@ -92,7 +92,12 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.moveGoalToSection: {
             const { goalId, section } = action.payload;
             const planner = PlannerMethods.moveGoalToSection(goalId, section, state.byTrainings);
-            return Object.assign({}, state, { byTrainings: planner});
+            return Object.assign({}, state, { byTrainings: planner });
+        }
+        case PlannerTypes.removeGoal: {
+            const { goalId } = action.payload;
+            const planner = PlannerMethods.removeGoal(goalId, state.byTrainings);
+            return Object.assign({}, state, { byTrainings: planner });
         }
 
         case AuthTypes.logout:
