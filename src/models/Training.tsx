@@ -12,7 +12,7 @@ class Training implements TrainingInterface {
     name: string;
     goals: Goal[] = [];
 
-    constructor(name: string, goals: []) {
+    constructor(name: string, goals: Goal[]) {
         this.key = name;
         this.name = name;
         this.goals = goals.map(goal => new Goal(goal));

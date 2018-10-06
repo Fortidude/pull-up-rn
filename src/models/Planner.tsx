@@ -7,7 +7,7 @@ interface PlannerInterface {
 }
 
 interface DataInterface {
-    [key: string]: []
+    [key: string]: Goal[]
 }
 
 
@@ -89,6 +89,44 @@ class PlannerMethodsClass {
         if (goal.requiredAmount) {
             goal.leftThisCircuit = goal.requiredAmount - goal.doneThisCircuit;
         }
+    }
+
+    /**
+     * Tested by redux Planner tests
+     */
+    moveGoalToSection = (goalId: string, sectionName: string, planner: Planner): Planner => {
+        const newSectionIndex = planner.trainings.findIndex(training => {
+            return training.name === sectionName
+        });
+        if (newSectionIndex === -1) {
+            throw new Error("SECTION_NOT_FOUND");
+        }
+
+        let goalIndexInOldSection: number | null = null;
+        let oldSectionIndex: number | null = null;
+        let goal: Goal | null = null;
+        planner.trainings.forEach((oldSection, index) => {
+            if (goalIndexInOldSection !== null) {
+                return;
+            }
+
+            const goalIndex = oldSection.goals.findIndex(goalTemp => goalTemp.id === goalId);
+            
+            if (goalIndex > -1) {
+                goalIndexInOldSection = goalIndex;
+                oldSectionIndex = index;
+                goal = Object.assign({}, oldSection.goals[goalIndexInOldSection]);
+            }
+        });
+
+        if (oldSectionIndex === null || goalIndexInOldSection === null || !goal) {
+            throw new Error("GOAL_NOT_FOUND");
+        }
+
+        planner.trainings[oldSectionIndex].goals.splice(goalIndexInOldSection, 1);
+        planner.trainings[newSectionIndex].goals.push(Object.assign({}, goal));
+
+        return planner;
     }
 }
 

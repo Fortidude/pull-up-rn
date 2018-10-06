@@ -13,7 +13,7 @@ export enum ModalTypes {
 
     pickerOpen = '[MODAL] OPEN PICKER',
     pickerClose = '[MODAL] CLOSE PICKER'
-}
+ }
 
 export const ModalActions = {
     profileOpen: () => ({

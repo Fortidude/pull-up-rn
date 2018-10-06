@@ -22,6 +22,8 @@ export enum PlannerTypes {
     createGoal = '[PLANNER] CREATE GOAL',
     createGoalSuccess = '[PLANNER] CREATE GOAL SUCCESS',
     createGoalFailed = '[PLANNER] CREATE GOAL FAILED',
+
+    moveGoalToSection = '[PLANNER] MOVE GOAL TO SECTION'
 }
 
 export const PlannerActions = {
@@ -83,10 +85,15 @@ export const PlannerActions = {
     }),
     createGoalSuccess: () => ({
         type: PlannerTypes.createGoalSuccess,
-        payload: { }
+        payload: {}
     }),
     createGoalFailed: (error: string) => ({
         type: PlannerTypes.createGoalFailed,
         payload: { error }
+    }),
+
+    moveGoalToSection: (goalId: string, section: string) => ({
+        type: PlannerTypes.moveGoalToSection,
+        payload: { goalId, section }
     })
 };

@@ -89,6 +89,12 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.createGoalFailed:
             return Object.assign({}, state, { createGoalLoading: false, error: action.payload.error });
 
+        case PlannerTypes.moveGoalToSection: {
+            const { goalId, section } = action.payload;
+            const planner = PlannerMethods.moveGoalToSection(goalId, section, state.byTrainings);
+            return Object.assign({}, state, { byTrainings: planner});
+        }
+
         case AuthTypes.logout:
             return Object.assign({}, initialState);
 
