@@ -15,7 +15,11 @@ interface PlannerState {
     byTrainingsEmpty: boolean;
 
     goalSelected: Goal | null;
+    sectionName: string | null;
+
     createSetLoading: boolean;
+    createGoalLoading: boolean;
+
     error: string | null
 }
 
@@ -27,7 +31,11 @@ export const initialState: PlannerState = {
     byTrainingsEmpty: true,
 
     goalSelected: null,
+    sectionName: null,
+
     createSetLoading: false,
+    createGoalLoading: false,
+
     error: null
 };
 
@@ -50,6 +58,9 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.selectGoal:
             return Object.assign({}, state, { goalSelected: action.payload.goal });
 
+        case PlannerTypes.selectSection:
+            return Object.assign({}, state, { sectionName: action.payload.sectionName })
+
         case PlannerTypes.createSetLoading:
             return Object.assign({}, state, { createSetLoading: true })
 
@@ -68,6 +79,15 @@ function planner(state = initialState, action: AnyAction): PlannerState {
 
             return Object.assign({}, state, { byTrainings: planner, byTrainingsEmpty: false });
         }
+
+        case PlannerTypes.createGoal:
+            return Object.assign({}, state, { createGoalLoading: true });
+
+        case PlannerTypes.createGoalSuccess:
+            return Object.assign({}, state, { createGoalLoading: false });
+
+        case PlannerTypes.createGoalFailed:
+            return Object.assign({}, state, { createGoalLoading: false, error: action.payload.error });
 
         case AuthTypes.logout:
             return Object.assign({}, initialState);

@@ -11,6 +11,7 @@ import GoalItem from './GoalItem';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import Training from 'src/models/Training';
 import { ModalActions } from 'src/store/actions/modal';
+import { PlannerActions } from '../../store/actions/planner';
 
 interface Props {
     dispatch: Dispatch;
@@ -54,8 +55,9 @@ class TrainingSection extends React.Component<Props, State> {
 
     countGoals = () => this.props.training.goals.length
     countHeight = () => this.countGoals() * 70;
-    toggleList = () => {
+    toggleList = (name: string | null) => {
         if (this.props.plannerEditMode) {
+            this.props.dispatch(PlannerActions.selectSection(name))
             this.props.dispatch(ModalActions.goalCreateOpen());
             return;
         }

@@ -11,6 +11,11 @@ function getStyle(theme: ThemeInterface) {
             width: '100%',
             flexDirection: 'row'
         },
+        offlineInformationText: {
+            fontSize: theme.fonts.fontH4Size,
+            fontFamily: theme.fonts.mainFontFamily,
+            color: theme.colors.danger
+        },
         leftButton: {
             container: {
                 flex: 1,

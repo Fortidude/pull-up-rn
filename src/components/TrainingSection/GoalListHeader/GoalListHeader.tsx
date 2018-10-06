@@ -14,7 +14,7 @@ interface Props {
 
     name: string;
     active: boolean;
-    onButtonClick: () => void;
+    onButtonClick: (name: string | null) => void;
 }
 
 interface State {}
@@ -43,7 +43,7 @@ class GoalListHeader extends React.Component<Props, State> {
 
     render() {
         return (
-            <TouchableOpacity style={this.style.trainingHeaderContainer}  onPress={this.props.onButtonClick}>
+            <TouchableOpacity style={this.style.trainingHeaderContainer} onPress={() => this.props.onButtonClick(this.props.name)}>
                 <Text style={this.style.title}>
                     {this.props.name}
                 </Text>

@@ -15,6 +15,7 @@ import { ModalActions } from 'src/store/actions/modal';
 import { PlannerActions } from 'src/store/actions/planner';
 
 import { Exercise, ExerciseVariant } from 'src/models/Exercise';
+import { NewGoalInterface, mapNewGoalInterfaceToApiRequestDataStructure } from 'src/models/Goal';
 
 import Input from 'src/components/Input';
 import Select from 'src/components/Select';
@@ -26,12 +27,15 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     exercises: Exercise[];
+    isOnline: boolean;
+    isLoading: boolean;
+    sectionName: string | null;
 
     overlay?: boolean;
 }
 
-interface State {
-    name: string | null;
+interface State extends NewGoalInterface {
+    name: string;
     description: string | null;
     exercise: Exercise | null;
     exerciseVariant: ExerciseVariant | null;
@@ -50,7 +54,7 @@ class CreateGoalModal extends React.Component<Props, State> {
 
         this.style = Styles(this.props.theme);
         this.state = {
-            name: null,
+            name: '',
             description: null,
             exercise: null,
             exerciseVariant: null,
@@ -65,16 +69,25 @@ class CreateGoalModal extends React.Component<Props, State> {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
         }
+
+        if (this.props.isLoading && !nextProps.isLoading) {
+            this.cancel();
+        }
     }
 
     componentWillUnmount() {
+        this.props.dispatch(PlannerActions.selectSection(null));
         this.props.dispatch(PlannerActions.selectGoal(null));
     }
 
     success = () => {
-        if (!validate(this.state)) {
+        if (!validate(this.state) || !this.props.isOnline || this.props.isLoading) {
             return;
         }
+
+        const goalApiRequestDataStructure = mapNewGoalInterfaceToApiRequestDataStructure(this.state);
+        goalApiRequestDataStructure.section = this.props.sectionName || undefined;
+        this.props.dispatch(PlannerActions.createGoal(goalApiRequestDataStructure));
     }
 
     cancel = () => {
@@ -82,12 +95,13 @@ class CreateGoalModal extends React.Component<Props, State> {
     }
 
     pickExercise = (exerciseName: string) => {
-        this.setState({ exercise: this._findExerciseByName(exerciseName), exerciseVariant: null });
+        this.setState({ name: exerciseName, exercise: this._findExerciseByName(exerciseName), exerciseVariant: null });
     }
 
     getExerciseVariantOptions = () => this.state.exercise ? this.state.exercise.exerciseVariants.map(exercise => exercise.name) : [];
     pickExerciseVariant = (exerciseVariantName: string) => {
-        this.setState({ exerciseVariant: this._fintExerciseVariantByName(exerciseVariantName) });
+        const name = `${this.state.name} ${exerciseVariantName}`;
+        this.setState({ name: name, exerciseVariant: this._fintExerciseVariantByName(exerciseVariantName) });
     }
 
     pickType = (type: GoalType | string) => {
@@ -181,7 +195,8 @@ class CreateGoalModal extends React.Component<Props, State> {
                     </View>
                 </View>
                 <ModalFooter
-                    loading={false}
+                    onlineRequired
+                    loading={this.props.isLoading}
                     cancelText={I18n.t('buttons.cancel')}
                     onCancel={this.cancel}
                     successText={I18n.t('buttons.save')}
@@ -218,9 +233,12 @@ class CreateGoalModal extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => ({
+    isOnline: state.app.isOnline,
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    exercises: state.exercise.exercises
+    exercises: state.exercise.exercises,
+    sectionName: state.planner.sectionName,
+    isLoading: state.planner.createGoalLoading
 });
 
 export default connect(mapStateToProps)(CreateGoalModal);

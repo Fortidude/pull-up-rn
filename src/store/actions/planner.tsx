@@ -1,5 +1,5 @@
 import Planner from "../../models/Planner";
-import Goal from "../../models/Goal";
+import Goal, { NewGoalApiRequestDataStructureInterface } from "../../models/Goal";
 import { SetInterface } from "../../models/Set";
 
 export enum PlannerTypes {
@@ -8,6 +8,7 @@ export enum PlannerTypes {
     loadByTrainingsFailed = '[PLANNER] LOAD BY TRAININGS FAILED',
 
     selectGoal = '[PLANNER] SELECT GOAL',
+    selectSection = '[PLANNER] SELECT SECTION',
 
     createSet = '[PLANNER] CREATE SET',
     createSetLoading = '[PLANNER] CREATE SET LOADING',
@@ -16,7 +17,11 @@ export enum PlannerTypes {
 
     createSection = '[PLANNER] CREATE SECTION',
     createSectionSuccess = '[PLANNER] CREATE SECTION SUCCESS',
-    createSectionFailed = '[PLANNER] CREATE SECTION FAILED'
+    createSectionFailed = '[PLANNER] CREATE SECTION FAILED',
+
+    createGoal = '[PLANNER] CREATE GOAL',
+    createGoalSuccess = '[PLANNER] CREATE GOAL SUCCESS',
+    createGoalFailed = '[PLANNER] CREATE GOAL FAILED',
 }
 
 export const PlannerActions = {
@@ -36,6 +41,10 @@ export const PlannerActions = {
     selectGoal: (goal: Goal | null) => ({
         type: PlannerTypes.selectGoal,
         payload: { goal }
+    }),
+    selectSection: (sectionName: string | null) => ({
+        type: PlannerTypes.selectSection,
+        payload: { sectionName }
     }),
 
     createSet: (goal: Goal, value: number, extraWeight: number | null) => ({
@@ -65,6 +74,19 @@ export const PlannerActions = {
     }),
     createSectionFailed: (error: string) => ({
         type: PlannerTypes.createSectionSuccess,
+        payload: { error }
+    }),
+
+    createGoal: (data: NewGoalApiRequestDataStructureInterface) => ({
+        type: PlannerTypes.createGoal,
+        payload: { data }
+    }),
+    createGoalSuccess: () => ({
+        type: PlannerTypes.createGoalSuccess,
+        payload: { }
+    }),
+    createGoalFailed: (error: string) => ({
+        type: PlannerTypes.createGoalFailed,
         payload: { error }
     })
 };

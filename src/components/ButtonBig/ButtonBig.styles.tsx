@@ -21,8 +21,9 @@ function getStyle(theme: ThemeInterface) {
             shadowOffset: { width: 0, height: 2 }
         },
         text: {
-            color: theme.colors.buttonBigTextColor,
-            fontSize: theme.fonts.buttonBigFontSize
+            fontFamily: theme.fonts.mainFontFamily,
+            fontSize: theme.fonts.buttonBigFontSize,
+            color: theme.colors.buttonBigTextColor
         }
     };
 }

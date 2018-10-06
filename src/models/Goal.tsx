@@ -1,7 +1,7 @@
 import { Exercise, ExerciseVariant } from "./Exercise";
 import { SetInterface } from "./Set";
 
-export interface GoalInterface {
+interface GoalInterface {
     id: string;
     createdAt: Date;
     updatedAt: Date;
@@ -19,12 +19,25 @@ export interface GoalInterface {
     sets: SetInterface[];
 }
 
+interface NewGoalApiRequestDataStructureInterface {
+    name: string;
+    description: string;
+    exercise: string;
+    exerciseVariant: string | null;
+    noSpecifiedGoal: boolean;
+    sets?: number;
+    reps?: number;
+    time?: number;
+    weight?: number;
+    section?: string; // actual name, not UUID
+}
+
 interface NewGoalInterface {
-    name: string | null;
+    name: string;
     description: string | null;
     exercise: Exercise | null;
     exerciseVariant: ExerciseVariant | null;
-    type: "sets" | "reps" | "time" | null;
+    type: "sets" | "reps" | "time" | "weight" | null;
     requiredAmount: number | null;
 }
 
@@ -70,7 +83,34 @@ class Goal implements GoalInterface {
     }
 }
 
+const mapNewGoalInterfaceToApiRequestDataStructure = (data: NewGoalInterface): NewGoalApiRequestDataStructureInterface => {
+    if (!data.name) {
+        throw new Error (`NAME_CAN_NOT_BE_EMPTY_FOR_NEW_GOAL_API_REQUEST`);
+    }
+
+    if (!data.exercise) {
+        throw new Error (`EXERCISE_CAN_NOT_BE_EMPTY_FOR_NEW_GOAL_API_REQUEST`);
+    }
+
+    const type = data.type ? data.type.toLocaleLowerCase() : null;
+
+    return {
+        name: data.name,
+        description: data.description || "empty",
+        exercise: data.exercise.id,
+        exerciseVariant: data.exerciseVariant ? data.exerciseVariant.id : null,
+        noSpecifiedGoal: type === null,
+        sets: type === 'sets' && data.requiredAmount ? data.requiredAmount : undefined,
+        reps: type === 'reps' && data.requiredAmount ? data.requiredAmount : undefined,
+        time: type === 'time' && data.requiredAmount ? data.requiredAmount : undefined,
+        weight: type === 'weight' && data.requiredAmount ? data.requiredAmount : undefined
+    }
+}
+
 export default Goal;
 export {
-    NewGoalInterface
+    NewGoalApiRequestDataStructureInterface,
+    NewGoalInterface,
+    GoalInterface,
+    mapNewGoalInterfaceToApiRequestDataStructure
 }

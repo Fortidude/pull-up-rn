@@ -16,6 +16,8 @@ const colors = {
     success: greenColor,
     blue: blueColor,
 
+    white: '#ffffff',
+
     textColor: '#000000',
     subTextColor: greyColor,
     disableText: greyColor,

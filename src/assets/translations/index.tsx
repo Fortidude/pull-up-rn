@@ -96,6 +96,7 @@ let translations = {
             add_set: "Dodaj set",
             cancel: "Anuluj",
             close: "Zamknij",
+            clickToClose: "Kliknij by anulować",
             edit: "Edycja",
             finish: "Zakończ",
             save: "Zapisz",
@@ -107,6 +108,7 @@ let translations = {
             "Bad credentials": "Błędna nazwa użytkownika lub niepoprawne hasło. Możesz skorzystać z opcji przypomnienia hasła.",
             "failed": "Nie powiodło się.",
             "no_internet_connection": "Brak połączenia z serwerem.",
+            "no_internet_connection_required_for_this_action": "Wymagane połączenia z internetem. ",
             "no_internet_connection_text": "Pracujesz w trybie offline. Nadal możesz wysyłać sety czy modyfikować oraz tworzyć treningi. Synchronizacja danych nastąpi przy ponownym połaczeniu z internetem.",
             "USER_ALREADY_EXIST": "Użytkownik już istnieje",
             "SERVER_ERROR": "Wystąpił błąd. Spróbuj ponownie."

@@ -7,7 +7,7 @@ import { SetInterface } from '../../models/Set';
 function* loadByTrainings() {
     //@ts-ignore
     const isOnline = yield select(state => state.app.isOnline);
-    if (isOnline) {
+    if (!isOnline) {
         yield put(PlannerActions.loadByTrainingsFailed('OFFLINE'));
     }
 
@@ -64,11 +64,43 @@ function* createSection(action: any) {
     }
 }
 
+function* createGoal(action: any) {
+    try {
+        const data = action.payload.data;
+        const result = yield Data.postCreateGoal(data);
+        if (!result.status) {
+            console.log(`createGoal sagas, line 58`, result);
+            throw 'ERROR';
+        }
+
+        yield put(PlannerActions.createGoalSuccess());
+    } catch (err) {
+        yield put(PlannerActions.createGoalFailed(err));
+    }
+}
+
+function* createGoalSuccess() {
+    //@ts-ignore
+    const isPlannerloadingInProgress = yield select(state => state.planner.loading);
+    if (isPlannerloadingInProgress) {
+        return
+    }
+
+    // refresh list only if loaded before. 
+    //@ts-ignore
+    const isPlannerByTrainingsLoaded = yield select(state => state.planner.loadedByTrainings);
+    if (isPlannerByTrainingsLoaded) {
+        yield put(PlannerActions.loadByTrainings())
+    }
+}
+
 function* plannerSaga() {
     yield all([
         takeEvery(PlannerTypes.loadByTrainings, loadByTrainings),
         takeEvery(PlannerTypes.createSet, createSet),
-        takeEvery(PlannerTypes.createSection, createSection)
+        takeEvery(PlannerTypes.createSection, createSection),
+        takeEvery(PlannerTypes.createGoal, createGoal),
+        takeEvery(PlannerTypes.createGoalSuccess, createGoalSuccess)
     ]);
 }
 

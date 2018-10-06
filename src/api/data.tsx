@@ -7,6 +7,7 @@ import Planner from "../models/Planner";
 import { Dispatch } from "redux";
 import { SyncActions } from "../store/actions/sync";
 import { Exercise } from "../models/Exercise";
+import { NewGoalApiRequestDataStructureInterface } from "../models/Goal";
 
 interface ResponseStatus { status: boolean };
 
@@ -45,6 +46,10 @@ class Data implements DataInterface {
 
     public postCreateSection = async (name: string, description: string = ''): Promise<ResponseStatus> => {
         return await this.postFetchData('/secured/section/create', { name, description });
+    }
+
+    public postCreateGoal = async (data: NewGoalApiRequestDataStructureInterface): Promise<ResponseStatus> => {
+        return await this.postFetchData('/secured/goal/create', data);
     }
 
     private getFetchData = async (url: string, cacheKey?: string, useToken: boolean = true, asJson: boolean = true) => {
