@@ -4,9 +4,10 @@ import { Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './PlannerEditButton.styles';
-import I18n from '../../../assets/translations';
-import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
-import { AppActions } from '../../../store/actions/app';
+import I18n from 'src/assets/translations';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+import { AppActions } from 'src/store/actions/app';
+import HapticFeedback from 'src/service/Haptic';
 
 interface Props {
     dispatch: Dispatch;
@@ -30,7 +31,10 @@ class PlannerEditButton extends React.Component<Props> {
     }
 
     getText = () => this.props.plannerEditMode ? I18n.t('buttons.finish') : I18n.t('buttons.edit');
-    onPress = () => this.props.dispatch(AppActions.togglePlannerEdit(!this.props.plannerEditMode));
+    onPress = () => {
+        HapticFeedback('impactLight');
+        this.props.dispatch(AppActions.togglePlannerEdit(!this.props.plannerEditMode));
+    }
 
     render() {
         return (

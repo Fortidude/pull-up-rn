@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Styles from './Avatar.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import { ModalActions } from 'src/store/actions/modal';
+import HapticFeedback from 'src/service/Haptic';
 
 interface Props {
     dispatch: Dispatch;
@@ -59,11 +60,11 @@ class Avatar extends React.Component<Props, State> {
             return;
         }
 
+        HapticFeedback('impactLight');
         this.props.dispatch(ModalActions.profileOpen());
     }
 
     render() {
-        
         return (
             <TouchableOpacity onPress={this.onPress}>
                 <Animated.View style={[this.style.footerAvatar, { transform: [{ scale: this.scaleValue }] }]}>

@@ -11,6 +11,7 @@ import I18n from '../../../assets/translations';
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
 import { ModalState } from '../../../store/reducers/modal';
 import { ModalActions } from '../../../store/actions/modal';
+import HapticFeedback from 'src/service/Haptic';
 
 interface Props {
     headerProps: HeaderProps;
@@ -89,10 +90,12 @@ class BackButton extends React.Component<Props, State> {
     onBackPress = () => {
         this.setState({ back: true }, () => {
             if (this.props.modal.profileModalVisible && this.getRawCurrentTitle().toLocaleLowerCase() === 'planner') {
+                HapticFeedback('impactLight');
                 this.props.dispatch(ModalActions.profileClose());
                 return;
             }
 
+            HapticFeedback('impactLight');
             this.props.dispatch(NavigationActions.back())
         })
     };
