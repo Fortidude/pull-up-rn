@@ -252,7 +252,7 @@ class ModalManager extends React.Component<Props, State> {
 
         const background = this.state.overlayOpacity.interpolate({
             inputRange: [0, 1],
-            outputRange: ['transparent', this.props.theme.colors.modalBackgroundColor]
+            outputRange: ['transparent', this.props.theme.colors.modalOverlayBackgroundColor]
         })
 
         return (

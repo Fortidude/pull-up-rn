@@ -14,11 +14,12 @@ function getStyle(theme: ThemeInterface) {
             // borderWidth: 1
         },
         title: {
-            flex: 1,
             fontSize: theme.fonts.fontH3Size - 1,
-            fontWeight: '700',
             fontFamily: theme.fonts.mainFontFamily,
-            alignSelf: 'center'
+            color: theme.colors.textColor,
+            alignSelf: 'center',
+            fontWeight: '700',
+            flex: 1,
         },
         toggleButton: {
             flex: 1,

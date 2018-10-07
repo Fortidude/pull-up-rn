@@ -30,7 +30,8 @@ function getStyle(theme: ThemeInterface) {
         },
         centerText: {
             fontFamily: theme.fonts.mainFontFamily,
-            fontSize: theme.fonts.fontH3Size
+            fontSize: theme.fonts.fontH3Size,
+            color: theme.colors.textColor
         },
         centerSubText: {
             fontFamily: theme.fonts.mainFontFamily,

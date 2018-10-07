@@ -98,7 +98,7 @@ class SwipeItem extends React.Component<Props, State> {
         return (
             <Animated.View style={[{ flexDirection: 'row', opacity: this.state.opacity }]}>
                 <Animated.View {...this.panResponder().panHandlers}
-                    style={[this.props.style, this.style.container, { transform: [{ translateX: this.state.swipePosition }] }]}>
+                    style={[this.style.container, this.props.style, { transform: [{ translateX: this.state.swipePosition }] }]}>
                     <View>
                         {this.props.children}
                     </View>

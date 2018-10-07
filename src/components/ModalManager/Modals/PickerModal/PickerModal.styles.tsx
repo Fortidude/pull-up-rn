@@ -15,7 +15,7 @@ function getStyle(theme: ThemeInterface) {
         },
 
         buttonsContainer: {
-            backgroundColor: theme.colors.backgroundColor,
+            backgroundColor: theme.colors.modalBackgroundColor,
             borderRadius: theme.borders.modalRadius
         },
 

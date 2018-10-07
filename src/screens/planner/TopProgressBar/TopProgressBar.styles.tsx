@@ -11,7 +11,7 @@ function getStyle(theme: ThemeInterface) {
 
         topContainerHeight: height,
         topContainer: {
-            backgroundColor: theme.colors.backgroundColor,
+            backgroundColor: theme.colors.headerBackgroundColor,
             top: 0,
             height: height,
             width: width,
@@ -21,7 +21,7 @@ function getStyle(theme: ThemeInterface) {
         },
 
         contentContainer: {
-            backgroundColor: theme.colors.backgroundColor,
+            backgroundColor: theme.colors.headerBackgroundColor,
             zIndex: 2,
             flex: 1,
             flexDirection: 'row'
@@ -33,7 +33,7 @@ function getStyle(theme: ThemeInterface) {
             right: 0,
             top: -600,
             justifyContent: 'flex-end',
-            backgroundColor: theme.colors.backgroundColor,
+            backgroundColor: theme.colors.plannerProgressBarBackgroundColor,
         },
         circlesContainer: {
             flexDirection: 'row',
@@ -59,7 +59,7 @@ function getStyle(theme: ThemeInterface) {
             width: 120,
             height: 120,
             borderRadius: 50,
-            backgroundColor: theme.colors.backgroundColor,
+            backgroundColor: theme.colors.plannerProgressBarBackgroundColor,
             borderWidth: theme.borders.borderWidth,
             borderColor: theme.borders.borderColor,
             position: 'absolute',

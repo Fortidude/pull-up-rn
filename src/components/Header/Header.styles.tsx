@@ -7,7 +7,7 @@ function getStyle(theme: ThemeInterface) {
         header: {
             flexDirection: 'row',
             height: HEADER_HEIGHT,
-            backgroundColor: theme.colors.backgroundColor,
+            backgroundColor: theme.colors.headerBackgroundColor,
             position: "relative",
             borderBottomWidth: theme.borders.borderWidth,
             borderBottomColor: theme.borders.borderDarkColor
@@ -17,7 +17,6 @@ function getStyle(theme: ThemeInterface) {
             container: {
                 flex: 1,
                 paddingLeft: 7,
-                //marginBottom: 13,
                 justifyContent: 'flex-end',
             }
         },
@@ -28,7 +27,10 @@ function getStyle(theme: ThemeInterface) {
                 justifyContent: 'flex-end',
                 alignItems: 'center',
             },
-            text: { fontSize: theme.fonts.fontSize }
+            text: { 
+                fontSize: theme.fonts.fontSize,
+                color: theme.colors.textColor
+             }
         },
         right: {
             container: {

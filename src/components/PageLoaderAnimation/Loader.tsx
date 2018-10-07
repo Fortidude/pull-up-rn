@@ -104,7 +104,7 @@ class Loader extends React.Component<Props, State> {
 
 		return (
 			<View style={this.style.fullScreen}>
-				<StatusBar animated={true} hidden={!this.state.animationDone} />
+				<StatusBar barStyle={this.props.theme.statusBarStyle} animated={true} hidden={!this.state.animationDone} />
 				{fullScreenBackgroundLayer}
 				<MaskedViewIOS
 					style={{ flex: 1 }}

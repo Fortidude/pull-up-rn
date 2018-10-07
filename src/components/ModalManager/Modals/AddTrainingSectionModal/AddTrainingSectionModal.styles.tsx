@@ -3,7 +3,7 @@ import { ThemeInterface } from 'src/assets/themes';
 function getStyle(theme: ThemeInterface) {
     return {
         container: {
-            backgroundColor: theme.colors.backgroundColor,
+            backgroundColor: theme.colors.modalBackgroundColor,
             borderRadius: theme.borders.modalRadius,
             height: 255,
             width: 270

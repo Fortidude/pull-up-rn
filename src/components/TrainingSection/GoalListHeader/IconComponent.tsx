@@ -106,7 +106,7 @@ class IconComponent extends React.Component<Props, State> {
             <Animated.View style={[this.style.toggleIcon, { transform: [{ rotate: spin }, { scaleX: this.state.scaleValue }] }]}>
                 {!this.state.iconPlus && <EvilIcon
                     size={40}
-                    color={this.props.active ? this.props.theme.colors.fontColor : this.props.theme.colors.main}
+                    color={this.props.active ? this.props.theme.colors.textColor : this.props.theme.colors.main}
                     name={"chevron-down"} />}
                 {this.state.iconPlus && <EvilIcon
                     size={20}

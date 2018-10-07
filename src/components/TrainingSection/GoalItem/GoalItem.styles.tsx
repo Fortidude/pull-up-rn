@@ -4,7 +4,7 @@ import { ThemeInterface } from '../../../assets/themes';
 function getStyle(theme: ThemeInterface) {
     return {
         swipeout: {
-            backgroundColor: 'transparent',
+            backgroundColor: theme.colors.cardBackgroundColor,
         },
         exerciseContainer: {
             backgroundColor: 'transparent',
@@ -15,7 +15,7 @@ function getStyle(theme: ThemeInterface) {
             width: 70,
             height: 71,
             bottom: -1,
-            backgroundColor: 'white',
+            backgroundColor: 'transparent',
             justifyContent: 'center',
             alignItems: 'center'
         },
@@ -30,7 +30,8 @@ function getStyle(theme: ThemeInterface) {
             flexDirection: 'row',
             flex: 1,
             borderBottomWidth: theme.borders.borderWidth,
-            borderBottomColor: theme.borders.borderColor
+            borderBottomColor: theme.borders.borderColor,
+            backgroundColor: 'transparent',
         },
         progressBar: {
             height: 0,
@@ -41,10 +42,12 @@ function getStyle(theme: ThemeInterface) {
         },
         summaryLeftContent: {
             justifyContent: 'center',
+            backgroundColor: 'transparent',
             flex: 4
         },
         summaryRightContent: {
             justifyContent: 'center',
+            backgroundColor: 'transparent',
             alignItems: 'flex-end',
             flex: 3
         },

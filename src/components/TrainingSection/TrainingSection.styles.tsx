@@ -3,7 +3,7 @@ import { ThemeInterface } from 'src/assets/themes';
 function getStyle(theme: ThemeInterface) {
     return {
         exerciseListContainer: {
-            backgroundColor: theme.colors.cardBackgroundColor,
+            backgroundColor: 'transparent',
             marginBottom: 0
         }
     };

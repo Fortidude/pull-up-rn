@@ -1,7 +1,7 @@
 function getStyle() {
     return {
         container: {
-            backgroundColor: 'white',
+            backgroundColor: 'transparent',
             flexDirextion: 'row',
             width: '100%',
             zIndex: 2

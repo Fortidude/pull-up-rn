@@ -25,14 +25,18 @@ const colors = {
     backgroundColor: '#F7F7F7',
     cardBackgroundColor: '#FFF',
     greyBackgroundColor: '#F4F6F7',
+    headerBackgroundColor: '#F7F7F7',
+    modalBackgroundColor: '#FFF',
+
+    plannerProgressBarBackgroundColor: '#F7F7F7',
 
     borderColor: 'rgba(112, 112, 112, 0.2)',
     borderLightColor: 'rgba(8, 20, 31, 0.13)',
     borderDarkColor: 'rgba(112, 112, 112, 0.5)',
 
     shadowColor: '#000000',
-    modalBackgroundColor: 'rgba(0, 0, 0, 0.4)',
-    modalBackgroundColorLight: 'rgba(0, 0, 0, 0.2)',
+    modalOverlayBackgroundColor: 'rgba(0, 0, 0, 0.4)',
+    modalOverlayBackgroundColorLight: 'rgba(0, 0, 0, 0.2)',
 
     plannerFooterButtonColor: greyColor,
     plannerFooterAvatarBackground: 'rgba(189, 189, 189, 0.8)',
@@ -89,6 +93,7 @@ const dimensions = {
 
 export default{
     name: 'light',
+    statusBarStyle: 'dark-content',
     colors,
     borders,
     fonts,

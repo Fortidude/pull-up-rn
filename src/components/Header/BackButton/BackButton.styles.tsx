@@ -10,7 +10,13 @@ function getStyle(theme: ThemeInterface) {
             alignItems: 'flex-end',
             paddingBottom: 13
         },
-        icon: { marginLeft: -15, marginRight: -15, marginBottom: -13, marginTop: 22 }
+        icon: {
+            marginLeft: -15,
+            marginRight: -15,
+            marginBottom: -13,
+            marginTop: 22,
+            color: theme.colors.textColor
+        }
     };
 }
 
