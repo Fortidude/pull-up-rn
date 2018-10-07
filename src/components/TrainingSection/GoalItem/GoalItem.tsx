@@ -6,12 +6,16 @@ import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Styles from './GoalItem.styles';
-import I18n from '../../../assets/translations';
-import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
-import Goal from '../../../models/Goal';
-import SwipeItem from '../../SwipeItem';
-import { ModalActions } from '../../../store/actions/modal';
-import { PlannerActions } from '../../../store/actions/planner';
+import I18n from 'src/assets/translations';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+import HapticFeedback from 'src/service/Haptic';
+
+import Goal from 'src/models/Goal';
+import SwipeItem from 'src/components/SwipeItem';
+
+import { ModalActions } from 'src/store/actions/modal';
+import { PlannerActions } from 'src/store/actions/planner';
+
 
 interface Props {
     dispatch: Dispatch;
@@ -115,7 +119,17 @@ class GoalItem extends React.Component<Props, State> {
             }
         }
 
+        HapticFeedback('selection');
         this.props.onMoveToSection(this.state.goal.id, onPickCallback, onDispatchCallback);
+    }
+
+    onRemove = () => {
+        const onSuccess = () => {
+            this.props.dispatch(PlannerActions.removeGoal(this.state.goal.id));
+        }
+        const options = [I18n.t('buttons.remove')];
+        HapticFeedback('selection');
+        this.props.dispatch(ModalActions.pickerOpen(options, true, onSuccess))
     }
 
     render() {
@@ -124,7 +138,7 @@ class GoalItem extends React.Component<Props, State> {
             <TouchableOpacity onPress={this.onMoveToOtherSection} style={[this.style.buttonReorderContainer]}>
                 <Icon name="exchange-alt" solid={true} style={this.style.iconReorder} />
             </TouchableOpacity>,
-            <TouchableOpacity style={[this.style.buttonRemoveContainer]}>
+            <TouchableOpacity onPress={this.onRemove} style={[this.style.buttonRemoveContainer]}>
                 <Icon name="trash-alt" solid={true} style={this.style.iconRemove} />
             </TouchableOpacity>
         ];

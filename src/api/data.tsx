@@ -53,7 +53,11 @@ class Data implements DataInterface {
     }
 
     public postMoveGoalToSection = async (goalId: string, data: { sectionName: string }): Promise<ResponseStatus> => {
-        return await this.postFetchData(`/secured/goal/${goalId}/move-to-section`, {section_name: data.sectionName});
+        return await this.postFetchData(`/secured/goal/${goalId}/move-to-section`, { section_name: data.sectionName });
+    }
+
+    public postDisableGoal = async (goalId: string): Promise<ResponseStatus> => {
+        return await this.postFetchData(`/secured/goal/${goalId}/disable`, {});
     }
 
     private getFetchData = async (url: string, cacheKey?: string, useToken: boolean = true, asJson: boolean = true) => {
@@ -105,10 +109,10 @@ class Data implements DataInterface {
             })
             .catch((error) => {
                 this.dispatch(SyncActions.addRequest(apiUrl, object));
-                return {status: 'OFFLINE'};
-                
+                return { status: 'OFFLINE' };
+
                 if (__DEV__) {
-                   // throw error;
+                    // throw error;
                 } else {
                     // @TODO
                     Alert.alert("FATAL ERROR");
@@ -126,7 +130,7 @@ class Data implements DataInterface {
             })
             .catch((error) => {
                 if (__DEV__) {
-                  //  throw error;
+                    //  throw error;
                 } else {
                     // @TODO
                     Alert.alert("FATAL ERROR");

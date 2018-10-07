@@ -108,6 +108,20 @@ function* moveGoalToSection(action: any) {
     }
 }
 
+function* removeGoal(action: any) {
+    try {
+        const { goalId } = action.payload;
+        const result = yield Data.postDisableGoal(goalId);
+        if (!result.status) {
+            console.log(`removeGoal sagas, line 116`, result);
+            throw 'ERROR';
+        }
+    } catch (err) {
+        console.log(`removeGoal sagas, line 120`, err);
+        throw err;
+    }
+}
+
 function* plannerSaga() {
     yield all([
         takeEvery(PlannerTypes.loadByTrainings, loadByTrainings),
@@ -115,7 +129,8 @@ function* plannerSaga() {
         takeEvery(PlannerTypes.createSection, createSection),
         takeEvery(PlannerTypes.createGoal, createGoal),
         takeEvery(PlannerTypes.createGoalSuccess, createGoalSuccess),
-        takeEvery(PlannerTypes.moveGoalToSection, moveGoalToSection)
+        takeEvery(PlannerTypes.moveGoalToSection, moveGoalToSection),
+        takeEvery(PlannerTypes.removeGoal, removeGoal)
     ]);
 }
 

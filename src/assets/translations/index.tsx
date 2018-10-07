@@ -99,6 +99,7 @@ let translations = {
             clickToClose: "Kliknij by anulować",
             edit: "Edycja",
             finish: "Zakończ",
+            remove: "Usuń",
             save: "Zapisz",
             logout: "Wyloguj się",
             ok: "OK"

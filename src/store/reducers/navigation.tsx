@@ -2,8 +2,10 @@ import { NavigationState, NavigationActions, NavigationAction } from 'react-navi
 
 import {Navigator} from '../../router/Navigator';
 
+//@ts-ignore
 const initialNavState: NavigationState = null;
 
+//@ts-ignore
 function navigation(state = initialNavState, action): NavigationState {
     let nextState;
     switch (action.type) {
