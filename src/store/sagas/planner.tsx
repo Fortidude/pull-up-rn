@@ -94,13 +94,28 @@ function* createGoalSuccess() {
     }
 }
 
+function* moveGoalToSection(action: any) {
+    try {
+        const { goalId, section } = action.payload;
+        const result = yield Data.postMoveGoalToSection(goalId, { sectionName: section });
+        if (!result.status) {
+            console.log(`moveGoalToSection sagas, line 102`, result);
+            throw 'ERROR';
+        }
+    } catch (err) {
+        console.log(`moveGoalToSection sagas, line 106`, err);
+        throw err;
+    }
+}
+
 function* plannerSaga() {
     yield all([
         takeEvery(PlannerTypes.loadByTrainings, loadByTrainings),
         takeEvery(PlannerTypes.createSet, createSet),
         takeEvery(PlannerTypes.createSection, createSection),
         takeEvery(PlannerTypes.createGoal, createGoal),
-        takeEvery(PlannerTypes.createGoalSuccess, createGoalSuccess)
+        takeEvery(PlannerTypes.createGoalSuccess, createGoalSuccess),
+        takeEvery(PlannerTypes.moveGoalToSection, moveGoalToSection)
     ]);
 }
 

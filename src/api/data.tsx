@@ -1,5 +1,5 @@
 import ApiHelper from "./apiHelper";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, Alert } from "react-native";
 import jwtDecode from "jwt-decode";
 
 import UserModel from '../models/User';
@@ -52,6 +52,10 @@ class Data implements DataInterface {
         return await this.postFetchData('/secured/goal/create', data);
     }
 
+    public postMoveGoalToSection = async (goalId: string, data: { sectionName: string }): Promise<ResponseStatus> => {
+        return await this.postFetchData(`/secured/goal/${goalId}/move-to-section`, {section_name: data.sectionName});
+    }
+
     private getFetchData = async (url: string, cacheKey?: string, useToken: boolean = true, asJson: boolean = true) => {
         const apiUrl = ApiHelper.getHost() + url;
         const object = {
@@ -59,16 +63,25 @@ class Data implements DataInterface {
             headers: await ApiHelper.getHeaders(useToken, asJson)
         };
 
-        // console.log('__FETCH__', url);
+        if (__DEV__) {
+            console.log('__GET__', url);
+        }
+
         return await fetch(apiUrl, object)
             .then(ApiHelper.checkForResponseErrors)
             .then(response => response.json())
             .then(function (response) {
+                console.log(response);
                 return response;
             })
             .catch((error: Error) => {
                 console.log(apiUrl);
-                throw error;
+                if (__DEV__) {
+                    throw error;
+                } else {
+                    // @TODO
+                    Alert.alert("FATAL ERROR");
+                }
             });
     }
 
@@ -80,17 +93,26 @@ class Data implements DataInterface {
             body: JSON.stringify(data)
         };
 
-        // console.log('__POST__', url, data);
+        if (__DEV__) {
+            console.log('__POST__', url, data);
+        }
+
         return await fetch(apiUrl, object)
             .then(ApiHelper.checkForResponseErrors)
             .then(response => response.json())
             .then(function (response) {
-                // throw "just for dump test";
                 return response;
             })
             .catch((error) => {
                 this.dispatch(SyncActions.addRequest(apiUrl, object));
-                throw error;
+                return {status: 'OFFLINE'};
+                
+                if (__DEV__) {
+                   // throw error;
+                } else {
+                    // @TODO
+                    Alert.alert("FATAL ERROR");
+                }
             });
     }
 
@@ -103,7 +125,12 @@ class Data implements DataInterface {
                 return response;
             })
             .catch((error) => {
-                throw error;
+                if (__DEV__) {
+                  //  throw error;
+                } else {
+                    // @TODO
+                    Alert.alert("FATAL ERROR");
+                }
             });
     }
 

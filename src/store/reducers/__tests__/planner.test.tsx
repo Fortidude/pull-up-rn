@@ -41,6 +41,7 @@ const goalTwo = new Goal({
 
 describe('planner reducer', () => {
     it('should return the initial state', () => {
+        //@ts-ignore
         expect(planner(undefined, {})).toEqual(initialState)
     })
 

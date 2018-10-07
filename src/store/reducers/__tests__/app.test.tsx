@@ -3,6 +3,7 @@ import { AppTypes } from '../../actions/app';
 
 describe('app reducer', () => {
     it('should return the initial state', () => {
+        //@ts-ignore
         expect(app(undefined, {})).toEqual(
             {
                 loaded: false,
