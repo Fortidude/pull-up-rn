@@ -56,6 +56,7 @@ class Input extends React.Component<Props> {
                     selectTextOnFocus={!this.props.disabled}
                     editable={!this.props.disabled}
                     keyboardType={this.props.keyboardType || "default"}
+                    keyboardAppearance={this.props.theme.keyboardAppearance}
                     autoCapitalize={'none'}
                     secureTextEntry={this.props.password}
                     style={[this.style.input, inputStyle]}

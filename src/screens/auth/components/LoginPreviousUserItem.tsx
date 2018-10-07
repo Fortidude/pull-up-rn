@@ -57,7 +57,8 @@ function getStyle(theme: ThemeInterface) {
             borderRadius: 5,
             shadowColor: theme.colors.buttonBigShadowColor,
             shadowOpacity: 0.5,
-            shadowOffset: { width: 0, height: 3 }
+            shadowOffset: { width: 0, height: 3 },
+            alignItems: 'center'
         },
         avatar: {
             width: 30,
@@ -77,7 +78,7 @@ function getStyle(theme: ThemeInterface) {
             fontSize: theme.fonts.fontH3Size,
             textAlignVertical: 'center',
             textAlign: 'center',
-            lineHeight: 30,
+           // lineHeight: 30,
             marginLeft: 10
         }
     }

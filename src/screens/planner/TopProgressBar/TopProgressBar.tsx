@@ -104,6 +104,7 @@ class TopProgressBar extends React.Component<Props, State> {
             },
             onPanResponderMove: (evt, gestureState) => {
                 this.state.swipePosition.setValue(gestureState.dy + this.offset);
+                console.log('move');
             },
             onPanResponderRelease: () => {
                 this.toggleHeader();

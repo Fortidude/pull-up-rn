@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const mainColor = '#FF9500';
 const redColor = '#FF3B30';
@@ -25,7 +25,8 @@ const colors = {
     backgroundColor: '#000000',
     cardBackgroundColor: '#000000',
     greyBackgroundColor: '#333333',
-    headerBackgroundColor: '#333333',
+    headerBackgroundColor: '#141414',
+    footerBackgroundColor: '#141414',
     modalBackgroundColor: '#141414',
 
     plannerProgressBarBackgroundColor: '#141414',
@@ -34,13 +35,13 @@ const colors = {
     borderLightColor: 'rgba(255,255,255, 0.13)',
     borderDarkColor: 'rgba(112, 112, 112, 0.5)',
 
-    shadowColor: 'rgba(19,19,19, 0.9)',
+    shadowColor: 'rgba(49,49,49, 0.7)',
     modalOverlayBackgroundColor: 'rgba(0,0,0, 0.6)',
     modalOverlayBackgroundColorLight: 'rgba(0,0,0, 0.3)',
 
     plannerFooterButtonColor: greyColor,
     plannerFooterAvatarBackground: 'rgba(189, 189, 189, 0.8)',
-    plannerFooterAvatarShadow: '#000000',
+    plannerFooterAvatarShadow: 'rgba(49,49,49, 0.7)',
 
     authInputBackground: 'rgba(124,152,253, 0.87)',
     authInputTextColor: '#FFF',
@@ -68,6 +69,8 @@ const borders = {
     borderLightColor: colors.borderLightColor,
     borderDarkColor: colors.borderDarkColor,
 
+    headerBorderBottomWidth: 0,
+
     modalRadius: 15
 };
 
@@ -91,9 +94,10 @@ const dimensions = {
     authContentWidth: 295
 };
 
-export default{
+export default {
     name: 'dark',
     statusBarStyle: 'light-content',
+    keyboardAppearance: 'dark',
     colors,
     borders,
     fonts,

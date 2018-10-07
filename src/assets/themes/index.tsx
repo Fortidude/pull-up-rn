@@ -1,12 +1,13 @@
 import DefaultTheme from './light.theme';
 import DarkTheme from './dark.theme';
-import { StatusBarStyle } from 'react-native';
+import { StatusBarStyle,  } from 'react-native';
 
 export interface ThemeValueInterface {[key: string]: any}
 
 export interface ThemeInterface {
     name: string
     statusBarStyle: StatusBarStyle;
+    keyboardAppearance: "default" | "light" | "dark";
     colors: ThemeValueInterface;
     borders: ThemeValueInterface;
     fonts: ThemeValueInterface;

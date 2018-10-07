@@ -26,6 +26,7 @@ const colors = {
     cardBackgroundColor: '#FFF',
     greyBackgroundColor: '#F4F6F7',
     headerBackgroundColor: '#F7F7F7',
+    footerBackgroundColor: '#F4F6F7',
     modalBackgroundColor: '#FFF',
 
     plannerProgressBarBackgroundColor: '#F7F7F7',
@@ -68,6 +69,8 @@ const borders = {
     borderLightColor: colors.borderLightColor,
     borderDarkColor: colors.borderDarkColor,
 
+    headerBorderBottomWidth: StyleSheet.hairlineWidth,
+
     modalRadius: 15
 };
 
@@ -94,6 +97,7 @@ const dimensions = {
 export default{
     name: 'light',
     statusBarStyle: 'dark-content',
+    keyboardAppearance: 'light',
     colors,
     borders,
     fonts,

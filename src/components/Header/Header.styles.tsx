@@ -9,7 +9,7 @@ function getStyle(theme: ThemeInterface) {
             height: HEADER_HEIGHT,
             backgroundColor: theme.colors.headerBackgroundColor,
             position: "relative",
-            borderBottomWidth: theme.borders.borderWidth,
+            borderBottomWidth: theme.borders.headerBorderBottomWidth,
             borderBottomColor: theme.borders.borderDarkColor
         },
 

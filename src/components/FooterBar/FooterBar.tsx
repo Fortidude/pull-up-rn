@@ -95,16 +95,20 @@ class FooterBar extends React.Component<Props, State> {
 
     getComponentName = (props: Props) => {
         const routeName = props.nav.routes[props.nav.index].routeName.toLocaleLowerCase();
-        const ProfileModalVisible = props.modal.profileModalVisible;
-        if (this.routesForPlannerFooter.includes(routeName) && !ProfileModalVisible) {
+        const profileModalVisible = props.modal.profileModalVisible;
+        const pickerModalVisible = props.modal.pickerModalVisible;
+        if (pickerModalVisible) {
+            return null;
+        }
+        if (this.routesForPlannerFooter.includes(routeName) && !profileModalVisible) {
             return "Planner";
         }
 
-        if (this.routesForProfileFooter.includes(routeName) || ProfileModalVisible) {
+        if (this.routesForProfileFooter.includes(routeName) || profileModalVisible) {
             return "Profile";
         }
 
-        if (this.routerForStatsFooter.includes(routeName) && !ProfileModalVisible) {
+        if (this.routerForStatsFooter.includes(routeName) && !profileModalVisible) {
             return "Stats"
         }
 

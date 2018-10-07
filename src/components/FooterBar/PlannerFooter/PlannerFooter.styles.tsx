@@ -9,7 +9,7 @@ function getStyle(theme: ThemeInterface) {
             height: FOOTER_HEIGHT,
             bottom: DetermineDevice.isIphoneX() ? 40 : 0,
             width: '100%',
-            backgroundColor: theme.colors.greyBackgroundColor,
+            backgroundColor: theme.colors.footerBackgroundColor,
             borderTopWidth: theme.borders.borderWidth,
             borderTopColor: theme.borders.borderColor
         }
