@@ -2,10 +2,9 @@ import { AsyncStorage } from 'react-native';
 import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import { AuthActions, AuthTypes } from '../actions/auth';
 import { StackActions, NavigationActions } from 'react-navigation';
+import UserModel from 'src/models/User';
 import { User } from '../../api';
 import { UserActions } from '../actions/user';
-import Register from '../../screens/auth/Register';
-
 
 function* checkIfLogged(action: any) {
     const isLoggedAndValid = yield User.isUserLoggedAndTokenValid();
@@ -43,7 +42,28 @@ function* register(action: any) {
 }
 
 function* logout(action: any) {
+    let loggedUser: UserModel;
+    yield AsyncStorage.getItem('user', (error, user) => {
+        if (user) {
+            loggedUser = JSON.parse(user);
+        }
+    });
+
+    //@ts-ignore
+    if (loggedUser) {
+        yield AsyncStorage.getItem('users', (error, users) => {
+            let collection: { [key: string]: UserModel } = {};
+            if (users) {
+                collection = JSON.parse(users);
+            }
+
+            collection[loggedUser.id] = loggedUser;
+            AsyncStorage.setItem('users', JSON.stringify(collection));
+        })
+    }
+
     yield AsyncStorage.removeItem('token');
+    yield AsyncStorage.removeItem('user');
     yield put(StackActions.reset({
         index: 0,
         actions: [NavigationActions.navigate({ routeName: 'Login' })],

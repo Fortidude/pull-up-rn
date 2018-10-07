@@ -33,6 +33,10 @@ class User implements UserInterface {
             })
         };
 
+        if (__DEV__) {
+            console.log('POST login (User)', object);
+        }
+
         const result = await fetch(ApiHelper.getHost() + '/login_check', object)
             .then(ApiHelper.checkForResponseErrors)
             .then(response => response.json())

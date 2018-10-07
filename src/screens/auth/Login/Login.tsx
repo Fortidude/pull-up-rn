@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
-import { TouchableOpacity, ImageBackground, Text, View, KeyboardAvoidingView, Animated, Keyboard, EventSubscription, Platform, StyleSheet } from 'react-native';
+import { TouchableOpacity, ImageBackground, Text, View, KeyboardAvoidingView, Animated, Keyboard, StyleSheet, AsyncStorage, TextInput } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -12,7 +12,10 @@ import Input from '../../../components/Input';
 import ButtonBig from '../../../components/ButtonBig';
 import emailLogin from './onLogin/emailLogin';
 import { AuthActions } from '../../../store/actions/auth';
+import User from 'src/models/User';
+
 import FormContainer from '../components';
+import LoginPreviousUserItem from '../components/LoginPreviousUserItem';
 
 interface Props {
     dispatch: Dispatch;
@@ -22,10 +25,15 @@ interface State {
     email: string;
     password: string;
     isLoading: boolean;
+
+    users: User[];
 }
 class Login extends Component<Props, State> {
+    userListOpacity = new Animated.Value(1);
     style: ThemeValueInterface;
     image: null;
+
+    passwordRef: TextInput;
 
     constructor(props: Props) {
         super(props);
@@ -34,8 +42,30 @@ class Login extends Component<Props, State> {
         this.state = {
             email: '',
             password: '',
-            isLoading: false
+            isLoading: false,
+            users: []
         };
+    }
+
+    componentWillMount() {
+        let users: User[] = [];
+        AsyncStorage.getItem('users', (error, items) => {
+            if (!items) {
+                return;
+            }
+
+            let object: { [key: string]: User } = JSON.parse(items);
+            Object.values(object).forEach((user: User) => {
+                if (!user || !user.id || !user.username) {
+                    return;
+                }
+                users.push(user);
+            })
+
+            if (users.length > 0) {
+                this.setState({users});
+            }
+        })
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -73,7 +103,7 @@ class Login extends Component<Props, State> {
     render() {
         return (
             <ImageBackground source={Images.loginBackground}
-                onLayout={() => {}}
+                onLayout={() => { }}
                 style={[this.style.background, StyleSheet.absoluteFill]}>
 
                 <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={0}>
@@ -83,14 +113,19 @@ class Login extends Component<Props, State> {
                             value={this.state.email}
                             keyboardType={"email-address"}
                             placeholder={I18n.t('fields.email')}
+                            onFocus={this._onInputFocus}
+                            onBlur={this._onInputBlur}
                             onChange={(value) => {
                                 this.setState({ email: value });
                             }} />
                         <Input
                             authStyle
+                            inputRef={(ref) => this.passwordRef = ref}
                             value={this.state.password}
                             password={true}
                             placeholder={I18n.t('fields.password')}
+                            onFocus={this._onInputFocus}
+                            onBlur={this._onInputBlur}
                             onChange={(value) => {
                                 this.setState({ password: value });
                             }} />
@@ -100,6 +135,13 @@ class Login extends Component<Props, State> {
                             <Text style={this.style.passwordReminderButtonText}>{I18n.t('login.remind_password')}</Text>
                         </TouchableOpacity>
                     </FormContainer>
+                    <Animated.View style={{ alignSelf: 'flex-end', opacity: this.userListOpacity }}>
+                        {this.state.users.map(user => {
+                            return (
+                                <LoginPreviousUserItem onPress={this._onLoginPreviousUserPress} key={user.id} user={user}/>
+                            )
+                        })}
+                    </Animated.View>
                     <View style={this.style.container_footer}>
                         <ButtonBig onPress={this.login} text={I18n.t('login.login')} isLoading={this.state.isLoading} />
                         <TouchableOpacity style={this.style.registerButton} onPress={this.goToRegisterPage}>
@@ -109,6 +151,27 @@ class Login extends Component<Props, State> {
                 </KeyboardAvoidingView>
             </ImageBackground>
         );
+    }
+
+    _onLoginPreviousUserPress = (email: string) => {
+        this.setState({email: email}, () => {
+            if (this.passwordRef) {
+                this.passwordRef.focus();
+            }
+        });
+    }
+
+    _onInputFocus = () => {
+        Animated.timing(this.userListOpacity, {
+            toValue: 0,
+            duration: 100
+        }).start();
+    }
+
+    _onInputBlur = () => {
+        Animated.timing(this.userListOpacity, {
+            toValue: 1
+        }).start();
     }
 }
 

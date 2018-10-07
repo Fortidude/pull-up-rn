@@ -75,7 +75,6 @@ class Data implements DataInterface {
             .then(ApiHelper.checkForResponseErrors)
             .then(response => response.json())
             .then(function (response) {
-                console.log(response);
                 return response;
             })
             .catch((error: Error) => {

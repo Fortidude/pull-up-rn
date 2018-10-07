@@ -1,6 +1,5 @@
 import React from 'react';
 import { TextInput, View, KeyboardTypeOptions } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { ThemeInterface, ThemeValueInterface } from '../../assets/themes/index'
@@ -9,6 +8,8 @@ import Styles from './Input.styles';
 interface Props {
     theme: ThemeInterface;
     onChange: (value: string) => void;
+    onFocus?: () => void;
+    onBlur?: () => void;
     placeholder?: string;
     value?: string;
 
@@ -24,6 +25,7 @@ interface Props {
      * 'decimal-pad', 'twitter', 'web-search', 'visible-password')
      */
     keyboardType?: KeyboardTypeOptions;
+    inputRef?: (ref: any) => void;
 }
 
 class Input extends React.Component<Props> {
@@ -47,8 +49,9 @@ class Input extends React.Component<Props> {
         const inputStyle = this.props.authStyle ? this.style.authInput : this.style.formInput;
 
         return (
-            <View style={[this.style.container, {height: height}, containerStyle, this.props.style]}>
+            <View style={[this.style.container, { height: height }, containerStyle, this.props.style]}>
                 <TextInput
+                    ref={this.props.inputRef}
                     contextMenuHidden={this.props.disabled}
                     selectTextOnFocus={!this.props.disabled}
                     editable={!this.props.disabled}
@@ -56,6 +59,8 @@ class Input extends React.Component<Props> {
                     autoCapitalize={'none'}
                     secureTextEntry={this.props.password}
                     style={[this.style.input, inputStyle]}
+                    onFocus={this.props.onFocus}
+                    onBlur={this.props.onBlur}
                     onChangeText={this.props.onChange}
                     value={this.props.value}
                     placeholder={this.props.placeholder}
