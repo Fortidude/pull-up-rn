@@ -54,8 +54,10 @@ class TrainingSection extends React.Component<Props, State> {
 
     }
 
-    countGoals = () => this.props.training.goals.length
     countHeight = () => this.countGoals() * 70;
+    countGoals = () => this.props.training.goals.reduce((number, goal) => {
+        return number + (goal.removed ? 0 : 1);
+    }, 0)
     toggleList = (name: string | null) => {
         if (this.props.plannerEditMode) {
             this.props.dispatch(PlannerActions.selectSection(name))
@@ -85,14 +87,15 @@ class TrainingSection extends React.Component<Props, State> {
                 <GoalListContainer active={this.state.toggled} height={this.countHeight()}>
                     <React.Fragment>
                         {this.props.training.goals.map((goal, key) => {
-                            return (<GoalItem
-                                onMoveToSection={this.moveGoalToSection}
-                                toggleParentScroll={this.props.toggleParentScroll}
-                                isToggled={this.state.toggled}
-                                goal={goal}
-                                key={`${this.props.training.key}-${goal.id}`} />);
-                        }
-                        )}
+                            if (!goal.removed) {
+                                return (<GoalItem
+                                    onMoveToSection={this.moveGoalToSection}
+                                    toggleParentScroll={this.props.toggleParentScroll}
+                                    isToggled={this.state.toggled}
+                                    goal={goal}
+                                    key={`${this.props.training.key}-${goal.id}`} />);
+                            }
+                        })}
                     </React.Fragment>
                 </GoalListContainer>
             </View>
