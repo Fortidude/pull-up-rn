@@ -7,6 +7,7 @@ import Styles from './PlannerFooter.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import Button from 'src/components/FooterBar/Button';
 import Avatar from 'src/components/FooterBar/Avatar';
+import { NavigationActions } from 'react-navigation';
 
 interface Props {
     onLayout?: () => void;
@@ -30,11 +31,15 @@ class PlannerFooter extends React.Component<Props> {
         }
     }
 
+    goToStatsScreen = () => {
+        this.props.dispatch(NavigationActions.navigate({ routeName: 'EffectivenessStats' }));
+    }
+
     render() {
         return (
             <View style={this.style.container} onLayout={this.props.onLayout}>
                 <Button iconName="list" text="Planer" isActive/>
-                <Button iconName="chart-bar" text="Statystyki"/>
+                <Button onPress={this.goToStatsScreen} iconName="chart-bar" text="Statystyki"/>
         
                 <Avatar/>
                 

@@ -1,4 +1,4 @@
-import { createBottomTabNavigator } from 'react-navigation';
+import { createBottomTabNavigator, TabBarBottom } from 'react-navigation';
 
 //import InitPage from 'src/screens/initPage';
 import InitPage from 'src/screens/initPage';
@@ -13,6 +13,9 @@ import ThemePicker from 'src/screens/profile/ThemePicker';
 import LanguagePicker from 'src/screens/profile/LanguagePicker';
 
 import Effectiveness from 'src/screens/stats/Effectiveness';
+import Popularity from 'src/screens/stats/Popularity';
+import Progress from 'src/screens/stats/Progress';
+
 import Cardio from 'src/screens/cardio/Cardio';
 import Camera from 'src/screens/camera/Camera';
 
@@ -51,11 +54,15 @@ const routes = {
     Camera: {
         screen: Camera
     },
-    Stats: createBottomTabNavigator({
-        effectiveness: {
-            screen: Effectiveness
-        }
-    })
+    EffectivenessStats: {
+        screen: Effectiveness
+    },
+    PopularityStats: {
+        screen: Popularity
+    },
+    ProgressStats: {
+        screen: Progress
+    }
 };
 
 export default routes;

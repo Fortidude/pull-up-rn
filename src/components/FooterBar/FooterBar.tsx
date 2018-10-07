@@ -6,6 +6,7 @@ import Styles from './FooterBar.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import PlannerFooter from './PlannerFooter';
 import ProfileFooter from './ProfileFooter';
+import StatsFooter from './StatsFooter';
 import { ModalState } from 'src/store/reducers/modal';
 
 interface Props {
@@ -30,8 +31,15 @@ class FooterBar extends React.Component<Props, State> {
         'settings'
     ];
 
+    routerForStatsFooter = [
+        'effectivenessstats',
+        'popularitystats',
+        'progressstats'
+    ]
+
     plannerFooter = <PlannerFooter onLayout={() => this.onComponentLayout()} />
     profileFooter = <ProfileFooter onLayout={() => this.onComponentLayout()} />
+    statsFooter = <StatsFooter onLayout={() => this.onComponentLayout()} />
 
     constructor(props: Props) {
         super(props);
@@ -96,6 +104,10 @@ class FooterBar extends React.Component<Props, State> {
             return "Profile";
         }
 
+        if (this.routerForStatsFooter.includes(routeName) && !ProfileModalVisible) {
+            return "Stats"
+        }
+
         return null;
     }
 
@@ -109,6 +121,9 @@ class FooterBar extends React.Component<Props, State> {
                 break;
             case "Profile":
                 state.component = this.profileFooter;
+                break;
+            case "Stats":
+                state.component = this.statsFooter;
                 break;
             default:
                 state.component = null;
