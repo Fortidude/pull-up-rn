@@ -1,8 +1,6 @@
 import ApiHelper from "./apiHelper";
-import { AsyncStorage, Alert } from "react-native";
-import jwtDecode from "jwt-decode";
+import { Alert } from "react-native";
 
-import UserModel from '../models/User';
 import Planner from "../models/Planner";
 import { Dispatch } from "redux";
 import { SyncActions } from "../store/actions/sync";

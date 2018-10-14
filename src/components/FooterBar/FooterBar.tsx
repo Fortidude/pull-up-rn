@@ -7,6 +7,7 @@ import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import PlannerFooter from './PlannerFooter';
 import ProfileFooter from './ProfileFooter';
 import StatsFooter from './StatsFooter';
+import CalendarFooter from './CalendarFooter';
 import { ModalState } from 'src/store/reducers/modal';
 
 interface Props {
@@ -35,8 +36,13 @@ class FooterBar extends React.Component<Props, State> {
         'effectivenessstats',
         'popularitystats',
         'progressstats'
-    ]
+    ];
 
+    routesForCalendarBar = [
+        'calendar'
+    ];
+
+    calendarFooter = <CalendarFooter onLayout={() => this.onComponentLayout()} />
     plannerFooter = <PlannerFooter onLayout={() => this.onComponentLayout()} />
     profileFooter = <ProfileFooter onLayout={() => this.onComponentLayout()} />
     statsFooter = <StatsFooter onLayout={() => this.onComponentLayout()} />
@@ -112,6 +118,10 @@ class FooterBar extends React.Component<Props, State> {
             return "Stats"
         }
 
+        if (this.routesForCalendarBar.includes(routeName)  && !profileModalVisible) {
+            return "Calendar"
+        }
+
         return null;
     }
 
@@ -128,6 +138,9 @@ class FooterBar extends React.Component<Props, State> {
                 break;
             case "Stats":
                 state.component = this.statsFooter;
+                break;
+            case "Calendar":
+                state.component = this.calendarFooter;
                 break;
             default:
                 state.component = null;

@@ -60,7 +60,9 @@ const colors = {
 
     spinnerColor: mainColor,
 
-    listItemRightIconColor: greyColor
+    listItemRightIconColor: greyColor,
+
+    calendarMonthsBarBackground: '#FFFFFF'
 };
 
 const borders = {

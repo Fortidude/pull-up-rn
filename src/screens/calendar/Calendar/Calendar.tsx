@@ -1,16 +1,25 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, Animated } from 'react-native';
+import moment from 'moment';
 
-import getStyle from './ASampleTemplateScreen.styles';
+import getStyle from './Calendar.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 
-type Props = {
-    dispatch: Dispatch,
-    theme: ThemeInterface,
+import CalendarService from 'src/service/Calendar';
+
+import MonthsBar from './components/MonthsBar';
+import MonthList from './components/MonthList/MonthList';
+
+interface Props {
+    dispatch: Dispatch;
+    theme: ThemeInterface;
 };
-class ASampleTemplateScreen extends React.Component<Props> {
+
+interface State {}
+
+class Calendar extends React.Component<Props, State> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
@@ -24,9 +33,14 @@ class ASampleTemplateScreen extends React.Component<Props> {
         }
     }
 
+    componentDidMount() {
+    }
+
     render() {
         return (
             <View style={this.style.container}>
+                {/* <MonthsBar swipePosition={this.swipePosition} months={this.state.months} currentMonthIndex={this.state.currentMonthIndex}/> */}
+                <MonthList />
             </View>
         );
     }
@@ -37,4 +51,4 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme
 });
 
-export default connect(mapStateToProps)(ASampleTemplateScreen);
+export default connect(mapStateToProps)(Calendar);

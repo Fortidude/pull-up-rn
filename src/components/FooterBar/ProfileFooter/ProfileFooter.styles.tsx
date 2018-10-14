@@ -1,11 +1,12 @@
 import { ThemeInterface } from 'src/assets/themes';
 import DetermineDevice from 'src/service/helpers/DetermineDevice';
+import { FOOTER_HEIGHT } from '../FooterBar.styles';
 
 function getStyle(theme: ThemeInterface) {
     return {
         container: {
             flexDirection: 'row',
-            height: 65,
+            height: FOOTER_HEIGHT,
             bottom: DetermineDevice.isIphoneX() ? 40 : 0,
             width: '100%',
             backgroundColor: theme.colors.footerBackgroundColor,

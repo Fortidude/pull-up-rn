@@ -71,15 +71,19 @@ let translations = {
         },
 
         routes: {
-            planner: "Pull Up!",
-            login: "Logowanie",
-            register: "Rejestracja",
-            passwordreminder: "Przypomnij hasło",
-            profile: "Profil",
-            settings: "Ustawienia",
-            themepicker: "Wybierz motyw",
+            calendar: "Kalendarz",
+            effectivenessstats: "Efektywność",
+            initpage: "Pull Up!",
             languagepicker: "Wybierz język",
-            initpage: "Pull Up!"
+            login: "Logowanie",
+            passwordreminder: "Przypomnij hasło",
+            planner: "Pull Up!",
+            profile: "Profil",
+            popularitystats: "Popularność",
+            progressstats: "Progres",
+            register: "Rejestracja",
+            settings: "Ustawienia",
+            themepicker: "Wybierz motyw"
         },
 
         fields: {

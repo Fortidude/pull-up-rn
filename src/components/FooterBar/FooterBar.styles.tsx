@@ -1,6 +1,7 @@
 import { ThemeInterface } from 'src/assets/themes';
 import DetermineDevice from 'src/service/helpers/DetermineDevice';
 
+export const FOOTER_HEIGHT = 65;
 function getStyle(theme: ThemeInterface) {
     return {
         container: {

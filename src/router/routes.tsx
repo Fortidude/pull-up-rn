@@ -12,6 +12,8 @@ import Settings from 'src/screens/profile/Settings';
 import ThemePicker from 'src/screens/profile/ThemePicker';
 import LanguagePicker from 'src/screens/profile/LanguagePicker';
 
+import Calendar from 'src/screens/calendar/Calendar';
+
 import Effectiveness from 'src/screens/stats/Effectiveness';
 import Popularity from 'src/screens/stats/Popularity';
 import Progress from 'src/screens/stats/Progress';
@@ -20,6 +22,9 @@ import Cardio from 'src/screens/cardio/Cardio';
 import Camera from 'src/screens/camera/Camera';
 
 const routes = {
+    // Calendar_t: {
+    //     screen: Calendar
+    // },
     InitPage: {
         screen: InitPage,
         navigationOptions: {
@@ -47,6 +52,9 @@ const routes = {
     },
     LanguagePicker: {
         screen: LanguagePicker
+    },
+    Calendar: {
+        screen: Calendar
     },
     Cardio: {
         screen: Cardio
