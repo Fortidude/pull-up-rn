@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Text, View, Animated, TouchableOpacity } from 'react-native';
+import { Text, Animated, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -65,6 +65,10 @@ class MonthItem extends React.Component<Props, State> {
     }
 
     ifActiveSetItActive = () => {
+        if (!this.refs.container || !this.refs.container.measure) {
+            return;
+        }
+
         //@ts-ignore
         this.refs.container.measure((x, y, width, height, windowX, windowY) => {
             const active = (windowX > this.props.activeOffsetXFrom && windowX < this.props.activeOffsetXTo);

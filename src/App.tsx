@@ -19,6 +19,7 @@ import Images from './assets/images';
 import { ThemeValueInterface } from './assets/themes';
 import AppManager from './components/AppManager';
 import ModalManager from './components/ModalManager';
+import CalendarService from 'src/service/Calendar';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(

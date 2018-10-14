@@ -22,7 +22,7 @@ import Cardio from 'src/screens/cardio/Cardio';
 import Camera from 'src/screens/camera/Camera';
 
 const routes = {
-    // Calendar_t: {
+    // Calendar: {
     //     screen: Calendar
     // },
     InitPage: {

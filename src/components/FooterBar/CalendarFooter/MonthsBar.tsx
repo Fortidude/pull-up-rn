@@ -63,13 +63,7 @@ class MonthsBar extends React.Component<Props, State> {
 
     onMonthPress = (key: number) => {
         const to = (key-1) * MONTH_ITEM_WIDTH;
-        const position = this.scrollPosition._value; 
-
-        if (to < position) {
-            this.scrollTo(position - MONTH_ITEM_WIDTH);
-        } else {
-            this.scrollTo(position + MONTH_ITEM_WIDTH);
-        }
+        this.scrollTo(to);
     }
 
     render() {
@@ -128,8 +122,9 @@ class MonthsBar extends React.Component<Props, State> {
             to = -SCROLL_MARGIN
         }
 
-        this.containerRef.scrollTo({ x: to });
+        this.containerRef.scrollTo({ x: to, animated: true });
 
+        //@ts-ignore
         if (to !== CalendarService.swipePosition._value) {
             CalendarService.swipePosition.setValue(to)
         }
@@ -156,7 +151,7 @@ class MonthsBar extends React.Component<Props, State> {
 
         const offset = (SCREEN_WIDTH - (MONTH_ITEM_WIDTH * 3)) / 2
         const xPosition = ((this.state.currentMonthIndex - 2) * MONTH_ITEM_WIDTH) - offset;
-        this.containerRef.scrollTo({ x: xPosition });
+        this.containerRef.scrollTo({ x: xPosition, animated: false });
     }
 }
 

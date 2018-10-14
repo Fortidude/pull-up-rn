@@ -10,6 +10,8 @@ import StatsFooter from './StatsFooter';
 import CalendarFooter from './CalendarFooter';
 import { ModalState } from 'src/store/reducers/modal';
 
+import CalendarService from 'src/service/Calendar';
+
 interface Props {
     theme: ThemeInterface;
     nav: { index: number, routes: { routeName: string }[] },
@@ -96,7 +98,18 @@ class FooterBar extends React.Component<Props, State> {
     }
 
     onComponentLayout = () => {
-        this.getAnimateIn().start();
+        this.getAnimateIn().start(() => {
+
+            /**
+             * @todo
+             * 
+             * Refactor that.
+             */
+            const componentName = this.getComponentName(this.props);
+            if (componentName === 'Calendar') {
+                CalendarService.calendarFooterReady = true;
+            }
+        });
     }
 
     getComponentName = (props: Props) => {
