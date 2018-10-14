@@ -107,6 +107,11 @@ class MonthList extends React.Component<Props, State> {
         );
     }
 
+    /**
+     * @todo
+     * 
+     * scroll fast, element not rendered
+     */
     createMonthComponents = (moments: moment.Moment[], currentMonthIndex: number) => {
         let months: React.ReactFragment[] = [];
         moments.map((month, key) => {
@@ -115,7 +120,7 @@ class MonthList extends React.Component<Props, State> {
             const renderThisMonth = index - 1 <= currentMonthIndex && index + 1 >= currentMonthIndex;
 
             if (renderThisMonth) {
-                const calendar = this.getRenderedMonth(month);
+                const calendar = this.getMonthCalendar(month);
                 months[key] = calendar.map((week, key) => {
                     return <WeekLine key={key} week={week} currentMonth={month} />
                 })
@@ -128,7 +133,12 @@ class MonthList extends React.Component<Props, State> {
         return months;
     }
 
-    getRenderedMonth = (month: moment.Moment) => {
+    /**
+     * @todo
+     * 
+     * scroll fast, element not rendered
+     */
+    getMonthCalendar = (month: moment.Moment) => {
         const startWeek = month.startOf('month').week();
         let endWeek = month.endOf('month').week();
         if (startWeek > endWeek) {
@@ -210,7 +220,7 @@ class MonthList extends React.Component<Props, State> {
 
         const renderIfNotRendered = (index: number) => {
             if (this.state.monthElements[index] === null) {
-                const calendar = this.getRenderedMonth(this.state.months[index]);
+                const calendar = this.getMonthCalendar(this.state.months[index]);
                 monthElements[index] = calendar.map((week, key) => {
                     return <WeekLine key={key} week={week} currentMonth={this.state.months[index]} />
                 });
