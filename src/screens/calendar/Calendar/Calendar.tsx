@@ -7,9 +7,6 @@ import moment from 'moment';
 import getStyle from './Calendar.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 
-import CalendarService from 'src/service/Calendar';
-
-import MonthsBar from './components/MonthsBar';
 import MonthList from './components/MonthList/MonthList';
 
 interface Props {
@@ -39,7 +36,6 @@ class Calendar extends React.Component<Props, State> {
     render() {
         return (
             <View style={this.style.container}>
-                {/* <MonthsBar swipePosition={this.swipePosition} months={this.state.months} currentMonthIndex={this.state.currentMonthIndex}/> */}
                 <MonthList />
             </View>
         );

@@ -9,6 +9,7 @@ import CalendarService from 'src/service/Calendar';
 import Styles, { MONTH_ITEM_WIDTH } from './MonthsBar.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import MonthItem from './MonthItem';
+import Events from 'src/service/Events';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SET_ACTION_FROM_X = (SCREEN_WIDTH / 2) - MONTH_ITEM_WIDTH;
@@ -16,6 +17,7 @@ const SCROLL_MARGIN = SET_ACTION_FROM_X + (MONTH_ITEM_WIDTH / 2);
 
 interface Props {
     onLayout?: () => void;
+    onRef: (any: any) => any;
     dispatch: Dispatch;
     theme: ThemeInterface;
 }
@@ -54,6 +56,12 @@ class MonthsBar extends React.Component<Props, State> {
             this.scrollTo(value);
         });
     }
+    
+    componentDidMount() {
+        if (this.props.onRef) {
+            this.props.onRef(this);
+        }
+    }
 
     componentWillReceiveProps(nextProps: Props) {
         if (nextProps.theme.name !== this.props.theme.name) {
@@ -64,6 +72,10 @@ class MonthsBar extends React.Component<Props, State> {
     onMonthPress = (key: number) => {
         const to = (key-1) * MONTH_ITEM_WIDTH;
         this.scrollTo(to);
+    }
+
+    onAnimationInFinish = () => {
+        Events.emit('footer_bar_animation_in_finished');
     }
 
     render() {

@@ -10,8 +10,6 @@ import StatsFooter from './StatsFooter';
 import CalendarFooter from './CalendarFooter';
 import { ModalState } from 'src/store/reducers/modal';
 
-import CalendarService from 'src/service/Calendar';
-
 interface Props {
     theme: ThemeInterface;
     nav: { index: number, routes: { routeName: string }[] },
@@ -25,6 +23,7 @@ interface State {
 
 class FooterBar extends React.Component<Props, State> {
     style: ThemeValueInterface;
+
     routesForPlannerFooter = [
         'planner'
     ];
@@ -44,7 +43,9 @@ class FooterBar extends React.Component<Props, State> {
         'calendar'
     ];
 
-    calendarFooter = <CalendarFooter onLayout={() => this.onComponentLayout()} />
+    actualComponentInUseRef: any;
+
+    calendarFooter = <CalendarFooter onRef={ref => (this.actualComponentInUseRef = ref)} onLayout={() => this.onComponentLayout()} />
     plannerFooter = <PlannerFooter onLayout={() => this.onComponentLayout()} />
     profileFooter = <ProfileFooter onLayout={() => this.onComponentLayout()} />
     statsFooter = <StatsFooter onLayout={() => this.onComponentLayout()} />
@@ -99,15 +100,8 @@ class FooterBar extends React.Component<Props, State> {
 
     onComponentLayout = () => {
         this.getAnimateIn().start(() => {
-
-            /**
-             * @todo
-             * 
-             * Refactor that.
-             */
-            const componentName = this.getComponentName(this.props);
-            if (componentName === 'Calendar') {
-                CalendarService.calendarFooterReady = true;
+            if (this.actualComponentInUseRef && this.actualComponentInUseRef.onAnimationInFinish) {
+                this.actualComponentInUseRef.onAnimationInFinish();
             }
         });
     }
@@ -131,7 +125,7 @@ class FooterBar extends React.Component<Props, State> {
             return "Stats"
         }
 
-        if (this.routesForCalendarBar.includes(routeName)  && !profileModalVisible) {
+        if (this.routesForCalendarBar.includes(routeName) && !profileModalVisible) {
             return "Calendar"
         }
 

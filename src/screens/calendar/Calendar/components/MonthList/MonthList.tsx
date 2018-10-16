@@ -11,6 +11,7 @@ import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import { MONTH_ITEM_WIDTH } from 'src/components/FooterBar/CalendarFooter/MonthsBar.styles';
 import WeekLine from './WeekLine';
 import Spinner from 'src/components/Spinner/Spinner';
+import Events from 'src/service/Events';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -61,19 +62,9 @@ class MonthList extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        let interval = 0;
-
-        /**
-         * @todo
-         * 
-         * change interval. Some Events maybe?
-         */
-        interval = setInterval(() => {
-            if (CalendarService.calendarFooterReady) {
-                clearInterval(interval);
-                this.setState({ monthElements: this.createMonthComponents(this.state.months, this.state.currentMonthIndex) })
-            }
-        }, 50)
+        Events.listenTo('footer_bar_animation_in_finished', () => {
+            this.setState({ monthElements: this.createMonthComponents(this.state.months, this.state.currentMonthIndex) })
+        });
     }
 
     componentWillReceiveProps(nextProps: Props) {
