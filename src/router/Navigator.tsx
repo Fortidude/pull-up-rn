@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator, HeaderProps } from 'react-navigation';
 
+//@ts-ignore
 import StackViewStyleInterpolator from 'react-navigation-stack/dist/views/StackView/StackViewStyleInterpolator.js';
 
 import { connect } from 'react-redux';
@@ -24,7 +25,7 @@ const transitionConfig = () => {
         //     timing: Animated.timing,
         //     useNativeDriver: true,
         // },
-        screenInterpolator: sceneProps => {
+        screenInterpolator: (sceneProps: any) => {
             const { position, layout, scene, index, scenes } = sceneProps
             const thisSceneIndex = scene.index
             const height = layout.initHeight
