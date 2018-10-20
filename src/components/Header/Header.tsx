@@ -11,16 +11,17 @@ import { ThemeInterface, ThemeValueInterface } from '../../assets/themes/index';
 import RightIconNotification from './RightIconNotification';
 import PlannerEditButton from './PlannerEditButton';
 
+import HeaderStyleInterpolator from 'react-navigation-stack/dist/views/Header/HeaderStyleInterpolator.js';
+
 interface Props {
     headerProps: HeaderProps;
     dispatch: Dispatch;
     theme: ThemeInterface;
     isOnline: boolean;
-    profileModalVisible: boolean;
     plannerIsEmpty: boolean;
 }
 
-interface State {}
+interface State { }
 
 class Header extends React.Component<Props, State> {
     style: ThemeValueInterface;
@@ -44,11 +45,11 @@ class Header extends React.Component<Props, State> {
 
     showRightButton = () => {
         const routeName = this.getRawCurrentTitle().toLocaleLowerCase();
-        if (routeName === 'planner' && !this.props.profileModalVisible && !this.props.plannerIsEmpty) {
-            return <PlannerEditButton/>
-        } 
+        if (routeName === 'planner' && !this.props.plannerIsEmpty) {
+            return <PlannerEditButton />
+        }
 
-        return <BackButton headerProps={this.props.headerProps}/>
+        return <BackButton headerProps={this.props.headerProps} />
     }
 
     render() {
@@ -58,10 +59,12 @@ class Header extends React.Component<Props, State> {
                     {this.showRightButton()}
                 </View>
                 <View style={this.style.center.container}>
-                    <Text style={this.style.center.text} numberOfLines={1}>{this.getCurrentTitle()}</Text>
+                    <Animated.Text numberOfLines={1} style={[this.style.center.text, HeaderStyleInterpolator.forCenter(this.props.headerProps)]}>
+                        {this.getCurrentTitle()}
+                    </Animated.Text>
                 </View>
                 <View style={this.style.right.container}>
-                    <RightIconNotification/>
+                    <RightIconNotification />
                 </View>
             </Animated.View>
         );
@@ -72,7 +75,6 @@ const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
     isOnline: state.app.isOnline,
-    profileModalVisible: state.modal.profileModalVisible,
     plannerIsEmpty: state.planner.byTrainingsEmpty
 });
 

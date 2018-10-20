@@ -8,6 +8,7 @@ import Register from 'src/screens/auth/Register';
 import PasswordReminder from 'src/screens/auth/PasswordReminder';
 
 import Planner from 'src/screens/planner/Planner';
+import Profile from 'src/screens/profile/Profile';
 import Settings from 'src/screens/profile/Settings';
 import ThemePicker from 'src/screens/profile/ThemePicker';
 import LanguagePicker from 'src/screens/profile/LanguagePicker';
@@ -44,6 +45,13 @@ const routes = {
     Planner: {
         screen: Planner
     },
+    Profile: {
+        screen: Profile,
+        navigationOptions: {
+            modal: true,
+            //  gesturesEnabled: false
+        }
+    },
     Settings: {
         screen: Settings
     },
@@ -54,22 +62,46 @@ const routes = {
         screen: LanguagePicker
     },
     Calendar: {
-        screen: Calendar
+        screen: Calendar,
+        navigationOptions: {
+            modal: true,
+            //  gesturesEnabled: false
+        }
     },
     Cardio: {
-        screen: Cardio
+        screen: Cardio,
+        navigationOptions: {
+            modal: true,
+            //  gesturesEnabled: false
+        }
     },
     Camera: {
-        screen: Camera
+        screen: Camera,
+        navigationOptions: {
+            modal: true,
+            //  gesturesEnabled: false
+        }
     },
     EffectivenessStats: {
-        screen: Effectiveness
+        screen: Effectiveness,
+        navigationOptions: {
+            modal: true,
+            //  gesturesEnabled: false
+        }
     },
     PopularityStats: {
-        screen: Popularity
+        screen: Popularity,
+        navigationOptions: {
+            modal: true,
+            //   gesturesEnabled: false
+        }
     },
     ProgressStats: {
-        screen: Progress
+        screen: Progress,
+        navigationOptions: {
+            modal: true,
+            //  gesturesEnabled: false
+        }
     }
 };
 

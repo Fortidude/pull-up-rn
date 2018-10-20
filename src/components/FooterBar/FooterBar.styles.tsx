@@ -5,7 +5,11 @@ export const FOOTER_HEIGHT = 65;
 function getStyle(theme: ThemeInterface) {
     return {
         container: {
-            backgroundColor: theme.colors.backgroundColor
+            backgroundColor: theme.colors.backgroundColor,
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0
         },
         footerHeight: DetermineDevice.isIphoneX() ? 40 : 65
     };

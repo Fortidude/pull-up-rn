@@ -8,6 +8,7 @@ import Styles from './Avatar.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import { ModalActions } from 'src/store/actions/modal';
 import HapticFeedback from 'src/service/Haptic';
+import { NavigationActions } from 'react-navigation';
 
 interface Props {
     dispatch: Dispatch;
@@ -61,7 +62,8 @@ class Avatar extends React.Component<Props, State> {
         }
 
         HapticFeedback('impactLight');
-        this.props.dispatch(ModalActions.profileOpen());
+        this.props.dispatch(NavigationActions.navigate({routeName: 'Profile'}));
+        //this.props.dispatch(ModalActions.profileOpen());
     }
 
     render() {

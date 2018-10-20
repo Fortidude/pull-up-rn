@@ -1,6 +1,7 @@
 import React from 'react';
 import { Animated } from 'react-native';
 import { connect } from 'react-redux';
+import { HeaderProps } from 'react-navigation';
 
 import Styles from './FooterBar.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
@@ -11,6 +12,7 @@ import CalendarFooter from './CalendarFooter';
 import { ModalState } from 'src/store/reducers/modal';
 
 interface Props {
+    headerProps: HeaderProps,
     theme: ThemeInterface;
     nav: { index: number, routes: { routeName: string }[] },
     modal: ModalState
@@ -18,7 +20,7 @@ interface Props {
 
 interface State {
     component: any;
-    height: any;
+    translateY: Animated.Value;
 }
 
 class FooterBar extends React.Component<Props, State> {
@@ -56,7 +58,7 @@ class FooterBar extends React.Component<Props, State> {
         this.style = Styles(this.props.theme);
         this.state = {
             component: null,
-            height: new Animated.Value(0)
+            translateY: new Animated.Value(0)
         }
     }
 
@@ -85,16 +87,18 @@ class FooterBar extends React.Component<Props, State> {
     }
 
     getAnimateIn = () => {
-        return Animated.timing(this.state.height, {
-            toValue: this.style.footerHeight,
-            duration: 300
+        return Animated.timing(this.state.translateY, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true
         })
     }
 
     getAnimateOut = () => {
-        return Animated.timing(this.state.height, {
-            toValue: 0,
-            duration: 200
+        return Animated.timing(this.state.translateY, {
+            toValue: this.style.footerHeight,
+            duration: 200,
+            useNativeDriver: true
         })
     }
 
@@ -108,24 +112,23 @@ class FooterBar extends React.Component<Props, State> {
 
     getComponentName = (props: Props) => {
         const routeName = props.nav.routes[props.nav.index].routeName.toLocaleLowerCase();
-        const profileModalVisible = props.modal.profileModalVisible;
         const pickerModalVisible = props.modal.pickerModalVisible;
         if (pickerModalVisible) {
             return null;
         }
-        if (this.routesForPlannerFooter.includes(routeName) && !profileModalVisible) {
+        if (this.routesForPlannerFooter.includes(routeName)) {
             return "Planner";
         }
 
-        if (this.routesForProfileFooter.includes(routeName) || profileModalVisible) {
+        if (this.routesForProfileFooter.includes(routeName)) {
             return "Profile";
         }
 
-        if (this.routerForStatsFooter.includes(routeName) && !profileModalVisible) {
+        if (this.routerForStatsFooter.includes(routeName)) {
             return "Stats"
         }
 
-        if (this.routesForCalendarBar.includes(routeName) && !profileModalVisible) {
+        if (this.routesForCalendarBar.includes(routeName)) {
             return "Calendar"
         }
 
@@ -159,10 +162,11 @@ class FooterBar extends React.Component<Props, State> {
         if (!this.state.component) {
             return null;
         }
+
         return (
-            <Animated.View style={[this.style.container, { height: this.state.height }]}>
-                {this.state.component}
-            </Animated.View>
+                <Animated.View style={[this.style.container, { transform: [{ translateY: this.state.translateY }] }]}>
+                    {this.state.component}
+                </Animated.View>
         );
     }
 }

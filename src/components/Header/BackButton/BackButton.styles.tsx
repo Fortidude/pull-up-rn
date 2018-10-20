@@ -13,8 +13,8 @@ function getStyle(theme: ThemeInterface) {
         icon: {
             marginLeft: -15,
             marginRight: -15,
-            marginBottom: -13,
-            marginTop: 22,
+       //     marginBottom: -14,
+            marginTop: 20,
             color: theme.colors.textColor
         }
     };

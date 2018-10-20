@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { HeaderProps, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/EvilIcons';
@@ -13,6 +13,10 @@ import { ModalState } from '../../../store/reducers/modal';
 import { ModalActions } from '../../../store/actions/modal';
 import HapticFeedback from 'src/service/Haptic';
 
+import HeaderStyleInterpolator from 'react-navigation-stack/dist/views/Header/HeaderStyleInterpolator.js';
+
+const AnimateIcon = Animated.createAnimatedComponent(Icon);
+
 interface Props {
     headerProps: HeaderProps;
     dispatch: Dispatch;
@@ -20,9 +24,7 @@ interface Props {
     modal: ModalState;
 }
 
-interface State {
-    back: boolean;
-}
+interface State { }
 
 class BackButton extends React.Component<Props, State> {
     previousTitle: string = '';
@@ -32,19 +34,13 @@ class BackButton extends React.Component<Props, State> {
         super(props);
 
         this.style = Styles(this.props.theme);
-        this.state = {
-            back: false
-        }
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
         const nextRoute = nextProps.headerProps.scene.route.routeName.toLocaleLowerCase();
         const currentRoute = this.getRawCurrentTitle();
 
-        const willProfileModal = nextProps.modal.profileModalVisible;
-        const isProfileModal = this.props.modal.profileModalVisible;
-
-        return nextRoute !== currentRoute || willProfileModal !== isProfileModal || nextProps.theme.name !== this.props.theme.name;
+        return nextRoute !== currentRoute || nextProps.theme.name !== this.props.theme.name;
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -58,21 +54,11 @@ class BackButton extends React.Component<Props, State> {
     }
 
     setupTitle = (props: Props) => {
-        const profileModalVisible = props.modal.profileModalVisible;
-        const nextTitle = props.headerProps.scene.route.routeName.toLocaleLowerCase();
         const indexExist = !!props.headerProps.scene.index;
-
-        if (profileModalVisible && nextTitle === 'planner') {
-            this.previousTitle = 'planner';
-            return;
-        }
 
         if (indexExist) {
             const currentIndex = props.headerProps.scene.index;
             let previousTitle = props.headerProps.scenes[currentIndex - 1].route.routeName.toLocaleLowerCase();
-            if (previousTitle === 'planner' && profileModalVisible) {
-                previousTitle = 'profile';
-            }
 
             this.previousTitle = previousTitle;
             return;
@@ -88,24 +74,17 @@ class BackButton extends React.Component<Props, State> {
     };
 
     onBackPress = () => {
-        this.setState({ back: true }, () => {
-            if (this.props.modal.profileModalVisible && this.getRawCurrentTitle().toLocaleLowerCase() === 'planner') {
-                HapticFeedback('impactLight');
-                this.props.dispatch(ModalActions.profileClose());
-                return;
-            }
-
-            HapticFeedback('impactLight');
-            this.props.dispatch(NavigationActions.back())
-        })
+        HapticFeedback('impactLight');
+        this.props.dispatch(NavigationActions.back())
     };
 
     render() {
+
         return (
             <React.Fragment>
                 {!!this.previousTitle && <TouchableOpacity onPress={this.onBackPress} style={this.style.backButton}>
-                    <Icon name={'chevron-left'} size={50} style={this.style.icon} />
-                    <LeftText back={this.state.back} value={this.getPreviousTitle()} />
+                    <AnimateIcon name={'chevron-left'} size={50} style={[this.style.icon, HeaderStyleInterpolator.forLeft(this.props.headerProps)]} />
+                    <LeftText headerProps={this.props.headerProps} value={this.getPreviousTitle()} />
                 </TouchableOpacity>}
             </React.Fragment>
         );

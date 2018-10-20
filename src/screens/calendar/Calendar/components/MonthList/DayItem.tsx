@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Text, View } from 'react-native';
+import { Text, View, Animated } from 'react-native';
 
 import getStyle from './MonthList.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
@@ -17,6 +17,7 @@ interface Props {
 
 class DayItem extends React.Component<Props> {
     style: ThemeValueInterface;
+    scale = new Animated.Value(0);
 
     constructor(props: Props) {
         super(props);
@@ -29,6 +30,15 @@ class DayItem extends React.Component<Props> {
         }
     }
 
+    componentDidMount() {
+        Animated.timing(this.scale, {
+            toValue: 1,
+            delay: parseInt(this.props.day.format('D')) * 30,
+            duration: 200,
+            useNativeDriver: true
+        }).start();
+    }
+
     render() {
         const style = [this.style.dayItem.container];
         if (this.props.day.format('M') === this.props.currentMonth.format('M')) {
@@ -36,9 +46,9 @@ class DayItem extends React.Component<Props> {
         }
 
         return (
-            <View style={style}>
+            <Animated.View style={[style, { opacity: this.scale }]}>
                 <Text style={this.style.dayItem.text}>{this.props.day.format('D')}</Text>
-            </View>
+            </Animated.View>
         );
     }
 }

@@ -35,6 +35,8 @@ class MonthList extends React.Component<Props, State> {
     scrolling = false;
     scrollStartPosition: number;
 
+    unmounting = false;
+
     constructor(props: Props) {
         super(props);
 
@@ -62,9 +64,16 @@ class MonthList extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        Events.listenTo('footer_bar_animation_in_finished', () => {
-            this.setState({ monthElements: this.createMonthComponents(this.state.months, this.state.currentMonthIndex) })
+        Events.listenTo('footer_bar_animation_in_finished', 'month_list', () => {
+            if (!this.unmounting) {
+                this.setState({ monthElements: this.createMonthComponents(this.state.months, this.state.currentMonthIndex) })
+            }
         });
+    }
+
+    componentWillUnmount() {
+        this.unmounting = true;
+        Events.remove('footer_bar_animation_in_finished', 'month_list');
     }
 
     componentWillReceiveProps(nextProps: Props) {

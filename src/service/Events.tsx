@@ -1,6 +1,6 @@
 class Events {
     private static instance: Events;
-    events: { [key: string]: (() => void)[] } = {};
+    events: { [key: string]: {[key: string]: () => void} } = {};
 
     private constructor() { }
     static getInstance() {
@@ -10,12 +10,16 @@ class Events {
         return Events.instance;
     }
 
-    listenTo = (event: string, callback: () => void) => {
+    listenTo = (event: string, uniqueKey: string, callback: () => void) => {
         if (!this.events[event]) {
-            this.events[event] = [];
+            this.events[event] = {};
         }
         
-        this.events[event].push(callback);
+        this.events[event][uniqueKey] = (callback);
+    }
+
+    remove = (event: string, uniqueKey: string) => {
+        delete this.events[event][uniqueKey];
     }
 
     emit = (event: string) => {
@@ -23,8 +27,8 @@ class Events {
             return;
         }
 
-        this.events[event].forEach(callback => {
-            callback();
+        Object.keys(this.events[event]).forEach((uniqueKey) => {
+            this.events[event][uniqueKey]();
         })
     }
 }

@@ -7,13 +7,12 @@ import { ThemeValueInterface, ThemeInterface } from '../../assets/themes';
 import getStyle from './Planner.styles';
 import PlannerList from './PlannerList';
 import TopProgressBar from './TopProgressBar';
-import ProfileModal from '../../components/ModalManager/Modals/ProfileModal';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
-    profileModalVisible: boolean;
 };
+
 interface State {
     plannerListScrollPositionY: Animated.Value;
 }
@@ -45,7 +44,6 @@ class Planner extends React.Component<Props, State> {
                     const value = this.state.plannerListScrollPositionY._value;
                     this.state.plannerListScrollPositionY.setValue(value + 1);
                 }}/>
-                <ProfileModal />
             </View>
         );
     }
