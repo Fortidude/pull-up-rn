@@ -8,13 +8,17 @@ function getStyle(theme: ThemeInterface) {
             flexDirection: 'row',
             justifyContent: 'flex-start',
             alignItems: 'flex-end',
-            paddingBottom: 13
+          //  paddingBottom: 13
+        },
+        backText: {
+            fontFamily: theme.fonts.mainFontFamily,
+            fontSize: theme.fonts.fontSize,
+            color: theme.colors.textColor,
+            marginBottom: 11
         },
         icon: {
             marginLeft: -15,
             marginRight: -15,
-       //     marginBottom: -14,
-            marginTop: 20,
             color: theme.colors.textColor
         }
     };

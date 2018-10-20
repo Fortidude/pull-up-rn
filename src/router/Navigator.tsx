@@ -15,8 +15,6 @@ import Header from '../components/Header';
 import { Animated } from 'react-native';
 import NavigationAnimated from 'src/service/NavigationAnimated';
 
-export const NavigationTransition = new Animated.Value(1);
-
 const transitionConfig = () => {
     return {
         // transitionSpec: {

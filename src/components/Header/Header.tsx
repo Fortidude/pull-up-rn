@@ -11,6 +11,7 @@ import { ThemeInterface, ThemeValueInterface } from '../../assets/themes/index';
 import RightIconNotification from './RightIconNotification';
 import PlannerEditButton from './PlannerEditButton';
 
+// @ts-ignore
 import HeaderStyleInterpolator from 'react-navigation-stack/dist/views/Header/HeaderStyleInterpolator.js';
 
 interface Props {
@@ -40,28 +41,37 @@ class Header extends React.Component<Props, State> {
     getRawCurrentTitle = () => this.props.headerProps.scene.route.routeName;
     getCurrentTitle = () => {
         const routeName = this.getRawCurrentTitle().toLocaleLowerCase();
+        console.log(routeName);
         return I18n.t(`routes.${routeName.toLocaleLowerCase()}`);
     };
 
     showRightButton = () => {
         const routeName = this.getRawCurrentTitle().toLocaleLowerCase();
         if (routeName === 'planner' && !this.props.plannerIsEmpty) {
-            return <PlannerEditButton />
+            // return <PlannerEditButton />
         }
 
         return <BackButton headerProps={this.props.headerProps} />
     }
 
     render() {
+        const currentIndex = this.props.headerProps.scene.index;
+        let previousTitle = '';
+        if (this.props.headerProps.scenes[currentIndex - 1]) {
+            previousTitle = this.props.headerProps.scenes[currentIndex - 1].route.routeName.toLocaleLowerCase();
+        }
+
         return (
             <Animated.View style={[this.style.header]}>
                 <View style={this.style.left.container}>
-                    {this.showRightButton()}
+                    <BackButton headerProps={this.props.headerProps} />
                 </View>
                 <View style={this.style.center.container}>
-                    <Animated.Text numberOfLines={1} style={[this.style.center.text, HeaderStyleInterpolator.forCenter(this.props.headerProps)]}>
-                        {this.getCurrentTitle()}
-                    </Animated.Text>
+                    <Animated.View style={HeaderStyleInterpolator.forCenter(this.props.headerProps)}>
+                        <Text numberOfLines={1} style={[this.style.center.text]}>
+                            {this.getCurrentTitle()}
+                        </Text>
+                    </Animated.View>
                 </View>
                 <View style={this.style.right.container}>
                     <RightIconNotification />

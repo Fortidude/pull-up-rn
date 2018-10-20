@@ -23,11 +23,12 @@ function getStyle(theme: ThemeInterface) {
         center: {
             container: {
                 flex: 1,
-                marginBottom: 13,
+                marginBottom: 11,
                 justifyContent: 'flex-end',
                 alignItems: 'center',
             },
             text: { 
+                fontFamily: theme.fonts.mainFontFamily,
                 fontSize: theme.fonts.fontSize,
                 color: theme.colors.textColor
              }

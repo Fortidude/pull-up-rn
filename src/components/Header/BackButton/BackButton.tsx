@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { TouchableOpacity, Animated } from 'react-native';
+import { TouchableOpacity, Animated, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { HeaderProps, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/EvilIcons';
@@ -79,12 +79,15 @@ class BackButton extends React.Component<Props, State> {
     };
 
     render() {
-
         return (
             <React.Fragment>
                 {!!this.previousTitle && <TouchableOpacity onPress={this.onBackPress} style={this.style.backButton}>
-                    <AnimateIcon name={'chevron-left'} size={50} style={[this.style.icon, HeaderStyleInterpolator.forLeft(this.props.headerProps)]} />
-                    <LeftText headerProps={this.props.headerProps} value={this.getPreviousTitle()} />
+                    <Animated.View style={[HeaderStyleInterpolator.forLeft(this.props.headerProps)]}>
+                        <Icon name={'chevron-left'} size={50} style={[this.style.icon]} />
+                    </Animated.View>
+                    <Animated.View style={[HeaderStyleInterpolator.forLeftLabel(this.props.headerProps)]}>
+                        <Text style={this.style.backText}>{this.getPreviousTitle()}</Text>
+                    </Animated.View>
                 </TouchableOpacity>}
             </React.Fragment>
         );
