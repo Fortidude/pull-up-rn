@@ -1,20 +1,19 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { View, Animated } from 'react-native';
-import moment from 'moment';
+import { View } from 'react-native';
 
 import getStyle from './Calendar.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 
-import MonthList from './components/MonthList/MonthList';
+import MonthList from 'src/components/MonthList/MonthList';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
 };
 
-interface State {}
+interface State { }
 
 class Calendar extends React.Component<Props, State> {
     style: ThemeValueInterface;
@@ -30,13 +29,10 @@ class Calendar extends React.Component<Props, State> {
         }
     }
 
-    componentDidMount() {
-    }
-
     render() {
         return (
             <View style={this.style.container}>
-                <MonthList />
+                <MonthList/>
             </View>
         );
     }
