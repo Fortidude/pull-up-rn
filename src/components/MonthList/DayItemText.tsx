@@ -1,24 +1,23 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { Animated, Text } from 'react-native';
 import moment from 'moment';
 
 import getStyle from './MonthList.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 
-import DayItem from './DayItem';
-
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
 
-    week: moment.Moment;
-    currentMonth: moment.Moment;
+    opacity: Animated.Value;
 
-    onDayOpen: any;
+    day: moment.Moment;
+    currentMonth: moment.Moment;
 };
-class WeekLine extends React.Component<Props> {
+
+class DayItemText extends React.Component<Props> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
@@ -33,22 +32,16 @@ class WeekLine extends React.Component<Props> {
     }
 
     render() {
-        return (
-            <View style={this.style.weekItem.container}>
-                {this.renderDays()}
-            </View>
-        );
-    }
-
-    renderDays = () => {
-        const days = [];
-        let startDate = this.props.week.startOf('week');
-        for (let i = 0; i < 7; i++) {
-            days.push(
-                <DayItem key={i} onDayOpen={this.props.onDayOpen} day={moment(startDate).add(i, 'days')} currentMonth={this.props.currentMonth} />
-            );
+        const style = [this.style.dayItem.container];
+        if (this.props.day.format('M') === this.props.currentMonth.format('M')) {
+            style.push(this.style.dayItem.active);
         }
-        return days;
+
+        return (
+            <Animated.View style={[style, { opacity: this.props.opacity }]}>
+                <Text style={this.style.dayItem.text}>{this.props.day.format('D')}</Text>
+            </Animated.View>
+        );
     }
 }
 
@@ -57,4 +50,4 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme
 });
 
-export default connect(mapStateToProps)(WeekLine);
+export default connect(mapStateToProps)(DayItemText);

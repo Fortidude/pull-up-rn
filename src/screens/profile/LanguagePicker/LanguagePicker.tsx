@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { Dispatch } from 'redux';
+import moment from 'moment';
 
 import { ThemeValueInterface, ThemeInterface } from '../../../assets/themes';
 import I18n, { locales } from '../../../assets/translations';
@@ -30,6 +31,7 @@ class LanguagePicker extends React.Component<Props> {
     }
 
     changeLocale = (locale: string) => {
+        moment.locale(locale);
         this.props.dispatch(SettingsActions.setLocale(locale));
         this.props.dispatch(NavigationActions.back());
     };

@@ -10,9 +10,9 @@ import ProfileFooter from './ProfileFooter';
 import StatsFooter from './StatsFooter';
 import CalendarFooter from './CalendarFooter';
 import { ModalState } from 'src/store/reducers/modal';
+import Events from 'src/service/Events';
 
 interface Props {
-    headerProps: HeaderProps,
     theme: ThemeInterface;
     nav: { index: number, routes: { routeName: string }[] },
     modal: ModalState
@@ -66,6 +66,22 @@ class FooterBar extends React.Component<Props, State> {
         if (this.getComponentName(this.props)) {
             this.runAnimation(this.props);
         }
+
+        Events.listenTo('FOOTER_BAR_CLOSE', 'FooterBar', () => {
+            if (this.actualComponentInUseRef) {
+                this.getAnimateOut().start();
+            }
+        });
+        Events.listenTo('FOOTER_BAR_OPEN', 'FooterBar', () => {
+            if (this.actualComponentInUseRef) {
+                this.getAnimateIn().start()
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        Events.remove('FOOTER_BAR_CLOSE', 'FooterBar');
+        Events.remove('FOOTER_BAR_OPEN', 'FooterBar');
     }
 
     componentWillUpdate(nextProps: Props, nextState: State) {
@@ -164,9 +180,9 @@ class FooterBar extends React.Component<Props, State> {
         }
 
         return (
-                <Animated.View style={[this.style.container, { transform: [{ translateY: this.state.translateY }] }]}>
-                    {this.state.component}
-                </Animated.View>
+            <Animated.View style={[this.style.container, { transform: [{ translateY: this.state.translateY }] }]}>
+                {this.state.component}
+            </Animated.View>
         );
     }
 }

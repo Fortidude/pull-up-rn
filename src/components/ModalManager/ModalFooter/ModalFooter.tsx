@@ -20,6 +20,8 @@ interface Props {
 
     onlineRequired?: boolean;
     isOnline: boolean;
+
+    style?: {}
 }
 
 class ModalFooter extends React.Component<Props> {
@@ -61,7 +63,7 @@ class ModalFooter extends React.Component<Props> {
 
         let loadingColor = this.props.loading ? this.props.theme.colors.disableText : this.props.theme.colors.main;
         return (
-            <View style={this.style.container}>
+            <View style={[this.style.container, this.props.style || {}]}>
 
                 {this.props.onCancel &&
                     <TouchableOpacity onPress={this.props.onCancel} style={this.style.leftButton.container}>

@@ -12,12 +12,14 @@ import { MONTH_ITEM_WIDTH } from 'src/components/FooterBar/CalendarFooter/Months
 import WeekLine from './WeekLine';
 import Spinner from 'src/components/Spinner/Spinner';
 import Events from 'src/service/Events';
+import WeekHeader from './WeekHeader';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+    onDayOpen: any;
 }
 
 interface State {
@@ -63,17 +65,25 @@ class MonthList extends React.PureComponent<Props, State> {
         });
     }
 
-    componentWillMount() {
-        Events.listenTo('footer_bar_animation_in_finished', 'month_list', () => {
-            if (!this.unmounting) {
-                this.setState({ monthElements: this.createMonthComponents(this.state.months, this.state.currentMonthIndex) })
-            }
-        });
+    init = async () => {
+        this.setState({ monthElements: this.createMonthComponents(this.state.months, this.state.currentMonthIndex) })
+    }
+
+    componentDidMount() {
+        /**
+         * @TODO
+         * OLD CODE, leave for now
+         */
+        // Events.listenTo('footer_bar_animation_in_finished', 'month_list', () => {
+        //     if (!this.unmounting) {
+        //     //    this.setState({ monthElements: this.createMonthComponents(this.state.months, this.state.currentMonthIndex) })
+        //     }
+        // });
     }
 
     componentWillUnmount() {
         this.unmounting = true;
-        Events.remove('footer_bar_animation_in_finished', 'month_list');
+        //Events.remove('footer_bar_animation_in_finished', 'month_list');
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -84,7 +94,7 @@ class MonthList extends React.PureComponent<Props, State> {
 
     render() {
         return (
-            <View style={this.style.container}>
+            <View style={this.style.container} onLayout={this.init}>
                 {this.state.monthElements.length === 0 && <Spinner color={this.props.theme.colors.main} large />}
                 {this.state.monthElements.length > 0 && <ScrollView
                     showsHorizontalScrollIndicator={false}
@@ -96,9 +106,9 @@ class MonthList extends React.PureComponent<Props, State> {
                     onScrollBeginDrag={this._onScrollStart}
                     scrollEventThrottle={12}
                 >
-                    {this.state.monthElements.map((elements, key) => (
+                    {this.state.monthElements.map((weeks, key) => (
                         <View key={key} style={this.style.monthItem.container}>
-                            {elements}
+                            {weeks}
                         </View>
                     ))}
 
@@ -121,9 +131,11 @@ class MonthList extends React.PureComponent<Props, State> {
 
             if (renderThisMonth) {
                 const calendar = this.getMonthCalendar(month);
-                months[key] = calendar.map((week, key) => {
-                    return <WeekLine key={key} week={week} currentMonth={month} />
+                const weeks = calendar.map((week, key) => {
+                    return <WeekLine onDayOpen={this.props.onDayOpen} key={key} week={week} currentMonth={month} />
                 })
+
+                months[key] = [<WeekHeader key={'week'} />, ...weeks];
             } else {
                 //@ts-ignore
                 months[key] = null;
@@ -217,14 +229,17 @@ class MonthList extends React.PureComponent<Props, State> {
     addMonthToListIfNotExist = (position: number) => {
         const monthIndex = Math.round(position / SCREEN_WIDTH);
         const monthElements = this.state.monthElements;
-
         const renderIfNotRendered = (index: number) => {
             if (this.state.monthElements[index] === null) {
                 const calendar = this.getMonthCalendar(this.state.months[index]);
-                monthElements[index] = calendar.map((week, key) => {
-                    return <WeekLine key={key} week={week} currentMonth={this.state.months[index]} />
+                const weeks = calendar.map((week, key) => {
+                    return <WeekLine onDayOpen={this.props.onDayOpen} key={key} week={week} currentMonth={this.state.months[index]} />
                 });
+
+                monthElements[index] = [<WeekHeader key={'week'} />, ...weeks];
+
                 this.setState({ monthElements: monthElements });
+                this.forceUpdate();
             }
         }
 

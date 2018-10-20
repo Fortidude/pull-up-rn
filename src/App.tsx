@@ -1,6 +1,8 @@
 import React from 'react';
 import AppWithNavigationState, { middleware } from './router/Navigator';
 
+import 'moment/locale/pl';
+
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
@@ -19,7 +21,6 @@ import Images from './assets/images';
 import { ThemeValueInterface } from './assets/themes';
 import AppManager from './components/AppManager';
 import ModalManager from './components/ModalManager';
-import CalendarService from 'src/service/Calendar';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(

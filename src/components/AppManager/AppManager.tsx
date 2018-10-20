@@ -1,6 +1,7 @@
 import React from 'React';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import I18n from 'src/assets/translations';
 import Data from 'src/api/data';
@@ -24,6 +25,7 @@ class AppManager extends React.Component<Props> {
         super(props);
 
         I18n.locale = props.locale;
+        moment.locale(props.locale);
     }
 
     componentWillMount() {

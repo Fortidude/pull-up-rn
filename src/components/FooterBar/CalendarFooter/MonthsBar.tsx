@@ -75,7 +75,9 @@ class MonthsBar extends React.Component<Props, State> {
     }
 
     onAnimationInFinish = () => {
-        Events.emit('footer_bar_animation_in_finished');
+        // @TODO
+        // old code, leave for now
+        //Events.emit('footer_bar_animation_in_finished');
     }
 
     render() {
