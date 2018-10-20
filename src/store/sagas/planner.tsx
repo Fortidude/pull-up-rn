@@ -19,6 +19,22 @@ function* loadByTrainings() {
     }
 }
 
+function* loadSetsHistoryByPeriod(action: any) {
+    //@ts-ignore
+    const isOnline = yield select(state => state.app.isOnline);
+    if (!isOnline) {
+        yield put(PlannerActions.loadSetsByDatePeriodFailed('OFFLINE'));
+    }
+
+    try {
+        const sets = yield Data.getGoalSetsHistory(action.payload.fromDate, action.payload.toDate);
+        yield put(PlannerActions.loadSetsByDatePeriodSuccess(sets));
+    } catch (err) {
+        console.log(`loadSetsHistoryByPeriod sagas, line 33`, err);
+        yield put(PlannerActions.loadSetsByDatePeriodFailed(err));
+    }
+}
+
 function* createSet(action: any) {
     //@ts-ignore
     const isLoading = yield select(state => state.planner.createSetLoading);
@@ -125,6 +141,7 @@ function* removeGoal(action: any) {
 function* plannerSaga() {
     yield all([
         takeEvery(PlannerTypes.loadByTrainings, loadByTrainings),
+        takeEvery(PlannerTypes.loadSetsByDatePeriod, loadSetsHistoryByPeriod),
         takeEvery(PlannerTypes.createSet, createSet),
         takeEvery(PlannerTypes.createSection, createSection),
         takeEvery(PlannerTypes.createGoal, createGoal),

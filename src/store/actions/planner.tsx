@@ -1,11 +1,16 @@
 import Planner from "../../models/Planner";
 import Goal, { NewGoalApiRequestDataStructureInterface } from "../../models/Goal";
-import { SetInterface } from "../../models/Set";
+import Set, { SetInterface } from "../../models/Set";
+import moment from 'moment';
 
 export enum PlannerTypes {
     loadByTrainings = '[PLANNER] LOAD BY TRAININGS',
     loadByTrainingsSuccess = '[PLANNER] LOAD BY TRAININGS SUCCESS',
     loadByTrainingsFailed = '[PLANNER] LOAD BY TRAININGS FAILED',
+
+    loadSetsByDatePeriod = '[PLANNER] LOAD SETS BY DATE PERIOD',
+    loadSetsByDatePeriodSuccess = '[PLANNER] LOAD SETS BY DATE PERIOD SUCCESS',
+    loadSetsByDatePeriodFailed = '[PLANNER] LOAD SETS BY DATE PERIOD FAILED',
 
     selectGoal = '[PLANNER] SELECT GOAL',
     selectSection = '[PLANNER] SELECT SECTION',
@@ -38,6 +43,19 @@ export const PlannerActions = {
     }),
     loadByTrainingsFailed: (error: string) => ({
         type: PlannerTypes.loadByTrainingsFailed,
+        payload: { error }
+    }),
+
+    loadSetsByDatePeriod: (fromDate: moment.Moment, toDate: moment.Moment) => ({
+        type: PlannerTypes.loadSetsByDatePeriod,
+        payload: { fromDate, toDate }
+    }),
+    loadSetsByDatePeriodSuccess: (sets: Set[]) => ({
+        type: PlannerTypes.loadSetsByDatePeriodSuccess,
+        payload: { sets }
+    }),
+    loadSetsByDatePeriodFailed: (error: string) => ({
+        type: PlannerTypes.loadSetsByDatePeriodFailed,
         payload: { error }
     }),
 

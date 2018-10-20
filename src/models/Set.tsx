@@ -1,19 +1,45 @@
 import Goal from "./Goal";
+import Circuit, { CircuitInterface } from "./Circuit";
 
 interface SetInterface {
     goal: Goal|string;
     reps?: number;
     time?: number;
     weight?: number | null | undefined;
-    date: Date | string
+    date: Date | string;
+
+    value?: number;
+    circuit?: CircuitInterface;
 }
 
-export { SetInterface } 
+export default class Set implements SetInterface {
+    id: string;
+    date: Date | string;
+    createdAt: Date | string;
+
+    goal: Goal;
+    circuit: CircuitInterface;
+
+    value: number;
+    weight: number;
+    
+    constructor(data: any) {
+        this.id = data.id;
+        this.value = data.value;
+        this.weight = data.weight ? data.weight : 0;
+        this.goal = new Goal(data.goal);
+        this.circuit = new Circuit(data.circuit);
+
+        this.date = new Date(data.date);
+        this.createdAt = new Date(data.created_at);
+    } 
+}
 
 const sortSetsByDate = (setA: SetInterface, setB: SetInterface) => {
     return new Date(setB.date).getTime() - new Date(setA.date).getTime();
 }
 
 export {
-    sortSetsByDate
+    sortSetsByDate,
+    SetInterface
 }

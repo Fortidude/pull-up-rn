@@ -13,6 +13,7 @@ import WeekLine from './WeekLine';
 import Spinner from 'src/components/Spinner/Spinner';
 import Events from 'src/service/Events';
 import WeekHeader from './WeekHeader';
+import { PlannerActions } from 'src/store/actions/planner';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -67,6 +68,12 @@ class MonthList extends React.PureComponent<Props, State> {
 
     init = async () => {
         this.setState({ monthElements: this.createMonthComponents(this.state.months, this.state.currentMonthIndex) })
+    }
+
+    componentWillMount() {
+        const fromDate = this.state.months[0].startOf('month');
+        const toDate = this.state.months[this.state.currentMonthIndex].endOf('month');
+        this.props.dispatch(PlannerActions.loadSetsByDatePeriod(fromDate, toDate));
     }
 
     componentDidMount() {
@@ -230,7 +237,7 @@ class MonthList extends React.PureComponent<Props, State> {
         const monthIndex = Math.round(position / SCREEN_WIDTH);
         const monthElements = this.state.monthElements;
         const renderIfNotRendered = (index: number) => {
-            if (this.state.monthElements[index] === null) {
+            if (this.state.monthElements[index] === null && !this.unmounting) {
                 const calendar = this.getMonthCalendar(this.state.months[index]);
                 const weeks = calendar.map((week, key) => {
                     return <WeekLine onDayOpen={this.props.onDayOpen} key={key} week={week} currentMonth={this.state.months[index]} />

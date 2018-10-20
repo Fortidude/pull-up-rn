@@ -78,21 +78,23 @@ class Goal implements GoalInterface {
         this.requiredWeight = parseInt(data.required_weight);
         this.requiredType = data.required_type;
         this.sets = [];
-        data.sets.forEach((set: SetInterface) => {
-            if (Object.keys(set).length > 0) {
-                this.sets.push(set);
-            }
-        })
+        if (data.sets) {
+            data.sets.forEach((set: SetInterface) => {
+                if (Object.keys(set).length > 0) {
+                    this.sets.push(set);
+                }
+            })
+        }
     }
 }
 
 const mapNewGoalInterfaceToApiRequestDataStructure = (data: NewGoalInterface): NewGoalApiRequestDataStructureInterface => {
     if (!data.name) {
-        throw new Error (`NAME_CAN_NOT_BE_EMPTY_FOR_NEW_GOAL_API_REQUEST`);
+        throw new Error(`NAME_CAN_NOT_BE_EMPTY_FOR_NEW_GOAL_API_REQUEST`);
     }
 
     if (!data.exercise) {
-        throw new Error (`EXERCISE_CAN_NOT_BE_EMPTY_FOR_NEW_GOAL_API_REQUEST`);
+        throw new Error(`EXERCISE_CAN_NOT_BE_EMPTY_FOR_NEW_GOAL_API_REQUEST`);
     }
 
     const type = data.type ? data.type.toLocaleLowerCase() : null;

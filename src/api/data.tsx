@@ -6,6 +6,8 @@ import { Dispatch } from "redux";
 import { SyncActions } from "../store/actions/sync";
 import { Exercise } from "../models/Exercise";
 import { NewGoalApiRequestDataStructureInterface } from "../models/Goal";
+import moment from 'moment';
+import Set from "src/models/Set";
 
 interface ResponseStatus { status: boolean };
 
@@ -36,6 +38,13 @@ class Data implements DataInterface {
     public getExerciseList = async (): Promise<Planner> => {
         const collection = await this.getFetchData('/secured/exercise/list', 'exercise_list');
         return collection.map((exercise: any) => new Exercise(exercise));
+    }
+
+    public getGoalSetsHistory = async (fromDate: moment.Moment, toDate: moment.Moment): Promise<Planner> => {
+        const fromDateString = fromDate.format('D-M-YYYY');
+        const toDateString = toDate.format('D-M-YYYY');
+        const collection = await this.getFetchData(`/secured/goal/set/history-period/${fromDateString}/${toDateString}`, `goal_set_history_${fromDateString}${toDateString}`);
+        return collection.map((set: any) => new Set(set));
     }
 
     public postCreateSet = async (data: { [key: string]: any }): Promise<ResponseStatus> => {

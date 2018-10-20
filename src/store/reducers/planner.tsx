@@ -6,6 +6,7 @@ import { AuthTypes } from 'src/store/actions/auth';
 import Planner, { PlannerMethods } from 'src/models/Planner';
 import Goal from 'src/models/Goal';
 import Training from 'src/models/Training';
+import Set from 'src/models/Set';
 
 interface PlannerState {
     loading: boolean;
@@ -13,6 +14,8 @@ interface PlannerState {
 
     byTrainings: Planner;
     byTrainingsEmpty: boolean;
+
+    setsHistory: Set[];
 
     goalSelected: Goal | null;
     sectionName: string | null;
@@ -29,6 +32,8 @@ export const initialState: PlannerState = {
 
     byTrainings: new Planner({}),
     byTrainingsEmpty: true,
+
+    setsHistory: [],
 
     goalSelected: null,
     sectionName: null,
@@ -55,6 +60,23 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.loadByTrainingsFailed:
             return Object.assign({}, state, { loading: false, error: action.payload.error });
 
+        /**
+         * -------------------
+         * LOAD SETS HISTORY
+         */
+        case PlannerTypes.loadSetsByDatePeriod:
+            return Object.assign({}, state, { loading: true });
+
+        case PlannerTypes.loadSetsByDatePeriodSuccess:
+            return Object.assign({}, state, { loading: false, setsHistory: action.payload.sets });
+
+        case PlannerTypes.loadSetsByDatePeriodFailed:
+            return Object.assign({}, state, { loading: false, error: action.payload.error });
+
+        /**
+         * -------------------
+         * SELECT GOAL
+         */
         case PlannerTypes.selectGoal:
             return Object.assign({}, state, { goalSelected: action.payload.goal });
 

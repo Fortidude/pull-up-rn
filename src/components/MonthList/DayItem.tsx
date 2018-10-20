@@ -77,6 +77,7 @@ class DayItem extends React.Component<Props, State> {
     }
 
     _onLayout = () => {
+        //@ts-ignore
         this.refs.dayContainer.measure((x, y, width, height, windowX, windowY) => {
             this.setState({ positionX: x, positionY: windowY }, () => {
                 this.runAnimation();
