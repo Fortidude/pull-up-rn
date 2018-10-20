@@ -64,7 +64,6 @@ class MonthList extends React.PureComponent<Props, State> {
     }
 
     componentWillMount() {
-        console.log('MOUNT');
         Events.listenTo('footer_bar_animation_in_finished', 'month_list', () => {
             if (!this.unmounting) {
                 this.setState({ monthElements: this.createMonthComponents(this.state.months, this.state.currentMonthIndex) })
@@ -72,13 +71,7 @@ class MonthList extends React.PureComponent<Props, State> {
         });
     }
 
-
-    shouldComponentUpdate() {
-        return false;
-    }
-
     componentWillUnmount() {
-        console.log('UNMOUNT');
         this.unmounting = true;
         Events.remove('footer_bar_animation_in_finished', 'month_list');
     }

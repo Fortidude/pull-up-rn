@@ -41,7 +41,6 @@ class Header extends React.Component<Props, State> {
     getRawCurrentTitle = () => this.props.headerProps.scene.route.routeName;
     getCurrentTitle = () => {
         const routeName = this.getRawCurrentTitle().toLocaleLowerCase();
-        console.log(routeName);
         return I18n.t(`routes.${routeName.toLocaleLowerCase()}`);
     };
 
