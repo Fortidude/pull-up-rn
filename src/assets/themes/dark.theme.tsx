@@ -19,6 +19,7 @@ const colors = {
     white: '#ffffff',
 
     textColor: '#ffffff',
+    inverseTextColor: '#000000',
     subTextColor: greyColor,
     disableText: greyColor,
 
@@ -56,6 +57,8 @@ const colors = {
     buttonBigShadowColor: '#000000',
     buttonBigTextColor: mainColor,
 
+    calendarMediumDensityBackgroundColor: '#76D7C4',
+    
     linkSmallColor: '#FFF',
 
     spinnerColor: mainColor,

@@ -9,6 +9,8 @@ import Data from 'src/api/data';
 import { AppActions } from 'src/store/actions/app';
 import { SyncActions } from 'src/store/actions/sync';
 import { ExerciseActions } from 'src/store/actions/exercise';
+import Calendar from 'src/service/Calendar';
+import { PlannerActions } from 'src/store/actions/planner';
 
 interface Props {
     dispatch: Dispatch;
@@ -41,16 +43,17 @@ class AppManager extends React.Component<Props> {
         Data.pingServer()
             // IS ONLINE
             .then(response => {
-                // run only if was not online or never checkec before 
+                // run only if was not online or never checked before 
                 if (!this.props.isOnline || !this.props.isNetworkChecked) {
                     this.props.dispatch(AppActions.isOnline());
                     this.props.dispatch(SyncActions.synchronize());
 
+                    this.runWhenOnline();
                     // @TODO for test purpose
                     //this.props.dispatch(ModalActions.goalCreateOpen());
                 }
 
-                this.runWhenOnline();
+                
             })
             // IS OFFLINE
             .catch(err => {
@@ -64,6 +67,7 @@ class AppManager extends React.Component<Props> {
     runWhenOnline = () => {
         if (this.props.isLogged) {
             this.loadExercises();
+            this.loadSetsHistory();
         }
     }
 
@@ -71,6 +75,13 @@ class AppManager extends React.Component<Props> {
         if (!this.props.exercisesLoaded) {
             this.props.dispatch(ExerciseActions.loadExercises());
         }
+    }
+
+    loadSetsHistory = () => {
+        const { months, currentMonthIndex } = Calendar.getMonthsList();
+        const fromDate = months[0].startOf('month');
+        const toDate = months[currentMonthIndex].endOf('month');
+        this.props.dispatch(PlannerActions.loadSetsByDatePeriod(fromDate, toDate));
     }
 
     render() {

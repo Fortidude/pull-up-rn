@@ -1,4 +1,5 @@
 import { AnyAction } from 'redux';
+import moment from 'moment';
 
 import { PlannerTypes } from 'src/store/actions/planner';
 import { AuthTypes } from 'src/store/actions/auth';
@@ -15,7 +16,7 @@ interface PlannerState {
     byTrainings: Planner;
     byTrainingsEmpty: boolean;
 
-    setsHistory: Set[];
+    setsHistory: { [key: string]: Set[] };
 
     goalSelected: Goal | null;
     sectionName: string | null;
@@ -33,7 +34,7 @@ export const initialState: PlannerState = {
     byTrainings: new Planner({}),
     byTrainingsEmpty: true,
 
-    setsHistory: [],
+    setsHistory: {},
 
     goalSelected: null,
     sectionName: null,
@@ -68,7 +69,10 @@ function planner(state = initialState, action: AnyAction): PlannerState {
             return Object.assign({}, state, { loading: true });
 
         case PlannerTypes.loadSetsByDatePeriodSuccess:
-            return Object.assign({}, state, { loading: false, setsHistory: action.payload.sets });
+            const sets = action.payload.sets;
+            const collection = Object.assign({}, state.setsHistory);
+
+            return Object.assign({}, state, { loading: false, setsHistory: PlannerMethods.loadSetHistory(sets,collection) });
 
         case PlannerTypes.loadSetsByDatePeriodFailed:
             return Object.assign({}, state, { loading: false, error: action.payload.error });

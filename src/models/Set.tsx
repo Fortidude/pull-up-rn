@@ -30,8 +30,8 @@ export default class Set implements SetInterface {
         this.goal = new Goal(data.goal);
         this.circuit = new Circuit(data.circuit);
 
-        this.date = new Date(data.date);
-        this.createdAt = new Date(data.created_at);
+        this.date = data.date;
+        this.createdAt = data.created_at;
     } 
 }
 

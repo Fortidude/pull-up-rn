@@ -7,10 +7,12 @@ import getStyle from './MonthList.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 import moment = require('moment');
 import DayItemText from './DayItemText';
+import Set from 'src/models/Set';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+    setsHistory: { [key: string]: Set[] };
 
     day: moment.Moment;
     currentMonth: moment.Moment;
@@ -48,16 +50,24 @@ class DayItem extends React.Component<Props, State> {
         }
     }
 
-    render() {
-        const style = [this.style.dayItem.container];
-        if (this.props.day.format('M') === this.props.currentMonth.format('M')) {
-            style.push(this.style.dayItem.active);
+    countSets = (): number => {
+        const date = this.props.day.format('D-M-Y');
+        if (this.props.setsHistory[date]) {
+            return this.props.setsHistory[date].length;
         }
 
+        return 0;
+    }
+
+    render() {
         return (
             <React.Fragment>
                 <TouchableOpacity onPress={this._onClickDay} ref="dayContainer" onLayout={this._onLayout}>
-                    <DayItemText day={this.props.day} currentMonth={this.props.currentMonth} opacity={this.opacity}/>
+                    <DayItemText
+                        numberOfSets={this.countSets()}
+                        day={this.props.day}
+                        currentMonth={this.props.currentMonth}
+                        opacity={this.opacity} />
                 </TouchableOpacity>
             </React.Fragment>
         );
@@ -88,7 +98,8 @@ class DayItem extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    setsHistory: state.planner.setsHistory
 });
 
 export default connect(mapStateToProps)(DayItem);

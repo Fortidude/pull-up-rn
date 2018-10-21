@@ -15,6 +15,7 @@ interface Props {
 
     day: moment.Moment;
     currentMonth: moment.Moment;
+    numberOfSets: number;
 };
 
 class DayItemText extends React.Component<Props> {
@@ -33,13 +34,22 @@ class DayItemText extends React.Component<Props> {
 
     render() {
         const style = [this.style.dayItem.container];
+        const densityContainerStyle = [];
+        const densityTextStyle = []
         if (this.props.day.format('M') === this.props.currentMonth.format('M')) {
             style.push(this.style.dayItem.active);
         }
 
+        if (this.props.numberOfSets > 0) {
+            densityTextStyle.push(this.style.dayItem.mediumDensityText);
+            densityContainerStyle.push(this.style.dayItem.mediumDensityOfSets);
+        }
+
         return (
             <Animated.View style={[style, { opacity: this.props.opacity }]}>
-                <Text style={this.style.dayItem.text}>{this.props.day.format('D')}</Text>
+                <Animated.View style={densityContainerStyle}>
+                    <Text style={[this.style.dayItem.text, densityTextStyle]}>{this.props.day.format('D')}</Text>
+                </Animated.View>
             </Animated.View>
         );
     }

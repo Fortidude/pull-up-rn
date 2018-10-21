@@ -1,6 +1,7 @@
-import { SetInterface, sortSetsByDate } from "./Set";
+import Set, { SetInterface, sortSetsByDate } from "./Set";
 import Training from "./Training";
 import Goal, { GoalInterface } from "./Goal";
+import moment from 'moment';
 
 interface PlannerInterface {
     trainings: Training[];
@@ -150,6 +151,31 @@ class PlannerMethodsClass {
         }
 
         return planner;
+    }
+
+    loadSetHistory = (sets: Set[], collection: { [key: string]: Set[] }) => {
+        sets.forEach((set: Set) => {
+            const date = moment(set.date).format('D-M-Y');
+            if (!collection[date]) {
+                collection[date] = [];
+            }
+
+            let index;
+            collection[date].forEach((existingSet: Set, key: number) => {
+                if (existingSet.id === set.id) {
+                    index = key;
+                }
+            })
+
+            if (index) {
+                collection[date][index] = set;
+                return;
+            }
+
+            collection[date].push(set);
+        });
+
+        return collection;
     }
 }
 
