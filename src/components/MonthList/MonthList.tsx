@@ -9,18 +9,16 @@ import CalendarService from 'src/service/Calendar';
 import Styles from './MonthList.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import { MONTH_ITEM_WIDTH } from 'src/components/FooterBar/CalendarFooter/MonthsBar.styles';
-import WeekLine from './WeekLine';
 import Spinner from 'src/components/Spinner/Spinner';
-import Events from 'src/service/Events';
-import WeekHeader from './WeekHeader';
 import { PlannerActions } from 'src/store/actions/planner';
+import Month from './Month';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
-    onDayOpen: any;
+    onDayClick: (...arg: any) => void;
 }
 
 interface State {
@@ -115,12 +113,13 @@ class MonthList extends React.PureComponent<Props, State> {
                     onScrollBeginDrag={this._onScrollStart}
                     scrollEventThrottle={12}
                 >
-                    {this.state.monthElements.map((weeks, key) => (
-                        <View key={key} style={this.style.monthItem.container}>
-                            {weeks}
-                        </View>
-                    ))}
+                    {this.state.monthElements.map((monthElement, key) => {
+                        if (monthElement) {
+                            return monthElement;
+                        }
 
+                        return <Month key={key} empty />
+                    })}
                 </ScrollView>}
             </View>
         );
@@ -130,6 +129,10 @@ class MonthList extends React.PureComponent<Props, State> {
      * @todo
      * 
      * scroll fast, element not rendered
+     * 
+     * 
+     * @todo refactor
+     * Empty Months are rendering on render(), while non-empty here...
      */
     createMonthComponents = (moments: moment.Moment[], currentMonthIndex: number) => {
         let months: React.ReactFragment[] = [];
@@ -140,17 +143,15 @@ class MonthList extends React.PureComponent<Props, State> {
 
             if (renderThisMonth) {
                 const calendar = this.getMonthCalendar(month);
-                const weeks = calendar.map((week, key) => {
-                    return <WeekLine onDayOpen={this.props.onDayOpen} key={key} week={week} currentMonth={month} />
-                })
-
-                months[key] = [<WeekHeader key={'week'} />, ...weeks];
+                months[key] = <Month key={key} weeks={calendar} onDayClick={this.props.onDayClick} currentMonth={month} />
             } else {
                 //@ts-ignore
+                //
                 months[key] = null;
             }
         })
 
+        console.log(months);
         return months;
     }
 
@@ -241,11 +242,11 @@ class MonthList extends React.PureComponent<Props, State> {
         const renderIfNotRendered = (index: number) => {
             if (this.state.monthElements[index] === null && !this.unmounting) {
                 const calendar = this.getMonthCalendar(this.state.months[index]);
-                const weeks = calendar.map((week, key) => {
-                    return <WeekLine onDayOpen={this.props.onDayOpen} key={key} week={week} currentMonth={this.state.months[index]} />
-                });
-
-                monthElements[index] = [<WeekHeader key={'week'} />, ...weeks];
+                monthElements[index] = <Month
+                    key={index}
+                    weeks={calendar}
+                    onDayClick={this.props.onDayClick}
+                    currentMonth={this.state.months[index]} />;
 
                 this.setState({ monthElements: monthElements });
                 this.forceUpdate();

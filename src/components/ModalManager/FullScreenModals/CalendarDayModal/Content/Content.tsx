@@ -1,18 +1,20 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Animated, Dimensions, Text, View, ScrollView } from 'react-native';
+import { Animated, Text, View, ScrollView } from 'react-native';
 import moment from 'moment'
 
-import getStyle from './Content.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
-import ModalFooter from './../../ModalManager/ModalFooter/ModalFooter';
-import ModalHeader from './../../ModalManager/ModalHeader/ModalHeader';
 
-import { FOOTER_HEIGHT } from './../../FooterBar/FooterBar.styles';
+import GoalItem from '../GoalItem';
+import ModalFooter from 'src/components/ModalManager/ModalFooter/ModalFooter';
+import ModalHeader from 'src/components/ModalManager/ModalHeader/ModalHeader';
+import { FOOTER_HEIGHT } from 'src/components/FooterBar/FooterBar.styles';
+
 import Set from 'src/models/Set';
 import Goal from 'src/models/Goal';
-import GoalItem from './GoalItem/GoalItem';
+
+import getStyle from './Content.styles';
 
 interface Props {
     dispatch: Dispatch;
@@ -81,6 +83,7 @@ class DayModalItem extends React.Component<Props, State> {
             }
 
             goals[nonRefSet.goal.id].sets.push(nonRefSet);
+            //@ts-ignore
             nonRefSet.goal = undefined;
         })
 

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Animated, Text, TouchableOpacity } from 'react-native';
+import { Animated, TouchableOpacity } from 'react-native';
+import moment from 'moment';
 
-import getStyle from './MonthList.styles';
-import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
-import moment = require('moment');
+import getStyle from './Day.styles';
 import DayItemText from './DayItemText';
+import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
+
 import Set from 'src/models/Set';
 
 interface Props {
@@ -17,7 +18,7 @@ interface Props {
     day: moment.Moment;
     currentMonth: moment.Moment;
 
-    onDayOpen: any;
+    onDayClick: (...arg: any) => void;
 };
 
 interface State {
@@ -59,12 +60,18 @@ class DayItem extends React.Component<Props, State> {
         return 0;
     }
 
+    onDayClick = () => {
+        if (this.amountOfSets > 0) {
+            this.props.onDayClick(this.props.day, this.state.positionX, this.state.positionY);
+        }
+    }
+
     render() {
         this.amountOfSets = this.countSets();
 
         return (
             <React.Fragment>
-                <TouchableOpacity onPress={this._onClickDay} ref="dayContainer" onLayout={this._onLayout}>
+                <TouchableOpacity onPress={this.onDayClick} ref="dayContainer" onLayout={this._onLayout}>
                     <DayItemText
                         numberOfSets={this.amountOfSets}
                         day={this.props.day}
@@ -82,12 +89,6 @@ class DayItem extends React.Component<Props, State> {
             duration: 400,
             useNativeDriver: true
         }).start();
-    }
-
-    _onClickDay = () => {
-        if (this.amountOfSets > 0) {
-            this.props.onDayOpen(this.props.day, this.state.positionX, this.state.positionY);
-        }
     }
 
     _onLayout = () => {

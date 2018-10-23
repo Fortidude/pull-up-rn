@@ -53,6 +53,8 @@ export const CLOSE_MODAL_ANIMATION_OPTION_SLOW = { duration: 400, easing: Easing
  * 
  * @TODO Refactorings, tests. A lot mess over here :/ 
  * 
+ * FullScreenModals are not managed by this component - yet
+ * 
  */
 class ModalManager extends React.Component<Props, State> {
     style: ThemeValueInterface;

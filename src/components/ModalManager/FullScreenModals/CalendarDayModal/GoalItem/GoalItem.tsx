@@ -2,16 +2,15 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { Text, View, TouchableOpacity, Animated } from 'react-native';
 import { connect } from 'react-redux';
-import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
 import Styles from './GoalItem.styles';
-import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
-import Goal from 'src/models/Goal';
 import IconComponent from './IconComponent';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+
 import { OPEN_MODAL_ANIMATION_OPTION_SLOW, CLOSE_MODAL_ANIMATION_OPTION } from 'src/components/ModalManager/ModalManager';
 import SetBarChart from 'src/components/Charts/SetBarChart/SetBarChart';
-import Set from 'src/models/Set';
 
+import Goal from 'src/models/Goal';
 
 interface Props {
     dispatch: Dispatch;

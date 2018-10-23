@@ -2,15 +2,15 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { View, Animated } from 'react-native';
+import moment from 'moment';
 
 import getStyle from './Calendar.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 
-import MonthList from 'src/components/MonthList/MonthList';
-import DayModalItem from 'src/components/MonthList/DayModal/DayModalItem';
-import moment = require('moment');
-import { number } from 'prop-types';
 import Events from 'src/service/Events';
+
+import MonthList from 'src/components/MonthList/MonthList';
+import CalendarDayModal from 'src/components/ModalManager/FullScreenModals/CalendarDayModal';
 import { OPEN_MODAL_ANIMATION_OPTION, CLOSE_MODAL_ANIMATION_OPTION } from 'src/components/ModalManager/ModalManager';
 
 interface Props {
@@ -81,9 +81,9 @@ class Calendar extends React.Component<Props, State> {
     render() {
         return (
             <View style={this.style.container}>
-                <MonthList onDayOpen={this.openDayItem} />
+                <MonthList onDayClick={this.openDayItem} />
 
-                <DayModalItem
+                <CalendarDayModal
                     positionX={this.state.positionX}
                     positionY={this.state.positionY}
                     openProgress={this.state.openProgress}

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Animated, Dimensions, Text, View } from 'react-native';
+import { Animated, Dimensions } from 'react-native';
 import moment from 'moment'
 
-import getStyle from './../MonthList.styles';
+import getStyle from './DayModal.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 import Content from './Content';
 
-import { HEADER_HEIGHT } from './../../Header/Header.styles';
+import { HEADER_HEIGHT } from 'src/components/Header/Header.styles';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height - HEADER_HEIGHT;
@@ -28,7 +28,7 @@ interface Props {
 
 interface State { }
 
-class DayModalItem extends React.Component<Props, State> {
+class DayModal extends React.Component<Props, State> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
@@ -48,7 +48,7 @@ class DayModalItem extends React.Component<Props, State> {
         }
 
         return (
-            <Animated.View style={[this.style.dayModalItem, this._getAnimateStyles()]} ref="DayModal">
+            <Animated.View style={[this.style.container, this._getAnimateStyles()]} ref="DayModal">
                 <Content
                     onClose={this.props.onClose}
                     day={this.props.day}
@@ -111,4 +111,4 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme
 });
 
-export default connect(mapStateToProps)(DayModalItem);
+export default connect(mapStateToProps)(DayModal);

@@ -1,18 +1,25 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import moment from 'moment';
 
-import getStyle from './MonthList.styles';
+import getStyle from './Week.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
-import data from 'src/api/data';
+
+import DayItem from './../Day';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+
+    week: moment.Moment;
+    currentMonth: moment.Moment;
+
+    onDayClick: (...arg: any) => void;
 };
-class WeekHeader extends React.Component<Props> {
+
+class WeekLine extends React.Component<Props> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
@@ -28,28 +35,20 @@ class WeekHeader extends React.Component<Props> {
 
     render() {
         return (
-            <View style={[this.style.weekItem.container, this.style.weekItem.headerContainer]}>
+            <View style={this.style.weekItem.container}>
                 {this.renderDays()}
             </View>
         );
     }
 
     renderDays = () => {
-        var startOfWeek = moment().startOf('isoWeek');
-        var endOfWeek = moment().endOf('isoWeek');
-
-        var days = [];
-        var day = startOfWeek;
-
-        while (day <= endOfWeek) {
+        const days = [];
+        let startDate = this.props.week.startOf('week');
+        for (let i = 0; i < 7; i++) {
             days.push(
-                <View key={day.format('D')} style={this.style.dayName.container}>
-                    <Text style={this.style.dayName.text}>{day.format('ddd')}</Text>
-                </View>
+                <DayItem key={i} onDayClick={this.props.onDayClick} day={moment(startDate).add(i, 'days')} currentMonth={this.props.currentMonth} />
             );
-            day = day.clone().add(1, 'd');
         }
-
         return days;
     }
 }
@@ -59,4 +58,4 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme
 });
 
-export default connect(mapStateToProps)(WeekHeader);
+export default connect(mapStateToProps)(WeekLine);

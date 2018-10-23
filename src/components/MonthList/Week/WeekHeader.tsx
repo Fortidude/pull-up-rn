@@ -1,24 +1,17 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import moment from 'moment';
 
-import getStyle from './MonthList.styles';
+import getStyle from './Week.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
-
-import DayItem from './DayItem';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
-
-    week: moment.Moment;
-    currentMonth: moment.Moment;
-
-    onDayOpen: any;
 };
-class WeekLine extends React.Component<Props> {
+class WeekHeader extends React.Component<Props> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
@@ -34,20 +27,28 @@ class WeekLine extends React.Component<Props> {
 
     render() {
         return (
-            <View style={this.style.weekItem.container}>
+            <View style={[this.style.weekItem.container, this.style.weekItem.headerContainer]}>
                 {this.renderDays()}
             </View>
         );
     }
 
     renderDays = () => {
-        const days = [];
-        let startDate = this.props.week.startOf('week');
-        for (let i = 0; i < 7; i++) {
+        var startOfWeek = moment().startOf('isoWeek');
+        var endOfWeek = moment().endOf('isoWeek');
+
+        var days = [];
+        var day = startOfWeek;
+
+        while (day <= endOfWeek) {
             days.push(
-                <DayItem key={i} onDayOpen={this.props.onDayOpen} day={moment(startDate).add(i, 'days')} currentMonth={this.props.currentMonth} />
+                <View key={day.format('D')} style={this.style.weekHeader.day.container}>
+                    <Text style={this.style.weekHeader.day.text}>{day.format('ddd')}</Text>
+                </View>
             );
+            day = day.clone().add(1, 'd');
         }
+
         return days;
     }
 }
@@ -57,4 +58,4 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme
 });
 
-export default connect(mapStateToProps)(WeekLine);
+export default connect(mapStateToProps)(WeekHeader);

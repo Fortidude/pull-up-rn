@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Animated, Text } from 'react-native';
 import moment from 'moment';
 
-import getStyle from './MonthList.styles';
+import getStyle from './Day.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 
 interface Props {
