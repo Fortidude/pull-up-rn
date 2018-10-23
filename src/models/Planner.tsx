@@ -154,6 +154,7 @@ class PlannerMethodsClass {
     }
 
     loadSetHistory = (sets: Set[], collection: { [key: string]: Set[] }) => {
+
         sets.forEach((set: Set) => {
             const date = moment(set.date).format('D-M-Y');
             if (!collection[date]) {

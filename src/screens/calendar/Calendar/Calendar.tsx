@@ -7,7 +7,7 @@ import getStyle from './Calendar.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 
 import MonthList from 'src/components/MonthList/MonthList';
-import DayModalItem from 'src/components/MonthList/DayModalItem';
+import DayModalItem from 'src/components/MonthList/DayModal/DayModalItem';
 import moment = require('moment');
 import { number } from 'prop-types';
 import Events from 'src/service/Events';
@@ -46,9 +46,18 @@ class Calendar extends React.Component<Props, State> {
         }
     }
 
+    componentDidMount() {
+        Events.listenTo('HEADER_ON_CLOSE_BUTTON', 'Calendar', this.closeDayItem);
+    }
+
+    componentWillUnmount() {
+        Events.remove('HEADER_ON_CLOSE_BUTTON', 'Calendar');
+    }
+
     openDayItem = (day: moment.Moment, positionX: number, positionY: number) => {
         this.setState({ day, positionX, positionY }, () => {
             Events.emit('FOOTER_BAR_CLOSE');
+            Events.emit('HEADER_CALENDAR_SHOW_CLOSE_BUTTON');
             Animated.timing(this.state.openProgress, {
                 toValue: 1,
                 useNativeDriver: true,
@@ -59,6 +68,7 @@ class Calendar extends React.Component<Props, State> {
 
     closeDayItem = () => {
         Events.emit('FOOTER_BAR_OPEN');
+        Events.emit('HEADER_CALENDAR_HIDE_CLOSE_BUTTON');
         Animated.timing(this.state.openProgress, {
             toValue: 0,
             useNativeDriver: true,

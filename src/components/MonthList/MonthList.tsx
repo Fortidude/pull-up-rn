@@ -67,7 +67,12 @@ class MonthList extends React.PureComponent<Props, State> {
     }
 
     init = async () => {
-        this.setState({ monthElements: this.createMonthComponents(this.state.months, this.state.currentMonthIndex) });
+        this.setState({ monthElements: this.createMonthComponents(this.state.months, this.state.currentMonthIndex) }, () => {
+            const { months, currentMonthIndex } = CalendarService.getMonthsList();
+            const fromDate = months[0].startOf('month');
+            const toDate = months[currentMonthIndex].endOf('month');
+            this.props.dispatch(PlannerActions.loadSetsByDatePeriod(fromDate, toDate));
+        });
     }
 
     componentWillMount() {

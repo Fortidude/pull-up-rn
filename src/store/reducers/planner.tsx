@@ -17,6 +17,7 @@ interface PlannerState {
     byTrainingsEmpty: boolean;
 
     setsHistory: { [key: string]: Set[] };
+    setsHistoryLoaded: boolean;
 
     goalSelected: Goal | null;
     sectionName: string | null;
@@ -35,6 +36,7 @@ export const initialState: PlannerState = {
     byTrainingsEmpty: true,
 
     setsHistory: {},
+    setsHistoryLoaded: false,
 
     goalSelected: null,
     sectionName: null,
@@ -72,7 +74,11 @@ function planner(state = initialState, action: AnyAction): PlannerState {
             const sets = action.payload.sets;
             const collection = Object.assign({}, state.setsHistory);
 
-            return Object.assign({}, state, { loading: false, setsHistory: PlannerMethods.loadSetHistory(sets,collection) });
+            return Object.assign({}, state, {
+                loading: false,
+                setsHistoryLoaded: true,
+                setsHistory: PlannerMethods.loadSetHistory(sets, collection)
+            });
 
         case PlannerTypes.loadSetsByDatePeriodFailed:
             return Object.assign({}, state, { loading: false, error: action.payload.error });
@@ -93,7 +99,7 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.createSetSuccess:
             const planner = Object.assign({}, state.byTrainings);
             PlannerMethods.addSetToGoal(action.payload.setCreated, planner);
-            return Object.assign({}, state, { byTrainings: planner, createSetLoading: false });
+            return Object.assign({}, state, { byTrainings: planner, createSetLoading: false, setsHistoryLoaded: false });
 
         case PlannerTypes.createSetFailed:
             return Object.assign({}, state, { createSetLoading: false })

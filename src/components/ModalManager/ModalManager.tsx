@@ -44,7 +44,10 @@ const MODALS_HANDLED = [
 ];
 
 export const OPEN_MODAL_ANIMATION_OPTION = { duration: 400, easing: Easing.bezier(0, 1.1, 0, 1) }
+export const OPEN_MODAL_ANIMATION_OPTION_SLOW = { duration: 600, easing: Easing.bezier(0, 1.1, 0, 1) }
+
 export const CLOSE_MODAL_ANIMATION_OPTION = { duration: 200, easing: Easing.bezier(0.95, 0.05, 0.795, 0.035) }
+export const CLOSE_MODAL_ANIMATION_OPTION_SLOW = { duration: 400, easing: Easing.bezier(0.95, 0.05, 0.795, 0.035) }
 
 /**
  * 

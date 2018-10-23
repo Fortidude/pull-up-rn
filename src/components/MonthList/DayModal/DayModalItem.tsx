@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 import { Animated, Dimensions, Text, View } from 'react-native';
 import moment from 'moment'
 
-import getStyle from './MonthList.styles';
+import getStyle from './../MonthList.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
-import ModalFooter from '../ModalManager/ModalFooter/ModalFooter';
-import ModalHeader from '../ModalManager/ModalHeader/ModalHeader';
-import { HEADER_HEIGHT } from '../Header/Header.styles';
-import { FOOTER_HEIGHT } from '../FooterBar/FooterBar.styles';
+import Content from './Content';
+
+import { HEADER_HEIGHT } from './../../Header/Header.styles';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height - HEADER_HEIGHT;
@@ -48,15 +47,12 @@ class DayModalItem extends React.Component<Props, State> {
             return null;
         }
 
-        const text = `${this.props.day.format('D')} ${this.props.day.format('MMMM')} ${this.props.day.format('YYYY')}`;
-
         return (
             <Animated.View style={[this.style.dayModalItem, this._getAnimateStyles()]} ref="DayModal">
-                <ModalHeader text={text} />
-                <View style={{ flex: 1 }}>
-
-                </View>
-                <ModalFooter style={{ height: FOOTER_HEIGHT }} loading={false} successText={'Zamknij'} onSuccess={this.props.onClose} />
+                <Content
+                    onClose={this.props.onClose}
+                    day={this.props.day}
+                    openProgress={this.props.openProgress} />
             </Animated.View>
         );
     }

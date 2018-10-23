@@ -3,19 +3,17 @@ import { Animated, Easing } from 'react-native';
 import { connect } from "react-redux";
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
-import Styles from './GoalListHeader.styles';
-import { ThemeInterface, ThemeValueInterface } from "../../../assets/themes";
+import Styles from './GoalItem.styles';
+import { ThemeInterface, ThemeValueInterface } from "src/assets/themes";
 
 interface Props {
     theme: ThemeInterface;
     active: boolean;
-    plannerEditMode: boolean;
 };
 
 interface State {
     spinValue: Animated.Value;
     scaleValue: Animated.Value
-    iconPlus: boolean;
 }
 
 class IconComponent extends React.Component<Props, State> {
@@ -28,20 +26,12 @@ class IconComponent extends React.Component<Props, State> {
         this.state = {
             spinValue: new Animated.Value(props.active ? 0 : 1),
             scaleValue: new Animated.Value(1),
-            iconPlus: props.plannerEditMode
         }
-
-     //   this.animatePlus();
     }
 
     componentWillReceiveProps(nextProps: Props) {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
-        }
-
-        if (nextProps.plannerEditMode !== this.props.plannerEditMode) {
-            this.animatePlus();
-            return;
         }
 
         if (nextProps.active !== this.props.active) {
@@ -72,26 +62,14 @@ class IconComponent extends React.Component<Props, State> {
                 }
             )
         ]).start(() => {
-            this.setState({ iconPlus: !this.state.iconPlus }, () => {
-                Animated.parallel([
-                    Animated.timing(this.state.scaleValue,
-                        {
-                            toValue: 1,
-                            duration: 75,
-                            easing: Easing.linear,
-                            useNativeDriver: true
-                        }
-                    ),
-                    Animated.timing(this.state.spinValue,
-                        {
-                            toValue: this.state.iconPlus ? 0.5 : 0,
-                            duration: 20,
-                            easing: Easing.linear,
-                            useNativeDriver: true
-                        }
-                    )
-                ]).start();
-            });
+            Animated.timing(this.state.scaleValue,
+                {
+                    toValue: 1,
+                    duration: 75,
+                    easing: Easing.linear,
+                    useNativeDriver: true
+                }
+            ).start();
         });
     }
 
@@ -103,23 +81,17 @@ class IconComponent extends React.Component<Props, State> {
 
         return (
             <Animated.View style={[this.style.toggleIcon, { transform: [{ rotate: spin }, { scaleX: this.state.scaleValue }] }]}>
-                {!this.state.iconPlus && <EvilIcon
+                <EvilIcon
                     size={40}
                     color={this.props.active ? this.props.theme.colors.textColor : this.props.theme.colors.main}
-                    name={"chevron-down"} />}
-                {this.state.iconPlus && <EvilIcon
-                    size={20}
-                    style={{marginTop: 15, marginRight: 7}}
-                    color={this.props.theme.colors.main}
-                    name={"close"} />}
+                    name={"chevron-down"} />
             </Animated.View>
         )
     }
 }
 
 const mapStateToProps = (state: any) => ({
-    theme: state.settings.theme,
-    plannerEditMode: state.app.plannerEditMode
+    theme: state.settings.theme
 });
 
 export default connect(mapStateToProps)(IconComponent);

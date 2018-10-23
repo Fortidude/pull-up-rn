@@ -14,6 +14,7 @@ import { ModalActions } from '../../../store/actions/modal';
 import HapticFeedback from 'src/service/Haptic';
 
 import HeaderStyleInterpolator from 'react-navigation-stack/dist/views/Header/HeaderStyleInterpolator.js';
+import Events from 'src/service/Events';
 
 const AnimateIcon = Animated.createAnimatedComponent(Icon);
 
@@ -24,7 +25,11 @@ interface Props {
     modal: ModalState;
 }
 
-interface State { }
+interface State {
+    backTextOverride: string | null;
+    backActionOverride: any;
+    showIcon: boolean;
+}
 
 class BackButton extends React.Component<Props, State> {
     previousTitle: string = '';
@@ -34,6 +39,11 @@ class BackButton extends React.Component<Props, State> {
         super(props);
 
         this.style = Styles(this.props.theme);
+        this.state = {
+            backTextOverride: null,
+            backActionOverride: null,
+            showIcon: true
+        }
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
@@ -46,11 +56,35 @@ class BackButton extends React.Component<Props, State> {
     componentWillReceiveProps(nextProps: Props) {
         this.setupTitle(nextProps);
 
-        this.setState({ back: false });
-
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
         }
+    }
+
+    componentDidMount() {
+        Events.listenTo('HEADER_CALENDAR_HIDE_CLOSE_BUTTON', 'BackButton', () => {
+            this.setState({
+                backTextOverride: null,
+                backActionOverride: null,
+                showIcon: true
+            });
+        });
+
+        Events.listenTo('HEADER_CALENDAR_SHOW_CLOSE_BUTTON', 'BackButton', () => {
+            const backAction = () => {
+                Events.emit('HEADER_ON_CLOSE_BUTTON');
+            };
+            this.setState({
+                backTextOverride: I18n.t('buttons.close'),
+                backActionOverride: backAction,
+                showIcon: false
+            });
+        })
+    }
+
+    componentWillUnmount() {
+        Events.remove('HEADER_CALENDAR_HIDE_CLOSE_BUTTON', 'BackButton');
+        Events.remove('HEADER_CALENDAR_SHOW_CLOSE_BUTTON', 'BackButton');
     }
 
     setupTitle = (props: Props) => {
@@ -70,11 +104,21 @@ class BackButton extends React.Component<Props, State> {
 
     getRawCurrentTitle = () => this.props.headerProps.scene.route.routeName;
     getPreviousTitle = () => {
+        if (this.state.backTextOverride) {
+            return this.state.backTextOverride;
+        }
+
         return I18n.t(`routes.${this.previousTitle.toLocaleLowerCase()}`);
     };
 
     onBackPress = () => {
         HapticFeedback('impactLight');
+
+        if (this.state.backActionOverride) {
+            this.state.backActionOverride();
+            return;
+        }
+
         this.props.dispatch(NavigationActions.back())
     };
 
@@ -82,8 +126,8 @@ class BackButton extends React.Component<Props, State> {
         return (
             <React.Fragment>
                 {!!this.previousTitle && <TouchableOpacity onPress={this.onBackPress} style={this.style.backButton}>
-                    <Animated.View style={[HeaderStyleInterpolator.forLeft(this.props.headerProps)]}>
-                        <Icon name={'chevron-left'} size={50} style={[this.style.icon]} />
+                    <Animated.View style={[{width: 22}, HeaderStyleInterpolator.forLeft(this.props.headerProps)]}>
+                        {!!this.state.showIcon && <Icon name={'chevron-left'} size={50} style={[this.style.icon]} />}
                     </Animated.View>
                     <Animated.View style={[HeaderStyleInterpolator.forLeftLabel(this.props.headerProps)]}>
                         <Text style={this.style.backText}>{this.getPreviousTitle()}</Text>

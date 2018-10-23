@@ -6,13 +6,12 @@ export const MONTH_ITEM_WIDTH = 100;
 function getStyle(theme: ThemeInterface) {
     return {
         container: {
-            //   backgroundColor: theme.colors.calendarMonthsBarBackground,
+            backgroundColor: theme.colors.cardBackgroundColor,
 
             flexDirection: 'row',
             height: FOOTER_HEIGHT,
             bottom: DetermineDevice.isIphoneX() ? 40 : 0,
             width: '100%',
-            backgroundColor: theme.colors.footerBackgroundColor,
             borderTopWidth: theme.borders.borderWidth,
             borderTopColor: theme.borders.borderColor
         },

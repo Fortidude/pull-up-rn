@@ -20,13 +20,13 @@ export default class Circuit implements CircuitInterface {
 
     constructor(data: any) {
         this.id = data.id;
-        this.startAt = new Date(data.start_at);
-        this.endAt = new Date(data.end_at);
+        this.startAt = data.start_at
+        this.endAt = data.end_at;
         this.days = data.days;
         this.finished = data.finished;
         
         if (data.user) {
-            this.user = new User(data);
+          //  this.user = new User(data);
         }
     }
 }

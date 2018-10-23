@@ -26,6 +26,12 @@ function* loadSetsHistoryByPeriod(action: any) {
         yield put(PlannerActions.loadSetsByDatePeriodFailed('OFFLINE'));
     }
 
+    //@ts-ignore
+    const setsHistoryLoaded = yield select(state => state.planner.setsHistoryLoaded);
+    if (setsHistoryLoaded) {
+        return;
+    }
+
     try {
         const sets = yield Data.getGoalSetsHistory(action.payload.fromDate, action.payload.toDate);
         yield put(PlannerActions.loadSetsByDatePeriodSuccess(sets));

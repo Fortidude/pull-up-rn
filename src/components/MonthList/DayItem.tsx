@@ -31,7 +31,7 @@ class DayItem extends React.Component<Props, State> {
     opacity = new Animated.Value(0);
 
     modalScale = new Animated.Value(0);
-
+    amountOfSets = 0;
 
     constructor(props: Props) {
         super(props);
@@ -60,11 +60,13 @@ class DayItem extends React.Component<Props, State> {
     }
 
     render() {
+        this.amountOfSets = this.countSets();
+
         return (
             <React.Fragment>
                 <TouchableOpacity onPress={this._onClickDay} ref="dayContainer" onLayout={this._onLayout}>
                     <DayItemText
-                        numberOfSets={this.countSets()}
+                        numberOfSets={this.amountOfSets}
                         day={this.props.day}
                         currentMonth={this.props.currentMonth}
                         opacity={this.opacity} />
@@ -83,7 +85,9 @@ class DayItem extends React.Component<Props, State> {
     }
 
     _onClickDay = () => {
-        this.props.onDayOpen(this.props.day, this.state.positionX, this.state.positionY);
+        if (this.amountOfSets > 0) {
+            this.props.onDayOpen(this.props.day, this.state.positionX, this.state.positionY);
+        }
     }
 
     _onLayout = () => {

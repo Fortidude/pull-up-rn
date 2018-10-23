@@ -7,6 +7,10 @@ const yellowColor = '#FF9500';
 const greyColor = '#707070';
 const greenColor = '#27AE60';
 
+const lightGreenColor = '#76D7C4';
+const lightBlueColor = '#7FB3D5';
+const orangeColor = '#FF9500';
+
 const mainFontFamily = "Avenir-Light";
 
 const colors = {
@@ -57,7 +61,11 @@ const colors = {
     buttonBigShadowColor: '#000000',
     buttonBigTextColor: mainColor,
 
-    calendarMediumDensityBackgroundColor: '#76D7C4',
+    calendarMediumDensityBackgroundColor: lightGreenColor,
+
+    barChartBackground: lightGreenColor,
+    barChartBackgroundActive: orangeColor,
+    barChartSubBackground: lightBlueColor,
 
     linkSmallColor: '#FFF',
 
