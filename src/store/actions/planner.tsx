@@ -12,6 +12,10 @@ export enum PlannerTypes {
     loadSetsByDatePeriodSuccess = '[PLANNER] LOAD SETS BY DATE PERIOD SUCCESS',
     loadSetsByDatePeriodFailed = '[PLANNER] LOAD SETS BY DATE PERIOD FAILED',
 
+    loadGoalStatistics = '[PLANNER] LOAD GET STATISTICS',
+    loadGoalStatisticsSuccess = '[PLANNER] LOAD GET STATISTICS SUCCESS',
+    loadGoalStatisticsFailed = '[PLANNER] LOAD GET STATISTICS FAILED',
+
     selectGoal = '[PLANNER] SELECT GOAL',
     selectSection = '[PLANNER] SELECT SECTION',
 
@@ -56,6 +60,19 @@ export const PlannerActions = {
     }),
     loadSetsByDatePeriodFailed: (error: string) => ({
         type: PlannerTypes.loadSetsByDatePeriodFailed,
+        payload: { error }
+    }),
+
+    loadGoalStatistics: () => ({
+        type: PlannerTypes.loadGoalStatistics,
+        payload: {}
+    }),
+    loadGoalStatisticsSuccess: (statistics: any) => ({
+        type: PlannerTypes.loadGoalStatisticsSuccess,
+        payload: { statistics }
+    }),
+    loadGoalStatisticsFailed: (error: string) => ({
+        type: PlannerTypes.loadGoalStatisticsFailed,
         payload: { error }
     }),
 

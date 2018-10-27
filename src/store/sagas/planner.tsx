@@ -41,6 +41,28 @@ function* loadSetsHistoryByPeriod(action: any) {
     }
 }
 
+function* loadStatistics() {
+    //@ts-ignore
+    const isOnline = yield select(state => state.app.isOnline);
+    if (!isOnline) {
+        yield put(PlannerActions.loadSetsByDatePeriodFailed('OFFLINE'));
+    }
+
+    //@ts-ignore
+    const statisticsLoaded = yield select(state => state.planner.statisticsLoaded);
+    if (statisticsLoaded) {
+        return;
+    }
+
+    try {
+        const statistics = yield Data.getGoalStatistics();
+        yield put(PlannerActions.loadGoalStatisticsSuccess(statistics));
+    } catch (err) {
+        console.log(`loadStatistics sagas, line 61`, err);
+        yield put(PlannerActions.loadSetsByDatePeriodFailed(err));
+    }
+}
+
 function* createSet(action: any) {
     //@ts-ignore
     const isLoading = yield select(state => state.planner.createSetLoading);
@@ -61,7 +83,7 @@ function* createSet(action: any) {
 
         const result = yield Data.postCreateSet(data);
         if (!result.status) {
-            console.log(`createSet sagas, line 37`, result);
+            console.log(`createSet sagas, line 86`, result);
             throw 'ERROR';
         }
 
@@ -76,7 +98,7 @@ function* createSection(action: any) {
         const { name, description } = action.payload;
         const result = yield Data.postCreateSection(name, description);
         if (!result.status) {
-            console.log(`createSection sagas, line 58`, result);
+            console.log(`createSection sagas, line 101`, result);
             throw 'ERROR';
         }
 
@@ -91,7 +113,7 @@ function* createGoal(action: any) {
         const data = action.payload.data;
         const result = yield Data.postCreateGoal(data);
         if (!result.status) {
-            console.log(`createGoal sagas, line 58`, result);
+            console.log(`createGoal sagas, line 116`, result);
             throw 'ERROR';
         }
 
@@ -121,11 +143,11 @@ function* moveGoalToSection(action: any) {
         const { goalId, section } = action.payload;
         const result = yield Data.postMoveGoalToSection(goalId, { sectionName: section });
         if (!result.status) {
-            console.log(`moveGoalToSection sagas, line 102`, result);
+            console.log(`moveGoalToSection sagas, line 146`, result);
             throw 'ERROR';
         }
     } catch (err) {
-        console.log(`moveGoalToSection sagas, line 106`, err);
+        console.log(`moveGoalToSection sagas, line 150`, err);
         throw err;
     }
 }
@@ -135,11 +157,11 @@ function* removeGoal(action: any) {
         const { goalId } = action.payload;
         const result = yield Data.postDisableGoal(goalId);
         if (!result.status) {
-            console.log(`removeGoal sagas, line 116`, result);
+            console.log(`removeGoal sagas, line 160`, result);
             throw 'ERROR';
         }
     } catch (err) {
-        console.log(`removeGoal sagas, line 120`, err);
+        console.log(`removeGoal sagas, line 164`, err);
         throw err;
     }
 }
@@ -148,6 +170,7 @@ function* plannerSaga() {
     yield all([
         takeEvery(PlannerTypes.loadByTrainings, loadByTrainings),
         takeEvery(PlannerTypes.loadSetsByDatePeriod, loadSetsHistoryByPeriod),
+        takeEvery(PlannerTypes.loadGoalStatistics, loadStatistics),
         takeEvery(PlannerTypes.createSet, createSet),
         takeEvery(PlannerTypes.createSection, createSection),
         takeEvery(PlannerTypes.createGoal, createGoal),

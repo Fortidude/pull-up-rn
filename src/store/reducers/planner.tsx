@@ -8,6 +8,7 @@ import Planner, { PlannerMethods } from 'src/models/Planner';
 import Goal from 'src/models/Goal';
 import Training from 'src/models/Training';
 import Set from 'src/models/Set';
+import { StatisticsInterface } from 'src/models/Statistics';
 
 interface PlannerState {
     loading: boolean;
@@ -18,6 +19,9 @@ interface PlannerState {
 
     setsHistory: { [key: string]: Set[] };
     setsHistoryLoaded: boolean;
+
+    statistics: StatisticsInterface | null;
+    statisticsLoaded: boolean;
 
     goalSelected: Goal | null;
     sectionName: string | null;
@@ -37,6 +41,9 @@ export const initialState: PlannerState = {
 
     setsHistory: {},
     setsHistoryLoaded: false,
+
+    statistics: null,
+    statisticsLoaded: false,
 
     goalSelected: null,
     sectionName: null,
@@ -81,6 +88,19 @@ function planner(state = initialState, action: AnyAction): PlannerState {
             });
 
         case PlannerTypes.loadSetsByDatePeriodFailed:
+            return Object.assign({}, state, { loading: false, error: action.payload.error });
+
+        /**
+         * -------------------
+         * LOAD STATISTICS
+         */
+        case PlannerTypes.loadGoalStatistics:
+            return Object.assign({}, state, { loading: true });
+
+        case PlannerTypes.loadGoalStatisticsSuccess:
+            return Object.assign({}, state, { loading: false, statistics: action.payload.statistics});
+
+        case PlannerTypes.loadGoalStatisticsFailed:
             return Object.assign({}, state, { loading: false, error: action.payload.error });
 
         /**

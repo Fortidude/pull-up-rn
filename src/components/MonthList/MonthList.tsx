@@ -47,7 +47,6 @@ class MonthList extends React.PureComponent<Props, State> {
         this.style = Styles(this.props.theme);
 
         const { months, currentMonthIndex } = CalendarService.getMonthsList();
-        console.log(months, currentMonthIndex);
         this.state = {
             months,
             currentMonthIndex,
@@ -106,7 +105,6 @@ class MonthList extends React.PureComponent<Props, State> {
 
     monthsAreActive = () => {
         if (this.state.loading) {
-            console.log('here');
             this.setState({ loading: false });
         }
     }
@@ -116,7 +114,6 @@ class MonthList extends React.PureComponent<Props, State> {
             return;
         }
         
-        console.log(this.state.currentMonthIndex, this.state.activeMonthIndex);
         const currentMonthPosition = (this.state.currentMonthIndex) * SCREEN_WIDTH;
         this.scrollBarTo(currentMonthPosition);
     }

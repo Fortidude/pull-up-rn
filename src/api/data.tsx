@@ -8,6 +8,7 @@ import { Exercise } from "../models/Exercise";
 import { NewGoalApiRequestDataStructureInterface } from "../models/Goal";
 import moment from 'moment';
 import Set from "src/models/Set";
+import { StatisticsInterface } from "src/models/Statistics";
 
 interface ResponseStatus { status: boolean };
 
@@ -45,6 +46,10 @@ class Data implements DataInterface {
         const toDateString = toDate.format('D-M-YYYY');
         const collection = await this.getFetchData(`/secured/goal/set/history-period/${fromDateString}/${toDateString}`, `goal_set_history_${fromDateString}${toDateString}`);
         return collection.map((set: any) => new Set(set));
+    }
+
+    public getGoalStatistics = async (): Promise<StatisticsInterface> => {
+        return await this.getFetchData('/secured/goal/statistics', 'goal_planner_statistics');
     }
 
     public postCreateSet = async (data: { [key: string]: any }): Promise<ResponseStatus> => {

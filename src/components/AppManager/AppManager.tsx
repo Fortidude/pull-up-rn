@@ -20,6 +20,7 @@ interface Props {
     isNetworkChecked: boolean;
     anythingToSync: boolean;
     exercisesLoaded: boolean;
+    statisticsLoaded: boolean;
 }
 
 class AppManager extends React.Component<Props> {
@@ -53,7 +54,7 @@ class AppManager extends React.Component<Props> {
                     //this.props.dispatch(ModalActions.goalCreateOpen());
                 }
 
-                
+
             })
             // IS OFFLINE
             .catch(err => {
@@ -68,6 +69,7 @@ class AppManager extends React.Component<Props> {
         if (this.props.isLogged) {
             this.loadExercises();
             this.loadSetsHistory();
+            this.loadStatistics();
         }
     }
 
@@ -84,6 +86,12 @@ class AppManager extends React.Component<Props> {
         this.props.dispatch(PlannerActions.loadSetsByDatePeriod(fromDate, toDate));
     }
 
+    loadStatistics = () => {
+        if (!this.props.statisticsLoaded) {
+            this.props.dispatch(PlannerActions.loadGoalStatistics());
+        }
+    }
+
     render() {
         return null;
     }
@@ -96,7 +104,8 @@ const mapStateToProps = (state: any) => ({
     isLogged: state.auth.isLogged,
     isNetworkChecked: state.app.networkChecked,
     anythingToSync: state.sync.items.length > 0,
-    exercisesLoaded: state.exercise.loaded
+    exercisesLoaded: state.exercise.loaded,
+    statisticsLoaded: state.planner.statisticsLoaded
 });
 
 export default connect(mapStateToProps)(AppManager);
