@@ -5,7 +5,7 @@ import { Animated, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 
 import getStyle from './Day.styles';
-import DayItemText from './DayItemText';
+import DayText from './DayText';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 
 import Set from 'src/models/Set';
@@ -27,7 +27,7 @@ interface State {
     text: string;
 }
 
-class DayItem extends React.Component<Props, State> {
+class Day extends React.Component<Props, State> {
     style: ThemeValueInterface;
     opacity = new Animated.Value(0);
 
@@ -70,15 +70,13 @@ class DayItem extends React.Component<Props, State> {
         this.amountOfSets = this.countSets();
 
         return (
-            <React.Fragment>
-                <TouchableOpacity onPress={this.onDayClick} ref="dayContainer" onLayout={this._onLayout}>
-                    <DayItemText
-                        numberOfSets={this.amountOfSets}
-                        day={this.props.day}
-                        currentMonth={this.props.currentMonth}
-                        opacity={this.opacity} />
-                </TouchableOpacity>
-            </React.Fragment>
+            <TouchableOpacity onPress={this.onDayClick} ref="dayContainer" onLayout={this._onLayout}>
+                <DayText
+                    numberOfSets={this.amountOfSets}
+                    day={this.props.day}
+                    currentMonth={this.props.currentMonth}
+                    opacity={this.opacity} />
+            </TouchableOpacity>
         );
     }
 
@@ -107,4 +105,4 @@ const mapStateToProps = (state: any) => ({
     setsHistory: state.planner.setsHistory
 });
 
-export default connect(mapStateToProps)(DayItem);
+export default connect(mapStateToProps)(Day);

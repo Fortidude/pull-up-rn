@@ -54,6 +54,7 @@ class TopProgressBar extends React.Component<Props, State> {
     }
 
     toggleHeader = async () => {
+        //@ts-ignore
         const currentPosition = this.state.swipePosition._value;
         const maxHeight = this.style.topContainerHeight;
 

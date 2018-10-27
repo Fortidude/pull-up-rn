@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const mainColor = '#FF9500';
 const redColor = '#FF3B30';
+const darkRedColor = '#C0392B';
 const blueColor = '#007AFF';
 const yellowColor = '#FF9500';
 const greyColor = '#a9a9a9';
@@ -16,6 +17,7 @@ const mainFontFamily = "Avenir-Light";
 const colors = {
     main: mainColor,
     danger: redColor,
+    darkDanger: darkRedColor,
     warning: yellowColor,
     success: greenColor,
     blue: blueColor,

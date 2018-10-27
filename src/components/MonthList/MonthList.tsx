@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Animated, ScrollView, View, Dimensions, Text } from 'react-native';
+import { Animated, ScrollView, View, Dimensions, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -111,17 +111,33 @@ class MonthList extends React.PureComponent<Props, State> {
         }
     }
 
+    goToCurrentMonth = (animated: boolean = true) => {
+        if (!this.containerRef) {
+            return;
+        }
+        
+        console.log(this.state.currentMonthIndex, this.state.activeMonthIndex);
+        const currentMonthPosition = (this.state.currentMonthIndex) * SCREEN_WIDTH;
+        this.scrollBarTo(currentMonthPosition);
+    }
+
     render() {
-        const currentMonth = this.state.months[this.state.currentMonthIndex] || null;
+        const activeMonth = this.state.months[this.state.activeMonthIndex] || null;
+        const currentMonthIsActive = this.state.currentMonthIndex === this.state.activeMonthIndex;
         return (
             <View style={this.style.container} onLayout={this.init}>
-                {currentMonth && !this.state.loading &&
-                    <Text style={this.style.title}>
-                        {currentMonth.format('MMMM')[0].toLocaleUpperCase()}{currentMonth.format('MMMM').substring(1)}
-                    </Text>
+                {activeMonth && !this.state.loading &&
+                    <View style={this.style.header}>
+                        <Text style={this.style.title}>
+                            {activeMonth.format('MMMM')[0].toLocaleUpperCase()}{activeMonth.format('MMMM').substring(1)}
+                        </Text>
+                        {!currentMonthIsActive && <TouchableOpacity style={this.style.todayButton.container} onPress={() => this.goToCurrentMonth()}>
+                            <Text style={this.style.todayButton.text}>Today</Text>
+                        </TouchableOpacity>}
+                    </View>
                 }
 
-                {this.state.loading && <View style={{position: 'absolute'}}><Spinner color={this.props.theme.colors.main} large /></View>}
+                {this.state.loading && <View style={{ position: 'absolute' }}><Spinner color={this.props.theme.colors.main} large /></View>}
                 {this.state.monthElements.length > 0 && <ScrollView
                     showsHorizontalScrollIndicator={false}
                     ref={ref => this.containerRef = ref}
@@ -199,8 +215,8 @@ class MonthList extends React.PureComponent<Props, State> {
     scrollTo = (position: number) => {
         if (this.containerRef) {
             this.containerRef.scrollTo({ x: position });
-            const currentMonthIndex = Math.round(position / SCREEN_WIDTH);
-            this.setState({ currentMonthIndex });
+            const activeMonthIndex = Math.round(position / SCREEN_WIDTH);
+            this.setState({ activeMonthIndex });
         }
     }
 
@@ -238,13 +254,7 @@ class MonthList extends React.PureComponent<Props, State> {
     }
 
     _onScrollViewLayout = () => {
-        if (!this.containerRef) {
-            return;
-        }
-
-        const xPosition = (this.state.currentMonthIndex) * SCREEN_WIDTH;
-        this.containerRef.scrollTo({ x: xPosition, animated: false });
-
+        this.goToCurrentMonth(false);
     }
 
     countBarScrollToPosition = (currentPosition: number) => {

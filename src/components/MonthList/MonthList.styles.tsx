@@ -13,13 +13,37 @@ function getStyle(theme: ThemeInterface) {
             alignItems: 'center'
         },
 
+        header: {
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginVertical: 10,
+            paddingHorizontal: 10
+        },
+
         title: {
-            fontSize: theme.fonts.fontH1Size,
-            fontFamily: theme.fonts.mainFontFamily,
-            color: theme.colors.textColor,
+            flex: 2,
+            marginLeft: 10,
             alignSelf: 'flex-start',
-            marginLeft: 20,
-            marginVertical: 10
+            color: theme.colors.textColor,
+            fontSize: theme.fonts.fontH1Size,
+            fontFamily: theme.fonts.mainFontFamily
+        },
+
+        todayButton: {
+            container: {
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderColor: theme.borders.borderColor,
+                borderWidth: theme.borders.borderWidth,
+                backgroundColor: theme.colors.buttonBigBackgroundColor
+            },
+            text: {
+                color: theme.colors.textColor,
+                fontSize: theme.fonts.fontH3Size,
+                fontFamily: theme.fonts.mainFontFamily
+            }
         }
     };
 }

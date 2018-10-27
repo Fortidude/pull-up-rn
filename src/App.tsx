@@ -9,6 +9,7 @@ import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { persistStore } from 'redux-persist';
+//@ts-ignore
 import { PersistGate } from 'redux-persist/es/integration/react';
 
 import Styles from './App.styles';

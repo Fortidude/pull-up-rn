@@ -33,12 +33,12 @@ class DayItemText extends React.Component<Props> {
     }
 
     render() {
-        const containerStyle = [this.style.dayItem.container];
+        const containerStyle = [this.style.container];
         const textContainerStyle = [];
         const TextStyle = [];
         let isToday = false;
         if (this.props.day.format('M') === this.props.currentMonth.format('M')) {
-            containerStyle.push(this.style.dayItem.active);
+            containerStyle.push(this.style.active);
         }
 
         if (this.props.day.format('DMY') === moment().format('DMY')) {
@@ -46,15 +46,15 @@ class DayItemText extends React.Component<Props> {
         }
 
         if (this.props.numberOfSets > 0) {
-            TextStyle.push(this.style.dayItem.mediumDensityText);
-            textContainerStyle.push(this.style.dayItem.mediumDensityOfSets);
+            TextStyle.push(this.style.mediumDensityText);
+            textContainerStyle.push(this.style.mediumDensityOfSets);
         }
 
         return (
             <Animated.View style={[containerStyle, { opacity: this.props.opacity }]}>
                 <Animated.View style={textContainerStyle}>
-                    <Text style={[this.style.dayItem.text, TextStyle]}>{this.props.day.format('D')}</Text>
-                    {isToday && <Text style={this.style.dayItem.subText}>TODAY</Text>}
+                    <Text style={[this.style.text, TextStyle]}>{this.props.day.format('D')}</Text>
+                    {isToday && <Text style={this.style.subText}>TODAY</Text>}
                 </Animated.View>
             </Animated.View>
         );

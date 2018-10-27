@@ -1,2 +1,2 @@
-import Day from './DayItem';
+import Day from './Day';
 export default Day;
