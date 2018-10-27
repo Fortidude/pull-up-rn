@@ -57,6 +57,19 @@ let translations = {
                 reps: "Powtórzenia",
                 time: "Czas",
                 weight: "waga"
+            },
+            circuits: {
+                all: 'Wszystkie',
+                previous: "Poprzedni",
+                current: "Obecny"
+            }
+        },
+
+        statistics: {
+            circuit: 'Obieg',
+            sort: 'Sortowanie',
+            effectiveness: {
+                title: 'Utrzymuj wysoką skuteczność poprzez realizowanie swoich celów w każdym obiegu treningowym.'
             }
         },
 

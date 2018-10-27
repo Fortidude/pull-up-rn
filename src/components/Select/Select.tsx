@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ActionSheetIOS } from 'react-native';
+import { View, Text, ActionSheetIOS, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
@@ -15,10 +15,14 @@ interface Props {
     onChange: (value: string) => void;
     placeholder?: string;
     small?: boolean;
+    autoSize?: boolean;
     disabled?: boolean;
     value?: string;
 
     options: string[];
+
+    containerStyle?: {}
+    textStyle?: {}
 }
 
 class Select extends React.Component<Props> {
@@ -51,19 +55,16 @@ class Select extends React.Component<Props> {
     render() {
         const height = this.props.small ? 30 : 65;
         const containerStyle = this.style.formContainer;
-        const inputStyle = this.style.formInput;
+        const inputStyle = [this.style.formInput, this.props.textStyle];
 
         return (
-            <View style={[this.style.container, { height: height }, containerStyle]}>
+            <TouchableOpacity onPress={this.showPicker} style={[this.style.container, !this.props.autoSize && { height: height }, containerStyle, this.props.containerStyle]}>
                 {!this.props.value && <Text
-                    onPress={this.showPicker}
                     style={[inputStyle, { color: this.style.placeholderColor }]}>{this.props.placeholder}</Text>}
                 {!!this.props.value && <Text
-                    onPress={this.showPicker}
                     style={[inputStyle]}>{this.props.value}</Text>}
-
                 <Icon name="chevron-down" size={20} color={this.props.disabled ? this.props.theme.colors.disableText : this.props.theme.colors.textColor} style={{ position: 'absolute', right: 0 }} />
-            </View>
+            </TouchableOpacity>
         );
     }
 }

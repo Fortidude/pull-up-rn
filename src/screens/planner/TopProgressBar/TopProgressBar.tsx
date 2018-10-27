@@ -8,15 +8,17 @@ import Styles from './TopProgressBar.styles';
 import CircleProgress from 'src/components/CircleProgress';
 import I18n from 'src/assets/translations';
 import User from 'src/models/User';
+import { StatisticsInterface } from 'src/models/Statistics';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
-    user: User
+    statistics: StatisticsInterface;
+    user: User;
     scrollViewPositionY: Animated.Value;
 }
 interface State {
-    swipePosition: Animated.Value
+    swipePosition: Animated.Value;
 }
 
 class TopProgressBar extends React.Component<Props, State> {
@@ -144,7 +146,11 @@ class TopProgressBar extends React.Component<Props, State> {
     }
 
     _countProgressPercent = () => {
-        return 0
+        if (this.props.statistics) {
+            return this.props.statistics.current_circle_percent_goals_achieved;
+        }
+
+        return 0;
     }
 
     _getDaysLeft = () => this.props.user.days_left_circuit.toString();
@@ -158,7 +164,8 @@ class TopProgressBar extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    user: state.user.current
+    user: state.user.current,
+    statistics: state.planner.statistics
 });
 
 export default connect(mapStateToProps)(TopProgressBar);

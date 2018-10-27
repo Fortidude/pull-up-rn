@@ -98,7 +98,7 @@ function planner(state = initialState, action: AnyAction): PlannerState {
             return Object.assign({}, state, { loading: true });
 
         case PlannerTypes.loadGoalStatisticsSuccess:
-            return Object.assign({}, state, { loading: false, statistics: action.payload.statistics});
+            return Object.assign({}, state, { loading: false, statistics: action.payload.statistics, statisticsLoaded: true });
 
         case PlannerTypes.loadGoalStatisticsFailed:
             return Object.assign({}, state, { loading: false, error: action.payload.error });
@@ -119,7 +119,7 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.createSetSuccess:
             const planner = Object.assign({}, state.byTrainings);
             PlannerMethods.addSetToGoal(action.payload.setCreated, planner);
-            return Object.assign({}, state, { byTrainings: planner, createSetLoading: false, setsHistoryLoaded: false });
+            return Object.assign({}, state, { byTrainings: planner, createSetLoading: false, setsHistoryLoaded: false, statisticsLoaded: false });
 
         case PlannerTypes.createSetFailed:
             return Object.assign({}, state, { createSetLoading: false })
@@ -136,7 +136,7 @@ function planner(state = initialState, action: AnyAction): PlannerState {
             return Object.assign({}, state, { createGoalLoading: true });
 
         case PlannerTypes.createGoalSuccess:
-            return Object.assign({}, state, { createGoalLoading: false });
+            return Object.assign({}, state, { createGoalLoading: false, statisticsLoaded: false });
 
         case PlannerTypes.createGoalFailed:
             return Object.assign({}, state, { createGoalLoading: false, error: action.payload.error });
