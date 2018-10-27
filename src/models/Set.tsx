@@ -1,5 +1,6 @@
 import Goal from "./Goal";
 import Circuit, { CircuitInterface } from "./Circuit";
+import moment from 'moment';
 
 interface SetInterface {
     goal: Goal|string;
@@ -36,7 +37,7 @@ export default class Set implements SetInterface {
 }
 
 const sortSetsByDate = (setA: SetInterface, setB: SetInterface) => {
-    return new Date(setB.date).getTime() - new Date(setA.date).getTime();
+    return moment(setA.date).diff(moment(setB.date));
 }
 
 export {

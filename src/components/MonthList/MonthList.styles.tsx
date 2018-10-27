@@ -11,6 +11,15 @@ function getStyle(theme: ThemeInterface) {
             height: HEIGHT - FOOTER_HEIGHT - HEADER_HEIGHT,
             justifyContent: 'center',
             alignItems: 'center'
+        },
+
+        title: {
+            fontSize: theme.fonts.fontH1Size,
+            fontFamily: theme.fonts.mainFontFamily,
+            color: theme.colors.textColor,
+            alignSelf: 'flex-start',
+            marginLeft: 20,
+            marginVertical: 10
         }
     };
 }

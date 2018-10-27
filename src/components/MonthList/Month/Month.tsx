@@ -19,6 +19,7 @@ interface Props {
     empty?: boolean;
 
     onDayClick?: (...arg: any) => void;
+    onLayout?: () => any;
 }
 
 class Month extends React.Component<Props> {
@@ -37,22 +38,33 @@ class Month extends React.Component<Props> {
     }
 
     build = () => {
+        const { weeks, currentMonth, onDayClick } = this.props;
+        if (!weeks || !currentMonth || !onDayClick) {
+            return;
+        }
+
         const month = [<Week.Header key={'week'} />];
-        this.props.weeks.forEach((week, key) => {
+        weeks.forEach((week, key) => {
             month.push(<Week.Line
                 key={key}
                 week={week}
-                currentMonth={this.props.currentMonth}
-                onDayClick={this.props.onDayClick}
+                currentMonth={currentMonth}
+                onDayClick={onDayClick}
             />);
         })
 
         return month;
     }
 
+    onLayout = () => {
+        if (this.props.onLayout) {
+            this.props.onLayout();
+        }
+    }
+
     render() {
         return (
-            <View style={this.style.container}>
+            <View style={this.style.container} onLayout={this.onLayout}>
                 {!this.props.empty && this.build()}
             </View>
         );

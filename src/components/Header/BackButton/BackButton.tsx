@@ -6,17 +6,14 @@ import { HeaderProps, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
 import Styles from './BackButton.styles';
-import LeftText from './LeftText';
-import I18n from '../../../assets/translations';
+import I18n from 'src/assets/translations';
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
-import { ModalState } from '../../../store/reducers/modal';
-import { ModalActions } from '../../../store/actions/modal';
+import { ModalState } from 'src/store/reducers/modal';
 import HapticFeedback from 'src/service/Haptic';
 
+//@ts-ignore
 import HeaderStyleInterpolator from 'react-navigation-stack/dist/views/Header/HeaderStyleInterpolator.js';
 import Events from 'src/service/Events';
-
-const AnimateIcon = Animated.createAnimatedComponent(Icon);
 
 interface Props {
     headerProps: HeaderProps;

@@ -15,9 +15,8 @@ function getStyle(theme: ThemeInterface) {
         },
         footerButtonText: {
             fontFamily: theme.fonts.mainFontFamily,
-            fontWeight: '100',
             color: theme.colors.plannerFooterButtonColor,
-            fontSize: 13,
+            fontSize: theme.fonts.fontH4Size + 1,
             marginTop: 5
         },
     };

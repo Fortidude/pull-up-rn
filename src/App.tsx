@@ -57,9 +57,6 @@ export default class App extends React.Component<Props, State> {
         }, 1000);
     }
 
-    componentWillReceiveProps(nextProps: Props) {
-    }
-
     render() {
         return (
             <PersistGate persistor={persistor}>

@@ -1,6 +1,5 @@
 import moment from 'moment';
 import { Animated } from 'react-native';
-import WeekLine from 'src/screens/calendar/Calendar/components/MonthList/WeekLine';
 
 interface CalendarInterface {
 
@@ -40,7 +39,7 @@ class Calendar implements CalendarInterface {
             this.months.push(momentDate);
 
             if (date.format('MY') === nowFormatted) {
-                this.currentMonthIndex = iteration;
+                this.currentMonthIndex = iteration - 1;
             }
 
             iteration++;

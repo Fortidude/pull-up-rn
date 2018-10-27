@@ -26,10 +26,10 @@ function getStyle(theme: ThemeInterface) {
                 paddingLeft: 2,
                 shadowColor: '#4E43F9',
                 shadowOpacity: 0.3,
-                shadowOffset: {width: 0, height: 3},
+                shadowOffset: { width: 0, height: 3 },
                 shadowRadius: 6
             },
-            
+
             mediumDensityText: {
                 color: theme.colors.inverseTextColor
             },
@@ -38,6 +38,16 @@ function getStyle(theme: ThemeInterface) {
                 fontFamily: theme.fonts.mainFontFamily,
                 fontSize: theme.fonts.fontH1Size,
                 color: theme.colors.textColor
+            },
+
+            subText: {
+                position: 'absolute',
+                bottom: -11,
+                left: -6,
+                fontFamily: theme.fonts.mainFontFamily,
+                fontSize: theme.fonts.fontH5Size,
+                color: theme.colors.subTextColor
+
             }
         }
     };

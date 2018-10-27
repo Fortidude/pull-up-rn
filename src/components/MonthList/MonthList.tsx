@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Animated, ScrollView, Text, View, Dimensions } from 'react-native';
+import { Animated, ScrollView, View, Dimensions, Text } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -12,6 +12,7 @@ import { MONTH_ITEM_WIDTH } from 'src/components/FooterBar/CalendarFooter/Months
 import Spinner from 'src/components/Spinner/Spinner';
 import { PlannerActions } from 'src/store/actions/planner';
 import Month from './Month';
+import Events from 'src/service/Events';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -26,6 +27,8 @@ interface State {
     monthElements: React.ReactFragment[];
     currentMonthIndex: number;
     activeMonthIndex: number;
+
+    loading: boolean;
 }
 
 class MonthList extends React.PureComponent<Props, State> {
@@ -44,11 +47,13 @@ class MonthList extends React.PureComponent<Props, State> {
         this.style = Styles(this.props.theme);
 
         const { months, currentMonthIndex } = CalendarService.getMonthsList();
+        console.log(months, currentMonthIndex);
         this.state = {
             months,
             currentMonthIndex,
             activeMonthIndex: currentMonthIndex,
-            monthElements: []
+            monthElements: [],
+            loading: true
         }
 
         CalendarService.swipePosition.addListener(({ value }) => {
@@ -99,10 +104,24 @@ class MonthList extends React.PureComponent<Props, State> {
         }
     }
 
+    monthsAreActive = () => {
+        if (this.state.loading) {
+            console.log('here');
+            this.setState({ loading: false });
+        }
+    }
+
     render() {
+        const currentMonth = this.state.months[this.state.currentMonthIndex] || null;
         return (
             <View style={this.style.container} onLayout={this.init}>
-                {this.state.monthElements.length === 0 && <Spinner color={this.props.theme.colors.main} large />}
+                {currentMonth && !this.state.loading &&
+                    <Text style={this.style.title}>
+                        {currentMonth.format('MMMM')[0].toLocaleUpperCase()}{currentMonth.format('MMMM').substring(1)}
+                    </Text>
+                }
+
+                {this.state.loading && <View style={{position: 'absolute'}}><Spinner color={this.props.theme.colors.main} large /></View>}
                 {this.state.monthElements.length > 0 && <ScrollView
                     showsHorizontalScrollIndicator={false}
                     ref={ref => this.containerRef = ref}
@@ -138,12 +157,11 @@ class MonthList extends React.PureComponent<Props, State> {
         let months: React.ReactFragment[] = [];
         moments.map((month, key) => {
 
-            const index = key + 1;
-            const renderThisMonth = index - 1 <= currentMonthIndex && index + 1 >= currentMonthIndex;
+            const renderThisMonth = key - 1 <= currentMonthIndex && key + 1 >= currentMonthIndex;
 
             if (renderThisMonth) {
                 const calendar = this.getMonthCalendar(month);
-                months[key] = <Month key={key} weeks={calendar} onDayClick={this.props.onDayClick} currentMonth={month} />
+                months[key] = <Month key={key} onLayout={this.monthsAreActive} weeks={calendar} onDayClick={this.props.onDayClick} currentMonth={month} />
             } else {
                 //@ts-ignore
                 //
@@ -151,7 +169,6 @@ class MonthList extends React.PureComponent<Props, State> {
             }
         })
 
-        console.log(months);
         return months;
     }
 
@@ -169,7 +186,11 @@ class MonthList extends React.PureComponent<Props, State> {
 
         const calendar: moment.Moment[] = [];
         for (var week = startWeek; week <= endWeek; week++) {
-            calendar.push(moment().week(week));
+            if (endWeek === 53) {
+                calendar.push(moment().week(week));
+            } else {
+                calendar.push(moment().week(week).year(month.year()));
+            }
         }
 
         return calendar;
@@ -178,6 +199,8 @@ class MonthList extends React.PureComponent<Props, State> {
     scrollTo = (position: number) => {
         if (this.containerRef) {
             this.containerRef.scrollTo({ x: position });
+            const currentMonthIndex = Math.round(position / SCREEN_WIDTH);
+            this.setState({ currentMonthIndex });
         }
     }
 
@@ -219,8 +242,9 @@ class MonthList extends React.PureComponent<Props, State> {
             return;
         }
 
-        const xPosition = (this.state.currentMonthIndex - 1) * SCREEN_WIDTH;
+        const xPosition = (this.state.currentMonthIndex) * SCREEN_WIDTH;
         this.containerRef.scrollTo({ x: xPosition, animated: false });
+
     }
 
     countBarScrollToPosition = (currentPosition: number) => {

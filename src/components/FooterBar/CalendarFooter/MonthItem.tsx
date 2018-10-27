@@ -6,6 +6,8 @@ import moment from 'moment';
 
 import Styles from './MonthsBar.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+import Events from 'src/service/Events';
+import Button from '../Button/Button';
 
 interface Props {
     dispatch: Dispatch;
@@ -65,6 +67,7 @@ class MonthItem extends React.Component<Props, State> {
     }
 
     ifActiveSetItActive = () => {
+        //@ts-ignore
         if (!this.refs.container || !this.refs.container.measure) {
             return;
         }
@@ -72,8 +75,15 @@ class MonthItem extends React.Component<Props, State> {
         //@ts-ignore
         this.refs.container.measure((x, y, width, height, windowX, windowY) => {
             const active = (windowX > this.props.activeOffsetXFrom && windowX < this.props.activeOffsetXTo);
-            if (this.state.isActive || active)
-                this.setState({ isActive: active });
+            if (!this.state.isActive && active) {
+                this.setState({ isActive: true });
+            } else if (this.state.isActive && !active) {
+                this.setState({ isActive: false });
+            }
+
+            //if (!this.state.isActive && active) {
+
+            // }
         });
     }
 }

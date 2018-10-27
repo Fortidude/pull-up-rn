@@ -35,7 +35,7 @@ function getStyle(theme: ThemeInterface) {
                 textAlign: 'center',
                 fontFamily: theme.fonts.mainFontFamily,
                 fontSize: theme.fonts.fontH3Size,
-                color: theme.colors.textColor,
+                color: theme.colors.plannerFooterButtonColor,
                 marginTop: 2
             },
             monthYearActive: {

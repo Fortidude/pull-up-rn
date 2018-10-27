@@ -33,22 +33,28 @@ class DayItemText extends React.Component<Props> {
     }
 
     render() {
-        const style = [this.style.dayItem.container];
-        const densityContainerStyle = [];
-        const densityTextStyle = []
+        const containerStyle = [this.style.dayItem.container];
+        const textContainerStyle = [];
+        const TextStyle = [];
+        let isToday = false;
         if (this.props.day.format('M') === this.props.currentMonth.format('M')) {
-            style.push(this.style.dayItem.active);
+            containerStyle.push(this.style.dayItem.active);
+        }
+
+        if (this.props.day.format('DMY') === moment().format('DMY')) {
+            isToday = true;
         }
 
         if (this.props.numberOfSets > 0) {
-            densityTextStyle.push(this.style.dayItem.mediumDensityText);
-            densityContainerStyle.push(this.style.dayItem.mediumDensityOfSets);
+            TextStyle.push(this.style.dayItem.mediumDensityText);
+            textContainerStyle.push(this.style.dayItem.mediumDensityOfSets);
         }
 
         return (
-            <Animated.View style={[style, { opacity: this.props.opacity }]}>
-                <Animated.View style={densityContainerStyle}>
-                    <Text style={[this.style.dayItem.text, densityTextStyle]}>{this.props.day.format('D')}</Text>
+            <Animated.View style={[containerStyle, { opacity: this.props.opacity }]}>
+                <Animated.View style={textContainerStyle}>
+                    <Text style={[this.style.dayItem.text, TextStyle]}>{this.props.day.format('D')}</Text>
+                    {isToday && <Text style={this.style.dayItem.subText}>TODAY</Text>}
                 </Animated.View>
             </Animated.View>
         );

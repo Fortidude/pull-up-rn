@@ -9,7 +9,6 @@ import CalendarService from 'src/service/Calendar';
 import Styles, { MONTH_ITEM_WIDTH } from './MonthsBar.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import MonthItem from './MonthItem';
-import Events from 'src/service/Events';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SET_ACTION_FROM_X = (SCREEN_WIDTH / 2) - MONTH_ITEM_WIDTH;
@@ -85,6 +84,7 @@ class MonthsBar extends React.Component<Props, State> {
             <View style={this.style.container} onLayout={this.props.onLayout}>
                 <ScrollView
                     horizontal
+                    scrollEnabled={false}
                     ref={ref => this.containerRef = ref}
                     onLayout={this._onScrollViewLayout}
                     scrollEventThrottle={12}
@@ -164,7 +164,7 @@ class MonthsBar extends React.Component<Props, State> {
         }
 
         const offset = (SCREEN_WIDTH - (MONTH_ITEM_WIDTH * 3)) / 2
-        const xPosition = ((this.state.currentMonthIndex - 2) * MONTH_ITEM_WIDTH) - offset;
+        const xPosition = ((this.state.currentMonthIndex - 1) * MONTH_ITEM_WIDTH) - offset;
         this.containerRef.scrollTo({ x: xPosition, animated: false });
     }
 }

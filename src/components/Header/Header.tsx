@@ -13,6 +13,7 @@ import PlannerEditButton from './PlannerEditButton';
 
 // @ts-ignore
 import HeaderStyleInterpolator from 'react-navigation-stack/dist/views/Header/HeaderStyleInterpolator.js';
+import Events from 'src/service/Events';
 
 interface Props {
     headerProps: HeaderProps;
@@ -22,7 +23,7 @@ interface Props {
     plannerIsEmpty: boolean;
 }
 
-interface State { }
+interface State {}
 
 class Header extends React.Component<Props, State> {
     style: ThemeValueInterface;
@@ -30,6 +31,16 @@ class Header extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.style = Styles(this.props.theme);
+        this.state = {
+            overrideTitle: null
+        }
+    }
+
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
+        return nextProps.isOnline !== this.props.isOnline
+            || nextProps.theme.name !== this.props.theme.name
+            || nextProps.plannerIsEmpty !== this.props.plannerIsEmpty
+            || nextProps.headerProps.scene.route.routeName !== this.props.headerProps.scene.route.routeName;
     }
 
     componentWillReceiveProps(nextProps: Props) {
