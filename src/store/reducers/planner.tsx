@@ -105,7 +105,7 @@ function planner(state = initialState, action: AnyAction): PlannerState {
 
         /**
          * -------------------
-         * SELECT GOAL
+         * SELECT
          */
         case PlannerTypes.selectGoal:
             return Object.assign({}, state, { goalSelected: action.payload.goal });
@@ -113,6 +113,11 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.selectSection:
             return Object.assign({}, state, { sectionName: action.payload.sectionName })
 
+
+        /**
+         * -------------------
+         * CREATE SET
+         */     
         case PlannerTypes.createSetLoading:
             return Object.assign({}, state, { createSetLoading: true })
 
@@ -124,6 +129,11 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.createSetFailed:
             return Object.assign({}, state, { createSetLoading: false })
 
+
+        /**
+         * -------------------
+         * CREATE SECTION
+         */
         case PlannerTypes.createSectionSuccess: {
             const { name, description } = action.payload;
             const planner = Object.assign({}, state.byTrainings);
@@ -132,6 +142,11 @@ function planner(state = initialState, action: AnyAction): PlannerState {
             return Object.assign({}, state, { byTrainings: planner, byTrainingsEmpty: false });
         }
 
+
+        /**
+         * -------------------
+         * CREATE GOAL
+         */
         case PlannerTypes.createGoal:
             return Object.assign({}, state, { createGoalLoading: true });
 
@@ -141,17 +156,33 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.createGoalFailed:
             return Object.assign({}, state, { createGoalLoading: false, error: action.payload.error });
 
+
+        /**
+         * -------------------
+         * MOVE GOAL
+         */
         case PlannerTypes.moveGoalToSection: {
             const { goalId, section } = action.payload;
             const planner = PlannerMethods.moveGoalToSection(goalId, section, state.byTrainings);
             return Object.assign({}, state, { byTrainings: planner });
         }
+
+
+        /**
+         * -------------------
+         * REMOVE GOAL
+         */
         case PlannerTypes.removeGoal: {
             const { goalId } = action.payload;
             const planner = PlannerMethods.removeGoal(goalId, state.byTrainings);
             return Object.assign({}, state, { byTrainings: planner });
         }
 
+
+        /**
+         * -------------------
+         * LOGOUT
+         */
         case AuthTypes.logout:
             return Object.assign({}, initialState);
 

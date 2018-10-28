@@ -125,14 +125,16 @@ function* createGoal(action: any) {
 
 function* createGoalSuccess() {
     //@ts-ignore
-    const isPlannerloadingInProgress = yield select(state => state.planner.loading);
-    if (isPlannerloadingInProgress) {
+    const isPlannerLoadingInProgress = yield select(state => state.planner.loading);
+    console.log(`isPlannerLoadingInProgress, ${isPlannerLoadingInProgress}`);
+    if (isPlannerLoadingInProgress) {
         return
     }
 
     // refresh list only if loaded before. 
     //@ts-ignore
     const isPlannerByTrainingsLoaded = yield select(state => state.planner.loadedByTrainings);
+    console.log(`isPlannerByTrainingsLoaded, ${isPlannerByTrainingsLoaded}`);
     if (isPlannerByTrainingsLoaded) {
         yield put(PlannerActions.loadByTrainings())
     }

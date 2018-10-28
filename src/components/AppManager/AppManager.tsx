@@ -20,6 +20,7 @@ interface Props {
     isNetworkChecked: boolean;
     anythingToSync: boolean;
     exercisesLoaded: boolean;
+    setsHistoryLoaded: boolean;
     statisticsLoaded: boolean;
 }
 
@@ -49,12 +50,12 @@ class AppManager extends React.Component<Props> {
                     this.props.dispatch(AppActions.isOnline());
                     this.props.dispatch(SyncActions.synchronize());
 
-                    this.runWhenOnline();
+    
                     // @TODO for test purpose
                     //this.props.dispatch(ModalActions.goalCreateOpen());
                 }
 
-
+                this.runWhenOnline();
             })
             // IS OFFLINE
             .catch(err => {
@@ -80,6 +81,10 @@ class AppManager extends React.Component<Props> {
     }
 
     loadSetsHistory = () => {
+        if (this.props.setsHistoryLoaded) {
+            return;
+        }
+
         const { months, currentMonthIndex } = Calendar.getMonthsList();
         const fromDate = months[0].startOf('month');
         const toDate = months[currentMonthIndex].endOf('month');
@@ -105,6 +110,7 @@ const mapStateToProps = (state: any) => ({
     isNetworkChecked: state.app.networkChecked,
     anythingToSync: state.sync.items.length > 0,
     exercisesLoaded: state.exercise.loaded,
+    setsHistoryLoaded: state.planner.setsHistoryLoaded,
     statisticsLoaded: state.planner.statisticsLoaded
 });
 

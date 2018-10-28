@@ -85,6 +85,10 @@ class PlannerMethodsClass {
                 goal.doneThisCircuit += parseInt(set.weight);
                 break;
             }
+            default: {
+                goal.doneThisCircuit++;
+                break;
+            }
         }
 
         if (goal.requiredAmount) {
