@@ -7,6 +7,7 @@ const blueColor = '#007AFF';
 const yellowColor = '#FF9500';
 const greyColor = '#a9a9a9';
 const greenColor = '#27AE60';
+const nativeBackgroundColor = '#EFEFF4';
 
 const lightGreenColor = '#76D7C4';
 const lightBlueColor = '#7FB3D5';
@@ -21,6 +22,8 @@ const colors = {
     warning: yellowColor,
     success: greenColor,
     blue: blueColor,
+
+    nativeBackgroundColor: nativeBackgroundColor,
 
     white: '#ffffff',
 
@@ -37,6 +40,7 @@ const colors = {
     modalBackgroundColor: '#141414',
 
     plannerProgressBarBackgroundColor: '#141414',
+    statisticProgressBackgroundColor: '#FFFFFF',
 
     borderColor: 'rgba(255,255,255, 0.2)',
     borderLightColor: 'rgba(255,255,255, 0.13)',

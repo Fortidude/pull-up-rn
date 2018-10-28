@@ -1,3 +1,10 @@
+export interface StatisticGoalInterface {
+    achieved_amount: number;
+    name: string;
+    percentage: number;
+    variant_name: string;
+};
+
 export interface StatisticsInterface {
     achieved_per_circuit: {
         [key: string]: {
@@ -12,24 +19,14 @@ export interface StatisticsInterface {
     current_circle_percentage_goals_achieved: {
         total_circuits: number;
         total_goals: number;
-        goals: Array<{
-            achieved_amount: number;
-            name: string;
-            percentage: number;
-            variant_name: string;
-        }>;
+        goals: Array<StatisticGoalInterface>;
     };
 
     last_circle_percent_goals_achieved: number;
     last_circle_percentage_goals_achieved: {
         total_circuits: number;
         total_goals: number;
-        goals: Array<{
-            achieved_amount: number;
-            name: string;
-            percentage: number;
-            variant_name: string;
-        }>;
+        goals: Array<StatisticGoalInterface>;
     };
 
     percentage_exercises_usage: {
@@ -43,12 +40,7 @@ export interface StatisticsInterface {
     percentage_goals_achieved: {
         total_circuits: number;
         total_goals: number;
-        goals: Array<{
-            achieved_amount: number;
-            name: string;
-            percentage: number;
-            variant_name: string;
-        }>;
+        goals: Array<StatisticGoalInterface>;
     };
     percentage_sets_usage: {
         total: number;

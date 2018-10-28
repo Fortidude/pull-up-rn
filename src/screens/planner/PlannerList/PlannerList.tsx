@@ -68,7 +68,7 @@ class PlannerList extends React.Component<Props, State> {
                 <FlatList
                     keyboardDismissMode={"interactive"}
                     keyboardShouldPersistTaps="never"
-                    ref={ref => this.flatListReference = ref}
+                    ref={(ref: any) => this.flatListReference = ref}
                     onScrollBeginDrag={this.props.scrollBegin}
                     scrollEventThrottle={1}
                     showsVerticalScrollIndicator={false}
