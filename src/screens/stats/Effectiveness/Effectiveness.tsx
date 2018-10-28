@@ -117,9 +117,11 @@ class Effectiveness extends Component<Props, Stats> {
     }
 
     _sortByName = (goalA: StatisticGoalInterface, goalB: StatisticGoalInterface) => {
-        if (goalA.name < goalB.name) {
+        const goalAName = goalA.name.toLocaleLowerCase();
+        const goalBName = goalB.name.toLocaleLowerCase();
+        if (goalAName < goalBName) {
             return -1;
-        } else if (goalA.name > goalB.name) {
+        } else if (goalAName > goalBName) {
             return 1;
         }
 

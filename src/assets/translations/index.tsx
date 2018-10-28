@@ -85,7 +85,7 @@ let translations = {
 
         routes: {
             calendar: "Kalendarz",
-            effectivenessstats: "Efektywność",
+            effectivenessstats: "Skuteczność",
             initpage: "Pull Up!",
             languagepicker: "Wybierz język",
             login: "Logowanie",
@@ -93,7 +93,7 @@ let translations = {
             planner: "Pull Up!",
             profile: "Profil",
             popularitystats: "Popularność",
-            progressstats: "Progres",
+            progressstats: "Postęp",
             register: "Rejestracja",
             settings: "Ustawienia",
             themepicker: "Wybierz motyw"

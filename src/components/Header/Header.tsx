@@ -23,7 +23,7 @@ interface Props {
     plannerIsEmpty: boolean;
 }
 
-interface State {}
+interface State { }
 
 class Header extends React.Component<Props, State> {
     style: ThemeValueInterface;
@@ -55,26 +55,20 @@ class Header extends React.Component<Props, State> {
         return I18n.t(`routes.${routeName.toLocaleLowerCase()}`);
     };
 
-    showRightButton = () => {
+    getRightButton = () => {
         const routeName = this.getRawCurrentTitle().toLocaleLowerCase();
         if (routeName === 'planner' && !this.props.plannerIsEmpty) {
-            // return <PlannerEditButton />
+            return <PlannerEditButton />
         }
 
         return <BackButton headerProps={this.props.headerProps} />
     }
 
     render() {
-        const currentIndex = this.props.headerProps.scene.index;
-        let previousTitle = '';
-        if (this.props.headerProps.scenes[currentIndex - 1]) {
-            previousTitle = this.props.headerProps.scenes[currentIndex - 1].route.routeName.toLocaleLowerCase();
-        }
-
         return (
             <Animated.View style={[this.style.header]}>
                 <View style={this.style.left.container}>
-                    <BackButton headerProps={this.props.headerProps} />
+                    {this.getRightButton()}
                 </View>
                 <View style={this.style.center.container}>
                     <Animated.View style={HeaderStyleInterpolator.forCenter(this.props.headerProps)}>

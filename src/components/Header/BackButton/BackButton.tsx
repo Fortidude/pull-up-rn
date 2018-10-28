@@ -20,16 +20,18 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface,
     modal: ModalState;
+
+    hide?: boolean;
 }
 
 interface State {
+    previousTitle: string;
     backTextOverride: string | null;
     backActionOverride: any;
     showIcon: boolean;
 }
 
 class BackButton extends React.Component<Props, State> {
-    previousTitle: string = '';
     style: ThemeValueInterface;
 
     constructor(props: Props) {
@@ -37,6 +39,7 @@ class BackButton extends React.Component<Props, State> {
 
         this.style = Styles(this.props.theme);
         this.state = {
+            previousTitle: '',
             backTextOverride: null,
             backActionOverride: null,
             showIcon: true
@@ -46,7 +49,6 @@ class BackButton extends React.Component<Props, State> {
     shouldComponentUpdate(nextProps: Props, nextState: State) {
         const nextRoute = nextProps.headerProps.scene.route.routeName.toLocaleLowerCase();
         const currentRoute = this.getRawCurrentTitle();
-
         return nextRoute !== currentRoute || nextProps.theme.name !== this.props.theme.name;
     }
 
@@ -59,6 +61,7 @@ class BackButton extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        this.setupTitle(this.props);
         Events.listenTo('HEADER_CALENDAR_HIDE_CLOSE_BUTTON', 'BackButton', () => {
             this.setState({
                 backTextOverride: null,
@@ -91,12 +94,11 @@ class BackButton extends React.Component<Props, State> {
             const currentIndex = props.headerProps.scene.index;
             let previousTitle = props.headerProps.scenes[currentIndex - 1].route.routeName.toLocaleLowerCase();
 
-            this.previousTitle = previousTitle;
+            this.setState({previousTitle});
             return;
         }
 
-        this.previousTitle = '';
-
+        this.setState({previousTitle: ''});
     }
 
     getRawCurrentTitle = () => this.props.headerProps.scene.route.routeName;
@@ -105,7 +107,7 @@ class BackButton extends React.Component<Props, State> {
             return this.state.backTextOverride;
         }
 
-        return I18n.t(`routes.${this.previousTitle.toLocaleLowerCase()}`);
+        return I18n.t(`routes.${this.state.previousTitle.toLocaleLowerCase()}`);
     };
 
     onBackPress = () => {
@@ -122,14 +124,14 @@ class BackButton extends React.Component<Props, State> {
     render() {
         return (
             <React.Fragment>
-                {!!this.previousTitle && <TouchableOpacity onPress={this.onBackPress} style={this.style.backButton}>
+                <TouchableOpacity onPress={this.onBackPress} style={this.style.backButton}>
                     <Animated.View style={[{width: 22}, HeaderStyleInterpolator.forLeft(this.props.headerProps)]}>
                         {!!this.state.showIcon && <Icon name={'chevron-left'} size={50} style={[this.style.icon]} />}
                     </Animated.View>
                     <Animated.View style={[HeaderStyleInterpolator.forLeftLabel(this.props.headerProps)]}>
                         <Text style={this.style.backText}>{this.getPreviousTitle()}</Text>
                     </Animated.View>
-                </TouchableOpacity>}
+                </TouchableOpacity>
             </React.Fragment>
         );
     }

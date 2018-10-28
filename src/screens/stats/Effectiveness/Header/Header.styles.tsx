@@ -54,7 +54,7 @@ function getStyle(theme: ThemeInterface) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 shadowColor: theme.colors.shadowColor,
-                shadowOpacity: 0.30,
+                shadowOpacity: 0.15,
                 shadowOffset: { width: 0, height: 3 },
                 shadowRadius: 3,
                 borderRadius: 3,

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, LayoutAnimation } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './StatsFooter.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import Button from 'src/components/FooterBar/Button';
-import { NavigationActions, StackActions } from 'react-navigation';
+import { StackActions } from 'react-navigation';
+import I18n from 'src/assets/translations';
 
 interface Props {
     onLayout?: () => void;
@@ -57,9 +58,9 @@ class StatsFooter extends React.Component<Props> {
     render() {
         return (
             <View style={this.style.container} onLayout={this.props.onLayout}>
-                <Button onPress={this.goToEffectiveness} text="Effectiveness" isActive={this.isRouteCurrent("EffectivenessStats")} />
-                <Button onPress={this.goToPopularity} text="Popularity" isActive={this.isRouteCurrent("PopularityStats")} />
-                <Button onPress={this.goToProgress} text="Progress" isActive={this.isRouteCurrent("ProgressStats")} />
+                <Button onPress={this.goToEffectiveness} text={I18n.t('routes.effectivenessstats')} isActive={this.isRouteCurrent("EffectivenessStats")} />
+                <Button onPress={this.goToPopularity} text={I18n.t('routes.popularitystats')} isActive={this.isRouteCurrent("PopularityStats")} />
+                <Button onPress={this.goToProgress} text={I18n.t('routes.progressstats')} isActive={this.isRouteCurrent("ProgressStats")} />
             </View>
         );
     }
