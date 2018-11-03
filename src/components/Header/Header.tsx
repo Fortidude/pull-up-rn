@@ -27,6 +27,12 @@ interface State { }
 
 class Header extends React.Component<Props, State> {
     style: ThemeValueInterface;
+    borderBottom = new Animated.Value(0);
+
+    routesWithoutBottomBorder = [
+        'planner',
+      //  'effectivenessstats'
+    ]
 
     constructor(props: Props) {
         super(props);
@@ -47,6 +53,12 @@ class Header extends React.Component<Props, State> {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
         }
+
+        const routeName = nextProps.headerProps.scene.route.routeName.toLocaleLowerCase();
+        Animated.timing(this.borderBottom, {
+            toValue: this.routesWithoutBottomBorder.includes(routeName) ? 0 : 1,
+            duration: 50
+        }).start();
     }
 
     getRawCurrentTitle = () => this.props.headerProps.scene.route.routeName;
@@ -65,8 +77,13 @@ class Header extends React.Component<Props, State> {
     }
 
     render() {
+        const borderBottomColor = this.borderBottom.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['transparent', this.props.theme.borders.borderColor]
+        });
+
         return (
-            <Animated.View style={[this.style.header]}>
+            <Animated.View style={[this.style.header, { borderBottomColor: borderBottomColor }]}>
                 <View style={this.style.left.container}>
                     {this.getRightButton()}
                 </View>

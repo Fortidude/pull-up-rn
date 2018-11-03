@@ -51,7 +51,7 @@ class Planner extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme,
+    theme: state.settings.theme
 });
 
 export default connect(mapStateToProps)(Planner);

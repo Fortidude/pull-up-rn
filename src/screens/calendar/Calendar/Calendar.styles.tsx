@@ -4,7 +4,7 @@ function getStyle(theme: ThemeInterface) {
     return {
         container: {
             flex: 1,
-            backgroundColor: theme.colors.greyBackgroundColor
+            backgroundColor: theme.colors.nativeBackgroundColor
         }
     };
 }

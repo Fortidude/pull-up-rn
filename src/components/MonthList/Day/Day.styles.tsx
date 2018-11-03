@@ -1,17 +1,20 @@
 import { ThemeInterface } from 'src/assets/themes';
+import { Dimensions } from 'react-native';
 
+const WIDTH = Dimensions.get('window').width
+const TILE_WIDTH = WIDTH / 7;
 function getStyle(theme: ThemeInterface) {
     return {
         container: {
-            width: 53,
-            height: 53,
+            width: TILE_WIDTH,
+            height: TILE_WIDTH,
             marginLeft: 0.5,
             justifyContent: 'center',
             alignItems: 'center'
         },
 
         active: {
-            backgroundColor: theme.colors.cardBackgroundColor
+            backgroundColor: theme.colors.modalBackgroundColor
         },
 
         mediumDensityOfSets: {
@@ -41,8 +44,7 @@ function getStyle(theme: ThemeInterface) {
 
         subText: {
             position: 'absolute',
-            bottom: -11,
-            left: -6,
+            bottom: 0,
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH5Size,
             color: theme.colors.darkDanger

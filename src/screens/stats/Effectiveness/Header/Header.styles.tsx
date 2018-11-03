@@ -8,7 +8,7 @@ function getStyle(theme: ThemeInterface) {
             backgroundColor: theme.colors.headerBackgroundColor,
             flexDirection: 'row',
             top: 0,
-            height: 116,
+            height: 130,
             width: WIDTH,
             borderBottomWidth: theme.borders.borderWidth,
             borderBottomColor: theme.borders.borderColor
@@ -19,7 +19,7 @@ function getStyle(theme: ThemeInterface) {
             width: WIDTH - 116
         },
         left: {
-            width: 116,
+            width: 130,
             height: '100%',
             alignSelf: 'flex-end',
             justifyContent: 'center',
@@ -49,8 +49,8 @@ function getStyle(theme: ThemeInterface) {
             },
             button: {
                 flexDirection: 'row',
-                backgroundColor: theme.colors.buttonBigBackgroundColor,
-                paddingVertical: 1,
+                backgroundColor: theme.colors.statisticsButtonBackground,
+                paddingVertical: 4,
                 justifyContent: 'center',
                 alignItems: 'center',
                 shadowColor: theme.colors.shadowColor,

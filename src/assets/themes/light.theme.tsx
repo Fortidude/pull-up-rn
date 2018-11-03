@@ -1,4 +1,7 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
+import DetermineDevice from 'src/service/helpers/DetermineDevice';
+
+const isSmallScreen = DetermineDevice.isSmallScreen();
 
 const mainColor = '#4E43F9';
 const redColor = '#FF3B30';
@@ -47,6 +50,7 @@ const colors = {
     borderDarkColor: 'rgba(112, 112, 112, 0.5)',
 
     shadowColor: '#000000',
+    circleProgressShadowColor: '#000000',
     modalOverlayBackgroundColor: 'rgba(0, 0, 0, 0.4)',
     modalOverlayBackgroundColorLight: 'rgba(0, 0, 0, 0.2)',
 
@@ -63,10 +67,14 @@ const colors = {
     formInputTextColor: '#000000',
     formInputPlaceholderTextColor: greyColor,
 
+    statisticsButtonBackground: '#FFFFFF',
+
     buttonBigBackgroundColor: '#FFFFFF',
     buttonBigShadowColor: '#000000',
     buttonBigTextColor: mainColor,
 
+    calendarTodayButtonColor: mainColor,
+    calendarTodayButtonBackground: '#FFFFFF',
     calendarMediumDensityBackgroundColor: lightGreenColor,
 
     barChartBackground: lightGreenColor,
@@ -86,32 +94,30 @@ const borders = {
     borderLightColor: colors.borderLightColor,
     borderDarkColor: colors.borderDarkColor,
 
-    headerBorderBottomWidth: StyleSheet.hairlineWidth,
-
     modalRadius: 15
 };
 
 const fonts = {
     mainFontFamily: mainFontFamily,
 
-    fontSize: 17,
+    fontSize: isSmallScreen ? 16 : 18,
 
-    fontH1Size: 20,
-    fontH3Size: 15,
-    fontH4Size: 12,
-    fontH5Size: 10,
-    fontH6Size: 7,
+    fontH1Size: isSmallScreen ? 19 : 21,
+    fontH3Size: isSmallScreen ? 14 : 16,
+    fontH4Size: isSmallScreen ? 12 : 13,
+    fontH5Size: isSmallScreen ? 10 : 11,
+    fontH6Size: isSmallScreen ? 7 : 8,
 
-    inputFontSize: 18,
-    buttonBigFontSize: 18,
-    linkSmallFontSize: 14
+    inputFontSize: isSmallScreen ? 18 : 19,
+    buttonBigFontSize: isSmallScreen ? 18 : 19,
+    linkSmallFontSize: isSmallScreen ? 14 : 15
 };
 
 const dimensions = {
     authContentWidth: 295
 };
 
-export default{
+export default {
     name: 'light',
     statusBarStyle: 'dark-content',
     keyboardAppearance: 'light',

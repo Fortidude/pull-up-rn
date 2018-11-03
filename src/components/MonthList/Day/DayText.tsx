@@ -54,8 +54,8 @@ class DayItemText extends React.Component<Props> {
             <Animated.View style={[containerStyle, { opacity: this.props.opacity }]}>
                 <Animated.View style={textContainerStyle}>
                     <Text style={[this.style.text, TextStyle]}>{this.props.day.format('D')}</Text>
-                    {isToday && <Text style={this.style.subText}>TODAY</Text>}
                 </Animated.View>
+                {isToday && <Text style={this.style.subText}>TODAY</Text>}
             </Animated.View>
         );
     }

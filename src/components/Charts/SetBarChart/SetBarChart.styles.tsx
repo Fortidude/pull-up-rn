@@ -18,8 +18,8 @@ function getStyle(theme: ThemeInterface) {
 
         hourText: {
             fontFamily: theme.fonts.mainFontFamily,
-            fontSize: theme.fonts.fontSize,
-            color: theme.colors.textColor
+            fontSize: theme.fonts.fontH4Size,
+            color: theme.colors.subTextColor
         },
     };
 }

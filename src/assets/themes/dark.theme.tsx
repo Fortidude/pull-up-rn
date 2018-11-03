@@ -1,4 +1,7 @@
 import { StyleSheet } from 'react-native';
+import DetermineDevice from 'src/service/helpers/DetermineDevice';
+
+const isSmallScreen = DetermineDevice.isSmallScreen();
 
 const mainColor = '#FF9500';
 const redColor = '#FF3B30';
@@ -7,7 +10,7 @@ const blueColor = '#007AFF';
 const yellowColor = '#FF9500';
 const greyColor = '#a9a9a9';
 const greenColor = '#27AE60';
-const nativeBackgroundColor = '#EFEFF4';
+const nativeBackgroundColor = '#000000';
 
 const lightGreenColor = '#76D7C4';
 const lightBlueColor = '#7FB3D5';
@@ -40,13 +43,14 @@ const colors = {
     modalBackgroundColor: '#141414',
 
     plannerProgressBarBackgroundColor: '#141414',
-    statisticProgressBackgroundColor: '#FFFFFF',
+    statisticProgressBackgroundColor: '#141414',
 
     borderColor: 'rgba(255,255,255, 0.2)',
     borderLightColor: 'rgba(255,255,255, 0.13)',
     borderDarkColor: 'rgba(112, 112, 112, 0.5)',
 
     shadowColor: 'rgba(49,49,49, 0.7)',
+    circleProgressShadowColor: 'rgba(49, 49, 49, 1)',
     modalOverlayBackgroundColor: 'rgba(0,0,0, 0.6)',
     modalOverlayBackgroundColorLight: 'rgba(0,0,0, 0.3)',
 
@@ -63,10 +67,14 @@ const colors = {
     formInputTextColor: '#ffffff',
     formInputPlaceholderTextColor: greyColor,
 
+    statisticsButtonBackground: '#000000',
+
     buttonBigBackgroundColor: '#FFFFFF',
     buttonBigShadowColor: '#000000',
     buttonBigTextColor: mainColor,
 
+    calendarTodayButtonColor: mainColor,
+    calendarTodayButtonBackground: '#000000',
     calendarMediumDensityBackgroundColor: '#76D7C4',
     
     barChartBackground: lightGreenColor,
@@ -86,25 +94,23 @@ const borders = {
     borderLightColor: colors.borderLightColor,
     borderDarkColor: colors.borderDarkColor,
 
-    headerBorderBottomWidth: 0,
-
     modalRadius: 15
 };
 
 const fonts = {
     mainFontFamily: mainFontFamily,
 
-    fontSize: 17,
+    fontSize: isSmallScreen ? 16 : 18,
 
-    fontH1Size: 20,
-    fontH3Size: 15,
-    fontH4Size: 12,
-    fontH5Size: 10,
-    fontH6Size: 7,
+    fontH1Size: isSmallScreen ? 19 : 21,
+    fontH3Size: isSmallScreen ? 14 : 16,
+    fontH4Size: isSmallScreen ? 12 : 13,
+    fontH5Size: isSmallScreen ? 10 : 11,
+    fontH6Size: isSmallScreen ? 7 : 8,
 
-    inputFontSize: 18,
-    buttonBigFontSize: 18,
-    linkSmallFontSize: 14
+    inputFontSize: isSmallScreen ? 18 : 19,
+    buttonBigFontSize: isSmallScreen ? 18 : 19,
+    linkSmallFontSize: isSmallScreen ? 14 : 15
 };
 
 const dimensions = {

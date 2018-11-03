@@ -49,6 +49,7 @@ const routes = {
         screen: Profile,
         navigationOptions: {
             modal: true,
+            allScreenDismiss: true
             //  gesturesEnabled: false
         }
     },
@@ -65,6 +66,7 @@ const routes = {
         screen: Calendar,
         navigationOptions: {
             modal: true,
+            allScreenDismiss: true
             //  gesturesEnabled: false
         }
     },
@@ -72,6 +74,7 @@ const routes = {
         screen: Cardio,
         navigationOptions: {
             modal: true,
+            allScreenDismiss: true
             //  gesturesEnabled: false
         }
     },
@@ -79,6 +82,7 @@ const routes = {
         screen: Camera,
         navigationOptions: {
             modal: true,
+            allScreenDismiss: true
             //  gesturesEnabled: false
         }
     },
@@ -86,6 +90,7 @@ const routes = {
         screen: Effectiveness,
         navigationOptions: {
             modal: true,
+            allScreenDismiss: false
             //  gesturesEnabled: false
         }
     },
@@ -93,6 +98,7 @@ const routes = {
         screen: Popularity,
         navigationOptions: {
             modal: true,
+            allScreenDismiss: true
             //   gesturesEnabled: false
         }
     },
@@ -100,6 +106,7 @@ const routes = {
         screen: Progress,
         navigationOptions: {
             modal: true,
+            allScreenDismiss: true
             //  gesturesEnabled: false
         }
     }

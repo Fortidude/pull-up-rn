@@ -2,6 +2,7 @@ import { ThemeInterface } from 'src/assets/themes';
 import { Dimensions } from 'react-native';
 
 const WIDTH = Dimensions.get('window').width;
+const TILE_WIDTH = WIDTH / 7;
 function getStyle(theme: ThemeInterface) {
     return {
         weekItem: {
@@ -11,7 +12,7 @@ function getStyle(theme: ThemeInterface) {
                 marginBottom: 10
             },
             container: {
-                height: 53,
+                height: TILE_WIDTH,
                 width: WIDTH,
                 flexDirection: 'row',
                 marginBottom: 0.5
@@ -21,7 +22,7 @@ function getStyle(theme: ThemeInterface) {
         weekHeader: {
             day: {
                 container: {
-                    width: 53,
+                    width: TILE_WIDTH,
                     height: 20,
                     marginLeft: 0.5,
                     justifyContent: 'center',

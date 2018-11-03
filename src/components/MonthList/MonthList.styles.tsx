@@ -37,10 +37,10 @@ function getStyle(theme: ThemeInterface) {
                 justifyContent: 'center',
                 borderColor: theme.borders.borderColor,
                 borderWidth: theme.borders.borderWidth,
-                backgroundColor: theme.colors.buttonBigBackgroundColor
+                backgroundColor: theme.colors.calendarTodayButtonBackground
             },
             text: {
-                color: theme.colors.textColor,
+                color: theme.colors.calendarTodayButtonColor,
                 fontSize: theme.fonts.fontH3Size,
                 fontFamily: theme.fonts.mainFontFamily
             }

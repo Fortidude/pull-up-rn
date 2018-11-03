@@ -27,8 +27,6 @@ function settings(state = initialState, action: AnyAction): SettingsState {
                 I18n.locale = action.payload.locale;
                 return { ...state, locale: action.payload.locale };
             }
-        case AuthTypes.logout:
-            return Object.assign({}, initialState);
         default:
             return state;
     }

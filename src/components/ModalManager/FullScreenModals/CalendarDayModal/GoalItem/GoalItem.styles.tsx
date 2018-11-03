@@ -4,8 +4,7 @@ function getStyle(theme: ThemeInterface) {
     return {
         container: {
             backgroundColor: 'transparent',
-            borderBottomWidth: theme.borders.borderWidth,
-            borderBottomColor: theme.borders.borderLightColor
+            borderBottomWidth: theme.borders.borderWidth
         },
 
         content: {

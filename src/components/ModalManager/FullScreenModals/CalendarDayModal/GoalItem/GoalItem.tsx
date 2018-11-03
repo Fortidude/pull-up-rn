@@ -55,8 +55,13 @@ class GoalItem extends React.Component<Props, State> {
     }
 
     render() {
+        const bottomBorderColor = this.state.listHeight.interpolate({
+            inputRange: [0, 144],
+            outputRange: ['transparent', this.props.theme.borders.borderLightColor]
+        });
+
         return (
-            <View style={this.style.container}>
+            <Animated.View style={[this.style.container, {borderBottomColor: bottomBorderColor}]}>
                 <TouchableOpacity onPress={this.toggle}  style={this.style.content.container}>
                     <View style={this.style.content.left.container}>
                         <Text style={this.style.content.left.name}>{this.props.goal.exercise.name}</Text>
@@ -76,7 +81,7 @@ class GoalItem extends React.Component<Props, State> {
                     <SetBarChart sets={this.props.goal.sets} maxHeight={144}/>
                 </Animated.View>
 
-            </View>
+            </Animated.View>
         );
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Text, View, Animated, ScrollView } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './SetBarChart.styles';
@@ -71,9 +71,9 @@ class SetBarChart extends React.Component<Props, State> {
 
         return (
             <View style={[this.style.container, { height: this.props.maxHeight }]}>
-                {this.state.activeSetKey === null && <Text style={this.style.fontH3Size}>Wybierz słupek, aby zobaczyć godzinę</Text>}
+                {this.state.activeSetKey === null && <Text style={this.style.hourText}>Wybierz słupek, aby zobaczyć godzinę</Text>}
                 {this.state.activeSetKey !== null &&
-                    <Text style={this.style.fontH3Size}>
+                    <Text style={this.style.hourText}>
                         {this.getDate(this.props.sets[this.state.activeSetKey])}
                     </Text>
                 }

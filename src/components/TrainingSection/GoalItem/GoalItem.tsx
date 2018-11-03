@@ -183,7 +183,7 @@ class GoalItem extends React.Component<Props, State> {
                         </Animated.View>
                         <Animated.View style={[this.style.summaryRightContent, { opacity: opacityContentRight }]}>
                             <View style={this.style.infoTitleTopContainer}>
-                                <Text style={[this.style.infoTitleTop, { flex: 3 }]}>{I18n.t('planner.done_of')}: </Text>
+                                <Text style={[this.style.infoTitleTop, { flex: 3 }]} numberOfLines={1}>{I18n.t('planner.done_of')}: </Text>
                                 <Text style={[this.style.infoTitleTop, { flex: 2, textAlign: 'right' }]} numberOfLines={1}>
                                     {this.props.goal.doneThisCircuit}
                                     {!!this.props.goal.requiredAmount && <Text> / {this.props.goal.requiredAmount}</Text>}

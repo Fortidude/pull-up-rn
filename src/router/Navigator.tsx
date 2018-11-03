@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator, HeaderProps } from 'react-navigation';
+import { createStackNavigator, HeaderProps, StackViewTransitionConfigs } from 'react-navigation';
 
 //@ts-ignore
 import StackViewStyleInterpolator from 'react-navigation-stack/dist/views/StackView/StackViewStyleInterpolator.js';

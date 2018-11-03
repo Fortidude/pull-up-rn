@@ -84,7 +84,7 @@ class Header extends React.Component<Props, Stats> {
         return (
             <View style={this.style.container}>
                 <View style={this.style.right}>
-                    <Text style={this.style.title}>{I18n.t('statistics.effectiveness.title')}</Text>
+                    <Text style={this.style.title} numberOfLines={3}>{I18n.t('statistics.effectiveness.title')}</Text>
                     <View style={this.style.buttons.container}>
                         <View style={[this.style.buttons.buttonContainer, { marginRight: 7.5 }]}>
                             <Text style={this.style.buttons.buttonLabel}>{I18n.t('statistics.circuit')}</Text>

@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import { ThemeInterface } from '../../../assets/themes';
 
 function getStyle(theme: ThemeInterface) {
@@ -12,7 +11,7 @@ function getStyle(theme: ThemeInterface) {
             flexDirection: 'row'
         },
         plusIconContainer: {
-            width: 70,
+            flex: 2,
             height: 71,
             bottom: -1,
             backgroundColor: 'transparent',
@@ -25,10 +24,9 @@ function getStyle(theme: ThemeInterface) {
         },
         summaryContent: {
             height: 70,
-            width: '100%',
             paddingRight: 18,
             flexDirection: 'row',
-            flex: 1,
+            flex: 7,
             borderBottomWidth: theme.borders.borderWidth,
             borderBottomColor: theme.borders.borderColor,
             backgroundColor: 'transparent',

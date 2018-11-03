@@ -45,7 +45,7 @@ class Button extends React.Component<Props> {
         return (
             <TouchableOpacity onPress={this.props.onPress} style={this.style.footerButton}>
                 {this.props.iconName && <Icon name={this.props.iconName} size={20} style={iconClass} />}
-                <Text style={textClass}>{this.props.text}</Text>
+                <Text style={textClass} numberOfLines={1}>{this.props.text}</Text>
             </TouchableOpacity>
         );
     }
