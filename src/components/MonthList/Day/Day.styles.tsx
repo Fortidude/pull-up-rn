@@ -6,8 +6,8 @@ const TILE_WIDTH = WIDTH / 7;
 function getStyle(theme: ThemeInterface) {
     return {
         container: {
-            width: TILE_WIDTH,
-            height: TILE_WIDTH,
+            width: TILE_WIDTH - theme.borders.borderWidth,
+            height: TILE_WIDTH - theme.borders.borderWidth ,
             marginLeft: 0.5,
             justifyContent: 'center',
             alignItems: 'center'

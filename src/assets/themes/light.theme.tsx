@@ -75,6 +75,7 @@ const colors = {
 
     calendarTodayButtonColor: mainColor,
     calendarTodayButtonBackground: '#FFFFFF',
+    calendarTodayButtonBorderColor: 'rgba(112, 112, 112, 0.2)',
     calendarMediumDensityBackgroundColor: lightGreenColor,
 
     barChartBackground: lightGreenColor,

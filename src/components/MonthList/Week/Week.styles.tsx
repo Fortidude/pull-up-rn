@@ -12,7 +12,7 @@ function getStyle(theme: ThemeInterface) {
                 marginBottom: 10
             },
             container: {
-                height: TILE_WIDTH,
+                height: TILE_WIDTH - theme.borders.borderWidth,
                 width: WIDTH,
                 flexDirection: 'row',
                 marginBottom: 0.5
@@ -22,7 +22,7 @@ function getStyle(theme: ThemeInterface) {
         weekHeader: {
             day: {
                 container: {
-                    width: TILE_WIDTH,
+                    width: TILE_WIDTH - theme.borders.borderWidth,
                     height: 20,
                     marginLeft: 0.5,
                     justifyContent: 'center',

@@ -69,12 +69,13 @@ const colors = {
 
     statisticsButtonBackground: '#000000',
 
-    buttonBigBackgroundColor: '#FFFFFF',
-    buttonBigShadowColor: '#000000',
+    buttonBigBackgroundColor: '#141414',
+    buttonBigShadowColor: 'rgba(49,49,49, 0.7)',
     buttonBigTextColor: mainColor,
 
     calendarTodayButtonColor: mainColor,
-    calendarTodayButtonBackground: '#000000',
+    calendarTodayButtonBackground: '#141414',
+    calendarTodayButtonBorderColor: 'transparent',
     calendarMediumDensityBackgroundColor: '#76D7C4',
     
     barChartBackground: lightGreenColor,

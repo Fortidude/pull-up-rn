@@ -1,5 +1,4 @@
-import { AsyncStorage } from 'react-native';
-import { all, call, put, select, takeEvery } from 'redux-saga/effects';
+import { all, put, select, takeEvery } from 'redux-saga/effects';
 import { PlannerActions, PlannerTypes } from '../actions/planner';
 import { Data } from '../../api';
 import { SetInterface } from '../../models/Set';
@@ -13,6 +12,7 @@ function* loadByTrainings() {
 
     try {
         const planner = yield Data.getPlannerByTrainings();
+        console.log(planner);
         yield put(PlannerActions.loadByTrainingsSuccess(planner));
     } catch (err) {
         yield put(PlannerActions.loadByTrainingsFailed(err));

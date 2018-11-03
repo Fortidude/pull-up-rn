@@ -48,6 +48,7 @@ let translations = {
         },
 
         planner: {
+            add_first_training: "Dodaj swój pierwszy trening",
             done_of: "Zrobiono",
             missing: "Brakuje",
             type: "Typ",

@@ -34,7 +34,7 @@ sagaMiddleware.run(rootSaga);
 let persistor = persistStore(store);
 
 // @TODO purge delete
-persistor.purge();
+//persistor.purge();
 
 interface Props { };
 interface State {

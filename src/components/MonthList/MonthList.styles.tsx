@@ -35,7 +35,7 @@ function getStyle(theme: ThemeInterface) {
                 flex: 1,
                 alignItems: 'center',
                 justifyContent: 'center',
-                borderColor: theme.borders.borderColor,
+                borderColor: theme.colors.calendarTodayButtonBorderColor,
                 borderWidth: theme.borders.borderWidth,
                 backgroundColor: theme.colors.calendarTodayButtonBackground
             },

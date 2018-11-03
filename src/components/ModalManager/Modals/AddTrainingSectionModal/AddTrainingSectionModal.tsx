@@ -1,13 +1,12 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Text, View } from 'react-native';
+import { Text, View, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './AddTrainingSectionModal.styles';
 import I18n from 'src/assets/translations';
 import { ModalActions } from 'src/store/actions/modal';
 
-import Goal from 'src/models/Goal';
 import { PlannerActions } from 'src/store/actions/planner';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 
@@ -28,6 +27,7 @@ interface State {
 
 class AddTrainingSectionModal extends React.Component<Props, State> {
     style: ThemeValueInterface;
+    addTrainingSectionModalTitleInputRef: TextInput;
 
     constructor(props: Props) {
         super(props);
@@ -45,6 +45,12 @@ class AddTrainingSectionModal extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.addTrainingSectionModalTitleInputRef.focus();
+        }, 200);
     }
 
     success = () => {
@@ -67,6 +73,7 @@ class AddTrainingSectionModal extends React.Component<Props, State> {
                     <View style={this.style.form.container}>
                         <Text style={this.style.form.label}>{I18n.t('fields.type_name')}</Text>
                         <Input small
+                            inputRef={ref => this.addTrainingSectionModalTitleInputRef = ref}
                             keyboardType={"default"}
                             value={this.state.title ? this.state.title.toString() : undefined}
                             onChange={(value) => this.setState({ title: value })}

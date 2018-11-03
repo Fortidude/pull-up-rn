@@ -107,6 +107,10 @@ class BackButton extends React.Component<Props, State> {
             return this.state.backTextOverride;
         }
 
+        if (!this.state.previousTitle) {
+            return null;
+        }
+
         return I18n.t(`routes.${this.state.previousTitle.toLocaleLowerCase()}`);
     };
 
@@ -122,16 +126,17 @@ class BackButton extends React.Component<Props, State> {
     };
 
     render() {
+        const previousTitle = this.getPreviousTitle();
         return (
             <React.Fragment>
-                <TouchableOpacity onPress={this.onBackPress} style={this.style.backButton}>
+                {!!previousTitle && <TouchableOpacity onPress={this.onBackPress} style={this.style.backButton}>
                     <Animated.View style={[{width: 22}, HeaderStyleInterpolator.forLeft(this.props.headerProps)]}>
                         {!!this.state.showIcon && <Icon name={'chevron-left'} size={50} style={[this.style.icon]} />}
                     </Animated.View>
                     <Animated.View style={[HeaderStyleInterpolator.forLeftLabel(this.props.headerProps)]}>
                         <Text style={this.style.backText}>{this.getPreviousTitle()}</Text>
                     </Animated.View>
-                </TouchableOpacity>
+                </TouchableOpacity>}
             </React.Fragment>
         );
     }
