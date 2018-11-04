@@ -20,6 +20,13 @@ class LoginPreviousUserItem extends React.Component<Props> {
         super(props);
         this.style = getStyle(this.props.theme);
     }
+
+    componentWillReceiveProps(nextProps: Props) {
+        if (this.props.theme.name !== nextProps.theme.name) {
+            this.style = getStyle(nextProps.theme);
+        }
+    }
+
     render() {
         return (
             <TouchableOpacity onPress={() => this.props.onPress(this.props.user.email)} style={this.style.container}>
@@ -50,7 +57,7 @@ function getStyle(theme: ThemeInterface) {
     return {
         container: {
             flexDirection: 'row',
-            backgroundColor: 'rgba(255, 255, 255, 0.7)',
+            backgroundColor: theme.colors.authPreviousUserItemBackground,
             height: 30,
             width: 200,
             marginTop: 10,
@@ -58,7 +65,9 @@ function getStyle(theme: ThemeInterface) {
             shadowColor: theme.colors.buttonBigShadowColor,
             shadowOpacity: 0.5,
             shadowOffset: { width: 0, height: 3 },
-            alignItems: 'center'
+            alignItems: 'center',
+            borderWidth: theme.borders.borderWidth,
+            borderColor: theme.colors.authPreviousUserItemBorderColor
         },
         avatar: {
             width: 30,
@@ -76,6 +85,7 @@ function getStyle(theme: ThemeInterface) {
         text: {
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH3Size,
+            color: theme.colors.textColor,
             textAlignVertical: 'center',
             textAlign: 'center',
            // lineHeight: 30,

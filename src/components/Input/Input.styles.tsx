@@ -21,7 +21,9 @@ function getStyle(theme: ThemeInterface) {
             backgroundColor: theme.colors.authInputBackground,
             marginBottom: 10,
             paddingLeft: 20,
-            paddingRight: 20
+            paddingRight: 20,
+            borderWidth: theme.borders.borderWidth,
+            borderColor: theme.colors.authInputBorderColor
         },
         formInput: {
             color: theme.colors.formInputTextColor,

@@ -1,9 +1,8 @@
-import { StyleSheet } from 'react-native';
 import { ThemeInterface } from '../../assets/themes';
+import { HEADER_HEIGHT } from 'src/components/Header/Header.styles';
 
 function getStyle(theme: ThemeInterface) {
     return {
-        backgroundImage: './../../../assets/images/background-light.jpg',
         background: {
             flex: 1
         },
@@ -15,27 +14,31 @@ function getStyle(theme: ThemeInterface) {
             width: theme.dimensions.authContentWidth
         },
         container_content: {
-            flex: 3,
+            marginTop: HEADER_HEIGHT,
+            paddingTop: 20,
             width: '100%',
-            justifyContent: 'flex-start',
+            flex: 3,
+            justifyContent: 'flex-start'
         },
         container_footer: {
             flex: 2,
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'center'
           
         },
         passwordReminderButton: {
             alignSelf: 'flex-end'
         },
         passwordReminderButtonText: {
+            fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.linkSmallFontSize,
             color: theme.colors.linkSmallColor,
         },
-        registerButton: {
+        theButtonBelowMainButton: {
             marginTop: 20
         },
-        registerButtonText: {
+        theButtonBelowMainButtonText: {
+            fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.buttonBigFontSize,
             color: theme.colors.linkSmallColor
         }

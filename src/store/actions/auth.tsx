@@ -1,3 +1,5 @@
+import PasswordReminder from "src/screens/auth/PasswordReminder";
+
 export enum AuthTypes {
     checkIfLogged = '[AUTH] CHECK IF LOGGED',
     loginWithToken = '[AUTH] LOGIN WITH TOKEN',
@@ -7,6 +9,14 @@ export enum AuthTypes {
     register = '[AUTH] REGISTER',
     registerSuccess = '[AUTH] REGISTER SUCCESS',
     registerFailed = '[AUTH] REGISTER FAILED',
+
+    passwordRemind = '[AUTH] PASSWORD REMIND',
+    passwordRemindSuccess = '[AUTH] PASSWORD REMIND SUCCESS',
+    passwordRemindFailed = '[AUTH] PASSWORD REMIND FAILED',
+
+    changePassword = '[AUTH] CHANGE PASSWORD',
+    changePasswordSuccess = '[AUTH] CHANGE PASSWORD SUCCESS',
+    changePasswordFailed = '[AUTH] CHANGE PASSWORD FAILED',
 
     logout = '[AUTH] LOGOUT',
 }
@@ -31,7 +41,7 @@ export const AuthActions = {
 
     register: (email: string, username: string, password: string) => ({
         type: AuthTypes.register,
-        payload: {email, username, password}
+        payload: { email, username, password }
     }),
     registerSuccess: () => ({
         type: AuthTypes.registerSuccess,
@@ -39,7 +49,41 @@ export const AuthActions = {
     }),
     registerFailed: (error: string) => ({
         type: AuthTypes.registerFailed,
-        payload: {error: error}
+        payload: { error: error }
+    }),
+
+    /**
+     * PASSWORD REMIND
+     */
+    passwordRemind: (email: string) => ({
+        type: AuthTypes.passwordRemind,
+        payload: { email }
+    }),
+    passwordRemindSuccess: () => ({
+        type: AuthTypes.passwordRemindSuccess,
+        payload: {}
+    }),
+    passwordRemindFailed: (error: string) => ({
+        type: AuthTypes.passwordRemindFailed,
+        payload: { error }
+    }),
+
+    /**
+     * CHANGE PASSWORD
+     */
+    changePassword: (email: string, token: string, password: string) => ({
+        type: AuthTypes.changePassword,
+        payload: { email, token, password }
+    }),
+
+    changePasswordSuccess: () => ({
+        type: AuthTypes.changePasswordSuccess,
+        payload: {}
+    }),
+
+    changePasswordFailed: (error: string) => ({
+        type: AuthTypes.changePasswordFailed,
+        payload: { error }
     }),
 
     logout: () => ({

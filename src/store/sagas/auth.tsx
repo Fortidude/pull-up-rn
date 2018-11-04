@@ -66,9 +66,29 @@ function* logout(action: any) {
     yield AsyncStorage.removeItem('user');
     yield put(StackActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'Login' })],
+        actions: [NavigationActions.navigate({ routeName: 'Auth' })],
         key: null
     }));
+}
+
+function* passwordRemind(action: any) {
+    const { email } = action.payload;
+    const result = yield User.passwordResetRequest(email);
+    if (result && result === true) {
+        yield put(AuthActions.passwordRemindSuccess());
+    } else {
+        yield put(AuthActions.passwordRemindFailed(result));
+    }
+}
+
+function* passwordChange(action: any) {
+    const { email, token, password } = action.payload;
+    const result = yield User.passwordChange(email, token, password);
+    if (result && result === true) {
+        yield put(AuthActions.changePasswordSuccess());
+    } else {
+        yield put(AuthActions.changePasswordFailed(result));
+    }
 }
 
 function* authSaga() {
@@ -77,6 +97,10 @@ function* authSaga() {
         takeEvery(AuthTypes.loginWithToken, loginWithToken),
         takeEvery(AuthTypes.loginSuccess, loginSuccess),
         takeEvery(AuthTypes.register, register),
+
+        takeEvery(AuthTypes.passwordRemind, passwordRemind),
+        takeEvery(AuthTypes.changePassword, passwordChange),
+
         takeEvery(AuthTypes.logout, logout)
     ]);
 }

@@ -23,6 +23,8 @@ interface State {
 }
 
 class TopProgressBar extends React.Component<Props, State> {
+
+    closePosition = 0;
     style: ThemeValueInterface;
     offset = 0;
     closed = true;
@@ -38,7 +40,7 @@ class TopProgressBar extends React.Component<Props, State> {
         this.props.scrollViewPositionY.addListener(() => this.forceClose());
 
         this.state = {
-            swipePosition: new Animated.Value(0)
+            swipePosition: new Animated.Value(1)
         }
     }
 
@@ -57,7 +59,7 @@ class TopProgressBar extends React.Component<Props, State> {
         } else if (index === 0 && nextProps.nav.isTransitioning && this.hidden) {
             this.hidden = false;
             Animated.timing(this.state.swipePosition, {
-                toValue: 0,
+                toValue: this.closePosition,
                 useNativeDriver: true
             }).start();
         }
@@ -67,7 +69,7 @@ class TopProgressBar extends React.Component<Props, State> {
         this.offset = 0;
         this.closed = true;
         Animated.spring(this.state.swipePosition, {
-            toValue: 0,
+            toValue: this.closePosition,
             useNativeDriver: true
         }).start();
     }
@@ -77,17 +79,17 @@ class TopProgressBar extends React.Component<Props, State> {
         const currentPosition = this.state.swipePosition._value;
         const maxHeight = this.style.topContainerHeight;
 
-        let toValue = 0
+        let toValue = this.closePosition;
         let requiredRatio = this.closed ? 0.1 : 0.9
         if (currentPosition >= maxHeight * requiredRatio) {
             toValue = maxHeight;
         }
 
         if (currentPosition >= maxHeight * 1.2 && !this.closed) {
-            toValue = 0;
+            toValue = this.closePosition;
         }
 
-        this.closed = toValue === 0;
+        this.closed = toValue === this.closePosition;
         this.offset = toValue;
 
         if (currentPosition === maxHeight || currentPosition === 0) {

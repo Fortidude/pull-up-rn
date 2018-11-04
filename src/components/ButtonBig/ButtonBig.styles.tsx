@@ -8,7 +8,9 @@ function getStyle(theme: ThemeInterface) {
             height: 50,
             borderRadius: 5,
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            borderWidth: theme.borders.borderWidth,
+            borderColor: theme.colors.buttonBigBorderColor
         },
         containerShadow: {
             shadowColor: theme.colors.buttonBigShadowColor,

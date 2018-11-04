@@ -7,7 +7,6 @@ function getStyle(theme: ThemeInterface) {
         container: {
             flexDirection: 'row',
             height: FOOTER_HEIGHT,
-            bottom: DetermineDevice.isIphoneX() ? 40 : 0,
             width: '100%',
             backgroundColor: theme.colors.footerBackgroundColor,
             borderTopWidth: theme.borders.borderWidth,

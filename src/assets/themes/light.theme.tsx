@@ -60,7 +60,10 @@ const colors = {
 
     authInputBackground: 'rgba(124,152,253, 0.87)',
     authInputTextColor: '#FFF',
+    authInputBorderColor: 'transparent',
     authInputPlaceholderTextColor: '#E5E5E5',
+    authPreviousUserItemBackground: 'rgba(255, 255, 255, 0.7)',
+    authPreviousUserItemBorderColor: 'transparent',
 
     formLabelColor: '#636366',
     formInputBackground: '#ffffff',
@@ -70,6 +73,7 @@ const colors = {
     statisticsButtonBackground: '#FFFFFF',
 
     buttonBigBackgroundColor: '#FFFFFF',
+    buttonBigBorderColor: 'transparent',
     buttonBigShadowColor: '#000000',
     buttonBigTextColor: mainColor,
 

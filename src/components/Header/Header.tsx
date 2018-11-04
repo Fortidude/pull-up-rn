@@ -19,11 +19,14 @@ interface Props {
     headerProps: HeaderProps;
     dispatch: Dispatch;
     theme: ThemeInterface;
+    locale: string;
     isOnline: boolean;
     plannerIsEmpty: boolean;
 }
 
-interface State { }
+interface State {
+    overwriteTitle: string | null;
+}
 
 class Header extends React.Component<Props, State> {
     style: ThemeValueInterface;
@@ -31,22 +34,39 @@ class Header extends React.Component<Props, State> {
 
     routesWithoutBottomBorder = [
         'planner',
-      //  'effectivenessstats'
-    ]
+        'auth'
+        //  'effectivenessstats'
+    ];
+
+    routesWithoutBackground = [
+        'auth'
+    ];
 
     constructor(props: Props) {
         super(props);
         this.style = Styles(this.props.theme);
         this.state = {
-            overrideTitle: null
+            overwriteTitle: null
         }
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
         return nextProps.isOnline !== this.props.isOnline
+            || nextProps.locale !== this.props.locale
             || nextProps.theme.name !== this.props.theme.name
             || nextProps.plannerIsEmpty !== this.props.plannerIsEmpty
-            || nextProps.headerProps.scene.route.routeName !== this.props.headerProps.scene.route.routeName;
+            || nextProps.headerProps.scene.route.routeName !== this.props.headerProps.scene.route.routeName
+            || nextState.overwriteTitle !== this.state.overwriteTitle;
+    }
+
+    componentDidMount() {
+        Events.listenTo('HEADER_OVERWRITE_TITLE', 'HEADER', (title: string) => {
+            this.setState({ overwriteTitle: title });
+        })
+    }
+
+    componentWillUnmount() {
+        Events.remove('HEADER_OVERWRITE_TITLE', 'HEADER');
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -63,7 +83,11 @@ class Header extends React.Component<Props, State> {
 
     getRawCurrentTitle = () => this.props.headerProps.scene.route.routeName;
     getCurrentTitle = () => {
-        const routeName = this.getRawCurrentTitle().toLocaleLowerCase();
+        let routeName = this.getRawCurrentTitle();
+        if (this.state.overwriteTitle) {
+            routeName = this.state.overwriteTitle;
+        }
+
         return I18n.t(`routes.${routeName.toLocaleLowerCase()}`);
     };
 
@@ -76,14 +100,21 @@ class Header extends React.Component<Props, State> {
         return <BackButton headerProps={this.props.headerProps} />
     }
 
+    isBackgroundTransparent = (): boolean => {
+        const routeName = this.props.headerProps.scene.route.routeName.toLocaleLowerCase();
+        return this.routesWithoutBackground.includes(routeName);
+    }
+
     render() {
         const borderBottomColor = this.borderBottom.interpolate({
             inputRange: [0, 1],
             outputRange: ['transparent', this.props.theme.borders.borderColor]
         });
 
+        const backgroundTransparent = this.isBackgroundTransparent() ? { backgroundColor: 'transparent' } : {};
+
         return (
-            <Animated.View style={[this.style.header, { borderBottomColor: borderBottomColor }]}>
+            <Animated.View style={[this.style.header, backgroundTransparent, { borderBottomColor: borderBottomColor }]}>
                 <View style={this.style.left.container}>
                     {this.getRightButton()}
                 </View>
@@ -105,6 +136,7 @@ class Header extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
+    locale: state.settings.locale,
     isOnline: state.app.isOnline,
     plannerIsEmpty: state.planner.byTrainingsEmpty
 });

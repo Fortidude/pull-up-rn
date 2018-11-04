@@ -1,29 +1,35 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { View, ImageBackground, KeyboardAvoidingView, StyleSheet, Alert } from 'react-native';
-import { NavigationActions, StackActions } from 'react-navigation';
+import { Alert, Text, View } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 
-import getStyle from '../auth.styles';
-import I18n from '../../../assets/translations';
+import getStyle from '../Auth.styles';
+import I18n from 'src/assets/translations';
 
-import Input from '../../../components/Input';
-import ButtonBig from '../../../components/ButtonBig';
-import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
+import Input from 'src/components/Input';
+import ButtonBig from 'src/components/ButtonBig';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import FormContainer from '../components';
-import { AuthActions } from '../../../store/actions/auth';
+import { AuthActions } from 'src/store/actions/auth';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+    locale: string;
 
     isLoading: boolean;
     isRegistered: boolean;
     error: string | null;
+
+    email: string;
+    onEmailChange: (value: string) => void;
+
+    onInputFocus?: () => void;
+    onInputBlur?: () => void;
 };
 
 interface State {
-    email: string;
     username: string;
     password: string;
     passwordRepeat: string;
@@ -39,7 +45,6 @@ class Login extends Component<Props, State> {
         this.style = getStyle(this.props.theme);
 
         this.state = {
-            email: '',
             username: '',
             password: '',
             passwordRepeat: '',
@@ -66,7 +71,7 @@ class Login extends Component<Props, State> {
                 if (nextProps.isRegistered) {
                     this.goToLoginPage();
                     Alert.alert(I18n.t('register.success_title'), I18n.t('register.success_text'),
-                        [{ text: I18n.t('login.login'), onPress: () => {} }],
+                        [{ text: I18n.t('login.login'), onPress: () => { } }],
                         { cancelable: false }
                     );
                 }
@@ -84,7 +89,7 @@ class Login extends Component<Props, State> {
         }
 
         this.setState({ isLoading: true }, () => {
-            this.props.dispatch(AuthActions.register(this.state.email, this.state.username, this.state.password));
+            this.props.dispatch(AuthActions.register(this.props.email, this.state.username, this.state.password));
         })
     };
 
@@ -97,37 +102,42 @@ class Login extends Component<Props, State> {
 
     render() {
         return (
-            <ImageBackground source={require('./../../../assets/images/backgroundlight.jpg')}
-                style={[this.style.background, StyleSheet.absoluteFill]}>
-                <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={0}>
-                    <FormContainer keyboardPadding={100}>
-                        <View style={this.style.container_content}>
-                            <Input
-                                authStyle
-                                placeholder={I18n.t('fields.email')}
-                                onChange={this._setEmail}
-                            />
+            <React.Fragment>
+                <FormContainer keyboardPadding={100}>
+                    <Input
+                        authStyle
+                        value={this.props.email}
+                        onFocus={this.props.onInputFocus}
+                        onBlur={this.props.onInputBlur}
+                        placeholder={I18n.t('fields.email')}
+                        onChange={this._setEmail}
+                    />
 
-                            <Input
-                                authStyle
-                                password
-                                placeholder={I18n.t('fields.password')}
-                                onChange={this._setPassword}
-                            />
+                    <Input
+                        authStyle
+                        password
+                        onFocus={this.props.onInputFocus}
+                        onBlur={this.props.onInputBlur}
+                        placeholder={I18n.t('fields.password')}
+                        onChange={this._setPassword}
+                    />
 
-                            <Input
-                                authStyle
-                                password
-                                placeholder={I18n.t('fields.password_repeat')}
-                                onChange={this._setPasswordRepeat}
-                            />
-                        </View>
-                    </FormContainer>
-                    <View style={this.style.container_footer}>
-                        <ButtonBig onPress={this.register} text={I18n.t('register.register')} />
+                    <Input
+                        authStyle
+                        password
+                        onFocus={this.props.onInputFocus}
+                        onBlur={this.props.onInputBlur}
+                        placeholder={I18n.t('fields.password_repeat')}
+                        onChange={this._setPasswordRepeat}
+                    />
+                </FormContainer>
+                <View style={this.style.container_footer}>
+                    <ButtonBig onPress={this.register} text={I18n.t('register.register')} />
+                    <View style={this.style.theButtonBelowMainButton}>
+                        <Text style={this.style.theButtonBelowMainButtonText}>{' '}</Text>
                     </View>
-                </KeyboardAvoidingView>
-            </ImageBackground>
+                </View>
+            </React.Fragment>
         );
     }
 
@@ -157,10 +167,11 @@ class Login extends Component<Props, State> {
 
     _isEmailValid = () => {
         const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return regex.test(this.state.email.toLowerCase());
+        return regex.test(this.props.email.toLowerCase());
     }
     _setEmail = (email: string) => {
-        this.setState({ email: email.toLowerCase(), username: email.toLowerCase() });
+        this.props.onEmailChange(email);
+        this.setState({ username: email.toLowerCase() });
     }
 
     _isPasswordValid = () => this.state.password.length >= 5;
@@ -177,6 +188,7 @@ class Login extends Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
+    locale: state.settings.locale,
 
     isLoading: state.auth.isLoading,
     isRegistered: state.auth.isRegistered,

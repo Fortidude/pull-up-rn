@@ -3,6 +3,7 @@ import { createBottomTabNavigator, TabBarBottom } from 'react-navigation';
 //import InitPage from 'src/screens/initPage';
 import InitPage from 'src/screens/initPage';
 
+import Auth from 'src/screens/auth';
 import Login from 'src/screens/auth/Login';
 import Register from 'src/screens/auth/Register';
 import PasswordReminder from 'src/screens/auth/PasswordReminder';
@@ -32,6 +33,9 @@ const routes = {
             header: null,
             gesturesEnabled: false,
         }
+    },
+    Auth: {
+        screen: Auth
     },
     Login: {
         screen: Login

@@ -4,14 +4,14 @@ import { TouchableOpacity, ImageBackground, Text, View, KeyboardAvoidingView, An
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import getStyle from '../auth.styles';
-import I18n from '../../../assets/translations';
-import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes/index'
-import Images from '../../../assets/images';
-import Input from '../../../components/Input';
-import ButtonBig from '../../../components/ButtonBig';
+import getStyle from '../Auth.styles';
+import I18n from 'src/assets/translations';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes/index'
+import Images from 'src/assets/images';
+import Input from 'src/components/Input';
+import ButtonBig from 'src/components/ButtonBig';
 import emailLogin from './onLogin/emailLogin';
-import { AuthActions } from '../../../store/actions/auth';
+import { AuthActions } from 'src/store/actions/auth';
 import User from 'src/models/User';
 
 import FormContainer from '../components';
@@ -20,9 +20,18 @@ import LoginPreviousUserItem from '../components/LoginPreviousUserItem';
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+    locale: string;
+
+    email: string;
+    onEmailChange: (value: string) => void;
+
+    onInputFocus?: () => void;
+    onInputBlur?: () => void;
+
+    onRegisterClick: () => void;
+    onPasswordReminderClick: () => void;
 };
 interface State {
-    email: string;
     password: string;
     isLoading: boolean;
 
@@ -40,7 +49,6 @@ class Login extends Component<Props, State> {
         this.style = getStyle(this.props.theme);
 
         this.state = {
-            email: '',
             password: '',
             isLoading: false,
             users: []
@@ -63,7 +71,7 @@ class Login extends Component<Props, State> {
             })
 
             if (users.length > 0) {
-                this.setState({users});
+                this.setState({ users });
             }
         })
     }
@@ -75,11 +83,13 @@ class Login extends Component<Props, State> {
     }
 
     goToRegisterPage = () => {
-        this.props.dispatch(NavigationActions.navigate({ routeName: 'Register' }));
+        //this.props.dispatch(NavigationActions.navigate({ routeName: 'Register' }));
+        this.props.onRegisterClick();
     };
 
     goToPasswordReminderPage = () => {
-        this.props.dispatch(NavigationActions.navigate({ routeName: 'PasswordReminder' }));
+        //this.props.dispatch(NavigationActions.navigate({ routeName: 'PasswordReminder' }));
+        this.props.onPasswordReminderClick();
     };
 
     login = async () => {
@@ -96,72 +106,69 @@ class Login extends Component<Props, State> {
 
         Keyboard.dismiss();
         this.setState({ isLoading: true }, () => {
-            emailLogin.login(this.state.email.toLocaleLowerCase(), this.state.password, this.goToPasswordReminderPage, onSuccess, onFailed);
+            emailLogin.login(this.props.email.toLocaleLowerCase(), this.state.password, this.goToPasswordReminderPage, onSuccess, onFailed);
         });
     };
 
     render() {
         return (
-            <ImageBackground source={Images.loginBackground}
-                onLayout={() => { }}
-                style={[this.style.background, StyleSheet.absoluteFill]}>
+            <React.Fragment>
+                <FormContainer keyboardPadding={100}>
+                    <Input
+                        authStyle
+                        value={this.props.email}
+                        keyboardType={"email-address"}
+                        placeholder={I18n.t('fields.email')}
+                        onFocus={this._onInputFocus}
+                        onBlur={this._onInputBlur}
+                        onChange={(value) => {
+                            this.props.onEmailChange(value);
+                        }} />
+                    <Input
+                        authStyle
+                        inputRef={(ref) => this.passwordRef = ref}
+                        value={this.state.password}
+                        password={true}
+                        placeholder={I18n.t('fields.password')}
+                        onFocus={this._onInputFocus}
+                        onBlur={this._onInputBlur}
+                        onChange={(value) => {
+                            this.setState({ password: value });
+                        }} />
 
-                <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={0}>
-                    <FormContainer keyboardPadding={100}>
-                        <Input
-                            authStyle
-                            value={this.state.email}
-                            keyboardType={"email-address"}
-                            placeholder={I18n.t('fields.email')}
-                            onFocus={this._onInputFocus}
-                            onBlur={this._onInputBlur}
-                            onChange={(value) => {
-                                this.setState({ email: value });
-                            }} />
-                        <Input
-                            authStyle
-                            inputRef={(ref) => this.passwordRef = ref}
-                            value={this.state.password}
-                            password={true}
-                            placeholder={I18n.t('fields.password')}
-                            onFocus={this._onInputFocus}
-                            onBlur={this._onInputBlur}
-                            onChange={(value) => {
-                                this.setState({ password: value });
-                            }} />
-
-                        <TouchableOpacity style={this.style.passwordReminderButton}
-                            onPress={this.goToPasswordReminderPage}>
-                            <Text style={this.style.passwordReminderButtonText}>{I18n.t('login.remind_password')}</Text>
-                        </TouchableOpacity>
-                    </FormContainer>
-                    <Animated.View style={{ alignSelf: 'flex-end', opacity: this.userListOpacity }}>
-                        {this.state.users.map(user => {
-                            return (
-                                <LoginPreviousUserItem onPress={this._onLoginPreviousUserPress} key={user.id} user={user}/>
-                            )
-                        })}
-                    </Animated.View>
-                    <View style={this.style.container_footer}>
-                        <ButtonBig onPress={this.login} text={I18n.t('login.login')} isLoading={this.state.isLoading} />
-                        <TouchableOpacity style={this.style.registerButton} onPress={this.goToRegisterPage}>
-                            <Text style={this.style.registerButtonText}>{I18n.t('login.no_account')}</Text>
-                        </TouchableOpacity>
-                    </View>
-                </KeyboardAvoidingView>
-            </ImageBackground>
+                    <TouchableOpacity style={this.style.passwordReminderButton}
+                        onPress={this.goToPasswordReminderPage}>
+                        <Text numberOfLines={1} style={this.style.passwordReminderButtonText}>{I18n.t('login.remind_password')}</Text>
+                    </TouchableOpacity>
+                </FormContainer>
+                <Animated.View style={{ alignSelf: 'flex-end', position: 'absolute', opacity: this.userListOpacity }}>
+                    {this.state.users.map(user => {
+                        return (
+                            <LoginPreviousUserItem onPress={this._onLoginPreviousUserPress} key={user.id} user={user} />
+                        )
+                    })}
+                </Animated.View>
+                <View style={this.style.container_footer}>
+                    <ButtonBig onPress={this.login} text={I18n.t('login.login')} isLoading={this.state.isLoading} />
+                    <TouchableOpacity style={this.style.theButtonBelowMainButton} onPress={this.goToRegisterPage}>
+                        <Text numberOfLines={1} style={this.style.theButtonBelowMainButtonText}>{I18n.t('login.no_account')}</Text>
+                    </TouchableOpacity>
+                </View>
+            </React.Fragment>
         );
     }
 
     _onLoginPreviousUserPress = (email: string) => {
-        this.setState({email: email}, () => {
-            if (this.passwordRef) {
-                this.passwordRef.focus();
-            }
-        });
+        this.props.onEmailChange(email);
+        if (this.passwordRef) {
+            this.passwordRef.focus();
+        };
     }
 
     _onInputFocus = () => {
+        if (this.props.onInputFocus) {
+            this.props.onInputFocus();
+        }
         Animated.timing(this.userListOpacity, {
             toValue: 0,
             duration: 100
@@ -169,6 +176,9 @@ class Login extends Component<Props, State> {
     }
 
     _onInputBlur = () => {
+        if (this.props.onInputBlur) {
+            this.props.onInputBlur();
+        }
         Animated.timing(this.userListOpacity, {
             toValue: 1
         }).start();
@@ -177,7 +187,8 @@ class Login extends Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    locale: state.settings.locale
 });
 
 export default connect(mapStateToProps)(Login);

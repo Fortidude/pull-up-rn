@@ -1,5 +1,7 @@
 import { ThemeInterface } from '../../../assets/themes';
 import { Dimensions } from 'react-native';
+import { FOOTER_HEIGHT } from 'src/components/FooterBar/FooterBar.styles';
+import { HEADER_HEIGHT } from 'src/components/Header/Header.styles';
 
 const HEIGHT = Dimensions.get('window').height;
 function getStyle(theme: ThemeInterface) {
@@ -9,7 +11,8 @@ function getStyle(theme: ThemeInterface) {
             borderTopWidth: theme.borders.borderWidth,
             borderTopColor: theme.borders.borderColor,
             paddingRight: 18,
-            paddingLeft: 22
+            paddingLeft: 22,
+            height: HEIGHT - HEADER_HEIGHT - FOOTER_HEIGHT,
         },
 
         refreshingProgressBar: {
@@ -27,6 +30,10 @@ function getStyle(theme: ThemeInterface) {
         listIsEmptyContainer: {
             height: HEIGHT / 2,
             justifyContent: 'center'
+        },
+
+        listFooterComponent: {
+            height: 80
         }
     };
 }

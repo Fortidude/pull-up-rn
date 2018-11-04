@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Text, View } from 'react-native';
+import { Text, View, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './AddSetModal.styles';
@@ -31,6 +31,7 @@ interface State {
 
 class AddSetModal extends React.Component<Props, State> {
     style: ThemeValueInterface;
+    addSetModalRepAmountRef: TextInput;
 
     constructor(props: Props) {
         super(props);
@@ -50,6 +51,12 @@ class AddSetModal extends React.Component<Props, State> {
 
     componentWillUnmount() {
         this.props.dispatch(PlannerActions.selectGoal(null));
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.addSetModalRepAmountRef.focus();
+        }, 200);
     }
 
     success = () => {
@@ -88,6 +95,7 @@ class AddSetModal extends React.Component<Props, State> {
                         <Text style={this.style.form.label}>{I18n.t('fields.number_of_reps_done')}</Text>
                         <Input small
                             keyboardType={"numeric"}
+                            inputRef={ref => this.addSetModalRepAmountRef = ref}
                             value={this.state.value ? this.state.value.toString() : undefined}
                             onChange={(value) => this.setState({ value: parseInt(value) })}
                         />

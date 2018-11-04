@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { Platform, EventSubscription, Animated, Keyboard } from 'react-native';
 
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
-import getStyle from '../auth.styles';
+import getStyle from '../Auth.styles';
 import { connect } from 'react-redux';
 
 interface Props {
@@ -75,7 +75,7 @@ class FormContainer extends React.Component<Props, State> {
 
     render() {
         return (
-            <Animated.View style={[this.style.container_content, { paddingTop: this.state.formPaddingTop }]}>
+            <Animated.View style={[this.style.container_content, { /*paddingTop: this.state.formPaddingTop*/ }]}>
                 {this.props.children}
             </Animated.View>
         );

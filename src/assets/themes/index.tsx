@@ -1,4 +1,4 @@
-import DefaultTheme from './light.theme';
+import LightTheme from './light.theme';
 import DarkTheme from './dark.theme';
 import { StatusBarStyle,  } from 'react-native';
 
@@ -14,11 +14,11 @@ export interface ThemeInterface {
     dimensions: ThemeValueInterface;
 }
 
-export default DefaultTheme;
+export default DarkTheme;
 
 export const list = ['light', 'dark'];
 
 export const themes: {[key: string]: {}} = {
-    light: DefaultTheme,
+    light: LightTheme,
     dark: DarkTheme
 };

@@ -58,9 +58,12 @@ const colors = {
     plannerFooterAvatarBackground: 'rgba(189, 189, 189, 0.8)',
     plannerFooterAvatarShadow: 'rgba(49,49,49, 0.7)',
 
-    authInputBackground: 'rgba(124,152,253, 0.87)',
+    authInputBackground: '#141414',
     authInputTextColor: '#FFF',
-    authInputPlaceholderTextColor: '#E5E5E5',
+    authInputBorderColor: 'rgba(255,255,255, 0.5)',
+    authInputPlaceholderTextColor: 'rgba(255,255,255, 0.5)',
+    authPreviousUserItemBackground: "#141414",
+    authPreviousUserItemBorderColor: "rgba(255,255,255, 0.2)",
 
     formLabelColor: '#a1a1a3',
     formInputBackground: '#09090a',
@@ -70,7 +73,8 @@ const colors = {
     statisticsButtonBackground: '#000000',
 
     buttonBigBackgroundColor: '#141414',
-    buttonBigShadowColor: 'rgba(49,49,49, 0.7)',
+    buttonBigBorderColor: 'rgba(255,255,255, 0.2)',
+    buttonBigShadowColor: 'transparent',
     buttonBigTextColor: mainColor,
 
     calendarTodayButtonColor: mainColor,

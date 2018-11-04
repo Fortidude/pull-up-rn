@@ -145,6 +145,50 @@ class User implements UserInterface {
                 throw msg;
             });
     }
+
+    passwordResetRequest = async (email: string): Promise<boolean|string> => {
+        let object = {
+            method: "POST",
+            headers: await ApiHelper.getHeaders(false, true),
+            body: JSON.stringify({
+                email: email,
+            })
+        };
+
+        const result = await fetch(ApiHelper.getHost() + '/password-remind', object)
+            .then(ApiHelper.checkForResponseErrors)
+            .then(response => response.json())
+            .then((response) => {
+                return true;
+            }).catch(err => {
+                return err.message;
+            }) 
+
+        return result;
+    }
+
+    passwordChange = async (email: string, token: string, password: string): Promise<boolean|string> => {
+        let object = {
+            method: "POST",
+            headers: await ApiHelper.getHeaders(false, true),
+            body: JSON.stringify({
+                email: email,
+                key: token,
+                password: password
+            })
+        };
+
+        const result = await fetch(ApiHelper.getHost() + '/password-change', object)
+            .then(ApiHelper.checkForResponseErrors)
+            .then(response => response.json())
+            .then((response) => {
+                return true;
+            }).catch(err => {
+                return err.message;
+            }) 
+
+        return result;
+    }
 }
 
 export default User.getInstance();

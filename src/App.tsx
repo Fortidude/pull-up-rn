@@ -22,6 +22,7 @@ import Images from './assets/images';
 import { ThemeValueInterface } from './assets/themes';
 import AppManager from './components/AppManager';
 import ModalManager from './components/ModalManager';
+import { Linking } from 'react-native';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -64,7 +65,7 @@ export default class App extends React.Component<Props, State> {
                 <Provider store={store}>
                     <PageLoaderAnimation
                         imageSource={Images.logoLoaderBackground}
-                        backgroundStyle={[{ backgroundColor: 'rgba(125, 125, 255, 1)' }]}
+                        backgroundStyle={[{ backgroundColor: '#141414' }]}
                         isLoaded={this.state.appReady}>
 
                         <AppWithNavigationState />

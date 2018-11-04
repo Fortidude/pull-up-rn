@@ -12,15 +12,14 @@ import {
 
 import routes from './routes';
 import Header from '../components/Header';
-import { Animated } from 'react-native';
+import { Animated, Easing } from 'react-native';
 import NavigationAnimated from 'src/service/NavigationAnimated';
 
 const transitionConfig = () => {
     return {
         // transitionSpec: {
-        //     duration: 750,
-        //     easing: Easing.out(Easing.poly(4)),
-        //     timing: Animated.timing,
+        //     duration: 300, 
+        //     easing: Easing.bezier(0.95, 0.05, 0.795, 0.035),
         //     useNativeDriver: true,
         // },
         screenInterpolator: (sceneProps: any) => {
@@ -67,7 +66,7 @@ export const Navigator = createStackNavigator(routes, {
     cardStyle: {
         backgroundColor: 'transparent'
     },
-    transitionConfig,
+    transitionConfig
 });
 
 export const middleware = createReactNavigationReduxMiddleware(

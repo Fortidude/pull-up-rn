@@ -1,22 +1,34 @@
 import React, { Component } from 'react';
-import { ImageBackground, View, KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { Text, View } from 'react-native';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
-import getStyle from '../auth.styles';
-import I18n from '../../../assets/translations';
+import getStyle from '../Auth.styles';
+import I18n from 'src/assets/translations';
 
-import Input from '../../../components/Input';
-import ButtonBig from '../../../components/ButtonBig';
-import { ThemeInterface } from '../../../assets/themes';
+import Input from 'src/components/Input';
+import ButtonBig from 'src/components/ButtonBig';
+import { ThemeInterface } from 'src/assets/themes';
 import FormContainer from '../components';
+import { AuthActions } from 'src/store/actions/auth';
 
-type Props = {
+interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+    isLoading: boolean;
+
+    email: string;
+    onEmailChange: (value: string) => void;
+
+    onInputFocus?: () => void;
+    onInputBlur?: () => void;
 };
-class PasswordReminder extends Component<Props> {
+
+interface State {
+}
+
+class PasswordReminder extends Component<Props, State> {
     style: any;
 
     constructor(props: Props) {
@@ -39,30 +51,38 @@ class PasswordReminder extends Component<Props> {
         }));
     };
 
-    register = () => {
-        this.props.dispatch(NavigationActions.navigate({ routeName: 'Register' }));
+    remindPassword = () => {
+        this.props.dispatch(AuthActions.passwordRemind(this.props.email));
     }
 
     render() {
         return (
-            <ImageBackground source={require('./../../../assets/images/backgroundlight.jpg')}
-                style={[this.style.background, StyleSheet.absoluteFill]}>
-                <KeyboardAvoidingView style={this.style.container} behavior="padding" keyboardVerticalOffset={0}>
-                    <FormContainer keyboardPadding={100}>
-                        <Input authStyle placeholder={I18n.t('fields.email')} onChange={() => { }} />
-                    </FormContainer>
-                    <View style={this.style.container_footer}>
-                        <ButtonBig onPress={this.register} text={I18n.t('password_reminder.send_link')} />
+            <React.Fragment>
+                <FormContainer keyboardPadding={100}>
+                    <Input
+                        value={this.props.email}
+                        onFocus={this.props.onInputFocus}
+                        onBlur={this.props.onInputBlur}
+                        authStyle
+                        placeholder={I18n.t('fields.email')}
+                        onChange={this.props.onEmailChange}
+                    />
+                </FormContainer>
+                <View style={this.style.container_footer}>
+                    <ButtonBig isLoading={this.props.isLoading} onPress={this.remindPassword} text={I18n.t('password_reminder.send_link')} />
+                    <View style={this.style.theButtonBelowMainButton}>
+                        <Text style={this.style.theButtonBelowMainButtonText}>{' '}</Text>
                     </View>
-                </KeyboardAvoidingView>
-            </ImageBackground>
+                </View>
+            </React.Fragment>
         );
     }
 }
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    isLoading: state.auth.isLoading
 });
 
 export default connect(mapStateToProps)(PasswordReminder);

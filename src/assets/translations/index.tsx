@@ -22,7 +22,12 @@ let translations = {
             password_multiple_wrong: "W przypadku pewności co do poprawnego adresu email zaleca się skorzystanie z opcji przypomnienia hasła."
         },
         password_reminder: {
-            send_link: "Wyślij link aktywacyjny"
+            send_link: "Wyślij link aktywacyjny",
+            link_has_been_sent: "Link aktywacyjny został wysłany.\nSprawdź swoją skrzynke e-mail."
+        },
+        password_reset: {
+            change_password: "Zmień hasło",
+            password_changed: "Hasło zostało zmienione.\nMożesz się zalogować."
         },
         register: {
             register: "Zarejestruj się",
@@ -85,11 +90,13 @@ let translations = {
         },
 
         routes: {
+            auth: "Zaloguj się",
             calendar: "Kalendarz",
             effectivenessstats: "Skuteczność",
             initpage: "Pull Up!",
             languagepicker: "Wybierz język",
             login: "Logowanie",
+            passwordreset: "Zmień hasło",
             passwordreminder: "Przypomnij hasło",
             planner: "Pull Up!",
             profile: "Profil",
@@ -103,6 +110,7 @@ let translations = {
         fields: {
             additional_weight: "Dodatkowy ciężar? (KG)",
             email: "Email",
+            email_validate: "Potwierdź adres email",
             number_of_reps_done: "Ilość wykonanych powtórzeń",
             password: "Hasło",
             password_repeat: "Powtórz hasło",

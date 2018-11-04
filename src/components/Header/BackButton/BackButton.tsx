@@ -26,8 +26,8 @@ interface Props {
 
 interface State {
     previousTitle: string;
-    backTextOverride: string | null;
-    backActionOverride: any;
+    backTextOverwrite: string | null;
+    backActionOverwrite: any;
     showIcon: boolean;
 }
 
@@ -40,8 +40,8 @@ class BackButton extends React.Component<Props, State> {
         this.style = Styles(this.props.theme);
         this.state = {
             previousTitle: '',
-            backTextOverride: null,
-            backActionOverride: null,
+            backTextOverwrite: null,
+            backActionOverwrite: null,
             showIcon: true
         }
     }
@@ -64,8 +64,8 @@ class BackButton extends React.Component<Props, State> {
         this.setupTitle(this.props);
         Events.listenTo('HEADER_CALENDAR_HIDE_CLOSE_BUTTON', 'BackButton', () => {
             this.setState({
-                backTextOverride: null,
-                backActionOverride: null,
+                backTextOverwrite: null,
+                backActionOverwrite: null,
                 showIcon: true
             });
         });
@@ -75,9 +75,26 @@ class BackButton extends React.Component<Props, State> {
                 Events.emit('HEADER_ON_CLOSE_BUTTON');
             };
             this.setState({
-                backTextOverride: I18n.t('buttons.close'),
-                backActionOverride: backAction,
+                backTextOverwrite: I18n.t('buttons.close'),
+                backActionOverwrite: backAction,
                 showIcon: false
+            });
+        });
+
+        Events.listenTo('HEADER_CALENDAR_UNSET_OVERWRITE_BACK_TEXT_ROUTE', 'BackButton', () => {
+            this.setState({
+                backTextOverwrite: null,
+                backActionOverwrite: null,
+            });
+        });
+
+        Events.listenTo('HEADER_CALENDAR_SET_OVERWRITE_BACK_TEXT_ROUTE', 'BackButton', (title: string) => {
+            const backAction = () => {
+                Events.emit('HEADER_ON_CLOSE_BUTTON');
+            };
+            this.setState({
+                backTextOverwrite: I18n.t(`routes.${title.toLocaleLowerCase()}`),
+                backActionOverwrite: backAction,
             });
         })
     }
@@ -85,6 +102,8 @@ class BackButton extends React.Component<Props, State> {
     componentWillUnmount() {
         Events.remove('HEADER_CALENDAR_HIDE_CLOSE_BUTTON', 'BackButton');
         Events.remove('HEADER_CALENDAR_SHOW_CLOSE_BUTTON', 'BackButton');
+        Events.remove('HEADER_CALENDAR_SET_OVERWRITE_BACK_TEXT_ROUTE', 'BackButton');
+        Events.remove('HEADER_CALENDAR_UNSET_OVERWRITE_BACK_TEXT_ROUTE', 'BackButton');
     }
 
     setupTitle = (props: Props) => {
@@ -103,8 +122,8 @@ class BackButton extends React.Component<Props, State> {
 
     getRawCurrentTitle = () => this.props.headerProps.scene.route.routeName;
     getPreviousTitle = () => {
-        if (this.state.backTextOverride) {
-            return this.state.backTextOverride;
+        if (this.state.backTextOverwrite) {
+            return this.state.backTextOverwrite;
         }
 
         if (!this.state.previousTitle) {
@@ -117,8 +136,8 @@ class BackButton extends React.Component<Props, State> {
     onBackPress = () => {
         HapticFeedback('impactLight');
 
-        if (this.state.backActionOverride) {
-            this.state.backActionOverride();
+        if (this.state.backActionOverwrite) {
+            this.state.backActionOverwrite();
             return;
         }
 
@@ -134,7 +153,7 @@ class BackButton extends React.Component<Props, State> {
                         {!!this.state.showIcon && <Icon name={'chevron-left'} size={50} style={[this.style.icon]} />}
                     </Animated.View>
                     <Animated.View style={[HeaderStyleInterpolator.forLeftLabel(this.props.headerProps)]}>
-                        <Text style={this.style.backText}>{this.getPreviousTitle()}</Text>
+                        <Text numberOfLines={1} style={this.style.backText}>{this.getPreviousTitle()}</Text>
                     </Animated.View>
                 </TouchableOpacity>}
             </React.Fragment>
