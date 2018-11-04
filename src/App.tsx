@@ -22,7 +22,6 @@ import Images from './assets/images';
 import { ThemeValueInterface } from './assets/themes';
 import AppManager from './components/AppManager';
 import ModalManager from './components/ModalManager';
-import { Linking } from 'react-native';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(

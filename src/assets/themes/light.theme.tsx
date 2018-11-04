@@ -35,6 +35,9 @@ const colors = {
     subTextColor: greyColor,
     disableText: greyColor,
 
+    loaderPlaceholderTextColor: '#F4F6F7',
+    loaderPlaceholderTextColorInverse: '#fafbfb',
+
     backgroundColor: '#F7F7F7',
     cardBackgroundColor: '#FFF',
     greyBackgroundColor: '#F4F6F7',

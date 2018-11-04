@@ -4703,6 +4703,12 @@ react-native-linear-gradient@^2.4.0:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.4.2.tgz#9d3acd0a198b9d4566e8f6253ef1f60fef0ff2be"
 
+react-native-loading-placeholder@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-loading-placeholder/-/react-native-loading-placeholder-0.0.6.tgz#d187c3f88376ce3f2151b97feb9d5fb615250ebe"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-safe-area-view@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.10.0.tgz#e8e9228d22698c0f82ad1202d24a4e4977260489"

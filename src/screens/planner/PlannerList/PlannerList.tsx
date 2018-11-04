@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Animated, FlatList, View } from 'react-native';
+import { Animated, FlatList, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import getStyle from './PlannerList.styles';
@@ -14,6 +14,8 @@ import GoalList from 'src/components/TrainingSection';
 import EmptyList from 'src/components/TrainingSection/EmptyList';
 import Spinner from 'src/components/Spinner/Spinner';
 import { ExerciseActions } from 'src/store/actions/exercise';
+
+import PlannerListPlaceholder from '../PlannerListPlaceholder';
 
 interface Props {
     dispatch: Dispatch;
@@ -32,6 +34,8 @@ interface State {
     scrollY: Animated.Value;
     readyToRefresh: boolean;
     refreshing: boolean;
+
+    temp: boolean
 }
 
 const MIN_PULLDOWN_DISTANCE = -120;
@@ -49,8 +53,13 @@ class PlannerList extends React.Component<Props, State> {
         this.state = {
             scrollY: new Animated.Value(0),
             refreshing: false,
-            readyToRefresh: false
+            readyToRefresh: false,
+            temp: true
         };
+
+        setTimeout(() => {
+            this.setState({temp: false});
+        }, 4000);
     }
 
     componentWillMount() {
@@ -126,14 +135,13 @@ class PlannerList extends React.Component<Props, State> {
             extrapolate: 'clamp'
         });
 
-        const isEmpty = true;// this.props.planner.trainings.length === 0;
-
         return (
             <React.Fragment>
                 {!this.state.refreshing && <Animated.View style={[this.style.refreshingProgressBar, { backgroundColor: backgroundColor, width: refreshIndicatorWidth }]}></Animated.View>}
                 {this.state.refreshing && <Animated.View style={[this.style.refreshingIndicator, { opacity: indicatorOpacity }]}><Spinner /></Animated.View>}
                 <View style={this.style.listContainer}>
-                    <FlatList
+                    {!this.props.plannerLoaded || this.state.refreshing && <PlannerListPlaceholder theme={this.props.theme}/>}
+                    {this.props.plannerLoaded && <FlatList
                         keyboardDismissMode={"interactive"}
                         keyboardShouldPersistTaps="never"
                         ref={(ref: any) => this.flatListReference = ref}
@@ -154,7 +162,7 @@ class PlannerList extends React.Component<Props, State> {
                                 training={item}
                                 isFirst={index === 0} />
                         )}
-                    />
+                    />}
                 </View>
             </React.Fragment>
         );
