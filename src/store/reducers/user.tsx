@@ -1,17 +1,20 @@
 import { AnyAction } from 'redux';
+import moment from 'moment';
 
 import { UserTypes } from '../actions/user';
 import { AuthTypes } from '../actions/auth';
 import User from '../../models/User';
 
 interface UserState {
-    current: null|User,
-    error: any
+    current: null|User;
+    error: any;
+    expires_at: string;
 }
 
 const initialState: UserState = {
     current: null,
-    error: null
+    error: null,
+    expires_at: moment().hour(23).minute(59).format()
 };
 
 function user(state = initialState, action: AnyAction): UserState {

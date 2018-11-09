@@ -8,12 +8,14 @@ interface ExerciseState {
     loaded: boolean;
     loading: boolean;
     exercises: Exercise[];
+    exercisesToFilter: Exercise | null;
 }
 
 export const initialState: ExerciseState = {
     loaded: false,
     loading: false,
-    exercises: []
+    exercises: [],
+    exercisesToFilter: null
 };
 
 function exercise(state = initialState, action: AnyAction): ExerciseState {
@@ -30,6 +32,9 @@ function exercise(state = initialState, action: AnyAction): ExerciseState {
         }
         case ExerciseTypes.startFetching: {
             return Object.assign({}, state, { loading: true })
+        }
+        case ExerciseTypes.selectExerciseToFilter: {
+            return Object.assign({}, state, { exercisesToFilter: action.payload.exercise })
         }
         case AuthTypes.logout: {
             return Object.assign({}, initialState);

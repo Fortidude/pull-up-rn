@@ -6,13 +6,16 @@ import moment from 'moment';
 
 import CalendarService from 'src/service/Calendar';
 
+import I18n from 'src/assets/translations';
 import Styles from './MonthList.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import { MONTH_ITEM_WIDTH } from 'src/components/FooterBar/CalendarFooter/MonthsBar.styles';
 import Spinner from 'src/components/Spinner/Spinner';
 import { PlannerActions } from 'src/store/actions/planner';
 import Month from './Month';
-import Events from 'src/service/Events';
+import Select from '../Select/Select';
+import { Exercise } from 'src/models/Exercise';
+import { ExerciseActions } from 'src/store/actions/exercise';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -20,6 +23,10 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     onDayClick: (...arg: any) => void;
+
+    exercises: Exercise[];
+
+    exerciseToFilter: Exercise | null;
 }
 
 interface State {
@@ -113,10 +120,17 @@ class MonthList extends React.PureComponent<Props, State> {
         if (!this.containerRef) {
             return;
         }
-        
+
         const currentMonthPosition = (this.state.currentMonthIndex) * SCREEN_WIDTH;
         this.scrollBarTo(currentMonthPosition);
     }
+
+    pickExercise = (exerciseName: string) => {
+        const exercise = exerciseName !== '-' ? this._findExerciseByName(exerciseName) : null;
+        this.props.dispatch(ExerciseActions.selectExerciseToFilter(exercise));
+    }
+
+    getExercisesOptions = (): string[] => ["-", ...(this.props.exercises ? this.props.exercises.map(exercise => exercise.name) : [])];
 
     render() {
         const activeMonth = this.state.months[this.state.activeMonthIndex] || null;
@@ -128,9 +142,15 @@ class MonthList extends React.PureComponent<Props, State> {
                         <Text style={this.style.title}>
                             {activeMonth.format('MMMM')[0].toLocaleUpperCase()}{activeMonth.format('MMMM').substring(1)}
                         </Text>
-                        {!currentMonthIsActive && <TouchableOpacity style={this.style.todayButton.container} onPress={() => this.goToCurrentMonth()}>
-                            <Text style={this.style.todayButton.text}>Today</Text>
-                        </TouchableOpacity>}
+                        <View style={{ flex: 1 }}>
+                            <Select
+                                placeholder={I18n.t('mics.filter')}
+                                small
+                                onChange={this.pickExercise}
+                                value={this.props.exerciseToFilter ? this.props.exerciseToFilter.name : undefined}
+                                options={this.getExercisesOptions()}
+                            />
+                        </View>
                     </View>
                 }
 
@@ -149,12 +169,32 @@ class MonthList extends React.PureComponent<Props, State> {
                         if (monthElement) {
                             return monthElement;
                         }
-
                         return <Month key={key} empty />
                     })}
                 </ScrollView>}
+
+
+                {activeMonth && !this.state.loading &&
+                    <View style={this.style.footer}>
+                        <View style={{ flex: 2 }}></View>
+                        {!currentMonthIsActive && <TouchableOpacity style={this.style.todayButton.container} onPress={() => this.goToCurrentMonth()}>
+                            <Text style={this.style.todayButton.text}>{I18n.t('mics.scroll_to_today')}</Text>
+                        </TouchableOpacity>}
+                    </View>
+                }
             </View>
         );
+    }
+
+    _findExerciseByName = (name: string) => {
+        let pickedExercise = null
+        this.props.exercises.forEach((exercise: Exercise) => {
+            if (exercise.name.toLocaleLowerCase() === name.toLocaleLowerCase()) {
+                pickedExercise = exercise;
+            }
+        });
+
+        return pickedExercise;
     }
 
     /**
@@ -291,7 +331,9 @@ class MonthList extends React.PureComponent<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    exercises: state.exercise.exercises,
+    exerciseToFilter: state.exercise.exercisesToFilter
 });
 
 export default connect(mapStateToProps)(MonthList);

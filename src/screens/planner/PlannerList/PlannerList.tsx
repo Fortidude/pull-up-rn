@@ -140,7 +140,7 @@ class PlannerList extends React.Component<Props, State> {
                 {!this.state.refreshing && <Animated.View style={[this.style.refreshingProgressBar, { backgroundColor: backgroundColor, width: refreshIndicatorWidth }]}></Animated.View>}
                 {this.state.refreshing && <Animated.View style={[this.style.refreshingIndicator, { opacity: indicatorOpacity }]}><Spinner /></Animated.View>}
                 <View style={this.style.listContainer}>
-                    {!this.props.plannerLoaded || this.state.refreshing && <PlannerListPlaceholder theme={this.props.theme}/>}
+                    {!this.props.plannerLoaded && <PlannerListPlaceholder theme={this.props.theme}/>}
                     {this.props.plannerLoaded && <FlatList
                         keyboardDismissMode={"interactive"}
                         keyboardShouldPersistTaps="never"

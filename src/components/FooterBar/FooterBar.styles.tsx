@@ -2,6 +2,8 @@ import { ThemeInterface } from 'src/assets/themes';
 import DetermineDevice from 'src/service/helpers/DetermineDevice';
 
 export const FOOTER_HEIGHT = 65;
+export const FOOTER_IPHONE_X_PADDING = 20;
+
 const isIphoneX = DetermineDevice.isIphoneX();
 function getStyle(theme: ThemeInterface) {
     return {
@@ -11,7 +13,7 @@ function getStyle(theme: ThemeInterface) {
             left: 0,
             right: 0,
             bottom: 0,
-            paddingBottom: isIphoneX ? 20 : 0
+            paddingBottom: isIphoneX ? FOOTER_IPHONE_X_PADDING : 0
         },
         footerHeight: isIphoneX ? 85 : 65
     };

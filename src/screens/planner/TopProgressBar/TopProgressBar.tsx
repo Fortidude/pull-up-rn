@@ -174,8 +174,9 @@ class TopProgressBar extends React.Component<Props, State> {
 
     _getDaysLeft = () => this.props.user.days_left_circuit.toString();
     _countLeftPercent = () => {
+        const daysPerCircuit = this.props.user.days_per_circuit;
         const daysLeft = this.props.user.days_left_circuit > 0 ? this.props.user.days_left_circuit : this.props.user.days_per_circuit;
-        const percent = Math.round((daysLeft / this.props.user.days_per_circuit) * 100);
+        const percent = Math.round(((daysPerCircuit - daysLeft) / daysPerCircuit) * 100);
         return percent !== 100 ? percent : 0;
     }
 }

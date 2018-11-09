@@ -10,7 +10,9 @@ let translations = {
         mics: {
             effectiveness: "skuteczność",
             left: "pozostało",
-            of: 'z'
+            of: 'z',
+            filter: 'Filtruj',
+            scroll_to_today: 'Dzisiaj'
         },
 
         login: {

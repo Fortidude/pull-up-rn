@@ -9,6 +9,7 @@ import DayText from './DayText';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 
 import Set from 'src/models/Set';
+import { Exercise } from 'src/models/Exercise';
 
 interface Props {
     dispatch: Dispatch;
@@ -19,6 +20,8 @@ interface Props {
     currentMonth: moment.Moment;
 
     onDayClick: (...arg: any) => void;
+
+    exerciseToFilter: Exercise | null;
 };
 
 interface State {
@@ -54,7 +57,18 @@ class Day extends React.Component<Props, State> {
     countSets = (): number => {
         const date = this.props.day.format('D-M-Y');
         if (this.props.setsHistory[date]) {
-            return this.props.setsHistory[date].length;
+            if (this.props.exerciseToFilter !== null) {
+                let amount = 0;
+                this.props.setsHistory[date].forEach((set: Set) => {
+                    if (this.props.exerciseToFilter && set.goal.exercise.id === this.props.exerciseToFilter.id) {
+                        amount++;
+                    }
+                })
+
+                return amount;
+            } else {
+                return this.props.setsHistory[date].length;
+            }
         }
 
         return 0;
@@ -102,7 +116,8 @@ class Day extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    setsHistory: state.planner.setsHistory
+    setsHistory: state.planner.setsHistory,
+    exerciseToFilter: state.exercise.exercisesToFilter
 });
 
 export default connect(mapStateToProps)(Day);
