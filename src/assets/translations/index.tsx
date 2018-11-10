@@ -1,8 +1,8 @@
-import I18n from 'react-native-i18n';
+import I18n from "react-native-i18n";
 
 export const locales:{[key: string]: string} = {
-    en: 'English',
-    pl: 'Polski'
+    en: "English",
+    pl: "Polski"
 }
 
 let translations = {
@@ -10,9 +10,9 @@ let translations = {
         mics: {
             effectiveness: "skuteczność",
             left: "pozostało",
-            of: 'z',
-            filter: 'Filtruj',
-            scroll_to_today: 'Dzisiaj'
+            of: "z",
+            filter: "Filtruj",
+            scroll_to_today: "Dzisiaj"
         },
 
         login: {
@@ -67,17 +67,17 @@ let translations = {
                 weight: "waga"
             },
             circuits: {
-                all: 'Wszystkie',
+                all: "Wszystkie",
                 previous: "Poprzedni",
                 current: "Obecny"
             }
         },
 
         statistics: {
-            circuit: 'Obieg',
-            sort: 'Sortowanie',
+            circuit: "Obieg",
+            sort: "Sortowanie",
             effectiveness: {
-                title: 'Utrzymuj wysoką skuteczność poprzez realizowanie swoich celów w każdym obiegu treningowym.'
+                title: "Utrzymuj wysoką skuteczność poprzez realizowanie swoich celów w każdym obiegu treningowym."
             }
         },
 
@@ -87,8 +87,8 @@ let translations = {
         },
 
         locales: {
-            en: 'Anglielski',
-            pl: 'Polski'
+            en: "Anglielski",
+            pl: "Polski"
         },
 
         routes: {
@@ -111,6 +111,7 @@ let translations = {
 
         fields: {
             additional_weight: "Dodatkowy ciężar? (KG)",
+            date: "Data",
             email: "Email",
             email_validate: "Potwierdź adres email",
             number_of_reps_done: "Ilość wykonanych powtórzeń",
@@ -127,6 +128,7 @@ let translations = {
             clickToClose: "Kliknij by anulować",
             edit: "Edycja",
             finish: "Zakończ",
+            now: "Teraz",
             remove: "Usuń",
             save: "Zapisz",
             logout: "Wyloguj się",
@@ -145,8 +147,8 @@ let translations = {
     },
     en: {
         locales: {
-            en: 'English',
-            pl: 'Polish'
+            en: "English",
+            pl: "Polish"
         },
     }
 };

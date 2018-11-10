@@ -15,6 +15,11 @@ export interface ModalState {
         options: string[];
         cancelButton: boolean;
         callback: (index: number) => void;
+    },
+    datetimePickerModalVisible: boolean;
+    datetimePickerOptions: {
+        date: Date,
+        callback: () => void;
     }
 }
 
@@ -30,7 +35,13 @@ const initialState: ModalState = {
     addTrainingSectionModalVisible: false,
 
     pickerModalVisible: false,
-    pickerOptions: defaultPickerOptions
+    pickerOptions: defaultPickerOptions,
+
+    datetimePickerModalVisible: false,
+    datetimePickerOptions: {
+        date: new Date(),
+        callback: () => { }
+    }
 };
 
 function modal(state = initialState, action: AnyAction): ModalState {
@@ -38,7 +49,7 @@ function modal(state = initialState, action: AnyAction): ModalState {
         case ModalTypes.addSetOpen:
             return Object.assign({}, state, { addSetModalVisible: true });
         case ModalTypes.addSetClose:
-            return Object.assign({}, state, { addSetModalVisible: false });
+            return Object.assign({}, state, { addSetModalVisible: false, datetimePickerModalVisible: false });
 
         case ModalTypes.addTrainingSectionOpen:
             return Object.assign({}, state, { addTrainingSectionModalVisible: true });
@@ -54,6 +65,11 @@ function modal(state = initialState, action: AnyAction): ModalState {
             return Object.assign({}, state, { pickerModalVisible: true, pickerOptions: { ...action.payload } });
         case ModalTypes.pickerClose:
             return Object.assign({}, state, { pickerModalVisible: false })
+
+        case ModalTypes.datetimePickerOpen:
+            return Object.assign({}, state, { datetimePickerModalVisible: true, datetimePickerOptions: { ...action.payload } });
+        case ModalTypes.datetimePickerClose:
+            return Object.assign({}, state, { datetimePickerModalVisible: false })
 
         case AuthTypes.logout:
             return Object.assign({}, initialState);

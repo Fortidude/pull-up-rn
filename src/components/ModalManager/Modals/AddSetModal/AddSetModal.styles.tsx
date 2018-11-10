@@ -5,7 +5,7 @@ function getStyle(theme: ThemeInterface) {
         container: {
             backgroundColor: theme.colors.modalBackgroundColor,
             borderRadius: theme.borders.modalRadius,
-            height: 255,
+            height: 320,
             width: 270
         },
 
@@ -37,11 +37,27 @@ function getStyle(theme: ThemeInterface) {
             container: {
                 marginTop: 15,
             },
-            label: {     
+            label: {
                 fontSize: theme.fonts.fontH4Size,
                 fontFamily: theme.fonts.mainFontFamily,
                 color: theme.colors.formLabelColor,
                 marginBottom: 1
+            },
+            dateContainer: {
+                backgroundColor: theme.colors.formInputBackground,
+                borderWidth: theme.borders.borderWidth,
+                borderColor: theme.borders.borderColor,
+                marginBottom: 15,
+                paddingLeft: 10,
+                paddingRight: 10,
+                borderRadius: 5,
+                height: 29,
+                justifyContent: 'center'
+            },
+            dateText: {
+                color: theme.colors.formInputTextColor,
+                fontSize: theme.fonts.fontH3Size,
+                fontFamily: theme.fonts.mainFontFamily
             }
         }
     };

@@ -9,8 +9,11 @@ export enum ModalTypes {
     goalCreateClose = '[MODAL] CLOSE CREATE GOAL',
 
     pickerOpen = '[MODAL] OPEN PICKER',
-    pickerClose = '[MODAL] CLOSE PICKER'
- }
+    pickerClose = '[MODAL] CLOSE PICKER',
+
+    datetimePickerOpen = '[MODAL] OPEN DATETIME PICKER',
+    datetimePickerClose = '[MODAL] CLOSE DATETIME PICKER'
+}
 
 export const ModalActions = {
     addSetOpen: () => ({
@@ -39,13 +42,22 @@ export const ModalActions = {
         type: ModalTypes.goalCreateClose,
         payload: {}
     }),
-    
-    pickerOpen: (options: string[], cancelButton: boolean = true, callback = (index: number) => {}) => ({
+
+    pickerOpen: (options: string[], cancelButton: boolean = true, callback = (index: number) => { }) => ({
         type: ModalTypes.pickerOpen,
-        payload: {options, cancelButton, callback}
+        payload: { options, cancelButton, callback }
     }),
     pickerClose: () => ({
         type: ModalTypes.pickerClose,
+        payload: {}
+    }),
+
+    datetimePickerOpen: (date: Date, callback: (date: Date) => void) => ({
+        type: ModalTypes.datetimePickerOpen,
+        payload: { date, callback }
+    }),
+    datetimePickerClose: () => ({
+        type: ModalTypes.datetimePickerClose,
         payload: {}
     })
 };

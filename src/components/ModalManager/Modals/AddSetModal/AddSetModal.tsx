@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Text, View, TextInput } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './AddSetModal.styles';
@@ -14,6 +14,7 @@ import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import ModalFooter from 'src/components/ModalManager/ModalFooter';
 import ModalHeader from 'src/components/ModalManager/ModalHeader';
 import Input from 'src/components/Input';
+import moment from 'moment';
 
 interface Props {
     dispatch: Dispatch;
@@ -27,6 +28,7 @@ interface Props {
 interface State {
     value: number | null;
     extraWeight: number | null;
+    date: Date;
 }
 
 class AddSetModal extends React.Component<Props, State> {
@@ -39,7 +41,8 @@ class AddSetModal extends React.Component<Props, State> {
         this.style = Styles(this.props.theme);
         this.state = {
             value: null,
-            extraWeight: null
+            extraWeight: null,
+            date: new Date()
         }
     }
 
@@ -57,6 +60,13 @@ class AddSetModal extends React.Component<Props, State> {
         setTimeout(() => {
             this.addSetModalRepAmountRef.focus();
         }, 200);
+    }
+
+    openDatetimePicker = () => {
+        Keyboard.dismiss();
+        this.props.dispatch(ModalActions.datetimePickerOpen(this.state.date, (date: Date) => {
+            this.setState({ date });
+        }));
     }
 
     success = () => {
@@ -106,6 +116,11 @@ class AddSetModal extends React.Component<Props, State> {
                             value={this.state.extraWeight ? this.state.extraWeight.toString() : undefined}
                             onChange={(extraWeight) => this.setState({ extraWeight: parseInt(extraWeight) })}
                         />
+
+                        <Text style={this.style.form.label}>{I18n.t('fields.date')}</Text>
+                        <TouchableOpacity style={this.style.form.dateContainer} onPress={this.openDatetimePicker}>
+                            <Text style={this.style.form.dateText}>{moment(this.state.date).calendar()}</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <ModalFooter

@@ -3,6 +3,7 @@ package com.pullup;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.henninghall.date_picker.DatePickerPackage;
 import com.reactlibrary.RNReactNativeHapticFeedbackPackage;
 import com.horcrux.svg.SvgPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new DatePickerPackage(),
             new RNReactNativeHapticFeedbackPackage(),
             new SvgPackage(),
             new LinearGradientPackage(),

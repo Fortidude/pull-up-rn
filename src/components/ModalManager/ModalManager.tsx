@@ -11,6 +11,8 @@ import AddSetModal from './Modals/AddSetModal';
 import CreateGoalModal from './Modals/CreateGoalModal';
 import PickerModal from './Modals/PickerModal';
 import AddTrainingSectionModal from './Modals/AddTrainingSectionModal';
+import DateTimePickerModal from './Modals/DateTimePickerModal/DateTimePickerModal';
+import { ModalActions } from 'src/store/actions/modal';
 
 const HEIGHT = Dimensions.get('window').height;
 
@@ -33,14 +35,19 @@ interface State {
 
     pickerBottomPosition: Animated.Value;
     pickerModal: boolean;
-    pickerOptions: any
+    pickerOptions: any;
+
+    datetimePickerBottomPosition: Animated.Value;
+    datetimePickerModal: boolean;
+    datetimePickerOptions: any;
 }
 
 const MODALS_HANDLED = [
     'addSetModalVisible',
     'goalCreateModalVisible',
     'addTrainingSectionModalVisible',
-    'pickerModalVisible'
+    'pickerModalVisible',
+    'datetimeModalVisible'
 ];
 
 export const OPEN_MODAL_ANIMATION_OPTION = { duration: 400, easing: Easing.bezier(0, 1.1, 0, 1) }
@@ -79,7 +86,11 @@ class ModalManager extends React.Component<Props, State> {
 
             pickerBottomPosition: new Animated.Value(-HEIGHT),
             pickerModal: false,
-            pickerOptions: {}
+            pickerOptions: {},
+
+            datetimePickerBottomPosition: new Animated.Value(-HEIGHT),
+            datetimePickerModal: false,
+            datetimePickerOptions: {}
         }
     }
 
@@ -110,6 +121,7 @@ class ModalManager extends React.Component<Props, State> {
             || nextProps.theme.name !== this.props.theme.name
             || nextState.showOverlay !== this.state.showOverlay
             || nextState.pickerOptions !== this.state.pickerOptions
+            || nextState.datetimePickerOptions !== this.state.datetimePickerOptions
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -121,6 +133,12 @@ class ModalManager extends React.Component<Props, State> {
             if (this.isPickerModalVisible(this.props) && !this.isPickerModalVisible(nextProps)) {
                 this._animateClosePicker(nextProps);
             }
+
+            if (this.isDateTimePickerModalVisible(this.props) && !this.isDateTimePickerModalVisible(nextProps)) {
+                this._animateClosePicker(nextProps);
+                Animated.spring(this.state.containerTranslateY, { toValue: 0 }).start();
+            }
+
             this.showModal(nextProps);
         } else {
             this.hideModal(nextProps);
@@ -128,6 +146,10 @@ class ModalManager extends React.Component<Props, State> {
     }
 
     _keyboardDidShow = (event: any) => {
+        if (this.isDateTimePickerModalVisible(this.props)) {
+            this.props.dispatch(ModalActions.datetimePickerClose());
+        }
+
         if (this.isModalVisible(this.props) === 0) {
             return
         }
@@ -147,7 +169,11 @@ class ModalManager extends React.Component<Props, State> {
             Animated.spring(this.state.containerTranslateY, { toValue: 0 }).start();
         }
 
-        this.setState({ keyboardVisible: false });
+        this.setState({ keyboardVisible: false }, () => {
+            if (this.isDateTimePickerModalVisible(this.props)) {
+                Animated.spring(this.state.containerTranslateY, { toValue: -120 }).start();
+            }
+        });
     }
 
     isModalVisible = (props: Props): number => {
@@ -166,6 +192,10 @@ class ModalManager extends React.Component<Props, State> {
         return props.modal['pickerModalVisible'];
     }
 
+    isDateTimePickerModalVisible = (props: Props) => {
+        return props.modal['datetimePickerModalVisible'];
+    }
+
     showModal = (props: Props) => {
         const state = this._getToggledState(props);
         state.showOverlay = true;
@@ -175,12 +205,17 @@ class ModalManager extends React.Component<Props, State> {
             Animated.timing(this.state.pickerBottomPosition, { toValue: 0, ...OPEN_MODAL_ANIMATION_OPTION }).start();
         }
 
+        if (this.isDateTimePickerModalVisible(props)) {
+            Animated.spring(this.state.containerTranslateY, { toValue: -120 }).start();
+            Animated.timing(this.state.datetimePickerBottomPosition, { toValue: 0, ...OPEN_MODAL_ANIMATION_OPTION }).start();
+        }
+
         this.setState(state, () => {
             const modalAnimations = [
                 Animated.timing(this.state.overlayOpacity, { toValue: 1, duration: 150, }),
             ];
 
-            if (!this.isPickerModalVisible(props) && this.isModalVisible(props) === 1) {
+            if (!this.isPickerModalVisible(props) && !this.isDateTimePickerModalVisible(props) && this.isModalVisible(props) === 1) {
                 modalAnimations.push(
                     Animated.timing(this.state.containerTranslateY, { toValue: 0, ...OPEN_MODAL_ANIMATION_OPTION })
                 );
@@ -202,8 +237,9 @@ class ModalManager extends React.Component<Props, State> {
 
     hidePickerModal = (props: Props) => {
         let isAnotherModalVisible = false;
+        let pickerModals = ['pickerModalVisible', 'datetimePickerModalVisible'];
         MODALS_HANDLED.forEach(modalName => {
-            if (modalName !== 'pickerModalVisible' && !isAnotherModalVisible) {
+            if (pickerModals.includes(modalName) && !isAnotherModalVisible) {
                 isAnotherModalVisible = props.modal[modalName] && MODALS_HANDLED.includes(modalName);
             }
         });
@@ -222,6 +258,8 @@ class ModalManager extends React.Component<Props, State> {
         state.addTrainingSectionModal = props.modal.addTrainingSectionModalVisible;
         state.pickerModal = props.modal.pickerModalVisible;
         state.pickerOptions = props.modal.pickerOptions;
+        state.datetimePickerModal = props.modal.datetimePickerModalVisible;
+        state.datetimePickerOptions = props.modal.datetimePickerOptions;
 
         return state;
     }
@@ -230,12 +268,13 @@ class ModalManager extends React.Component<Props, State> {
         Animated.parallel([
             Animated.timing(this.state.containerTranslateY, { toValue: -HEIGHT, ...CLOSE_MODAL_ANIMATION_OPTION }),
             Animated.timing(this.state.pickerBottomPosition, { toValue: -HEIGHT, ...CLOSE_MODAL_ANIMATION_OPTION }),
+            Animated.timing(this.state.datetimePickerBottomPosition, { toValue: -HEIGHT, ...CLOSE_MODAL_ANIMATION_OPTION }),
             Animated.timing(this.state.overlayOpacity, { toValue: 0, duration: 150, delay: 100 })
         ]).start(() => {
             const state = Object.assign(
                 {},
                 this._getToggledState(props),
-                { showOverlay: false, cancelPressed: false, keyboardVisible: false, pickerOptions: {} }
+                { showOverlay: false, cancelPressed: false, keyboardVisible: false, pickerOptions: {}, datetimePickerOptions: {} }
             );
 
             this.setState(state);
@@ -243,9 +282,14 @@ class ModalManager extends React.Component<Props, State> {
     }
 
     _animateClosePicker = (props: Props) => {
-        Animated.timing(this.state.pickerBottomPosition, {
-            toValue: -HEIGHT, ...CLOSE_MODAL_ANIMATION_OPTION
-        }).start(() => {
+        Animated.parallel([
+            Animated.timing(this.state.pickerBottomPosition, {
+                toValue: -HEIGHT, ...CLOSE_MODAL_ANIMATION_OPTION
+            }),
+            Animated.timing(this.state.datetimePickerBottomPosition, {
+                toValue: -HEIGHT, ...CLOSE_MODAL_ANIMATION_OPTION
+            })
+        ]).start(() => {
             this.setState({ pickerOptions: {} });
         });
     }
@@ -281,6 +325,11 @@ class ModalManager extends React.Component<Props, State> {
                     <Animated.View style={{ bottom: this.state.pickerBottomPosition, position: 'absolute' }}>
                         <PickerModal {...this.state.pickerOptions} />
                     </Animated.View>
+
+                    <Animated.View style={{ bottom: this.state.datetimePickerBottomPosition, position: 'absolute' }}>
+                        <DateTimePickerModal {...this.state.datetimePickerOptions} />
+                    </Animated.View>
+
                 </Animated.View>
             </React.Fragment>
         );
