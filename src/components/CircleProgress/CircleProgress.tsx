@@ -80,7 +80,7 @@ class CircleProgress extends React.Component<Props> {
                     backgroundColor="transparent">
                     {(fill: number) => (
                         <React.Fragment>
-                            <Text style={[this.style.title, this.props.showBigTitle ? this.style.bigTitle : {}]}>
+                            <Text adjustsFontSizeToFit={true} style={[this.style.title, this.props.showBigTitle ? this.style.bigTitle : {}]}>
                                 {this.getTitle(fill)}
                             </Text>
                             {this.props.subTitle &&

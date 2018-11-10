@@ -11,6 +11,7 @@ class User implements User {
     is_enabled: boolean;
     first_form_finished: boolean;
     days_left_circuit: number;
+    current_circuit_expired_date: Date;
     name: string;
     sex: string;
     created_at: string;

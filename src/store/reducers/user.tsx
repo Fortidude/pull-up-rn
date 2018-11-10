@@ -22,7 +22,7 @@ function user(state = initialState, action: AnyAction): UserState {
         case UserTypes.loadUser:
             return Object.assign({}, state, {current: null, error: null})
         case UserTypes.loadUserSuccess: 
-            return Object.assign({}, state, {current: action.payload.user})
+            return Object.assign({}, state, {current: action.payload.user, expired_at: action.payload.user.current_circuit_expired_date})
         case UserTypes.loadUserFailed: 
             return Object.assign({}, state, {error: action.payload.error})
         case AuthTypes.logout:

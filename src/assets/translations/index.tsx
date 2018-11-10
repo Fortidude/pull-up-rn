@@ -9,6 +9,7 @@ let translations = {
     pl: {
         mics: {
             effectiveness: "skuteczność",
+            circuit_end: "koniec",
             left: "pozostało",
             of: "z",
             filter: "Filtruj",
