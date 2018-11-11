@@ -16,6 +16,7 @@ import Month from './Month';
 import Select from '../Select/Select';
 import { Exercise } from 'src/models/Exercise';
 import { ExerciseActions } from 'src/store/actions/exercise';
+import Set from 'src/models/Set';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -24,6 +25,7 @@ interface Props {
     theme: ThemeInterface;
     onDayClick: (...arg: any) => void;
 
+    setsHistory: { [key: string]: Set[] };
     exercises: Exercise[];
 
     exerciseToFilter: Exercise | null;
@@ -130,7 +132,21 @@ class MonthList extends React.PureComponent<Props, State> {
         this.props.dispatch(ExerciseActions.selectExerciseToFilter(exercise));
     }
 
-    getExercisesOptions = (): string[] => ["-", ...(this.props.exercises ? this.props.exercises.map(exercise => exercise.name) : [])];
+    getExercisesOptions = (): string[] => {
+        const options: string[] = [];
+        Object.values(this.props.setsHistory).forEach((sets: Set[]) => {
+            sets.forEach((set: Set) => {
+                const name = set.goal.exercise.name.toLocaleLowerCase();
+                if (!options.includes(name)) {
+                    options.push(name);
+                }
+            })
+        });
+
+        options.sort();
+
+        return ["-", ...options];
+    };
 
     render() {
         const activeMonth = this.state.months[this.state.activeMonthIndex] || null;
@@ -333,6 +349,7 @@ const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
     exercises: state.exercise.exercises,
+    setsHistory: state.planner.setsHistory,
     exerciseToFilter: state.exercise.exercisesToFilter
 });
 
