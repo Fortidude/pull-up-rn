@@ -1,4 +1,5 @@
 import moment from 'moment';
+import Circuit from './Circuit';
 
 interface User {
     [key: string]: any
@@ -11,6 +12,7 @@ class User implements User {
     enabled: boolean;
     is_admin: boolean;
     is_enabled: boolean;
+    current_circuit: Circuit | null;
     first_form_finished: boolean;
     days_left_circuit: number;
     current_circuit_expired_date: Date;

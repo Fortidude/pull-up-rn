@@ -39,13 +39,17 @@ class Profile extends React.Component<Props> {
     };
 
     render() {
+        if (!this.props.user) {
+            return null;
+        }
+        
         return (
             <View style={this.style.container}>
                 <SettingListPlaceholder />
                 <SettingListItem
                     last
                     icon="hourglass-start"
-                    onPress={() => {}}
+                    onPress={() => { }}
                     text={I18n.t('settings.circuit_length')}
                     rightText={`${this.props.user.days_per_circuit} ${I18n.t('mics.days').toLocaleLowerCase()}`}
                 />

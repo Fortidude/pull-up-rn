@@ -1,5 +1,6 @@
 import Planner, { PlannerMethods } from './../Planner';
 import { SetInterface } from '../Set';
+import Circuit from '../Circuit';
 
 const plannerMockData = {
     "test": [
@@ -55,8 +56,23 @@ test('add Set to Goal', () => {
         date: new Date()
     };
 
+    const date = new Date();
+    const fiveDaysAgo = new Date();
+    fiveDaysAgo.setDate(date.getDate() - 5);
+
+    const fiveDaysFuture = new Date();
+    fiveDaysFuture.setDate(date.getDate() + 5);
+
+    const circuit: Circuit = {
+        id: 'some_id',
+        startAt: fiveDaysAgo,
+        endAt: fiveDaysFuture,
+        days: 10,
+        finished: false
+    }
+
     expect(planner.trainings[0].goals[0].sets.length).toBe(0);
-    PlannerMethods.addSetToGoal(set, planner)
+    PlannerMethods.addSetToGoal(set, planner, circuit)
 
     expect(planner.trainings[0].goals[0].sets.length).toBe(1);
     expect(planner.trainings[0].goals[0].sets[0].goal).toBe(goal.id);

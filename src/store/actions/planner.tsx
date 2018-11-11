@@ -85,9 +85,9 @@ export const PlannerActions = {
         payload: { sectionName }
     }),
 
-    createSet: (goal: Goal, value: number, extraWeight: number | null) => ({
+    createSet: (goal: Goal, value: number, extraWeight: number | null, date?: Date) => ({
         type: PlannerTypes.createSet,
-        payload: { goal, value, extraWeight }
+        payload: { goal, value, extraWeight, date }
     }),
     createSetLoading: () => ({
         type: PlannerTypes.createSetLoading,

@@ -67,7 +67,12 @@ class AddSetModal extends React.Component<Props, State> {
             return;
         }
 
-        this.props.dispatch(PlannerActions.createSet(this.props.goal, this.state.value, this.state.extraWeight));
+        this.props.dispatch(PlannerActions.createSet(
+            this.props.goal,
+            this.state.value,
+            this.state.extraWeight,
+            this.state.date
+        ));
     }
 
     cancel = () => {

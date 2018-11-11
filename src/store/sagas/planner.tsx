@@ -72,11 +72,11 @@ function* createSet(action: any) {
 
     try {
         yield put(PlannerActions.createSetLoading());
-        const { goal, value, extraWeight } = action.payload;
+        const { goal, value, extraWeight, date } = action.payload;
         const type = goal.requiredType === 'none' || goal.requiredType === 'sets' ? 'reps' : goal.requiredType;
         const data: SetInterface = {
             goal: goal.id,
-            date: new Date(),
+            date: date,
             weight: extraWeight,
             [type]: value,
         }

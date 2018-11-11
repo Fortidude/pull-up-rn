@@ -2,6 +2,7 @@ import Set, { SetInterface, sortSetsByDate } from "./Set";
 import Training from "./Training";
 import Goal, { GoalInterface } from "./Goal";
 import moment from 'moment';
+import Circuit from "./Circuit";
 
 interface PlannerInterface {
     trainings: Training[];
@@ -35,7 +36,12 @@ class PlannerMethodsClass {
         return PlannerMethodsClass.instance;
     }
 
-    addSetToGoal = (set: SetInterface, planner: PlannerInterface) => {
+    addSetToGoal = (set: SetInterface, planner: PlannerInterface, currentCircuit: Circuit) => {
+        const date = moment(set.date);
+        if (date.isBefore(moment(currentCircuit.startAt)) || date.isAfter(moment(currentCircuit.endAt))) {
+            return false;
+        }
+
         let added = false;
         const goalId: string = typeof set.goal === 'string' ? set.goal : set.goal.id;
         set.goal = goalId;

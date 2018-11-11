@@ -9,6 +9,8 @@ import Goal from 'src/models/Goal';
 import Training from 'src/models/Training';
 import Set from 'src/models/Set';
 import { StatisticsInterface } from 'src/models/Statistics';
+import { UserTypes } from '../actions/user';
+import Circuit from 'src/models/Circuit';
 
 interface PlannerState {
     loading: boolean;
@@ -29,7 +31,8 @@ interface PlannerState {
     createSetLoading: boolean;
     createGoalLoading: boolean;
 
-    error: string | null
+    error: string | null;
+    circuit: Circuit | null;
 }
 
 export const initialState: PlannerState = {
@@ -51,7 +54,8 @@ export const initialState: PlannerState = {
     createSetLoading: false,
     createGoalLoading: false,
 
-    error: null
+    error: null,
+    circuit: null
 };
 
 function planner(state = initialState, action: AnyAction): PlannerState {
@@ -117,13 +121,17 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         /**
          * -------------------
          * CREATE SET
-         */     
+         */
         case PlannerTypes.createSetLoading:
             return Object.assign({}, state, { createSetLoading: true })
 
         case PlannerTypes.createSetSuccess:
+            if (!state.circuit) {
+                return Object.assign({}, state);
+            }
+
             const planner = Object.assign({}, state.byTrainings);
-            PlannerMethods.addSetToGoal(action.payload.setCreated, planner);
+            PlannerMethods.addSetToGoal(action.payload.setCreated, planner, state.circuit);
             return Object.assign({}, state, { byTrainings: planner, createSetLoading: false, setsHistoryLoaded: false, statisticsLoaded: false });
 
         case PlannerTypes.createSetFailed:
@@ -185,6 +193,9 @@ function planner(state = initialState, action: AnyAction): PlannerState {
          */
         case AuthTypes.logout:
             return Object.assign({}, initialState);
+
+        case UserTypes.loadUserSuccess:
+            return Object.assign({}, state, { circuit: action.payload.user.current_circuit })
 
         default:
             return state;
