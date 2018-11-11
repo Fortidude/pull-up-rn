@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, TouchableOpacity, Image, Modal, Animated, Easing } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import I18n from 'src/assets/translations';
@@ -73,9 +73,16 @@ class Avatar extends React.Component<Props, State> {
     }
 
     render() {
+        let extraSyles = {};
+        if (this.props.plannerFooterCircleComponent === 'avatar') {
+            extraSyles = {...extraSyles, ...this.style.footerAvatarShadow};
+        } else {
+            extraSyles = {borderColor: 'transparent', borderWidth: 10}
+        }
+
         return (
             <TouchableOpacity onPress={this.onPress}>
-                <Animated.View style={[this.style.footerAvatar, { transform: [{ scale: this.scaleValue }] }]}>
+                <Animated.View style={[this.style.footerAvatar, extraSyles, { transform: [{ scale: this.scaleValue }] }]}>
                     {this.state.component}
                 </Animated.View>
             </TouchableOpacity>
@@ -115,7 +122,7 @@ class Avatar extends React.Component<Props, State> {
                 fill={data.percent}
                 backgroundColor={props.theme.colors.plannerFooterCircleProgressBackground}
                 size={70}
-                progressWidth={1}
+                progressWidth={StyleSheet.hairlineWidth}
                 title={data.text}
                 subTitle={I18n.t('mics.circuit_end')}
                 noShadow />;
@@ -126,7 +133,7 @@ class Avatar extends React.Component<Props, State> {
                 fill={props.currentCircuitProgress}
                 backgroundColor={props.theme.colors.plannerFooterCircleProgressBackground}
                 size={70}
-                progressWidth={1}
+                progressWidth={StyleSheet.hairlineWidth}
                 subTitle={I18n.t('mics.effectiveness')}
                 noShadow />;
         }

@@ -9,6 +9,8 @@ function getStyle(theme: ThemeInterface) {
             borderRadius: 40,
             justifyContent: 'center',
             alignItems: 'center',
+        },
+        circleShadow: {
             shadowColor: theme.colors.circleProgressShadowColor,
             shadowOpacity: 0.3,
             shadowOffset: {width: 0, height: 0},

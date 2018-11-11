@@ -67,19 +67,19 @@ class CircleProgress extends React.Component<Props> {
     };
 
     render() {
-        let extraStyle = {};
-        if (this.props.noShadow) {
-            extraStyle = {shadowOpacity: 0,shadowRadius: 0, shadowColor: 'transparent'};
+        let extraStyle = { };
+        if (!this.props.noShadow) {
+            extraStyle = { ...extraStyle, ...this.style.circleShadow };
         }
-        
+
         if (this.props.size) {
-            extraStyle = {...extraStyle, width: this.props.size, height: this.props.size}
+            extraStyle = { ...extraStyle, width: this.props.size, height: this.props.size }
         }
 
         if (this.props.backgroundColor) {
-           extraStyle = {...extraStyle, backgroundColor: this.props.backgroundColor}
+            extraStyle = { ...extraStyle, backgroundColor: this.props.backgroundColor }
         }
-        
+
         return (
             <View style={[this.style.circle, extraStyle]}>
                 <AnimatedCircularProgress

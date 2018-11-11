@@ -53,7 +53,9 @@ class Data implements DataInterface {
     }
 
     public postCreateSet = async (data: { [key: string]: any }): Promise<ResponseStatus> => {
-        return await this.postFetchData('/secured/goal/set/create', data);
+        const payload = Object.assign({}, data);
+        payload.date = payload.date.toString();
+        return await this.postFetchData('/secured/goal/set/create', payload);
     }
 
     public postCreateSection = async (name: string, description: string = ''): Promise<ResponseStatus> => {

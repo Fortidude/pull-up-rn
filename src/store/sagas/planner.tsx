@@ -12,7 +12,6 @@ function* loadByTrainings() {
 
     try {
         const planner = yield Data.getPlannerByTrainings();
-        console.log(planner);
         yield put(PlannerActions.loadByTrainingsSuccess(planner));
     } catch (err) {
         yield put(PlannerActions.loadByTrainingsFailed(err));

@@ -2,6 +2,7 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { Text, View, TextInput } from 'react-native';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import Styles from './AddSetModal.styles';
 import I18n from 'src/assets/translations';
@@ -71,7 +72,7 @@ class AddSetModal extends React.Component<Props, State> {
             this.props.goal,
             this.state.value,
             this.state.extraWeight,
-            this.state.date
+            moment.parseZone(this.state.date)
         ));
     }
 

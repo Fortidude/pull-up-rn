@@ -1,7 +1,8 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
+//@ts-ignore
 import DatePicker from 'react-native-date-picker';
 
 
@@ -49,7 +50,7 @@ class DateTimePickerModal extends React.Component<Props, State> {
     }
 
     today = () => {
-        this.setState({date: new Date()}, this.success);
+        this.setState({ date: new Date() }, this.success);
     }
 
     closeModal = () => {
@@ -63,12 +64,13 @@ class DateTimePickerModal extends React.Component<Props, State> {
                     date={this.state.date}
                     onDateChange={(date: Date) => this.setState({ date })}
                     textColor={this.props.theme.colors.textColor}
+                    maximumDate={new Date()}
                     locale={I18n.locale}
                 />
                 <ModalFooter loading={false}
-                    successText={I18n.t('buttons.ok')} onSuccess={this.success} 
+                    successText={I18n.t('buttons.ok')} onSuccess={this.success}
                     cancelText={I18n.t('buttons.now')} onCancel={this.today}
-                    />
+                />
             </View>
         );
     }

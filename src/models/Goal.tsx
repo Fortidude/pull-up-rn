@@ -50,6 +50,7 @@ class Goal implements GoalInterface {
     description: string;
     exercise: Exercise;
     lastSetValue: number
+    lastSetAdded: Date;
     leftThisCircuit: number;
     doneThisCircuit: number;
     name: string;
@@ -63,12 +64,13 @@ class Goal implements GoalInterface {
 
     constructor(data: { [key: string]: any }) {
         this.id = data.id;
-        this.createdAt = new Date(data.created_at);
-        this.updatedAt = new Date(data.updated_at);
+        this.createdAt = data.created_at;
+        this.updatedAt = data.updated_at;
         this.exercise = new Exercise(data.exercise, data.exercise_variant);
         this.description = data.description;
         this.doneThisCircuit = parseInt(data.done_this_circuit);
         this.leftThisCircuit = parseInt(data.left_this_circuit);
+        this.lastSetAdded = data.last_set_added;
         this.lastSetValue = parseInt(data.last_set_value);
         this.name = data.name;
         this.removed = data.removed;

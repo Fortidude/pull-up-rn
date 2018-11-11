@@ -1,5 +1,4 @@
 import { AnyAction } from 'redux';
-import moment from 'moment';
 
 import { PlannerTypes } from 'src/store/actions/planner';
 import { AuthTypes } from 'src/store/actions/auth';
@@ -195,7 +194,7 @@ function planner(state = initialState, action: AnyAction): PlannerState {
             return Object.assign({}, initialState);
 
         case UserTypes.loadUserSuccess:
-            return Object.assign({}, state, { circuit: action.payload.user.current_circuit })
+            return Object.assign({}, state, { circuit: new Circuit(action.payload.user.current_circuit) })
 
         default:
             return state;

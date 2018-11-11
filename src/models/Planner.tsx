@@ -53,6 +53,10 @@ class PlannerMethodsClass {
 
             training.goals.forEach((goal: Goal, key: number) => {
                 if (goal.id === goalId) {
+                    const setDate = new Date(set.date);
+                    if (new Date(goal.lastSetAdded) < setDate) {
+                        goal.lastSetAdded = setDate;
+                    }
                     goal.sets.push(set);
                     goal.sets.sort(sortSetsByDate);
 

@@ -15,6 +15,7 @@ import SwipeItem from 'src/components/SwipeItem';
 
 import { ModalActions } from 'src/store/actions/modal';
 import { PlannerActions } from 'src/store/actions/planner';
+import moment from 'moment';
 
 
 interface Props {
@@ -183,15 +184,22 @@ class GoalItem extends React.Component<Props, State> {
                         </Animated.View>
                         <Animated.View style={[this.style.summaryRightContent, { opacity: opacityContentRight }]}>
                             <View style={this.style.infoTitleTopContainer}>
-                                <Text style={[this.style.infoTitleTop, { flex: 3 }]} numberOfLines={1}>{I18n.t('planner.done_of')}: </Text>
+                                {goal.requiredType !== 'none' && <Text style={[this.style.infoTitleTop, { flex: 3 }]} numberOfLines={1}>{I18n.t(`planner.types.${goal.requiredType}`)}: </Text>}
+                                {goal.requiredType === 'none' && <Text style={[this.style.infoTitleTop, { flex: 3 }]} numberOfLines={1}>{I18n.t(`planner.types.reps`)}: </Text>}
                                 <Text style={[this.style.infoTitleTop, { flex: 2, textAlign: 'right' }]} numberOfLines={1}>
                                     {this.props.goal.doneThisCircuit}
                                     {!!this.props.goal.requiredAmount && <Text> / {this.props.goal.requiredAmount}</Text>}
                                 </Text>
                             </View>
-                            <View style={this.style.infoTitleBottomContainer}>
+                            {false && <View style={this.style.infoTitleBottomContainer}>
                                 <Text style={[this.style.infoTitleBottom, { flex: 1 }]}>{I18n.t('planner.type')}: </Text>
                                 <Text style={[this.style.infoTitleBottom, { flex: 2, textAlign: 'right' }]} numberOfLines={1}>{I18n.t(`planner.types.${goal.requiredType}`)} </Text>
+                            </View>}
+                            <View style={this.style.infoTitleBottomContainer}>
+                                <View style={this.style.infoTitleBottomContainerTimeAgo}>
+                                    <EvilIcon name="clock" size={this.props.theme.fonts.fontSize} color={this.props.theme.colors.subTextColor} />
+                                    <Text style={[this.style.infoTitleBottom, { textAlign: 'left', marginLeft: 5 }]} numberOfLines={1}>{moment.parseZone(this.props.goal.lastSetAdded).startOf('minute').fromNow()} </Text>
+                                </View>
                             </View>
                         </Animated.View>
                         <Animated.View style={[this.style.progressBar, { width: progressWidth }]}></Animated.View>

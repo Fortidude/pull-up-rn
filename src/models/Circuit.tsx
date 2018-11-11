@@ -1,5 +1,4 @@
 import User from "./User";
-import moment = require("moment");
 
 export interface CircuitInterface {
     id: string;

@@ -69,11 +69,18 @@ function getStyle(theme: ThemeInterface) {
             fontSize: theme.fonts.fontH4Size,
             fontFamily: theme.fonts.mainFontFamily,
             color: theme.colors.subTextColor,
-            lineHeight: 22,
-           // textAlign: 'right'
+            lineHeight: 22
         },
         infoTitleBottomContainer: {
             flexDirection: 'row'
+        },
+        infoTitleBottomContainerTimeAgo: {
+            flex: 1,
+            marginLeft: -2,
+            borderColor: 'red', 
+            alignItems: 'center',
+            flexDirection: 'row', 
+            justifyContent: 'flex-start',
         },
         infoTitleBottom: {
             fontSize: theme.fonts.fontH4Size,

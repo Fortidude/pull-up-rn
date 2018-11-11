@@ -73,6 +73,7 @@ let translations = {
             add_first_training: "Dodaj swój pierwszy trening",
             done_of: "Zrobiono",
             missing: "Brakuje",
+            last_set__short_text: "Ostatnio",
             type: "Typ",
             types: {
                 none: "Brak",
