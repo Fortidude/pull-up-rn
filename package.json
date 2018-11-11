@@ -34,7 +34,8 @@
     "redux-persist": "^5.10.0",
     "redux-persist-transform-expire": "^0.0.2",
     "redux-saga": "^0.16.0",
-    "tslint": "^5.11.0"
+    "tslint": "^5.11.0",
+    "victory-native": "^31.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.47",

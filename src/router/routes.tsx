@@ -106,7 +106,7 @@ const routes = {
         screen: Popularity,
         navigationOptions: {
             modal: true,
-            allScreenDismiss: true
+               allScreenDismiss: false
             //   gesturesEnabled: false
         }
     },
