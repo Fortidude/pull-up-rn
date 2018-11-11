@@ -8,7 +8,7 @@ import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import Styles from './TopProgressBar.styles';
 import CircleProgress from 'src/components/CircleProgress';
 import I18n from 'src/assets/translations';
-import User from 'src/models/User';
+import User, { getCircuitLeftData } from 'src/models/User';
 import { StatisticsInterface } from 'src/models/Statistics';
 
 interface Props {
@@ -136,6 +136,8 @@ class TopProgressBar extends React.Component<Props, State> {
             }
         });
 
+        const circuitLeftData = getCircuitLeftData(this.props.user);
+
         return (
             <React.Fragment>
                 <Animated.View {..._panResponder.panHandlers} style={[this.style.topContainer, {
@@ -149,7 +151,7 @@ class TopProgressBar extends React.Component<Props, State> {
                                     <CircleProgress fill={this._countProgressPercent()} progressWidth={2} subTitle={I18n.t('mics.effectiveness')} />
                                 </View>
                                 <View style={[this.style.topCircleContainer, this.style.topCircleRight]}>
-                                    <CircleProgress fill={this._countLeftPercent()} progressWidth={3} title={this.getTimeLeftText()} subTitle={I18n.t('mics.circuit_end')} />
+                                    <CircleProgress fill={circuitLeftData.percent} progressWidth={3} title={circuitLeftData.text} subTitle={I18n.t('mics.circuit_end')} />
                                 </View>
                             </View>
                         </View>
@@ -171,23 +173,6 @@ class TopProgressBar extends React.Component<Props, State> {
         }
 
         return 0;
-    }
-
-    getTimeLeftText = () => {
-        const expiredDate = moment(this.props.user.current_circuit_expired_date);
-        return expiredDate.endOf('day').fromNow();
-
-    }
-    _countLeftPercent = () => {
-        const daysPerCircuit = this.props.user.days_per_circuit;
-        const daysLeft = this._countDayLeft();
-        const percent = Math.round(((daysPerCircuit - (daysLeft)) / daysPerCircuit) * 100);
-        return percent !== 100 ? percent : 100;
-    }
-
-    _countDayLeft = () => {
-        const expiredDate = moment(this.props.user.current_circuit_expired_date);
-        return expiredDate.diff(moment(), 'days');
     }
 }
 

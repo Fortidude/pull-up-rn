@@ -5,6 +5,8 @@ export enum SettingsTypes {
     changePlannerFooterCircleComponent = '[APP] CHANGE PLANNER FOOTER CIRCLE COMPONENT'
 }
 
+export type PlannerFooterCircleComponent = 'avatar' | 'circuit_left' | 'circuit_progress';
+
 export const SettingsActions = {
     setTheme: (theme: string) => ({
         type: SettingsTypes.setTheme,
@@ -14,7 +16,7 @@ export const SettingsActions = {
         type: SettingsTypes.setLocale,
         payload: { locale: locale }
     }),
-    changePlannerFooterCircleComponent: (componentName: 'avatar' | 'circuit_left') => ({
+    changePlannerFooterCircleComponent: (componentName: PlannerFooterCircleComponent) => ({
         type: SettingsTypes.changePlannerFooterCircleComponent,
         payload: { componentName }
     })

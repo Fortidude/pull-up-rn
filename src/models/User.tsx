@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 interface User {
     [key: string]: any
 }
@@ -29,4 +31,24 @@ class User implements User {
     }
 }
 
+const getCircuitLeftData = (user: User): { percent: number; days: number; text: string } => {
+
+    const expiredDate = moment(user.current_circuit_expired_date);
+    const text = expiredDate.endOf('day').fromNow();
+    const daysLeft = expiredDate.diff(moment(), 'days');
+
+    const daysPerCircuit = user.days_per_circuit;
+    let percent = Math.round(((daysPerCircuit - (daysLeft)) / daysPerCircuit) * 100);
+    percent !== 100 ? percent : 100;
+
+    return {
+        text: text,
+        days: daysLeft,
+        percent: percent
+    }
+}
+
 export default User;
+export {
+    getCircuitLeftData
+}

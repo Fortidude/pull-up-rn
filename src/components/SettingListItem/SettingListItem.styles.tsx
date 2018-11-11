@@ -6,6 +6,22 @@ function getStyle(theme: ThemeInterface) {
             flexDirection: 'row',
             width: '100%',
             height: 54,
+            backgroundColor: theme.colors.settingsItemBackground
+        },
+        bottomBorderLine: {
+            position: 'absolute',
+            bottom: 0,
+            height: 0,
+            width: '100%',
+            borderBottomWidth: theme.borders.borderWidth,
+            borderBottomColor: theme.borders.borderLightColor
+        },
+        bottomBorderLineLastOnList: {
+            marginLeft: 24
+        },
+        placeholderContainer: {
+            width: '100%',
+            height: 40,
             borderBottomWidth: theme.borders.borderWidth,
             borderBottomColor: theme.borders.borderColor
         },
@@ -13,7 +29,8 @@ function getStyle(theme: ThemeInterface) {
             marginLeft: 24,
             width: 24,
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            height: 54
         },
         leftIcon: {
             color: theme.colors.main,
@@ -24,7 +41,7 @@ function getStyle(theme: ThemeInterface) {
         },
         centerTextContainer: {
             flex: 3,
-            marginLeft: 24,
+            paddingLeft: 24,
             alignItems: 'flex-start',
             justifyContent: 'center'
         },
@@ -53,7 +70,8 @@ function getStyle(theme: ThemeInterface) {
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH4Size,
             color: theme.colors.listItemRightIconColor,
-            marginRight: -10
+            marginRight: -10,
+            marginLeft: 10
         },
         rightArrowIcon: {
             alignSelf: 'center',
@@ -67,7 +85,10 @@ function getStyle(theme: ThemeInterface) {
             color: theme.colors.main,
             fontSize: 10,
             paddingTop: 4
-        }
+        },
+        rightPlaceholder: {
+            width: 13
+        },
     };
 }
 

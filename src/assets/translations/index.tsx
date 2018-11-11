@@ -8,8 +8,9 @@ export const locales:{[key: string]: string} = {
 let translations = {
     pl: {
         mics: {
-            effectiveness: "skuteczność",
             circuit_end: "koniec",
+            days: "dni",
+            effectiveness: "skuteczność",
             left: "pozostało",
             of: "z",
             filter: "Filtruj",
@@ -45,8 +46,21 @@ let translations = {
         },
 
         settings: {
+            circuit_length: "Długość obiegu",
+            language: "Język",
+            notifications: "Powiadomienia",
+            remove_my_account: "Remove my account",
+            settings: "Ustawienia",
             theme: "Motyw kolorystyczny",
-            language: "Język"
+            planner_footer_circle_component: {
+                title: "Strona główna | stopka",
+                subtext: "Środkowy element",
+                options: {
+                    avatar: "Awatar użytkownika",
+                    circuit_left: "Obecny obieg (pozostało dni)",
+                    circuit_progress: "Obecny obieg (%)"
+                }
+            }
         },
 
         modals: {

@@ -47,6 +47,8 @@ const colors = {
 
     plannerProgressBarBackgroundColor: '#F7F7F7',
     statisticProgressBackgroundColor: '#FFFFFF',
+    
+    settingsItemBackground: '#FFF',
 
     borderColor: 'rgba(112, 112, 112, 0.2)',
     borderLightColor: 'rgba(8, 20, 31, 0.13)',
@@ -60,6 +62,7 @@ const colors = {
     plannerFooterButtonColor: greyColor,
     plannerFooterAvatarBackground: 'rgba(189, 189, 189, 0.8)',
     plannerFooterAvatarShadow: '#000000',
+    plannerFooterCircleProgressBackground: '#F7F7F7',
 
     authInputBackground: 'rgba(124,152,253, 0.87)',
     authInputTextColor: '#FFF',

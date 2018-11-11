@@ -1,19 +1,21 @@
 import { AnyAction } from 'redux';
 
-import { SettingsTypes } from '../actions/settings';
+import { SettingsTypes, PlannerFooterCircleComponent } from '../actions/settings';
 import DefaultTheme, { themes } from '../../assets/themes';
 import { locales } from '../../assets/translations';
 import I18n from '../../assets/translations';
-import { AuthTypes } from '../actions/auth';
 
 interface SettingsState {
     theme: {};
     locale: string;
+
+    plannerFooterCircleComponent: PlannerFooterCircleComponent
 }
 
 export const initialState: SettingsState = {
     theme: DefaultTheme,
-    locale: 'pl'
+    locale: 'pl',
+    plannerFooterCircleComponent: 'avatar'
 };
 
 function settings(state = initialState, action: AnyAction): SettingsState {
@@ -27,6 +29,8 @@ function settings(state = initialState, action: AnyAction): SettingsState {
                 I18n.locale = action.payload.locale;
                 return { ...state, locale: action.payload.locale };
             }
+        case SettingsTypes.changePlannerFooterCircleComponent:
+            return { ...state, plannerFooterCircleComponent: action.payload.componentName }
         default:
             return state;
     }

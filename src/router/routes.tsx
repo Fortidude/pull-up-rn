@@ -13,6 +13,7 @@ import Profile from 'src/screens/profile/Profile';
 import Settings from 'src/screens/profile/Settings';
 import ThemePicker from 'src/screens/profile/ThemePicker';
 import LanguagePicker from 'src/screens/profile/LanguagePicker';
+import Notifications from 'src/screens/profile/Notifications';
 
 import Calendar from 'src/screens/calendar/Calendar';
 
@@ -65,6 +66,9 @@ const routes = {
     },
     LanguagePicker: {
         screen: LanguagePicker
+    },
+    Notifications: {
+        screen: Notifications
     },
     Calendar: {
         screen: Calendar,

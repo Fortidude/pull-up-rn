@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, TouchableOpacity, Text, Switch } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
@@ -21,6 +21,8 @@ interface Props {
     rightText?: string;
     rightArrow?: boolean;
     rightCheck?: boolean;
+
+    last?: boolean;
 }
 
 class SettingListItem extends React.Component<Props> {
@@ -40,7 +42,7 @@ class SettingListItem extends React.Component<Props> {
     render() {
         return (
             <TouchableOpacity style={this.style.container} onPress={this.props.onPress}>
-                {this.props.icon && <View style={this.style.leftIconContainer}>
+                {this.props.icon && <View style={[this.style.leftIconContainer]}>
                     <Icon name={this.props.icon}
                         style={[this.style.leftIcon, this.props.danger ? this.style.leftIconDanger : {}]} />
                 </View>}
@@ -50,11 +52,13 @@ class SettingListItem extends React.Component<Props> {
                 </View>
                 <View style={this.style.rightAdditionalContainer}>
                     <View style={this.style.rightTextIconContainer}>
-                        {this.props.rightText && <Text style={this.style.rightText}>{this.props.rightText}</Text>}
-                        {this.props.rightArrow && <EvilIcon name="chevron-right" style={this.style.rightArrowIcon}/>}
-                        {this.props.rightCheck && <Icon name="check" style={this.style.rightCheckIcon}/>}
+                        {this.props.rightText && <Text numberOfLines={1} style={this.style.rightText}>{this.props.rightText}</Text>}
+                        {this.props.rightArrow && <EvilIcon name="chevron-right" style={this.style.rightArrowIcon} />}
+                        {this.props.rightCheck && <Icon name="check" style={this.style.rightCheckIcon} />}
+                        {!this.props.rightArrow && !this.props.rightCheck && <View style={this.style.rightPlaceholder}></View>}
                     </View>
                 </View>
+                <View style={[this.style.bottomBorderLine, !this.props.last && this.style.bottomBorderLineLastOnList]}></View>
             </TouchableOpacity>
         );
     }

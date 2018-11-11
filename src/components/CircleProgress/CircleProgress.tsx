@@ -22,6 +22,8 @@ interface Props {
     subTitle?: string;
     showBigTitle?: boolean;
     size?: Animated.Value | number;
+    noShadow?: boolean;
+    backgroundColor?: string;
 
     fill: number;
 }
@@ -65,8 +67,21 @@ class CircleProgress extends React.Component<Props> {
     };
 
     render() {
+        let extraStyle = {};
+        if (this.props.noShadow) {
+            extraStyle = {shadowOpacity: 0,shadowRadius: 0, shadowColor: 'transparent'};
+        }
+        
+        if (this.props.size) {
+            extraStyle = {...extraStyle, width: this.props.size, height: this.props.size}
+        }
+
+        if (this.props.backgroundColor) {
+           extraStyle = {...extraStyle, backgroundColor: this.props.backgroundColor}
+        }
+        
         return (
-            <View style={this.style.circle}>
+            <View style={[this.style.circle, extraStyle]}>
                 <AnimatedCircularProgress
                     size={this.props.size}
                     lineCap="round"

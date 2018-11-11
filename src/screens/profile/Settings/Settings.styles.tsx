@@ -5,7 +5,7 @@ function getStyle(theme: ThemeInterface) {
     return {
         container: {
             flex: 1, 
-            backgroundColor: theme.colors.cardBackgroundColor
+            backgroundColor: theme.colors.nativeBackgroundColor
         }
     };
 }
