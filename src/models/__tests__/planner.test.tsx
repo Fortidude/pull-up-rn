@@ -10,8 +10,9 @@ const plannerMockData = {
             "sets": [],
             "required_amount": "50",
             "last_set_value": "1",
-            "done_this_circuit": "82",
-            "left_this_circuit": "-32",
+            "lastSetAdded": "2017-11-05T09:15:17+0100",
+            "done_this_circuit": "0",
+            "left_this_circuit": "50",
             "exercise": {
                 "id": "3b5ff44a-6a87-4693-8a37-49667cd97d14",
                 "name": "Planche",
@@ -34,7 +35,25 @@ const plannerMockData = {
     ]
 };
 
+const getMockedCurrentCircuit = (): Circuit => {
+    const date = new Date();
+    const fiveDaysAgo = new Date();
+    fiveDaysAgo.setDate(date.getDate() - 5);
+
+    const fiveDaysFuture = new Date();
+    fiveDaysFuture.setDate(date.getDate() + 5);
+
+    return {
+        id: 'some_id',
+        startAt: fiveDaysAgo,
+        endAt: fiveDaysFuture,
+        days: 10,
+        finished: false
+    }
+}
+
 test('Create Planner', () => {
+    //@ts-ignore
     const planner = new Planner(plannerMockData);
     expect(planner.trainings.length).toBe(1);
     expect(planner.trainings[0].name).toBe("test");
@@ -46,6 +65,7 @@ test('Create Planner', () => {
 })
 
 test('add Set to Goal', () => {
+    //@ts-ignore
     const planner = new Planner(plannerMockData);
     const goal = Object.assign({}, planner.trainings[0].goals[0]);
     const set: SetInterface = {
@@ -56,24 +76,48 @@ test('add Set to Goal', () => {
         date: new Date()
     };
 
-    const date = new Date();
-    const fiveDaysAgo = new Date();
-    fiveDaysAgo.setDate(date.getDate() - 5);
-
-    const fiveDaysFuture = new Date();
-    fiveDaysFuture.setDate(date.getDate() + 5);
-
-    const circuit: Circuit = {
-        id: 'some_id',
-        startAt: fiveDaysAgo,
-        endAt: fiveDaysFuture,
-        days: 10,
-        finished: false
-    }
-
     expect(planner.trainings[0].goals[0].sets.length).toBe(0);
-    PlannerMethods.addSetToGoal(set, planner, circuit)
+    PlannerMethods.addSetToGoal(set, planner, getMockedCurrentCircuit())
 
     expect(planner.trainings[0].goals[0].sets.length).toBe(1);
     expect(planner.trainings[0].goals[0].sets[0].goal).toBe(goal.id);
+    expect(planner.trainings[0].goals[0].doneThisCircuit).toBe(10);
+
+    const date = new Date();
+    date.setDate(date.getDate() - 3);
+    const anotherSet: SetInterface = {
+        goal: goal,
+        reps: 10,
+        time: 0,
+        weight: 20,
+        date: date
+    };
+
+    PlannerMethods.addSetToGoal(set, planner, getMockedCurrentCircuit());
+
+    expect(planner.trainings[0].goals[0].sets.length).toBe(2);
+    expect(planner.trainings[0].goals[0].sets[1].goal).toBe(goal.id);
+    expect(planner.trainings[0].goals[0].doneThisCircuit).toBe(20);
+    expect(planner.trainings[0].goals[0].leftThisCircuit).toBe(30);
+});
+
+test('add Set to Goal with other Date', () => {
+    //@ts-ignore
+    const planner = new Planner(plannerMockData);
+    const goal = Object.assign({}, planner.trainings[0].goals[0]);
+    const date = new Date();
+    date.setDate(date.getDate() - 12);
+    const set: SetInterface = {
+        goal: goal,
+        reps: 10,
+        time: 0,
+        weight: 20,
+        date: date
+    };
+
+    expect(planner.trainings[0].goals[0].sets.length).toBe(0);
+    PlannerMethods.addSetToGoal(set, planner, getMockedCurrentCircuit());
+
+    expect(planner.trainings[0].goals[0].sets.length).toBe(0);
+    expect(planner.trainings[0].goals[0].doneThisCircuit).toBe(0);
 });
