@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, Switch } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
@@ -12,7 +12,7 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface
 
-    onPress: () => void;
+    onPress?: () => void;
     icon?: string;
     danger?: boolean;
     text: string;
@@ -21,6 +21,8 @@ interface Props {
     rightText?: string;
     rightArrow?: boolean;
     rightCheck?: boolean;
+    rightSwitch?: boolean | undefined;
+    rightOnSwitch?: () => void;
 
     last?: boolean;
 }
@@ -55,7 +57,8 @@ class SettingListItem extends React.Component<Props> {
                         {this.props.rightText && <Text numberOfLines={1} style={this.style.rightText}>{this.props.rightText}</Text>}
                         {this.props.rightArrow && <EvilIcon name="chevron-right" style={this.style.rightArrowIcon} />}
                         {this.props.rightCheck && <Icon name="check" style={this.style.rightCheckIcon} />}
-                        {!this.props.rightArrow && !this.props.rightCheck && <View style={this.style.rightPlaceholder}></View>}
+                        {this.props.rightSwitch !== undefined && <Switch onValueChange={this.props.rightOnSwitch} value={this.props.rightSwitch}/>}
+                        {!this.props.rightArrow && !this.props.rightCheck && this.props.rightSwitch === undefined && <View style={this.style.rightPlaceholder}></View>}
                     </View>
                 </View>
                 <View style={[this.style.bottomBorderLine, !this.props.last && this.style.bottomBorderLineLastOnList]}></View>

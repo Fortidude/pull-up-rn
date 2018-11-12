@@ -16,6 +16,7 @@ import Spinner from 'src/components/Spinner/Spinner';
 import { ExerciseActions } from 'src/store/actions/exercise';
 
 import PlannerListPlaceholder from '../PlannerListPlaceholder';
+import User from 'src/models/User';
 
 interface Props {
     dispatch: Dispatch;
@@ -24,6 +25,7 @@ interface Props {
     plannerLoaded: boolean;
     plannerEditMode: boolean;
     plannerLoading: boolean;
+    user: User;
     goalSelected: GoalInterface | null;
     isOnline: boolean;
     isLogged: boolean;
@@ -57,14 +59,14 @@ class PlannerList extends React.Component<Props, State> {
             temp: true
         };
 
-        setTimeout(() => {
-            this.setState({temp: false});
-        }, 4000);
+        // setTimeout(() => {
+        //     this.setState({temp: false});
+        // }, 4000);
     }
 
     componentWillMount() {
         if (!this.props.plannerLoaded && this.props.isOnline) {
-            this.props.dispatch(PlannerActions.loadByTrainings());
+            this.loadPlanner();
         }
     }
 
@@ -78,7 +80,7 @@ class PlannerList extends React.Component<Props, State> {
         }
 
         if (nextProps.isOnline && !nextProps.plannerLoaded) {
-            this.props.dispatch(PlannerActions.loadByTrainings());
+            this.loadPlanner();
         }
 
         if (this.state.refreshing && !nextProps.plannerLoading) {
@@ -103,7 +105,12 @@ class PlannerList extends React.Component<Props, State> {
 
     refresh = () => {
         this.props.dispatch(ExerciseActions.loadExercises());
-        this.props.dispatch(PlannerActions.loadByTrainings());
+        this.loadPlanner();
+    }
+
+    loadPlanner = () => {
+        // this.props.dispatch(PlannerActions.loadByTrainings());
+        this.props.dispatch(PlannerActions.loadPlanner());
     }
 
     render() {
@@ -140,7 +147,7 @@ class PlannerList extends React.Component<Props, State> {
                 {!this.state.refreshing && <Animated.View style={[this.style.refreshingProgressBar, { backgroundColor: backgroundColor, width: refreshIndicatorWidth }]}></Animated.View>}
                 {this.state.refreshing && <Animated.View style={[this.style.refreshingIndicator, { opacity: indicatorOpacity }]}><Spinner /></Animated.View>}
                 <View style={this.style.listContainer}>
-                    {!this.props.plannerLoaded && <PlannerListPlaceholder theme={this.props.theme}/>}
+                    {!this.props.plannerLoaded && <PlannerListPlaceholder theme={this.props.theme} />}
                     {this.props.plannerLoaded && <FlatList
                         keyboardDismissMode={"interactive"}
                         keyboardShouldPersistTaps="never"
@@ -172,11 +179,12 @@ class PlannerList extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    planner: state.planner.byTrainings,
+    planner: state.planner.planner,
     goalSelected: state.planner.goalSelected,
     plannerEditMode: state.app.plannerEditMode,
-    plannerLoaded: state.planner.loadedByTrainings,
+    plannerLoaded: state.planner.loadedPlanner,
     plannerLoading: state.planner.loading,
+    user: state.user.current,
     isOnline: state.app.isOnline,
     isLogged: state.auth.isLogged
 });

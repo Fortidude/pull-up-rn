@@ -3,6 +3,7 @@ import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import { SyncTypes, SyncActions } from '../actions/sync';
 import { Data } from '../../api';
 
+//@ts-ignore
 export const getItemsToSync = (state) => state.sync.items;
 
 /**

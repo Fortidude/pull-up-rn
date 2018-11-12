@@ -83,7 +83,12 @@ class TrainingSection extends React.Component<Props, State> {
     render() {
         return (
             <View style={this.style.exerciseListContainer}>
-                <GoalListHeader active={this.state.toggled} onButtonClick={this.toggleList} name={this.props.training.name} />
+                <GoalListHeader
+                    empty={this.props.training.goals.length === 0}
+                    active={this.state.toggled}
+                    onButtonClick={this.toggleList}
+                    name={this.props.training.name}
+                />
                 <GoalListContainer active={this.state.toggled} height={this.countHeight()}>
                     <React.Fragment>
                         {this.props.training.goals.map((goal, key) => {
@@ -107,7 +112,7 @@ const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
     plannerEditMode: state.app.plannerEditMode,
-    sections: state.planner.byTrainings.trainings.map((training: Training) => training.name)
+    sections: state.planner.planner.trainings.map((training: Training) => training.name)
 });
 
 export default connect(mapStateToProps)(TrainingSection);

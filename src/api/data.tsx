@@ -33,7 +33,8 @@ class Data implements DataInterface {
     }
 
     public getPlannerByDays = async (): Promise<Planner> => {
-        return await this.getFetchData('/secured/goal/planner/list', 'goal_planner_list');
+        const data = await this.getFetchData('/secured/goal/planner/list', 'goal_planner_list');
+        return new Planner(data);
     }
 
     public getExerciseList = async (): Promise<Planner> => {
@@ -72,6 +73,10 @@ class Data implements DataInterface {
 
     public postDisableGoal = async (goalId: string): Promise<ResponseStatus> => {
         return await this.postFetchData(`/secured/goal/${goalId}/disable`, {});
+    }
+
+    public postUpdateSettings = async (data: {[key: string]: any}): Promise<ResponseStatus> => {
+        return await this.postFetchData(`/secured/settings/update`, data);
     }
 
     private getFetchData = async (url: string, cacheKey?: string, useToken: boolean = true, asJson: boolean = true) => {

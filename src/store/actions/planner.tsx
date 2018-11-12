@@ -8,6 +8,10 @@ export enum PlannerTypes {
     loadByTrainingsSuccess = '[PLANNER] LOAD BY TRAININGS SUCCESS',
     loadByTrainingsFailed = '[PLANNER] LOAD BY TRAININGS FAILED',
 
+    loadPlanner = '[PLANNER] LOAD PLANNER',
+    loadPlannerSuccess = '[PLANNER] LOAD PLANNER SUCCESS',
+    loadPlannerFailed = '[PLANNER] LOAD PLANNER FAILED',
+
     loadSetsByDatePeriod = '[PLANNER] LOAD SETS BY DATE PERIOD',
     loadSetsByDatePeriodSuccess = '[PLANNER] LOAD SETS BY DATE PERIOD SUCCESS',
     loadSetsByDatePeriodFailed = '[PLANNER] LOAD SETS BY DATE PERIOD FAILED',
@@ -47,6 +51,19 @@ export const PlannerActions = {
     }),
     loadByTrainingsFailed: (error: string) => ({
         type: PlannerTypes.loadByTrainingsFailed,
+        payload: { error }
+    }),
+
+    loadPlanner: () => ({
+        type: PlannerTypes.loadPlanner,
+        payload: {}
+    }),
+    loadPlannerSuccess: (planner: Planner) => ({
+        type: PlannerTypes.loadPlannerSuccess,
+        payload: { planner }
+    }),
+    loadPlannerFailed: (error: string) => ({
+        type: PlannerTypes.loadPlannerFailed,
         payload: { error }
     }),
 

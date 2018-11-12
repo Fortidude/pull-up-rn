@@ -13,10 +13,13 @@ import Circuit from 'src/models/Circuit';
 
 interface PlannerState {
     loading: boolean;
-    loadedByTrainings: boolean;
+    loadedPlanner: boolean;
 
     byTrainings: Planner;
     byTrainingsEmpty: boolean;
+
+    planner: Planner;
+    plannerEmpty: boolean;
 
     setsHistory: { [key: string]: Set[] };
     setsHistoryLoaded: boolean;
@@ -36,10 +39,13 @@ interface PlannerState {
 
 export const initialState: PlannerState = {
     loading: false,
-    loadedByTrainings: false,
+    loadedPlanner: false,
 
     byTrainings: new Planner({}),
     byTrainingsEmpty: true,
+
+    planner: new Planner({}),
+    plannerEmpty: true,
 
     setsHistory: {},
     setsHistoryLoaded: false,
@@ -65,13 +71,29 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.loadByTrainingsSuccess:
             return Object.assign({}, state, {
                 loading: false,
-                loadedByTrainings: true,
-                byTrainings: action.payload.planner,
-                byTrainingsEmpty: action.payload.planner.trainings.length === 0
+                loadedPlanner: true,
+                planner: action.payload.planner,
+                plannerEmpty: action.payload.planner.trainings.length === 0
             });
 
         case PlannerTypes.loadByTrainingsFailed:
             return Object.assign({}, state, { loading: false, error: action.payload.error });
+
+
+        case PlannerTypes.loadPlanner:
+            return Object.assign({}, state, { loading: true });
+
+        case PlannerTypes.loadPlannerSuccess:
+            return Object.assign({}, state, {
+                loading: false,
+                loadedPlanner: true,
+                planner: action.payload.planner,
+                plannerEmpty: action.payload.planner.trainings.length === 0
+            });
+
+        case PlannerTypes.loadPlannerFailed:
+            return Object.assign({}, state, { loading: false, error: action.payload.error });
+
 
         /**
          * -------------------
@@ -129,9 +151,9 @@ function planner(state = initialState, action: AnyAction): PlannerState {
                 return Object.assign({}, state);
             }
 
-            const planner = Object.assign({}, state.byTrainings);
+            const planner = Object.assign({}, state.planner);
             PlannerMethods.addSetToGoal(action.payload.setCreated, planner, state.circuit);
-            return Object.assign({}, state, { byTrainings: planner, createSetLoading: false, setsHistoryLoaded: false, statisticsLoaded: false });
+            return Object.assign({}, state, { planner: planner, createSetLoading: false, setsHistoryLoaded: false, statisticsLoaded: false });
 
         case PlannerTypes.createSetFailed:
             return Object.assign({}, state, { createSetLoading: false })
@@ -143,10 +165,10 @@ function planner(state = initialState, action: AnyAction): PlannerState {
          */
         case PlannerTypes.createSectionSuccess: {
             const { name, description } = action.payload;
-            const planner = Object.assign({}, state.byTrainings);
+            const planner = Object.assign({}, state.planner);
             planner.trainings.unshift(new Training(name, []));
 
-            return Object.assign({}, state, { byTrainings: planner, byTrainingsEmpty: false });
+            return Object.assign({}, state, { planner: planner, plannerEmpty: false });
         }
 
 
@@ -170,8 +192,8 @@ function planner(state = initialState, action: AnyAction): PlannerState {
          */
         case PlannerTypes.moveGoalToSection: {
             const { goalId, section } = action.payload;
-            const planner = PlannerMethods.moveGoalToSection(goalId, section, state.byTrainings);
-            return Object.assign({}, state, { byTrainings: planner });
+            const planner = PlannerMethods.moveGoalToSection(goalId, section, state.planner);
+            return Object.assign({}, state, { planner: planner });
         }
 
 
@@ -181,8 +203,8 @@ function planner(state = initialState, action: AnyAction): PlannerState {
          */
         case PlannerTypes.removeGoal: {
             const { goalId } = action.payload;
-            const planner = PlannerMethods.removeGoal(goalId, state.byTrainings);
-            return Object.assign({}, state, { byTrainings: planner });
+            const planner = PlannerMethods.removeGoal(goalId, state.planner);
+            return Object.assign({}, state, { planner: planner });
         }
 
 

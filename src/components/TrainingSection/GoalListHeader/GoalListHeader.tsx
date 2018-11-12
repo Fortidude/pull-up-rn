@@ -13,6 +13,7 @@ interface Props {
     plannerEditMode: boolean;
 
     name: string;
+    empty: boolean;
     active: boolean;
     onButtonClick: (name: string | null) => void;
 }
@@ -48,7 +49,7 @@ class GoalListHeader extends React.Component<Props, State> {
                     {this.props.name}
                 </Text>
                 <View style={this.style.toggleButton}>
-                    <IconComponent active={!!this.props.active} />
+                    {!this.props.empty && <IconComponent active={!!this.props.active} />}
                 </View>
             </TouchableOpacity>
         );

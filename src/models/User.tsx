@@ -27,6 +27,7 @@ class User implements User {
     avatar: string;
 
     constructor(data: Object) {
+        console.log(data);
         for (let [key, value] of Object.entries(data)) {
             this[key] = value;
         }

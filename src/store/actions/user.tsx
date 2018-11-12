@@ -3,7 +3,11 @@ import User from "../../models/User";
 export enum UserTypes {
     loadUser = '[USER] LOAD USER',
     loadUserSuccess = '[USER] LOAD USER SUCCESS',
-    loadUserFailed = '[USER] LOAD USER FAILED'
+    loadUserFailed = '[USER] LOAD USER FAILED',
+
+    togglePlannerCustomMode = '[USER] TOGGLE PLANNER CUSTOM MODE',
+    togglePlannerCustomModeSuccess = '[USER] TOGGLE PLANNER CUSTOM MODE SUCCESS',
+    togglePlannerCustomModeFailed = '[USER] TOGGLE PLANNER CUSTOM MODE FAILED'
 }
 
 export const UserActions = {
@@ -19,4 +23,17 @@ export const UserActions = {
         type: UserTypes.loadUserFailed,
         payload: { error: error }
     }),
+
+    togglePlannerCustomMode: () => ({
+        type: UserTypes.togglePlannerCustomMode,
+        payload: {}
+    }),
+    togglePlannerCustomModeSuccess: () => ({
+        type: UserTypes.togglePlannerCustomModeSuccess,
+        payload: {}
+    }),
+    togglePlannerCustomModeFailed: () => ({
+        type: UserTypes.togglePlannerCustomModeFailed,
+        payload: {}
+    })
 };

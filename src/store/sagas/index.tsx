@@ -4,6 +4,7 @@ import userSaga from './user';
 import plannerSaga from './planner';
 import syncSaga from './sync';
 import exerciseSaga from './exercise';
+import settingsSaga from './settings';
 
 function* rootSaga() {
     yield all([
@@ -11,7 +12,8 @@ function* rootSaga() {
         fork(userSaga),
         fork(plannerSaga),
         fork(syncSaga),
-        fork(exerciseSaga)
+        fork(exerciseSaga),
+        fork(settingsSaga)
     ]);
 }
 

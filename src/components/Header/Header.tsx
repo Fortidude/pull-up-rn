@@ -138,7 +138,7 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme,
     locale: state.settings.locale,
     isOnline: state.app.isOnline,
-    plannerIsEmpty: state.planner.byTrainingsEmpty
+    plannerIsEmpty: state.planner.plannerEmpty
 });
 
 export default connect(mapStateToProps)(Header);

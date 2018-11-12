@@ -6,7 +6,7 @@ import { AuthTypes } from '../actions/auth';
 import User from '../../models/User';
 
 interface UserState {
-    current: null|User;
+    current: null | User;
     error: any;
     expires_at: string;
 }
@@ -20,11 +20,19 @@ const initialState: UserState = {
 function user(state = initialState, action: AnyAction): UserState {
     switch (action.type) {
         case UserTypes.loadUser:
-            return Object.assign({}, state, {current: null, error: null})
-        case UserTypes.loadUserSuccess: 
-            return Object.assign({}, state, {current: action.payload.user, expires_at: action.payload.user.current_circuit_expired_date})
-        case UserTypes.loadUserFailed: 
-            return Object.assign({}, state, {error: action.payload.error})
+            return Object.assign({}, state, { current: null, error: null })
+        case UserTypes.loadUserSuccess:
+            return Object.assign({}, state, { current: action.payload.user, expires_at: action.payload.user.current_circuit_expired_date })
+        case UserTypes.loadUserFailed:
+            return Object.assign({}, state, { error: action.payload.error })
+
+        case UserTypes.togglePlannerCustomModeSuccess:
+            const current = state.current;
+            if (current) {
+                current.planner_custom_mode = !current.planner_custom_mode;
+            }
+            return Object.assign({}, state, { current })
+
         case AuthTypes.logout:
             return Object.assign({}, initialState);
         default:

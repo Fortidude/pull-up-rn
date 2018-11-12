@@ -56,8 +56,8 @@ describe('planner reducer', () => {
 
 
         const expectedStateWithSuccess = Object.assign(expectedStateWithLoading, {
-            byTrainings: new Planner({}),
-            loadedByTrainings: true,
+            planner: new Planner({}),
+            loadedPlanner: true,
             loading: false
         });
         expect(planner(expectedStateWithLoading, {
@@ -67,8 +67,8 @@ describe('planner reducer', () => {
             .toEqual(expectedStateWithSuccess);
 
         const expectedStateWithFailed = Object.assign(expectedStateWithLoading, {
-            byTrainings: new Planner({}),
-            loadedByTrainings: true,
+            planner: new Planner({}),
+            loadedPlanner: true,
             loading: false
         });
         expect(planner(expectedStateWithLoading, {
@@ -89,8 +89,8 @@ describe('planner reducer', () => {
          * Just to initialize some state with loaded planner
          */
         const expectedStateWithEmptyPlanner = Object.assign(stateWithLoading, {
-            byTrainings: new Planner({}),
-            loadedByTrainings: true,
+            planner: new Planner({}),
+            loadedPlanner: true,
             loading: false
         });
         expect(planner(stateWithLoading, {
@@ -103,17 +103,17 @@ describe('planner reducer', () => {
          * Create first section
          */
         const expectedStateWithNewSection = Object.assign({}, expectedStateWithEmptyPlanner, {
-            byTrainings: new Planner({ [newSectionName]: [] }),
-            byTrainingsEmpty: false
+            planner: new Planner({ [newSectionName]: [] }),
+            plannerEmpty: false
         });
         const modifiedState = planner(expectedStateWithEmptyPlanner, {
             type: PlannerTypes.createSectionSuccess,
             payload: { name: newSectionName }
         });
         expect(modifiedState).toEqual(expectedStateWithNewSection);
-        expect(modifiedState.byTrainingsEmpty).toBeFalsy();
-        expect(modifiedState.byTrainings.trainings).toHaveLength(1);
-        expect(modifiedState.byTrainings.trainings[0].name).toBe(newSectionName);
+        expect(modifiedState.plannerEmpty).toBeFalsy();
+        expect(modifiedState.planner.trainings).toHaveLength(1);
+        expect(modifiedState.planner.trainings[0].name).toBe(newSectionName);
     })
 
     it('should add Goals with section', () => {
@@ -122,9 +122,9 @@ describe('planner reducer', () => {
          * 
          */
         const expectedState = Object.assign(initialState, {
-            byTrainings: new Planner({ "section name": [goalOne, goalTwo] }),
-            byTrainingsEmpty: false,
-            loadedByTrainings: true,
+            planner: new Planner({ "section name": [goalOne, goalTwo] }),
+            plannerEmpty: false,
+            loadedPlanner: true,
             loading: false
         });
 
@@ -143,9 +143,9 @@ describe('planner reducer', () => {
 
     it('should move goal from one to another section', () => {
         const state = Object.assign(initialState, {
-            byTrainings: new Planner({ "section name": [goalOne, goalTwo], "second section": [] }),
-            byTrainingsEmpty: false,
-            loadedByTrainings: true,
+            planner: new Planner({ "section name": [goalOne, goalTwo], "second section": [] }),
+            plannerEmpty: false,
+            loadedPlanner: true,
             loading: false
         });
 
@@ -154,7 +154,7 @@ describe('planner reducer', () => {
 
         const newState = planner(state, PlannerActions.moveGoalToSection(goalId, sectionName));
         const expectedState = Object.assign({}, state, {
-            byTrainings: new Planner({ "section name": [goalTwo], "second section": [goalOne] })
+            planner: new Planner({ "section name": [goalTwo], "second section": [goalOne] })
         })
 
         expect(JSON.stringify(newState))
@@ -169,9 +169,9 @@ describe('planner reducer', () => {
 
     it('should remove goal', () => {
         const state = Object.assign(initialState, {
-            byTrainings: new Planner({ "section name": [goalOne, goalTwo], "second section": [] }),
-            byTrainingsEmpty: false,
-            loadedByTrainings: true,
+            planner: new Planner({ "section name": [goalOne, goalTwo], "second section": [] }),
+            plannerEmpty: false,
+            loadedPlanner: true,
             loading: false
         });
 
@@ -179,7 +179,7 @@ describe('planner reducer', () => {
 
         const newState = planner(state, PlannerActions.removeGoal(goalId));
         const expectedState = Object.assign({}, state, {
-            byTrainings: new Planner({ "section name": [goalTwo], "second section": [] })
+            planner: new Planner({ "section name": [goalTwo], "second section": [] })
         })
 
         expect(JSON.stringify(newState))

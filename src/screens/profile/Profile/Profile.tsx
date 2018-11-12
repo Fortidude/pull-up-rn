@@ -9,13 +9,16 @@ import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 import SettingListItem, { SettingListPlaceholder } from 'src/components/SettingListItem';
 import I18n from 'src/assets/translations';
 import User from 'src/models/User';
+import { UserActions } from 'src/store/actions/user';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     locale: string;
     user: User;
+    plannerCustomMode: boolean;
 };
+
 class Profile extends React.Component<Props> {
     style: ThemeValueInterface;
 
@@ -38,6 +41,10 @@ class Profile extends React.Component<Props> {
         this.props.dispatch(NavigationActions.navigate({ routeName: 'Notifications' }));
     };
 
+    toggleUserPlannerCustomMode = () => {
+        this.props.dispatch(UserActions.togglePlannerCustomMode());
+    }
+
     render() {
         if (!this.props.user) {
             return null;
@@ -52,6 +59,14 @@ class Profile extends React.Component<Props> {
                     onPress={() => { }}
                     text={I18n.t('settings.circuit_length')}
                     rightText={`${this.props.user.days_per_circuit} ${I18n.t('mics.days').toLocaleLowerCase()}`}
+                />
+                <SettingListItem
+                    last
+                    icon="list-ul"
+                    text={I18n.t('settings.planner_custom_mode')}
+                    subText={I18n.t('settings.planner_custom_mode_subtext')}
+                    rightOnSwitch={this.toggleUserPlannerCustomMode}
+                    rightSwitch={this.props.plannerCustomMode}
                 />
 
                 <SettingListPlaceholder />
@@ -75,7 +90,8 @@ const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
     locale: state.settings.locale,
-    user: state.user.current
+    user: state.user.current,
+    plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false
 });
 
 export default connect(mapStateToProps)(Profile);

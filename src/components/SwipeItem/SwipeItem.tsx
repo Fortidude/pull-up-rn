@@ -73,6 +73,7 @@ class SwipeItem extends React.Component<Props, State> {
     }
 
     toggle = () => {
+        //@ts-ignore
         const currentValue = this.state.swipePosition._value;
         const maxLeftNeeded = this.getMaxLeftSwipe();
 

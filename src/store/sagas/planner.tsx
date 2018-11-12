@@ -18,6 +18,21 @@ function* loadByTrainings() {
     }
 }
 
+function* loadPlanner() {
+    //@ts-ignore
+    const isOnline = yield select(state => state.app.isOnline);
+    if (!isOnline) {
+        yield put(PlannerActions.loadByTrainingsFailed('OFFLINE'));
+    }
+
+    try {
+        const planner = yield Data.getPlannerByDays();
+        yield put(PlannerActions.loadPlannerSuccess(planner));
+    } catch (err) {
+        yield put(PlannerActions.loadByTrainingsFailed(err));
+    }
+}
+
 function* loadSetsHistoryByPeriod(action: any) {
     //@ts-ignore
     const isOnline = yield select(state => state.app.isOnline);
@@ -132,7 +147,7 @@ function* createGoalSuccess() {
 
     // refresh list only if loaded before. 
     //@ts-ignore
-    const isPlannerByTrainingsLoaded = yield select(state => state.planner.loadedByTrainings);
+    const isPlannerByTrainingsLoaded = yield select(state => state.planner.loadedPlanner);
     console.log(`isPlannerByTrainingsLoaded, ${isPlannerByTrainingsLoaded}`);
     if (isPlannerByTrainingsLoaded) {
         yield put(PlannerActions.loadByTrainings())
@@ -170,6 +185,7 @@ function* removeGoal(action: any) {
 function* plannerSaga() {
     yield all([
         takeEvery(PlannerTypes.loadByTrainings, loadByTrainings),
+        takeEvery(PlannerTypes.loadPlanner, loadPlanner),
         takeEvery(PlannerTypes.loadSetsByDatePeriod, loadSetsHistoryByPeriod),
         takeEvery(PlannerTypes.loadGoalStatistics, loadStatistics),
         takeEvery(PlannerTypes.createSet, createSet),
