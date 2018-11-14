@@ -89,6 +89,13 @@ function getStyle(theme: ThemeInterface) {
         rightPlaceholder: {
             width: 13
         },
+        bottomLabelText: {
+            fontFamily: theme.fonts.mainFontFamily,
+            fontSize: theme.fonts.fontH4Size,
+            color: theme.colors.subTextColor,
+            marginTop: 5,
+            marginLeft: 24
+        },
     };
 }
 

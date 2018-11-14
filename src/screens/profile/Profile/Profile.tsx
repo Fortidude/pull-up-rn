@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Dispatch } from 'redux';
 import { NavigationActions } from 'react-navigation';
 
@@ -63,10 +63,10 @@ class Profile extends React.Component<Props> {
                 <SettingListItem
                     last
                     icon="list-ul"
-                    text={I18n.t('settings.planner_custom_mode')}
-                    subText={I18n.t('settings.planner_custom_mode_subtext')}
+                    text={I18n.t('settings.planner_calendar_mode')}
+                    bottomLabel={I18n.t('settings.planner_calendar_mode_subtext')}
                     rightOnSwitch={this.toggleUserPlannerCustomMode}
-                    rightSwitch={this.props.plannerCustomMode}
+                    rightSwitch={!this.props.plannerCustomMode}
                 />
 
                 <SettingListPlaceholder />

@@ -52,6 +52,8 @@ let translations = {
             remove_my_account: "Remove my account",
             settings: "Ustawienia",
             theme: "Motyw kolorystyczny",
+            planner_calendar_mode: "Grupowanie - kalendarz",
+            planner_calendar_mode_subtext: "Ćwiczenia możesz grupować wg. własnych treningów (np. pull / push / leg day itp.) lub względem daty ostatniego wykonania (wczoraj, 3 dni temu, tydzień temu itp.)",
             planner_footer_circle_component: {
                 title: "Strona główna | stopka",
                 subtext: "Środkowy element",
@@ -72,6 +74,21 @@ let translations = {
         planner: {
             add_first_training: "Dodaj swój pierwszy trening",
             done_of: "Zrobiono",
+            custom_mode: {
+                calendar: {
+                    today: "Dzisiaj",
+                    yesterday: "Wczoraj",
+                    two_days_ago: "Dwa dni temu",
+                    three_days_ago: "Trzy dni temu",
+                    four_days_ago: "Cztery dni temu",
+                    five_days_ago: "Pięć dni temu",
+                    six_days_ago: "Sześć dni temu",
+                    week_ago: "Tydzień temu",
+                    older_than_week_ago: "Starsze niż tydzień",
+                    circuit_ago: "W poprzednim obiegu",
+                    older: "Starsze"
+                }
+            },
             missing: "Brakuje",
             last_set__short_text: "Ostatnio",
             type: "Typ",

@@ -2,6 +2,7 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import I18n from 'src/assets/translations';
 
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
 import Styles from './GoalListHeader.styles';
@@ -11,6 +12,7 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     plannerEditMode: boolean;
+    plannerCustomMode: boolean;
 
     name: string;
     empty: boolean;
@@ -29,12 +31,12 @@ class GoalListHeader extends React.Component<Props, State> {
         this.style = Styles(this.props.theme);
     }
 
-    shouldComponentUpdate(nextProps: Props, nextState: State) {
-        return nextProps.name !== this.props.name
-            || nextProps.theme.name !== this.props.theme.name
-            || nextProps.active !== this.props.active
-            || nextProps.plannerEditMode !== this.props.plannerEditMode;
-    }
+    // shouldComponentUpdate(nextProps: Props, nextState: State) {
+    //     return nextProps.name !== this.props.name
+    //         || nextProps.theme.name !== this.props.theme.name
+    //         || nextProps.active !== this.props.active
+    //         || nextProps.plannerEditMode !== this.props.plannerEditMode;
+    // }
 
     componentWillReceiveProps(nextProps: Props) {
         if (nextProps.theme.name !== this.props.theme.name) {
@@ -43,10 +45,15 @@ class GoalListHeader extends React.Component<Props, State> {
     }
 
     render() {
+        let name = this.props.name;
+        if (!this.props.plannerCustomMode) {
+            name = I18n.t(`planner.custom_mode.calendar.${name}`);
+        }
+
         return (
             <TouchableOpacity style={this.style.trainingHeaderContainer} onPress={() => this.props.onButtonClick(this.props.name)}>
                 <Text style={this.style.title}>
-                    {this.props.name}
+                    {name}
                 </Text>
                 <View style={this.style.toggleButton}>
                     {!this.props.empty && <IconComponent active={!!this.props.active} />}
@@ -59,7 +66,8 @@ class GoalListHeader extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    plannerEditMode: state.app.plannerEditMode
+    plannerEditMode: state.app.plannerEditMode,
+    plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false
 });
 
 export default connect(mapStateToProps)(GoalListHeader);

@@ -53,6 +53,7 @@ class Goal implements GoalInterface {
     lastSetAdded: Date;
     leftThisCircuit: number;
     doneThisCircuit: number;
+    trainingName: string;
     name: string;
     removed: boolean;
     requiredAmount: number;
@@ -72,6 +73,7 @@ class Goal implements GoalInterface {
         this.leftThisCircuit = parseInt(data.left_this_circuit);
         this.lastSetAdded = data.last_set_added;
         this.lastSetValue = parseInt(data.last_set_value);
+        this.trainingName = data.traning_name;
         this.name = data.name;
         this.removed = data.removed;
         this.requiredAmount = parseInt(data.required_amount);

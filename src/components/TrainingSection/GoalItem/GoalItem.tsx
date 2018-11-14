@@ -22,6 +22,7 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     plannerEditMode: boolean;
+    plannerCustomMode: boolean;
 
     goal: Goal;
 
@@ -196,10 +197,14 @@ class GoalItem extends React.Component<Props, State> {
                                 <Text style={[this.style.infoTitleBottom, { flex: 2, textAlign: 'right' }]} numberOfLines={1}>{I18n.t(`planner.types.${goal.requiredType}`)} </Text>
                             </View>}
                             <View style={this.style.infoTitleBottomContainer}>
-                                <View style={this.style.infoTitleBottomContainerTimeAgo}>
+                                {this.props.plannerCustomMode && <View style={this.style.infoTitleBottomContainerTimeAgo}>
                                     <EvilIcon name="clock" size={this.props.theme.fonts.fontSize} color={this.props.theme.colors.subTextColor} />
                                     <Text style={[this.style.infoTitleBottom, { textAlign: 'left', marginLeft: 5 }]} numberOfLines={1}>{moment.parseZone(this.props.goal.lastSetAdded).startOf('minute').fromNow()} </Text>
-                                </View>
+                                </View>}
+                                {!this.props.plannerCustomMode && <View style={this.style.infoTitleBottomContainerTimeAgo}>
+                                    <EvilIcon name="tag" size={this.props.theme.fonts.fontSize} color={this.props.theme.colors.subTextColor} />
+                                    <Text style={[this.style.infoTitleBottom, { textAlign: 'left', marginLeft: 5 }]} numberOfLines={1}>{this.props.goal.trainingName.toLocaleLowerCase()} </Text>
+                                </View>}
                             </View>
                         </Animated.View>
                         <Animated.View style={[this.style.progressBar, { width: progressWidth }]}></Animated.View>
@@ -213,7 +218,8 @@ class GoalItem extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    plannerEditMode: state.app.plannerEditMode
+    plannerEditMode: state.app.plannerEditMode,
+    plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false
 });
 
 export default connect(mapStateToProps)(GoalItem);
