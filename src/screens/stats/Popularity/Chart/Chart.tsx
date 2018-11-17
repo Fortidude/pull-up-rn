@@ -1,6 +1,8 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+
+//@ts-ignore
 import { VictoryPie } from "victory-native";
 
 import Styles from './Chart.styles';

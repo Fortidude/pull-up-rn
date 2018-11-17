@@ -101,6 +101,7 @@ function* createSet(action: any) {
             throw 'ERROR';
         }
 
+        //@ts-ignore
         const plannerCustomMode = yield select(state => state.user.current.planner_custom_mode);
         yield put(PlannerActions.createSetSuccess(data));
         if (!plannerCustomMode) {
