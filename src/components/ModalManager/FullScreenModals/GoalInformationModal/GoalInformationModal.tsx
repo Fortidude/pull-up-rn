@@ -85,13 +85,13 @@ class GoalInformationModal extends React.Component<Props, State> {
                 {
                     scaleX: openProgress.interpolate({
                         inputRange: [0.01, 0.99],
-                        outputRange: [53 / WIDTH, 1]
+                        outputRange: [0, 1]
                     })
                 },
                 {
                     scaleY: openProgress.interpolate({
                         inputRange: [0.01, 0.99],
-                        outputRange: [53 / HEIGHT, 1]
+                        outputRange: [0, 1]
                     })
                 }
             ]

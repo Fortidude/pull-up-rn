@@ -1,10 +1,9 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Animated, Dimensions } from 'react-native';
-import moment from 'moment'
+import { Animated, Dimensions, View } from 'react-native';
 
-import getStyle from './GoalInformationModal.styles';
+import getStyle from './GoalCreateSetModal.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 import Content from './Content';
 
@@ -45,7 +44,9 @@ class GoalInformationModal extends React.Component<Props, State> {
     render() {
         return (
             <Animated.View style={[this.style.container, this._getAnimateStyles()]}>
-                <Content onClose={this.props.onClose} />
+                <View style={this.style.innerContainer}>
+                    <Content onClose={this.props.onClose} />
+                </View>
             </Animated.View>
         );
     }
@@ -91,7 +92,7 @@ class GoalInformationModal extends React.Component<Props, State> {
                 {
                     scaleY: openProgress.interpolate({
                         inputRange: [0.01, 0.99],
-                        outputRange: [53 / HEIGHT, 1]
+                        outputRange: [0, 1]
                     })
                 }
             ]

@@ -29,6 +29,7 @@ interface Props {
     toggleParentScroll?: (enable: boolean) => void;
     onGoalSwipeRelease?: (...props: any) => void;
     onMoveToSection: (goalId: string, onPickCallback?: () => void, onDispatchCallback?: () => void) => void;
+    onPress?: (positionX: number, positionY: number) => void;
 }
 
 interface State {
@@ -96,6 +97,12 @@ class GoalItem extends React.Component<Props, State> {
     onAddSetPress = () => {
         this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
         this.props.dispatch(ModalActions.addSetOpen());
+
+        this.refs.touchableButton.measure((x, y, width, height, windowX, windowY) => {
+            if (this.props.onPress) {
+                this.props.onPress(windowX, windowY);
+            }
+        })
     }
 
     animateProgress = () => {
@@ -136,7 +143,7 @@ class GoalItem extends React.Component<Props, State> {
         //@ts-ignore
         this.refs.leftSwipeIconComponent.measure((x, y, width, height, windowX, windowY) => {
             if (this.props.onGoalSwipeRelease) {
-                this.props.onGoalSwipeRelease(this.props.goal.id, windowX/2, windowY);
+                this.props.onGoalSwipeRelease(this.props.goal.id, windowX / 2, windowY);
             }
         })
     }
@@ -194,7 +201,7 @@ class GoalItem extends React.Component<Props, State> {
                 onMoveBegin={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(false) : null}
                 onMoveEnd={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(true) : null}
             >
-                <TouchableOpacity style={this.style.exerciseContainer} onPress={this.onAddSetPress}>
+                <TouchableOpacity ref="touchableButton" style={this.style.exerciseContainer} onPress={this.onAddSetPress}>
                     <View style={this.style.plusIconContainer}>
                         <View style={this.style.plusIconView}>
                             <EvilIcon name="close" color={this.props.theme.colors.main} size={42} />

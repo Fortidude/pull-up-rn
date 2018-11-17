@@ -18,9 +18,13 @@ import { ExerciseActions } from 'src/store/actions/exercise';
 import PlannerListPlaceholder from '../PlannerListPlaceholder';
 import User from 'src/models/User';
 
+import GoalCreateSetModal from 'src/components/ModalManager/FullScreenModals/GoalCreateSetModal';
 import GoalInformationModal from 'src/components/ModalManager/FullScreenModals/GoalInformationModal';
 import Events from 'src/service/Events';
-import { OPEN_MODAL_ANIMATION_OPTION, CLOSE_MODAL_ANIMATION_OPTION, OPEN_MODAL_ANIMATION_OPTION_SLOW, CLOSE_MODAL_ANIMATION_OPTION_SLOW } from 'src/components/ModalManager/ModalManager';
+
+import { CLOSE_MODAL_ANIMATION_OPTION, OPEN_MODAL_ANIMATION_OPTION_SLOW } from 'src/components/ModalManager/ModalManager';
+import { ModalActions } from 'src/store/actions/modal';
+
 
 interface Props {
     dispatch: Dispatch;
@@ -33,6 +37,7 @@ interface Props {
     goalSelected: GoalInterface | null;
     isOnline: boolean;
     isLogged: boolean;
+    addSetModalVisible: boolean;
     scrollBegin?: () => void;
 }
 
@@ -43,7 +48,9 @@ interface State {
 
     temp: boolean;
 
-    modalOpenProgress: Animated.Value;
+    modalCreateSetOpenProgress: Animated.Value;
+    modalInformationOpenProgress: Animated.Value;
+
     modalPositionX: number;
     modalPositionY: number;
     modalGoalId: string;
@@ -67,7 +74,8 @@ class PlannerList extends React.Component<Props, State> {
             readyToRefresh: false,
             temp: true,
 
-            modalOpenProgress: new Animated.Value(0),
+            modalCreateSetOpenProgress: new Animated.Value(0),
+            modalInformationOpenProgress: new Animated.Value(0),
             modalPositionX: 0,
             modalPositionY: 0,
             modalGoalId: ''
@@ -128,27 +136,42 @@ class PlannerList extends React.Component<Props, State> {
     }
 
     onGoalSwipeRelease = (goalId: string, positionX: number, positionY: number) => {
-        console.log(goalId, positionX, positionY);
-        
         this.setState({ modalGoalId: goalId, modalPositionX: positionX, modalPositionY: positionY }, () => {
-            Events.emit('FOOTER_BAR_CLOSE');
-            Events.emit('FULLSCREEN_MODAL_VISIBLE');
-            Animated.timing(this.state.modalOpenProgress, {
-                toValue: 1,
-                useNativeDriver: true,
-                ...OPEN_MODAL_ANIMATION_OPTION_SLOW
-            }).start();
+            this.openModal(this.state.modalInformationOpenProgress);
         });
+    }
+
+    onGoalClick = (positionX: number, positionY: number) => {
+        // this.setState({ modalPositionX: positionX, modalPositionY: positionY }, () => {
+        //     this.openModal(this.state.modalCreateSetOpenProgress);
+        // });
+    }
+
+    openModal = (animatedValue: Animated.Value) => {
+        Events.emit('FOOTER_BAR_CLOSE');
+        Events.emit('FULLSCREEN_MODAL_VISIBLE');
+        Animated.timing(animatedValue, {
+            toValue: 1,
+            useNativeDriver: true,
+            ...OPEN_MODAL_ANIMATION_OPTION_SLOW
+        }).start();
     }
 
     closeModal = () => {
         Events.emit('FOOTER_BAR_OPEN');
         Events.emit('FULLSCREEN_MODAL_HIDDEN');
-        Animated.timing(this.state.modalOpenProgress, {
-            toValue: 0,
-            useNativeDriver: true,
-            ...CLOSE_MODAL_ANIMATION_OPTION
-        }).start();
+        Animated.parallel([
+            Animated.timing(this.state.modalInformationOpenProgress, {
+                toValue: 0,
+                useNativeDriver: true,
+                ...CLOSE_MODAL_ANIMATION_OPTION
+            }),
+            Animated.timing(this.state.modalCreateSetOpenProgress, {
+                toValue: 0,
+                useNativeDriver: true,
+                ...CLOSE_MODAL_ANIMATION_OPTION
+            })
+        ]).start();
     }
 
     render() {
@@ -212,6 +235,7 @@ class PlannerList extends React.Component<Props, State> {
                                     this.flatListReference.getScrollResponder().setNativeProps({ scrollEnabled: enable })
                                 }}
                                 onGoalSwipeRelease={this.onGoalSwipeRelease}
+                                onGoalClick={this.onGoalClick}
                                 training={item}
                                 isFirst={isFirst} />
                         }}
@@ -220,10 +244,21 @@ class PlannerList extends React.Component<Props, State> {
                     <GoalInformationModal
                         positionX={this.state.modalPositionX}
                         positionY={this.state.modalPositionY}
-                        openProgress={this.state.modalOpenProgress}
+                        openProgress={this.state.modalInformationOpenProgress}
                         goalId={this.state.modalGoalId}
                         onClose={this.closeModal}
                     />
+
+                    {/* <GoalCreateSetModal
+                        positionX={this.state.modalPositionX}
+                        positionY={this.state.modalPositionY}
+                        openProgress={this.state.modalCreateSetOpenProgress}
+                        goalId={this.state.modalGoalId}
+                        onClose={() => {
+                            this.props.dispatch(ModalActions.addSetClose());
+                            this.closeModal();
+                        }}
+                    /> */}
                 </View>
             </React.Fragment>
         );
@@ -240,7 +275,8 @@ const mapStateToProps = (state: any) => ({
     plannerLoading: state.planner.loading,
     user: state.user.current,
     isOnline: state.app.isOnline,
-    isLogged: state.auth.isLogged
+    isLogged: state.auth.isLogged,
+    addSetModalVisible: state.modal.addSetModalVisible
 });
 
 export default connect(mapStateToProps)(PlannerList);

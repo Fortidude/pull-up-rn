@@ -1,2 +1,2 @@
-import GoalInformationModal from './GoalInformationModal';
-export default GoalInformationModal;
+import GoalCreateSetModal from './GoalCreateSetModal';
+export default GoalCreateSetModal;
