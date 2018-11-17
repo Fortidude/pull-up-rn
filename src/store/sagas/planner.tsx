@@ -101,7 +101,11 @@ function* createSet(action: any) {
             throw 'ERROR';
         }
 
+        const plannerCustomMode = yield select(state => state.user.current.planner_custom_mode);
         yield put(PlannerActions.createSetSuccess(data));
+        if (!plannerCustomMode) {
+            yield put(PlannerActions.moveGoalToSection(goal.id, 'today', false));
+        }
     } catch (err) {
         yield put(PlannerActions.createSetFailed(err));
     }
@@ -156,7 +160,11 @@ function* createGoalSuccess() {
 
 function* moveGoalToSection(action: any) {
     try {
-        const { goalId, section } = action.payload;
+        const { goalId, section, withRequest } = action.payload;
+        if (!withRequest) {
+            return;
+        }
+
         const result = yield Data.postMoveGoalToSection(goalId, { sectionName: section });
         if (!result.status) {
             console.log(`moveGoalToSection sagas, line 146`, result);

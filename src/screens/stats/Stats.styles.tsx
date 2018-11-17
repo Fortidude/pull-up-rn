@@ -21,6 +21,9 @@ function getStyle(theme: ThemeInterface) {
             height: HEIGHT - FOOTER_HEIGHT - HEADER_HEIGHT,
             marginBottom: FOOTER_HEIGHT
         },
+        effectivenessListContainer: {
+            marginBottom: FOOTER_HEIGHT,
+        },
         popularity: {
             listContainer: {
                 flex: 3,

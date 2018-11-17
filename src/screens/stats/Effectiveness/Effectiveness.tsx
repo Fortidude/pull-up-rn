@@ -105,7 +105,7 @@ class Effectiveness extends Component<Props, Stats> {
                     circuitsOptionsTranslated={this.circuitsOptionsTranslated}
                 />
 
-                <ScrollView  contentContainerStyle={{paddingTop: 1}}>
+                <ScrollView style={this.style.effectivenessListContainer} contentContainerStyle={{paddingTop: 1}}>
                     {goals.map((goal: StatisticGoalInterface, index: number) => <ListItem key={index} goal={goal} />)}
                 </ScrollView>
             </View>

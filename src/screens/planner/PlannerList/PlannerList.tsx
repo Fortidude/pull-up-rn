@@ -142,13 +142,15 @@ class PlannerList extends React.Component<Props, State> {
             extrapolate: 'clamp'
         });
 
+        let firstFound = false;
+
         return (
             <React.Fragment>
                 {!this.state.refreshing && <Animated.View style={[this.style.refreshingProgressBar, { backgroundColor: backgroundColor, width: refreshIndicatorWidth }]}></Animated.View>}
                 {this.state.refreshing && <Animated.View style={[this.style.refreshingIndicator, { opacity: indicatorOpacity }]}><Spinner /></Animated.View>}
                 <View style={this.style.listContainer}>
-                    {!this.props.plannerLoaded && <PlannerListPlaceholder theme={this.props.theme} />}
-                    {this.props.plannerLoaded && <FlatList
+                    {(!this.props.plannerLoaded || !this.props.user) && <PlannerListPlaceholder theme={this.props.theme} />}
+                    {this.props.plannerLoaded && !!this.props.user &&  <FlatList
                         keyboardDismissMode={"interactive"}
                         keyboardShouldPersistTaps="never"
                         ref={(ref: any) => this.flatListReference = ref}
@@ -161,14 +163,19 @@ class PlannerList extends React.Component<Props, State> {
                         extraData={[this.props.goalSelected, this.props.planner.trainings]}
                         ListFooterComponent={<View style={this.style.listFooterComponent}></View>}
                         ListEmptyComponent={<EmptyList />}
-                        renderItem={({ item, index }) => (
-                            <GoalList
+                        renderItem={({ item, index }) => {
+                            let isFirst = item.goals.length > 0 && (index === 0 || !firstFound);
+                            if (isFirst) {
+                                firstFound = true;
+                            }
+                            
+                            return <GoalList
                                 toggleParentScroll={(enable: boolean) => {
                                     this.flatListReference.getScrollResponder().setNativeProps({ scrollEnabled: enable })
                                 }}
                                 training={item}
-                                isFirst={index === 0} />
-                        )}
+                                isFirst={isFirst} />
+                        }}
                     />}
                 </View>
             </React.Fragment>

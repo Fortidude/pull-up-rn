@@ -145,9 +145,9 @@ export const PlannerActions = {
         payload: { error }
     }),
 
-    moveGoalToSection: (goalId: string, section: string) => ({
+    moveGoalToSection: (goalId: string, section: string, withRequest: boolean = true) => ({
         type: PlannerTypes.moveGoalToSection,
-        payload: { goalId, section }
+        payload: { goalId, section, withRequest }
     }),
     removeGoal: (goalId: string) => ({
         type: PlannerTypes.removeGoal,

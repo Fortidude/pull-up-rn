@@ -39,12 +39,10 @@ class Chart extends React.Component<Props> {
         const data: { x: number, y: number, }[] = [];
         let total = 0;
         this.props.statistics.percentage_sets_usage.usage.forEach((element) => {
-            if (total > 60) {
-                // return;element.
-            }
             total = + element.percentage;
             data.push({
-                x: element.percentage,
+                //@ts-ignore
+                x: element.percentage >= 8 ? element.percentage : null,
                 y: element.percentage,
             })
         })
@@ -56,9 +54,7 @@ class Chart extends React.Component<Props> {
         return (
             <VictoryPie
                 width={CHART_SIZE} height={CHART_SIZE}
-                data={this.props.statistics.percentage_sets_usage.usage}
-                x={"percentage"}
-                y={"percentage"}
+                data={this.getData()}
                 labelRadius={50}
                 innerRadius={20}
                 padAngle={2}
