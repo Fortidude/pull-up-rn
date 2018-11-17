@@ -22,6 +22,7 @@ interface Props {
     training: Training
     isFirst?: boolean;
 
+    onGoalSwipeRelease?: (...props: any) => void;
     toggleParentScroll?: (enable: boolean) => void,
 }
 
@@ -94,6 +95,7 @@ class TrainingSection extends React.Component<Props, State> {
                         {this.props.training.goals.map((goal, key) => {
                             if (!goal.removed) {
                                 return (<GoalItem
+                                    onGoalSwipeRelease={this.props.onGoalSwipeRelease}
                                     onMoveToSection={this.moveGoalToSection}
                                     toggleParentScroll={this.props.toggleParentScroll}
                                     isToggled={this.state.toggled}

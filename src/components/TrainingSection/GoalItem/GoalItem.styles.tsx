@@ -109,6 +109,20 @@ function getStyle(theme: ThemeInterface) {
         iconRemove: {
             color: theme.colors.danger,
             fontSize: 20,
+        },
+        showDetailsContainer: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 1
+        },
+        iconShowDetailsReached: {
+            color: theme.colors.success,
+            fontSize: 20
+        },
+        iconShowDetails: {
+            color: theme.colors.subTextColor,
+            fontSize: 20,
+            opacity: 0.5
         }
     };
 }

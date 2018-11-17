@@ -2,12 +2,20 @@ import React, { ReactFragment } from 'react';
 import { Animated, PanResponder, View, Text } from 'react-native';
 import Styles from './SwipeItem.styles';
 import { ThemeValueInterface } from '../../assets/themes';
+import Haptic from 'src/service/Haptic';
 
 interface Props {
     children: ReactFragment;
     style?: StyleSheet;
+
     rightButtons?: ReactFragment[];
     rightButtonWidth?: number;
+
+    leftSwipe?: ReactFragment;
+    leftSwipeReached?: ReactFragment;
+    leftSwipeReleaseCallback?: () => void;
+    leftSwipeWidth?: number;
+
     animateOut?: boolean;
 
     onMoveBegin?: () => void;
@@ -17,6 +25,7 @@ interface Props {
 interface State {
     swipePosition: Animated.Value;
     opacity: Animated.Value;
+    leftSwipeReached: boolean;
 }
 
 class SwipeItem extends React.Component<Props, State> {
@@ -30,7 +39,9 @@ class SwipeItem extends React.Component<Props, State> {
         this.style = Styles();
         this.state = {
             swipePosition: new Animated.Value(0),
-            opacity: new Animated.Value(0)
+            opacity: new Animated.Value(0),
+
+            leftSwipeReached: false
         }
     }
 
@@ -56,6 +67,17 @@ class SwipeItem extends React.Component<Props, State> {
         this.closed = false;
         Animated.spring(this.state.swipePosition, {
             toValue: this.getMaxLeftSwipe(),
+            friction: 5,
+            tension: 40,
+            useNativeDriver: true
+        }).start();
+    }
+
+    forceOpenLeft = () => {
+        this.closed = false;
+        this.offset = this.getMaxRightSwipe();
+        Animated.spring(this.state.swipePosition, {
+            toValue: this.getMaxRightSwipe(),
             friction: 5,
             tension: 40,
             useNativeDriver: true
@@ -93,19 +115,32 @@ class SwipeItem extends React.Component<Props, State> {
         }).start();
     }
 
+    onRelease = () => {
+        //@ts-ignore
+        const currentValue = this.state.swipePosition._value;
+        const maxRightNeeded = this.getMaxRightSwipe();
+
+        if (currentValue >= maxRightNeeded && this.props.leftSwipeReleaseCallback) {
+            this.props.leftSwipeReleaseCallback();
+        }
+    }
+
     render() {
         const rightButtons = this.props.rightButtons || [];
 
         return (
             <Animated.View style={[{ flexDirection: 'row', opacity: this.state.opacity }]}>
+                {!!this.props.leftSwipe && <Animated.View style={[{ position: 'absolute', height: '100%', transform: [{ translateX: this.getLeftSwipeComponentTranslateX() }] }]}>
+                    {!this.state.leftSwipeReached && this.props.leftSwipe}
+                    {this.state.leftSwipeReached && this.props.leftSwipeReached}
+                </Animated.View>}
+
                 <Animated.View {...this.panResponder().panHandlers}
                     style={[this.style.container, this.props.style, { transform: [{ translateX: this.state.swipePosition }] }]}>
                     <View>
                         {this.props.children}
                     </View>
                 </Animated.View>
-
-
 
                 {rightButtons.map((button, key) => (
                     <Animated.View key={key} style={[this.style.rightButtonsContainer, { width: 50, right: -this.getMaxLeftSwipe(), transform: [{ translateX: this.getRightButtonTranslateX() }] }]}>
@@ -120,6 +155,8 @@ class SwipeItem extends React.Component<Props, State> {
         const buttonWidth = this.props.rightButtonWidth || 50;
         return -((this.props.rightButtons || []).length * buttonWidth);
     }
+
+    getMaxRightSwipe = () => this.props.leftSwipeWidth || 70;
 
     getRightButtonRightPosition = () => {
         const maxSwipe = this.getMaxLeftSwipe();
@@ -149,6 +186,15 @@ class SwipeItem extends React.Component<Props, State> {
         })
     }
 
+    getLeftSwipeComponentTranslateX = () => {
+        const maxSwipe = this.getMaxRightSwipe();
+        return this.state.swipePosition.interpolate({
+            inputRange: [0, maxSwipe],
+            outputRange: [-maxSwipe / 3, maxSwipe / 3],
+            extrapolate: 'extend'
+        });
+    }
+
     panResponder = () => {
         return PanResponder.create({
             onMoveShouldSetPanResponder: (evt, { moveX, moveY, dx, dy }) => {
@@ -164,13 +210,26 @@ class SwipeItem extends React.Component<Props, State> {
                 }
             },
             onPanResponderMove: (evt, { moveX, moveY, dx, dy }) => {
-                this.state.swipePosition.setValue(Math.round(dx + this.offset));
+                const value = Math.round(dx + this.offset);
+                this.state.swipePosition.setValue(value);
+
+                const maxRightSwipe = this.getMaxRightSwipe();
+                if (value > maxRightSwipe && !this.state.leftSwipeReached) {
+                    this.offset = value;
+                    this.setState({ leftSwipeReached: true });
+                    Haptic('selection');
+                } else if (value <= maxRightSwipe && this.state.leftSwipeReached) {
+                    this.offset = value;
+                    this.setState({ leftSwipeReached: false });
+                }
             },
             onPanResponderRelease: () => {
                 if (this.props.onMoveEnd) {
                     this.props.onMoveEnd();
                 }
+
                 this.toggle();
+                this.onRelease();
             },
             onPanResponderTerminate: () => {
                 if (this.props.onMoveEnd) {

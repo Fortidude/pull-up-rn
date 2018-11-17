@@ -14,6 +14,8 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     plannerEditMode: boolean;
+
+    onRef: (any: any) => any;
 }
 
 class PlannerFooter extends React.Component<Props> {
@@ -23,6 +25,12 @@ class PlannerFooter extends React.Component<Props> {
         super(props);
 
         this.style = Styles(this.props.theme);
+    }
+
+    componentDidMount() {
+        if (this.props.onRef) {
+            this.props.onRef(this);
+        }
     }
 
     componentWillReceiveProps(nextProps: Props) {

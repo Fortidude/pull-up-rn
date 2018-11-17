@@ -18,6 +18,10 @@ import { ExerciseActions } from 'src/store/actions/exercise';
 import PlannerListPlaceholder from '../PlannerListPlaceholder';
 import User from 'src/models/User';
 
+import GoalInformationModal from 'src/components/ModalManager/FullScreenModals/GoalInformationModal';
+import Events from 'src/service/Events';
+import { OPEN_MODAL_ANIMATION_OPTION, CLOSE_MODAL_ANIMATION_OPTION, OPEN_MODAL_ANIMATION_OPTION_SLOW, CLOSE_MODAL_ANIMATION_OPTION_SLOW } from 'src/components/ModalManager/ModalManager';
+
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
@@ -37,7 +41,12 @@ interface State {
     readyToRefresh: boolean;
     refreshing: boolean;
 
-    temp: boolean
+    temp: boolean;
+
+    modalOpenProgress: Animated.Value;
+    modalPositionX: number;
+    modalPositionY: number;
+    modalGoalId: string;
 }
 
 const MIN_PULLDOWN_DISTANCE = -120;
@@ -56,7 +65,12 @@ class PlannerList extends React.Component<Props, State> {
             scrollY: new Animated.Value(0),
             refreshing: false,
             readyToRefresh: false,
-            temp: true
+            temp: true,
+
+            modalOpenProgress: new Animated.Value(0),
+            modalPositionX: 0,
+            modalPositionY: 0,
+            modalGoalId: ''
         };
 
         // setTimeout(() => {
@@ -113,6 +127,30 @@ class PlannerList extends React.Component<Props, State> {
         this.props.dispatch(PlannerActions.loadPlanner());
     }
 
+    onGoalSwipeRelease = (goalId: string, positionX: number, positionY: number) => {
+        console.log(goalId, positionX, positionY);
+        
+        this.setState({ modalGoalId: goalId, modalPositionX: positionX, modalPositionY: positionY }, () => {
+            Events.emit('FOOTER_BAR_CLOSE');
+            Events.emit('FULLSCREEN_MODAL_VISIBLE');
+            Animated.timing(this.state.modalOpenProgress, {
+                toValue: 1,
+                useNativeDriver: true,
+                ...OPEN_MODAL_ANIMATION_OPTION_SLOW
+            }).start();
+        });
+    }
+
+    closeModal = () => {
+        Events.emit('FOOTER_BAR_OPEN');
+        Events.emit('FULLSCREEN_MODAL_HIDDEN');
+        Animated.timing(this.state.modalOpenProgress, {
+            toValue: 0,
+            useNativeDriver: true,
+            ...CLOSE_MODAL_ANIMATION_OPTION
+        }).start();
+    }
+
     render() {
         const event = Animated.event([
             {
@@ -150,7 +188,7 @@ class PlannerList extends React.Component<Props, State> {
                 {this.state.refreshing && <Animated.View style={[this.style.refreshingIndicator, { opacity: indicatorOpacity }]}><Spinner /></Animated.View>}
                 <View style={this.style.listContainer}>
                     {(!this.props.plannerLoaded || !this.props.user) && <PlannerListPlaceholder theme={this.props.theme} />}
-                    {this.props.plannerLoaded && !!this.props.user &&  <FlatList
+                    {this.props.plannerLoaded && !!this.props.user && <FlatList
                         keyboardDismissMode={"interactive"}
                         keyboardShouldPersistTaps="never"
                         ref={(ref: any) => this.flatListReference = ref}
@@ -168,15 +206,24 @@ class PlannerList extends React.Component<Props, State> {
                             if (isFirst) {
                                 firstFound = true;
                             }
-                            
+
                             return <GoalList
                                 toggleParentScroll={(enable: boolean) => {
                                     this.flatListReference.getScrollResponder().setNativeProps({ scrollEnabled: enable })
                                 }}
+                                onGoalSwipeRelease={this.onGoalSwipeRelease}
                                 training={item}
                                 isFirst={isFirst} />
                         }}
                     />}
+
+                    <GoalInformationModal
+                        positionX={this.state.modalPositionX}
+                        positionY={this.state.modalPositionY}
+                        openProgress={this.state.modalOpenProgress}
+                        goalId={this.state.modalGoalId}
+                        onClose={this.closeModal}
+                    />
                 </View>
             </React.Fragment>
         );

@@ -48,7 +48,7 @@ class FooterBar extends React.Component<Props, State> {
     actualComponentInUseRef: any;
 
     calendarFooter = <CalendarFooter onRef={ref => (this.actualComponentInUseRef = ref)} onLayout={() => this.onComponentLayout()} />
-    plannerFooter = <PlannerFooter onLayout={() => this.onComponentLayout()} />
+    plannerFooter = <PlannerFooter onRef={ref => (this.actualComponentInUseRef = ref)} onLayout={() => this.onComponentLayout()} />
     profileFooter = <ProfileFooter onLayout={() => this.onComponentLayout()} />
     statsFooter = <StatsFooter onLayout={() => this.onComponentLayout()} />
 
@@ -112,7 +112,7 @@ class FooterBar extends React.Component<Props, State> {
 
     getAnimateOut = () => {
         return Animated.timing(this.state.translateY, {
-            toValue: this.style.footerHeight,
+            toValue: this.style.footerHeight + 50,
             duration: 200,
             useNativeDriver: true
         })

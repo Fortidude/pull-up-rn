@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Text, View, TouchableOpacity, Animated, TouchableHighlight } from 'react-native';
+import { Text, View, TouchableOpacity, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -17,7 +17,6 @@ import { ModalActions } from 'src/store/actions/modal';
 import { PlannerActions } from 'src/store/actions/planner';
 import moment from 'moment';
 
-
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
@@ -27,8 +26,8 @@ interface Props {
     goal: Goal;
 
     isToggled: boolean;
-    toggleParentScroll?: (enable: boolean) => void,
-
+    toggleParentScroll?: (enable: boolean) => void;
+    onGoalSwipeRelease?: (...props: any) => void;
     onMoveToSection: (goalId: string, onPickCallback?: () => void, onDispatchCallback?: () => void) => void;
 }
 
@@ -39,12 +38,11 @@ interface State {
 
 class GoalItem extends React.Component<Props, State> {
     style: ThemeValueInterface;
+    unMounted = false;
+    swipeItemRef: any;
     scrolling: boolean;
     swipeItemPosition = new Animated.Value(0);
     progressPercent = new Animated.Value(0);
-    swipeItemRef: any;
-
-    unMounted = false;
 
     constructor(props: Props) {
         super(props);
@@ -134,6 +132,15 @@ class GoalItem extends React.Component<Props, State> {
         this.props.dispatch(ModalActions.pickerOpen(options, true, onSuccess))
     }
 
+    onLeftSwipeRelease = () => {
+        //@ts-ignore
+        this.refs.leftSwipeIconComponent.measure((x, y, width, height, windowX, windowY) => {
+            if (this.props.onGoalSwipeRelease) {
+                this.props.onGoalSwipeRelease(this.props.goal.id, windowX/2, windowY);
+            }
+        })
+    }
+
     render() {
         let goal = this.state.goal;
         const rightButtons = [
@@ -144,6 +151,18 @@ class GoalItem extends React.Component<Props, State> {
                 <Icon name="trash-alt" solid={true} style={this.style.iconRemove} />
             </TouchableOpacity>
         ];
+
+        const leftSwipe = (
+            <View style={this.style.showDetailsContainer}>
+                <Icon name="info-circle" solid={true} style={this.style.iconShowDetails} />
+            </View>
+        );
+
+        const leftSwipeReached = (
+            <View ref="leftSwipeIconComponent" style={this.style.showDetailsContainer}>
+                <Icon name="info-circle" solid={true} style={this.style.iconShowDetailsReached} />
+            </View>
+        );
 
         const summaryContentLeft = this.swipeItemPosition.interpolate({
             inputRange: [-100, 0],
@@ -169,6 +188,9 @@ class GoalItem extends React.Component<Props, State> {
                 animateOut={this.state.animeteOut}
                 ref={ref => this.swipeItemRef = ref}
                 rightButtons={rightButtons}
+                leftSwipe={leftSwipe}
+                leftSwipeReached={leftSwipeReached}
+                leftSwipeReleaseCallback={this.onLeftSwipeRelease}
                 onMoveBegin={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(false) : null}
                 onMoveEnd={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(true) : null}
             >

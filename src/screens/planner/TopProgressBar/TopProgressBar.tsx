@@ -2,7 +2,6 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { View, Animated, PanResponder } from 'react-native';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import Styles from './TopProgressBar.styles';
@@ -10,6 +9,7 @@ import CircleProgress from 'src/components/CircleProgress';
 import I18n from 'src/assets/translations';
 import User, { getCircuitLeftData } from 'src/models/User';
 import { StatisticsInterface } from 'src/models/Statistics';
+import Events from 'src/service/Events';
 
 interface Props {
     dispatch: Dispatch;
@@ -24,7 +24,6 @@ interface State {
 }
 
 class TopProgressBar extends React.Component<Props, State> {
-
     closePosition = 0;
     style: ThemeValueInterface;
     offset = 0;
@@ -40,9 +39,17 @@ class TopProgressBar extends React.Component<Props, State> {
         this.style = Styles(this.props.theme);
         this.props.scrollViewPositionY.addListener(() => this.forceClose());
 
+        Events.listenTo("FULLSCREEN_MODAL_VISIBLE", "TOP_PROGRESS_BAR", this.hide);
+        Events.listenTo("FULLSCREEN_MODAL_HIDDEN", "TOP_PROGRESS_BAR", this.show);
+
         this.state = {
             swipePosition: new Animated.Value(1)
         }
+    }
+
+    componentWillUnmount() {
+        Events.remove("FULLSCREEN_MODAL_VISIBLE", "TOP_PROGRESS_BAR");
+        Events.remove("FULLSCREEN_MODAL_HIDDEN", "TOP_PROGRESS_BAR");
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -52,18 +59,26 @@ class TopProgressBar extends React.Component<Props, State> {
 
         const index = nextProps.nav.index;
         if (index === 1 && !this.props.nav.isTransitioning && nextProps.nav.isTransitioning && !this.hidden) {
-            this.hidden = true;
-            Animated.timing(this.state.swipePosition, {
-                toValue: -40,
-                useNativeDriver: true
-            }).start();
+            this.hide();
         } else if (index === 0 && nextProps.nav.isTransitioning && this.hidden) {
-            this.hidden = false;
-            Animated.timing(this.state.swipePosition, {
-                toValue: this.closePosition,
-                useNativeDriver: true
-            }).start();
+            this.show();
         }
+    }
+
+    hide = () => {
+        this.hidden = true;
+        Animated.timing(this.state.swipePosition, {
+            toValue: -40,
+            useNativeDriver: true
+        }).start();
+    }
+
+    show = () => {
+        this.hidden = false;
+        Animated.timing(this.state.swipePosition, {
+            toValue: this.closePosition,
+            useNativeDriver: true
+        }).start();
     }
 
     forceClose = async () => {
