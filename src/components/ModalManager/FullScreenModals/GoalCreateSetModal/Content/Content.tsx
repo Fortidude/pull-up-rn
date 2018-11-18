@@ -53,7 +53,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        this.focusOnShowing();
+
         this.emit(this.props);
 
         Events.listenTo('HEADER_SAVE_CLICKED', 'GoalInformationModal', this.onSuccess);

@@ -14,14 +14,14 @@ function getStyle(theme: ThemeInterface) {
             },
             textLeft: {
                 flex: 2,
-                fontSize: theme.fonts.fontH3Size,
+                fontSize: theme.fonts.fontH2Size,
                 fontFamily: theme.fonts.mainFontFamily,
                 color: theme.colors.textColor
             },
             textRight: {
                 flex: 1,
                 textAlign: 'right',
-                fontSize: theme.fonts.fontH3Size,
+                fontSize: theme.fonts.fontH2Size,
                 fontFamily: theme.fonts.mainFontFamily,
                 color: theme.colors.textColor
             }
@@ -31,7 +31,7 @@ function getStyle(theme: ThemeInterface) {
                 marginTop: 15,
             },
             label: {
-                fontSize: theme.fonts.fontH4Size,
+                fontSize: theme.fonts.fontH3Size,
                 fontFamily: theme.fonts.mainFontFamily,
                 color: theme.colors.formLabelColor,
                 marginBottom: 1
