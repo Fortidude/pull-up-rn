@@ -61,7 +61,7 @@ class ModalFooter extends React.Component<Props> {
             )
         }
 
-        let loadingColor = this.props.loading ? this.props.theme.colors.disableText : this.props.theme.colors.main;
+        let loadingColor = this.props.loading ? this.props.theme.colors.disableText : this.props.theme.colors.danger;
         return (
             <View style={[this.style.container, this.props.style || {}]}>
 

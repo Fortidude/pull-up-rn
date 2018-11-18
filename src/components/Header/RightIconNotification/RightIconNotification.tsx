@@ -60,6 +60,7 @@ class RightIconNotification extends React.Component<Props, State> {
 
         this.interval = setInterval(() => {
             this.number++;
+            //@ts-ignore
             const offlineOpacity = this.state.offlineOpacity._value;
 
             if (this.number >= 5 || offlineOpacity === 0) {

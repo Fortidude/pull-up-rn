@@ -46,11 +46,11 @@ class BackButton extends React.Component<Props, State> {
         }
     }
 
-    shouldComponentUpdate(nextProps: Props, nextState: State) {
-        const nextRoute = nextProps.headerProps.scene.route.routeName.toLocaleLowerCase();
-        const currentRoute = this.getRawCurrentTitle();
-        return nextRoute !== currentRoute || nextProps.theme.name !== this.props.theme.name;
-    }
+    // shouldComponentUpdate(nextProps: Props, nextState: State) {
+    //     const nextRoute = nextProps.headerProps.scene.route.routeName.toLocaleLowerCase();
+    //     const currentRoute = this.getRawCurrentTitle();
+    //     return nextRoute !== currentRoute || nextProps.theme.name !== this.props.theme.name;
+    // }
 
     componentWillReceiveProps(nextProps: Props) {
         this.setupTitle(nextProps);

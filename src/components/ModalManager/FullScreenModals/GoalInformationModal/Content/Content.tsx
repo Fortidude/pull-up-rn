@@ -10,8 +10,6 @@ import ModalFooter from 'src/components/ModalManager/ModalFooter/ModalFooter';
 import ModalHeader from 'src/components/ModalManager/ModalHeader/ModalHeader';
 import { FOOTER_HEIGHT } from 'src/components/FooterBar/FooterBar.styles';
 
-import Set from 'src/models/Set';
-import Goal from 'src/models/Goal';
 
 import getStyle from './Content.styles';
 
@@ -24,7 +22,7 @@ interface Props {
 
 interface State { }
 
-class DayModalItem extends React.Component<Props, State> {
+class GoalInformationContent extends React.Component<Props, State> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
@@ -57,4 +55,4 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme
 });
 
-export default connect(mapStateToProps)(DayModalItem);
+export default connect(mapStateToProps)(GoalInformationContent);

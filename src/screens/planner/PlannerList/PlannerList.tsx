@@ -22,7 +22,7 @@ import GoalCreateSetModal from 'src/components/ModalManager/FullScreenModals/Goa
 import GoalInformationModal from 'src/components/ModalManager/FullScreenModals/GoalInformationModal';
 import Events from 'src/service/Events';
 
-import { CLOSE_MODAL_ANIMATION_OPTION, OPEN_MODAL_ANIMATION_OPTION_SLOW } from 'src/components/ModalManager/ModalManager';
+import { CLOSE_MODAL_ANIMATION_OPTION, OPEN_MODAL_ANIMATION_OPTION_SLOW, CLOSE_MODAL_ANIMATION_OPTION_SLOW } from 'src/components/ModalManager/ModalManager';
 import { ModalActions } from 'src/store/actions/modal';
 
 
@@ -45,8 +45,6 @@ interface State {
     scrollY: Animated.Value;
     readyToRefresh: boolean;
     refreshing: boolean;
-
-    temp: boolean;
 
     modalCreateSetOpenProgress: Animated.Value;
     modalInformationOpenProgress: Animated.Value;
@@ -72,7 +70,6 @@ class PlannerList extends React.Component<Props, State> {
             scrollY: new Animated.Value(0),
             refreshing: false,
             readyToRefresh: false,
-            temp: true,
 
             modalCreateSetOpenProgress: new Animated.Value(0),
             modalInformationOpenProgress: new Animated.Value(0),
@@ -80,10 +77,6 @@ class PlannerList extends React.Component<Props, State> {
             modalPositionY: 0,
             modalGoalId: ''
         };
-
-        // setTimeout(() => {
-        //     this.setState({temp: false});
-        // }, 4000);
     }
 
     componentWillMount() {
@@ -142,9 +135,9 @@ class PlannerList extends React.Component<Props, State> {
     }
 
     onGoalClick = (positionX: number, positionY: number) => {
-        // this.setState({ modalPositionX: positionX, modalPositionY: positionY }, () => {
-        //     this.openModal(this.state.modalCreateSetOpenProgress);
-        // });
+        this.setState({ modalPositionX: positionX, modalPositionY: positionY }, () => {
+            this.openModal(this.state.modalCreateSetOpenProgress);
+        });
     }
 
     openModal = (animatedValue: Animated.Value) => {
@@ -164,12 +157,12 @@ class PlannerList extends React.Component<Props, State> {
             Animated.timing(this.state.modalInformationOpenProgress, {
                 toValue: 0,
                 useNativeDriver: true,
-                ...CLOSE_MODAL_ANIMATION_OPTION
+                ...CLOSE_MODAL_ANIMATION_OPTION_SLOW
             }),
             Animated.timing(this.state.modalCreateSetOpenProgress, {
                 toValue: 0,
                 useNativeDriver: true,
-                ...CLOSE_MODAL_ANIMATION_OPTION
+                ...CLOSE_MODAL_ANIMATION_OPTION_SLOW
             })
         ]).start();
     }
@@ -249,16 +242,13 @@ class PlannerList extends React.Component<Props, State> {
                         onClose={this.closeModal}
                     />
 
-                    {/* <GoalCreateSetModal
+                    <GoalCreateSetModal
                         positionX={this.state.modalPositionX}
                         positionY={this.state.modalPositionY}
                         openProgress={this.state.modalCreateSetOpenProgress}
                         goalId={this.state.modalGoalId}
-                        onClose={() => {
-                            this.props.dispatch(ModalActions.addSetClose());
-                            this.closeModal();
-                        }}
-                    /> */}
+                        onClose={this.closeModal}
+                    />
                 </View>
             </React.Fragment>
         );

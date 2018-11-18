@@ -98,6 +98,7 @@ class GoalItem extends React.Component<Props, State> {
         this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
         this.props.dispatch(ModalActions.addSetOpen());
 
+        //@ts-ignore
         this.refs.touchableButton.measure((x, y, width, height, windowX, windowY) => {
             if (this.props.onPress) {
                 this.props.onPress(windowX, windowY);

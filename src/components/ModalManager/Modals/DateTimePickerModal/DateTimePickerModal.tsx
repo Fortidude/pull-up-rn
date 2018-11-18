@@ -12,18 +12,20 @@ import { ModalActions } from 'src/store/actions/modal';
 
 import I18n from 'src/assets/translations';
 import ModalFooter from '../../ModalFooter/ModalFooter';
+import Button from 'src/components/FooterBar/Button/Button';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
 
-    options: [];
+    options: { date?: Date };
     cancelButton: boolean;
     callback: (date: Date) => void;
 }
 
 interface State {
-    date: Date
+    date: Date;
+    now: Date;
 }
 
 class DateTimePickerModal extends React.Component<Props, State> {
@@ -32,9 +34,12 @@ class DateTimePickerModal extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        const now = new Date();
+
         this.style = Styles(this.props.theme);
         this.state = {
-            date: new Date()
+            date: props.options && props.options.date ? props.options.date : now,
+            now: now
         }
     }
 
@@ -50,7 +55,7 @@ class DateTimePickerModal extends React.Component<Props, State> {
     }
 
     today = () => {
-        this.setState({ date: new Date() }, this.success);
+        this.setState({ date: new Date() });
     }
 
     closeModal = () => {
@@ -58,8 +63,17 @@ class DateTimePickerModal extends React.Component<Props, State> {
     }
 
     render() {
+        const showScrollToNowButton = Math.abs((this.state.now.getTime() - this.state.date.getTime()) / 1000) > 60;
+        
         return (
             <View style={this.style.container}>
+                <View style={{ height: 50, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                    {showScrollToNowButton && <Button
+                        style={this.style.scrollToNowButton.container}
+                        textStyle={this.style.scrollToNowButton.text}
+                        onPress={this.today}
+                        text={I18n.t('buttons.scroll_to_now')} />}
+                </View>
                 <DatePicker
                     date={this.state.date}
                     onDateChange={(date: Date) => this.setState({ date })}
@@ -69,7 +83,7 @@ class DateTimePickerModal extends React.Component<Props, State> {
                 />
                 <ModalFooter loading={false}
                     successText={I18n.t('buttons.ok')} onSuccess={this.success}
-                    cancelText={I18n.t('buttons.now')} onCancel={this.today}
+                    cancelText={I18n.t('buttons.cancel')} onCancel={this.closeModal}
                 />
             </View>
         );
@@ -78,7 +92,8 @@ class DateTimePickerModal extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    options: state.modal.datetimePickerOptions
 });
 
 export default connect(mapStateToProps)(DateTimePickerModal);

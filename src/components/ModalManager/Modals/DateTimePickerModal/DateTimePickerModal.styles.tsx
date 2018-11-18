@@ -17,39 +17,11 @@ function getStyle(theme: ThemeInterface) {
             borderTopWidth: theme.borders.borderWidth
         },
 
-        buttonsContainer: {
-            backgroundColor: theme.colors.modalBackgroundColor,
-            borderRadius: theme.borders.modalRadius,
-            overflow: 'hidden'
-        },
-
-        cancelContainer: {
-            marginTop: 10,
-            marginBottom: DetermineDevice.isIphoneX() ? 40 : 20
-        },
-
-        button: {
-            height: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-
-        buttonBorder: {
-            borderBottomWidth: theme.borders.borderWidth,
-            borderBottomColor: theme.borders.borderColor,
-        },
-
-        text: {
-            fontFamily: theme.fonts.mainFontFamily,
-            fontSize: theme.fonts.fontSize,
-            color: theme.colors.main
-        },
-
-        cancelText: {
-            fontFamily: theme.fonts.mainFontFamily,
-            fontSize: theme.fonts.fontSize,  
-            color: theme.colors.danger,
-            fontWeight: "500" 
+        scrollToNowButton: {
+            container: { alignItems: 'flex-end', paddingRight: 20 },
+            text: {
+                color: theme.colors.main,
+            }
         }
     };
 }

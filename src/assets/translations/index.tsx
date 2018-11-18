@@ -125,6 +125,7 @@ let translations = {
         },
 
         routes: {
+            '': '',
             auth: "Zaloguj się",
             calendar: "Kalendarz",
             effectivenessstats: "Skuteczność",
@@ -159,6 +160,7 @@ let translations = {
             cancel: "Anuluj",
             close: "Zamknij",
             clickToClose: "Kliknij by anulować",
+            scroll_to_now: "Przewiń do chwili obecnej",
             edit: "Edycja",
             finish: "Zakończ",
             now: "Teraz",

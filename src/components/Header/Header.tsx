@@ -14,6 +14,7 @@ import PlannerEditButton from './PlannerEditButton';
 // @ts-ignore
 import HeaderStyleInterpolator from 'react-navigation-stack/dist/views/Header/HeaderStyleInterpolator.js';
 import Events from 'src/service/Events';
+import RightButton from './RightButton/RightButton';
 
 interface Props {
     headerProps: HeaderProps;
@@ -25,7 +26,7 @@ interface Props {
 }
 
 interface State {
-    overwriteTitle: string | null;
+    overrideTitle: string | null;
 }
 
 class Header extends React.Component<Props, State> {
@@ -34,7 +35,12 @@ class Header extends React.Component<Props, State> {
 
     routesWithoutBottomBorder = [
         'planner',
-        'auth'
+        'auth',
+        'profile',
+        'settings',
+        'themepicker',
+        'notifications',
+        'languagepicker'
         //  'effectivenessstats'
     ];
 
@@ -46,7 +52,7 @@ class Header extends React.Component<Props, State> {
         super(props);
         this.style = Styles(this.props.theme);
         this.state = {
-            overwriteTitle: null
+            overrideTitle: null
         }
     }
 
@@ -56,12 +62,12 @@ class Header extends React.Component<Props, State> {
             || nextProps.theme.name !== this.props.theme.name
             || nextProps.plannerIsEmpty !== this.props.plannerIsEmpty
             || nextProps.headerProps.scene.route.routeName !== this.props.headerProps.scene.route.routeName
-            || nextState.overwriteTitle !== this.state.overwriteTitle;
+            || nextState.overrideTitle !== this.state.overrideTitle;
     }
 
     componentDidMount() {
         Events.listenTo('HEADER_OVERWRITE_TITLE', 'HEADER', (title: string) => {
-            this.setState({ overwriteTitle: title });
+            this.setState({ overrideTitle: title });
         })
     }
 
@@ -84,8 +90,8 @@ class Header extends React.Component<Props, State> {
     getRawCurrentTitle = () => this.props.headerProps.scene.route.routeName;
     getCurrentTitle = () => {
         let routeName = this.getRawCurrentTitle();
-        if (this.state.overwriteTitle) {
-            routeName = this.state.overwriteTitle;
+        if (this.state.overrideTitle !== null) {
+            routeName = this.state.overrideTitle;
         }
 
         return I18n.t(`routes.${routeName.toLocaleLowerCase()}`);
@@ -127,6 +133,7 @@ class Header extends React.Component<Props, State> {
                 </View>
                 <View style={this.style.right.container}>
                     <RightIconNotification />
+                    <RightButton/>
                 </View>
             </Animated.View>
         );

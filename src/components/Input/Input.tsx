@@ -30,6 +30,7 @@ interface Props {
 
 class Input extends React.Component<Props> {
     style: ThemeValueInterface;
+    inputRef: TextInput;
 
     constructor(props: Props) {
         super(props);
@@ -43,15 +44,29 @@ class Input extends React.Component<Props> {
         }
     }
 
+    getRef = (ref: TextInput) => {
+        if (this.props.inputRef) {
+            this.props.inputRef(ref);
+        }
+
+        this.inputRef = ref;
+    }
+
+    onContainerTouch = () =>{
+        if (this.inputRef) {
+            this.inputRef.focus();
+        }
+    }
+
     render() {
         const height = this.props.small ? 30 : 65;
         const containerStyle = this.props.authStyle ? this.style.authContainer : this.style.formContainer;
         const inputStyle = this.props.authStyle ? this.style.authInput : this.style.formInput;
 
         return (
-            <View style={[this.style.container, { height: height }, containerStyle, this.props.style]}>
+            <View onTouchEnd={this.onContainerTouch} style={[this.style.container, { height: height }, containerStyle, this.props.style]}>
                 <TextInput
-                    ref={this.props.inputRef}
+                    ref={this.getRef}
                     contextMenuHidden={this.props.disabled}
                     selectTextOnFocus={!this.props.disabled}
                     editable={!this.props.disabled}

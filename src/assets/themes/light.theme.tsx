@@ -26,7 +26,7 @@ const colors = {
     success: greenColor,
     blue: blueColor,
 
-    nativeBackgroundColor: nativeBackgroundColor,
+    nativeBackgroundColor: '#F7F7F7',
 
     white: '#ffffff',
 
@@ -43,7 +43,7 @@ const colors = {
     greyBackgroundColor: '#F4F6F7',
     headerBackgroundColor: '#F7F7F7',
     footerBackgroundColor: '#F4F6F7',
-    modalBackgroundColor: '#FFF',
+    modalBackgroundColor: '#F7F7F7',
 
     plannerProgressBarBackgroundColor: '#F7F7F7',
     statisticProgressBackgroundColor: '#FFFFFF',
