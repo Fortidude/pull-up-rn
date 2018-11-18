@@ -157,12 +157,12 @@ class PlannerList extends React.Component<Props, State> {
             Animated.timing(this.state.modalInformationOpenProgress, {
                 toValue: 0,
                 useNativeDriver: true,
-                ...CLOSE_MODAL_ANIMATION_OPTION_SLOW
+                ...CLOSE_MODAL_ANIMATION_OPTION
             }),
             Animated.timing(this.state.modalCreateSetOpenProgress, {
                 toValue: 0,
                 useNativeDriver: true,
-                ...CLOSE_MODAL_ANIMATION_OPTION_SLOW
+                ...CLOSE_MODAL_ANIMATION_OPTION
             })
         ]).start();
     }
