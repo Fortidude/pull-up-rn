@@ -37,6 +37,12 @@ class PlannerEditButton extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        Events.listenTo("GOAL_INFORMATION_MODAL_VISIBLE", "PlannerEditButton", () => {
+            this.setState({ hide: true });
+        });
+        Events.listenTo("GOAL_INFORMATION_MODAL_HIDDEN", "PlannerEditButton", () => {
+            this.setState({ hide: false });
+        });
         Events.listenTo("FULLSCREEN_MODAL_VISIBLE", "PlannerEditButton", () => {
             this.setState({ overrideText: I18n.t('buttons.cancel'), overrideClose: () => {
                 Events.emit('HEADER_CANCEL_CLICKED');
@@ -49,6 +55,8 @@ class PlannerEditButton extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
+        Events.remove("GOAL_INFORMATION_MODAL_VISIBLE", "PlannerEditButton");
+        Events.remove("GOAL_INFORMATION_MODAL_HIDDEN", "PlannerEditButton");
         Events.remove("FULLSCREEN_MODAL_VISIBLE", "PlannerEditButton");
         Events.remove("FULLSCREEN_MODAL_HIDDEN", "PlannerEditButton");
     }

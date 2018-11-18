@@ -45,13 +45,6 @@ interface State {
     scrollY: Animated.Value;
     readyToRefresh: boolean;
     refreshing: boolean;
-
-    modalCreateSetOpenProgress: Animated.Value;
-    modalInformationOpenProgress: Animated.Value;
-
-    modalPositionX: number;
-    modalPositionY: number;
-    modalGoalId: string;
 }
 
 const MIN_PULLDOWN_DISTANCE = -120;
@@ -70,12 +63,6 @@ class PlannerList extends React.Component<Props, State> {
             scrollY: new Animated.Value(0),
             refreshing: false,
             readyToRefresh: false,
-
-            modalCreateSetOpenProgress: new Animated.Value(0),
-            modalInformationOpenProgress: new Animated.Value(0),
-            modalPositionX: 0,
-            modalPositionY: 0,
-            modalGoalId: ''
         };
     }
 
@@ -126,45 +113,6 @@ class PlannerList extends React.Component<Props, State> {
     loadPlanner = () => {
         // this.props.dispatch(PlannerActions.loadByTrainings());
         this.props.dispatch(PlannerActions.loadPlanner());
-    }
-
-    onGoalSwipeRelease = (goalId: string, positionX: number, positionY: number) => {
-        this.setState({ modalGoalId: goalId, modalPositionX: positionX, modalPositionY: positionY }, () => {
-            this.openModal(this.state.modalInformationOpenProgress);
-        });
-    }
-
-    onGoalClick = (positionX: number, positionY: number) => {
-        this.setState({ modalPositionX: positionX, modalPositionY: positionY }, () => {
-            this.openModal(this.state.modalCreateSetOpenProgress);
-        });
-    }
-
-    openModal = (animatedValue: Animated.Value) => {
-        Events.emit('FOOTER_BAR_CLOSE');
-        Events.emit('FULLSCREEN_MODAL_VISIBLE');
-        Animated.timing(animatedValue, {
-            toValue: 1,
-            useNativeDriver: true,
-            ...OPEN_MODAL_ANIMATION_OPTION_SLOW
-        }).start();
-    }
-
-    closeModal = () => {
-        Events.emit('FOOTER_BAR_OPEN');
-        Events.emit('FULLSCREEN_MODAL_HIDDEN');
-        Animated.parallel([
-            Animated.timing(this.state.modalInformationOpenProgress, {
-                toValue: 0,
-                useNativeDriver: true,
-                ...CLOSE_MODAL_ANIMATION_OPTION
-            }),
-            Animated.timing(this.state.modalCreateSetOpenProgress, {
-                toValue: 0,
-                useNativeDriver: true,
-                ...CLOSE_MODAL_ANIMATION_OPTION
-            })
-        ]).start();
     }
 
     render() {
@@ -227,28 +175,10 @@ class PlannerList extends React.Component<Props, State> {
                                 toggleParentScroll={(enable: boolean) => {
                                     this.flatListReference.getScrollResponder().setNativeProps({ scrollEnabled: enable })
                                 }}
-                                onGoalSwipeRelease={this.onGoalSwipeRelease}
-                                onGoalClick={this.onGoalClick}
                                 training={item}
                                 isFirst={isFirst} />
                         }}
                     />}
-
-                    <GoalInformationModal
-                        positionX={this.state.modalPositionX}
-                        positionY={this.state.modalPositionY}
-                        openProgress={this.state.modalInformationOpenProgress}
-                        goalId={this.state.modalGoalId}
-                        onClose={this.closeModal}
-                    />
-
-                    <GoalCreateSetModal
-                        positionX={this.state.modalPositionX}
-                        positionY={this.state.modalPositionY}
-                        openProgress={this.state.modalCreateSetOpenProgress}
-                        goalId={this.state.modalGoalId}
-                        onClose={this.closeModal}
-                    />
                 </View>
             </React.Fragment>
         );

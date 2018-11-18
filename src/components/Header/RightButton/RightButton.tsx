@@ -18,6 +18,7 @@ interface Props {
 interface State {
     text: string | null;
     onClick: null | (() => any);
+    hide: boolean;
 }
 
 class RightButton extends React.Component<Props, State> {
@@ -29,11 +30,18 @@ class RightButton extends React.Component<Props, State> {
         this.style = Styles(this.props.theme);
         this.state = {
             text: null,
-            onClick: null
+            onClick: null,
+            hide: false
         }
     }
 
     componentDidMount() {
+        Events.listenTo("GOAL_INFORMATION_MODAL_VISIBLE", "RightButton", () => {
+            this.setState({ hide: true });
+        });
+        Events.listenTo("GOAL_INFORMATION_MODAL_HIDDEN", "RightButton", () => {
+            this.setState({ hide: false });
+        });
         Events.listenTo("FULLSCREEN_MODAL_VISIBLE", "RightButton", () => {
             const onClick = () => {
                 Events.emit('HEADER_SAVE_CLICKED');
@@ -47,6 +55,8 @@ class RightButton extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
+        Events.remove("GOAL_INFORMATION_MODAL_VISIBLE", "RightButton");
+        Events.remove("GOAL_INFORMATION_MODAL_HIDDEN", "RightButton");
         Events.remove("FULLSCREEN_MODAL_VISIBLE", "RightButton");
         Events.remove("FULLSCREEN_MODAL_HIDDEN", "RightButton");
     }
@@ -65,7 +75,7 @@ class RightButton extends React.Component<Props, State> {
     }
 
     render() {
-        if (!this.state.text || !this.props.isOnline) {
+        if (this.state.hide || !this.state.text || !this.props.isOnline) {
             return (null);
         }
 

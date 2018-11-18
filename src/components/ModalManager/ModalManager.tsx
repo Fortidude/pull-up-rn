@@ -1,18 +1,18 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Animated, Dimensions, Keyboard, EventSubscription, Platform, Easing, View } from 'react-native';
+import { Animated, Dimensions, EventSubscription, Platform, Easing } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './ModalManager.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import { ModalState } from 'src/store/reducers/modal';
-
-import AddSetModal from './Modals/AddSetModal';
-import CreateGoalModal from './Modals/CreateGoalModal';
-import PickerModal from './Modals/PickerModal';
-import AddTrainingSectionModal from './Modals/AddTrainingSectionModal';
-import DateTimePickerModal from './Modals/DateTimePickerModal/DateTimePickerModal';
 import { ModalActions } from 'src/store/actions/modal';
+
+import PickerModal from './Modals/PickerModal';
+import DateTimePickerModal from './Modals/DateTimePickerModal/DateTimePickerModal';
+
+import GoalInformationModal from './FullScreenModals/GoalInformationModal';
+import GoalCreateSetModal from './FullScreenModals/GoalCreateSetModal';
 
 const HEIGHT = Dimensions.get('window').height;
 
@@ -23,7 +23,9 @@ interface Props {
 }
 
 interface State {
+    showFullScreenModal: boolean;
     showOverlay: boolean;
+
     overlayOpacity: Animated.Value;
     containerTranslateY: Animated.Value;
 
@@ -34,6 +36,9 @@ interface State {
     datetimePickerBottomPosition: Animated.Value;
     datetimePickerModal: boolean;
     datetimePickerOptions: any;
+
+    modalCreateSetOpenProgress: Animated.Value;
+    modalInformationOpenProgress: Animated.Value;
 }
 
 export const OPEN_MODAL_ANIMATION_OPTION = { duration: 400, easing: Easing.bezier(0, 1.1, 0, 1) }
@@ -60,7 +65,9 @@ class ModalManager extends React.Component<Props, State> {
 
         this.style = Styles(this.props.theme);
         this.state = {
+            showFullScreenModal: false,
             showOverlay: false,
+
             overlayOpacity: new Animated.Value(0),
             containerTranslateY: new Animated.Value(-HEIGHT),
 
@@ -70,7 +77,10 @@ class ModalManager extends React.Component<Props, State> {
 
             datetimePickerBottomPosition: new Animated.Value(-HEIGHT),
             datetimePickerModal: false,
-            datetimePickerOptions: {}
+            datetimePickerOptions: {},
+
+            modalCreateSetOpenProgress: new Animated.Value(0),
+            modalInformationOpenProgress: new Animated.Value(0),
         }
     }
 
@@ -101,6 +111,8 @@ class ModalManager extends React.Component<Props, State> {
             || nextState.showOverlay !== this.state.showOverlay
             || nextProps.modal.datetimePickerModalVisible !== this.props.modal.datetimePickerModalVisible
             || nextProps.modal.pickerModalVisible !== this.props.modal.pickerModalVisible
+            || nextProps.modal.addSetModalVisible !== this.props.modal.addSetModalVisible
+            || nextProps.modal.goalInformationModalVisible !== this.props.modal.goalInformationModalVisible
             || nextState.pickerOptions !== this.state.pickerOptions
             || nextState.datetimePickerOptions !== this.state.datetimePickerOptions
     }
@@ -117,7 +129,7 @@ class ModalManager extends React.Component<Props, State> {
             this.showPickerModal(nextProps);
             return;
         }
-        
+
         if (isDateTimePickerModalVisible) {
             this.showDatetimePickerModal(nextProps);
             return;
@@ -125,6 +137,14 @@ class ModalManager extends React.Component<Props, State> {
 
         if (this.state.showOverlay) {
             this.hideModal();
+        }
+
+        if (nextProps.modal.addSetModalVisible) {
+            this.openFullScreenModal(this.state.modalCreateSetOpenProgress);
+        }
+
+        if (nextProps.modal.goalInformationModalVisible) {
+            this.openFullScreenModal(this.state.modalInformationOpenProgress);
         }
     }
 
@@ -171,8 +191,35 @@ class ModalManager extends React.Component<Props, State> {
         return state;
     }
 
+    openFullScreenModal = (animatedValue: Animated.Value) => {
+        this.setState({ showFullScreenModal: true }, () => {
+            Animated.timing(animatedValue, {
+                toValue: 1,
+                useNativeDriver: true,
+                ...OPEN_MODAL_ANIMATION_OPTION_SLOW
+            }).start();
+        });
+    }
+
+    closeFullScreenModals = () => {
+        Animated.parallel([
+            Animated.timing(this.state.modalInformationOpenProgress, {
+                toValue: 0,
+                useNativeDriver: true,
+                ...CLOSE_MODAL_ANIMATION_OPTION
+            }),
+            Animated.timing(this.state.modalCreateSetOpenProgress, {
+                toValue: 0,
+                useNativeDriver: true,
+                ...CLOSE_MODAL_ANIMATION_OPTION
+            })
+        ]).start(() => {
+            this.setState({ showFullScreenModal: false });
+        });
+    }
+
     render() {
-        if (!this.state.showOverlay) {
+        if (!this.state.showOverlay && !this.state.showFullScreenModal) {
             return (null);
         };
 
@@ -183,7 +230,23 @@ class ModalManager extends React.Component<Props, State> {
 
         return (
             <React.Fragment>
-                <Animated.View style={[this.style.overlay, { backgroundColor: background }]}>
+                {this.state.showFullScreenModal && <Animated.View style={this.style.fullScreenModalsContainer}>
+                    <GoalInformationModal
+                        positionX={this.props.modal.positionX}
+                        positionY={this.props.modal.positionY}
+                        openProgress={this.state.modalInformationOpenProgress}
+                        onClose={this.closeFullScreenModals}
+                    />
+
+                    <GoalCreateSetModal
+                        positionX={this.props.modal.positionX}
+                        positionY={this.props.modal.positionY}
+                        openProgress={this.state.modalCreateSetOpenProgress}
+                        onClose={this.closeFullScreenModals}
+                    />
+                </Animated.View>}
+
+                {this.state.showOverlay && <Animated.View style={[this.style.overlay, { backgroundColor: background }]}>
 
                     <Animated.View style={{ bottom: this.state.pickerBottomPosition, position: 'absolute' }}>
                         <PickerModal {...this.state.pickerOptions} />
@@ -193,7 +256,7 @@ class ModalManager extends React.Component<Props, State> {
                         <DateTimePickerModal {...this.state.datetimePickerOptions} />
                     </Animated.View>
 
-                </Animated.View>
+                </Animated.View>}
             </React.Fragment>
         );
     }

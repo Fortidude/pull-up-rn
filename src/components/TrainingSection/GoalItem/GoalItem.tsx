@@ -95,11 +95,11 @@ class GoalItem extends React.Component<Props, State> {
     }
 
     onAddSetPress = () => {
-        this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
-        this.props.dispatch(ModalActions.addSetOpen());
-
         //@ts-ignore
         this.refs.touchableButton.measure((x, y, width, height, windowX, windowY) => {
+            this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
+            this.props.dispatch(ModalActions.addSetOpen(windowX, windowY));
+
             if (this.props.onPress) {
                 this.props.onPress(windowX, windowY);
             }
@@ -143,6 +143,8 @@ class GoalItem extends React.Component<Props, State> {
     onLeftSwipeRelease = () => {
         //@ts-ignore
         this.refs.leftSwipeIconComponent.measure((x, y, width, height, windowX, windowY) => {
+            this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
+            this.props.dispatch(ModalActions.goalInformationOpen(windowX, windowY));
             if (this.props.onGoalSwipeRelease) {
                 this.props.onGoalSwipeRelease(this.props.goal.id, windowX / 2, windowY);
             }

@@ -8,6 +8,9 @@ export enum ModalTypes {
     goalCreateOpen = '[MODAL] OPEN CREATE GOAL',
     goalCreateClose = '[MODAL] CLOSE CREATE GOAL',
 
+    goalInformationOpen = '[MODAL] OPEN INFORMATION GOAL',
+    goalInformationClose = '[MODAL] CLOSE INFORMATION GOAL',
+
     pickerOpen = '[MODAL] OPEN PICKER',
     pickerClose = '[MODAL] CLOSE PICKER',
 
@@ -16,9 +19,9 @@ export enum ModalTypes {
 }
 
 export const ModalActions = {
-    addSetOpen: () => ({
+    addSetOpen: (positionX: number, positionY: number) => ({
         type: ModalTypes.addSetOpen,
-        payload: {}
+        payload: { positionX, positionY }
     }),
     addSetClose: () => ({
         type: ModalTypes.addSetClose,
@@ -40,6 +43,15 @@ export const ModalActions = {
     }),
     goalCreateClose: () => ({
         type: ModalTypes.goalCreateClose,
+        payload: {}
+    }),
+
+    goalInformationOpen: (positionX: number, positionY: number) => ({
+        type: ModalTypes.goalInformationOpen,
+        payload: { positionX, positionY }
+    }),
+    goalInformationClose: () => ({
+        type: ModalTypes.goalInformationClose,
         payload: {}
     }),
 

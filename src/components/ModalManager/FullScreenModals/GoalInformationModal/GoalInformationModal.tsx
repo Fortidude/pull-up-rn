@@ -21,7 +21,6 @@ interface Props {
 
     openProgress: Animated.Value
 
-    goalId: string;
     positionX: number;
     positionY: number;
 };

@@ -1,7 +1,9 @@
 import { Dimensions } from 'react-native';
 import { ThemeInterface } from 'src/assets/themes';
+import { HEADER_HEIGHT } from '../Header/Header.styles';
 
 const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 function getStyle(theme: ThemeInterface) {
     return {
         overlay: {
@@ -23,6 +25,11 @@ function getStyle(theme: ThemeInterface) {
             shadowOpacity: 0.3,
             shadowOffset: {width: 0, height: 0},
             shadowRadius: 10
+        },
+        fullScreenModalsContainer: {
+            top: HEADER_HEIGHT,
+            position: 'absolute',
+            heigt: HEIGHT - HEADER_HEIGHT
         }
     };
 }

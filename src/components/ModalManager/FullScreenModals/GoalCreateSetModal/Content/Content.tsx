@@ -26,6 +26,7 @@ interface Props {
     theme: ThemeInterface;
     goal: Goal,
     createSetLoading: boolean;
+    addSetModalVisible: boolean;
 
     onClose: () => void;
 };
@@ -53,6 +54,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
 
     componentDidMount() {
         this.focusOnShowing();
+        this.emit(this.props);
 
         Events.listenTo('HEADER_SAVE_CLICKED', 'GoalInformationModal', this.onSuccess);
         Events.listenTo('HEADER_CANCEL_CLICKED', 'GoalInformationModal', this.onCancel);
@@ -68,11 +70,19 @@ class GoalCreateSetContent extends React.Component<Props, State> {
             this.style = getStyle(nextProps.theme);
         }
 
-        if (nextProps.goal) {
+        this.emit(nextProps);
+    }
+
+    emit = (props: Props) => {
+        if (props.goal && props.addSetModalVisible) {
             Events.emit('HEADER_OVERWRITE_TITLE', '');
+            Events.emit('FOOTER_BAR_CLOSE');
+            Events.emit('FULLSCREEN_MODAL_VISIBLE');
             this.focusOnShowing();
         } else {
             Events.emit('HEADER_OVERWRITE_TITLE', null);
+            Events.emit('FOOTER_BAR_OPEN');
+            Events.emit('FULLSCREEN_MODAL_HIDDEN');
         }
     }
 
@@ -165,6 +175,7 @@ const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
     goal: state.planner.goalSelected,
+    addSetModalVisible: state.modal.addSetModalVisible,
     createSetLoading: state.planner.createSetLoading,
 });
 

@@ -8,6 +8,7 @@ export interface ModalState {
     [key: string]: any,
     addSetModalVisible: boolean;
     goalCreateModalVisible: boolean;
+    goalInformationModalVisible: boolean;
     addTrainingSectionModalVisible: boolean
 
     pickerModalVisible: boolean;
@@ -21,6 +22,9 @@ export interface ModalState {
         date: Date,
         callback: () => void;
     }
+
+    positionX: number;
+    positionY: number;
 }
 
 const defaultPickerOptions = {
@@ -32,6 +36,7 @@ const defaultPickerOptions = {
 const initialState: ModalState = {
     addSetModalVisible: false,
     goalCreateModalVisible: false,
+    goalInformationModalVisible: false,
     addTrainingSectionModalVisible: false,
 
     pickerModalVisible: false,
@@ -41,13 +46,20 @@ const initialState: ModalState = {
     datetimePickerOptions: {
         date: new Date(),
         callback: () => { }
-    }
+    },
+
+    positionX: 0,
+    positionY: 0
 };
 
 function modal(state = initialState, action: AnyAction): ModalState {
     switch (action.type) {
         case ModalTypes.addSetOpen:
-            return Object.assign({}, state, { addSetModalVisible: true });
+            return Object.assign({}, state, {
+                addSetModalVisible: true,
+                positionX: action.payload.positionX,
+                positionY: action.payload.positionY
+            });
         case ModalTypes.addSetClose:
             return Object.assign({}, state, { addSetModalVisible: false, datetimePickerModalVisible: false });
 
@@ -60,6 +72,15 @@ function modal(state = initialState, action: AnyAction): ModalState {
             return Object.assign({}, state, { goalCreateModalVisible: true });
         case ModalTypes.goalCreateClose:
             return Object.assign({}, state, { goalCreateModalVisible: false });
+
+        case ModalTypes.goalInformationOpen:
+            return Object.assign({}, state, {
+                goalInformationModalVisible: true,
+                positionX: action.payload.positionX,
+                positionY: action.payload.positionY
+            });
+        case ModalTypes.goalInformationClose:
+            return Object.assign({}, state, { goalInformationModalVisible: false });
 
         case ModalTypes.pickerOpen:
             return Object.assign({}, state, { pickerModalVisible: true, pickerOptions: { ...action.payload } });
