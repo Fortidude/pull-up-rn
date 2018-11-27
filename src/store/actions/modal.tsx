@@ -28,18 +28,18 @@ export const ModalActions = {
         payload: {}
     }),
 
-    addTrainingSectionOpen: () => ({
+    addTrainingSectionOpen: (positionX: number, positionY: number) => ({
         type: ModalTypes.addTrainingSectionOpen,
-        payload: {}
+        payload: { positionX, positionY }
     }),
     addTrainingSectionClose: () => ({
         type: ModalTypes.addTrainingSectionClose,
         payload: {}
     }),
 
-    goalCreateOpen: () => ({
+    goalCreateOpen: (positionX: number, positionY: number) => ({
         type: ModalTypes.goalCreateOpen,
-        payload: {}
+        payload: { positionX, positionY }
     }),
     goalCreateClose: () => ({
         type: ModalTypes.goalCreateClose,

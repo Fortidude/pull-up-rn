@@ -13,6 +13,7 @@ import DateTimePickerModal from './Modals/DateTimePickerModal/DateTimePickerModa
 
 import GoalInformationModal from './FullScreenModals/GoalInformationModal';
 import GoalCreateSetModal from './FullScreenModals/GoalCreateSetModal';
+import CreateGoalModal from './FullScreenModals/CreateGoalModal';
 
 const HEIGHT = Dimensions.get('window').height;
 
@@ -38,6 +39,7 @@ interface State {
     datetimePickerOptions: any;
 
     modalCreateSetOpenProgress: Animated.Value;
+    modalCreateGoalOpenProgress: Animated.Value;
     modalInformationOpenProgress: Animated.Value;
 }
 
@@ -80,7 +82,8 @@ class ModalManager extends React.Component<Props, State> {
             datetimePickerOptions: {},
 
             modalCreateSetOpenProgress: new Animated.Value(0),
-            modalInformationOpenProgress: new Animated.Value(0),
+            modalCreateGoalOpenProgress: new Animated.Value(0),
+            modalInformationOpenProgress: new Animated.Value(0)
         }
     }
 
@@ -111,8 +114,11 @@ class ModalManager extends React.Component<Props, State> {
             || nextState.showOverlay !== this.state.showOverlay
             || nextProps.modal.datetimePickerModalVisible !== this.props.modal.datetimePickerModalVisible
             || nextProps.modal.pickerModalVisible !== this.props.modal.pickerModalVisible
+            
             || nextProps.modal.addSetModalVisible !== this.props.modal.addSetModalVisible
             || nextProps.modal.goalInformationModalVisible !== this.props.modal.goalInformationModalVisible
+            || nextProps.modal.goalCreateModalVisible !== this.props.modal.goalCreateModalVisible
+            
             || nextState.pickerOptions !== this.state.pickerOptions
             || nextState.datetimePickerOptions !== this.state.datetimePickerOptions
     }
@@ -145,6 +151,10 @@ class ModalManager extends React.Component<Props, State> {
 
         if (nextProps.modal.goalInformationModalVisible) {
             this.openFullScreenModal(this.state.modalInformationOpenProgress);
+        }
+
+        if (nextProps.modal.goalCreateModalVisible) {
+            this.openFullScreenModal(this.state.modalCreateGoalOpenProgress);
         }
     }
 
@@ -212,6 +222,11 @@ class ModalManager extends React.Component<Props, State> {
                 toValue: 0,
                 useNativeDriver: true,
                 ...CLOSE_MODAL_ANIMATION_OPTION
+            }),
+            Animated.timing(this.state.modalCreateGoalOpenProgress, {
+                toValue: 0,
+                useNativeDriver: true,
+                ...CLOSE_MODAL_ANIMATION_OPTION
             })
         ]).start(() => {
             this.setState({ showFullScreenModal: false });
@@ -242,6 +257,13 @@ class ModalManager extends React.Component<Props, State> {
                         positionX={this.props.modal.positionX}
                         positionY={this.props.modal.positionY}
                         openProgress={this.state.modalCreateSetOpenProgress}
+                        onClose={this.closeFullScreenModals}
+                    />
+
+                    <CreateGoalModal
+                        positionX={this.props.modal.positionX}
+                        positionY={this.props.modal.positionY}
+                        openProgress={this.state.modalCreateGoalOpenProgress}
                         onClose={this.closeFullScreenModals}
                     />
                 </Animated.View>}

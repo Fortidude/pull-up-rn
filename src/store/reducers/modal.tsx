@@ -63,16 +63,33 @@ function modal(state = initialState, action: AnyAction): ModalState {
         case ModalTypes.addSetClose:
             return Object.assign({}, state, { addSetModalVisible: false, datetimePickerModalVisible: false });
 
+        /**
+         * ADD TRAINING SECTION OPEN
+         */
         case ModalTypes.addTrainingSectionOpen:
-            return Object.assign({}, state, { addTrainingSectionModalVisible: true });
+            return Object.assign({}, state, {
+                addTrainingSectionModalVisible: true,
+                positionX: action.payload.positionX,
+                positionY: action.payload.positionY
+            });
         case ModalTypes.addTrainingSectionClose:
             return Object.assign({}, state, { addTrainingSectionModalVisible: false });
 
+        /**
+         * GOAL CREATE OPEN
+         */
         case ModalTypes.goalCreateOpen:
-            return Object.assign({}, state, { goalCreateModalVisible: true });
+            return Object.assign({}, state, {
+                goalCreateModalVisible: true,
+                positionX: action.payload.positionX,
+                positionY: action.payload.positionY
+            });
         case ModalTypes.goalCreateClose:
             return Object.assign({}, state, { goalCreateModalVisible: false });
 
+        /**
+         * GOAL INFORMATION OPEN
+         */
         case ModalTypes.goalInformationOpen:
             return Object.assign({}, state, {
                 goalInformationModalVisible: true,

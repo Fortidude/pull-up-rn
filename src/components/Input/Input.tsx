@@ -10,12 +10,14 @@ interface Props {
     onChange: (value: string) => void;
     onFocus?: () => void;
     onBlur?: () => void;
+    onLayout?: (any: any) => void;
     placeholder?: string;
     value?: string;
 
     disabled?: boolean;
     password?: boolean;
     small?: boolean;
+    medium?: boolean;
     authStyle?: boolean;
 
     style?: {};
@@ -52,14 +54,14 @@ class Input extends React.Component<Props> {
         this.inputRef = ref;
     }
 
-    onContainerTouch = () =>{
+    onContainerTouch = () => {
         if (this.inputRef) {
             this.inputRef.focus();
         }
     }
 
     render() {
-        const height = this.props.small ? 30 : 65;
+        const height = this.props.small ? 30 : this.props.medium ? 40 : 65;
         const containerStyle = this.props.authStyle ? this.style.authContainer : this.style.formContainer;
         const inputStyle = this.props.authStyle ? this.style.authInput : this.style.formInput;
 
@@ -67,6 +69,7 @@ class Input extends React.Component<Props> {
             <View onTouchEnd={this.onContainerTouch} style={[this.style.container, { height: height }, containerStyle, this.props.style]}>
                 <TextInput
                     ref={this.getRef}
+                    onLayout={this.props.onLayout}
                     contextMenuHidden={this.props.disabled}
                     selectTextOnFocus={!this.props.disabled}
                     editable={!this.props.disabled}

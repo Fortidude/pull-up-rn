@@ -139,7 +139,7 @@ class PlannerMethodsClass {
         }
 
         planner.trainings[oldSectionIndex].goals.splice(goalIndexInOldSection, 1);
-        planner.trainings[newSectionIndex].goals.push(Object.assign({}, goal));
+        planner.trainings[newSectionIndex].goals.unshift(Object.assign({}, goal));
 
         return planner;
     }

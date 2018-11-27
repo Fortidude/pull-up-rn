@@ -67,7 +67,7 @@ class DateTimePickerModal extends React.Component<Props, State> {
         
         return (
             <View style={this.style.container}>
-                <View style={{ height: 50, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                     {showScrollToNowButton && <Button
                         style={this.style.scrollToNowButton.container}
                         textStyle={this.style.scrollToNowButton.text}

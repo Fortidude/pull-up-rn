@@ -53,6 +53,16 @@ class Profile extends React.Component<Props> {
         return (
             <View style={this.style.container}>
                 <SettingListPlaceholder />
+                <SettingListItem icon="cog" onPress={this.goToSettingsPage} text={I18n.t('settings.settings')} rightArrow />
+                <SettingListItem
+                    last
+                    rightArrow
+                    icon="bell"
+                    onPress={this.goToNotificationsPage}
+                    text={I18n.t('settings.notifications')}
+                />
+
+                <SettingListPlaceholder />
                 <SettingListItem
                     last
                     icon="hourglass-start"
@@ -67,16 +77,6 @@ class Profile extends React.Component<Props> {
                     bottomLabel={I18n.t('settings.planner_calendar_mode_subtext')}
                     rightOnSwitch={this.toggleUserPlannerCustomMode}
                     rightSwitch={!this.props.plannerCustomMode}
-                />
-
-                <SettingListPlaceholder />
-                <SettingListItem icon="cog" onPress={this.goToSettingsPage} text={I18n.t('settings.settings')} rightArrow />
-                <SettingListItem
-                    last
-                    rightArrow
-                    icon="bell"
-                    onPress={this.goToNotificationsPage}
-                    text={I18n.t('settings.notifications')}
                 />
 
                 <SettingListPlaceholder />

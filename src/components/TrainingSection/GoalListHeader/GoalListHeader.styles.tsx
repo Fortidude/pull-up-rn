@@ -31,7 +31,7 @@ function getStyle(theme: ThemeInterface) {
         },
         toggleIcon: {
             marginTop: -5,
-            marginRight: -13
+            marginRight: -17
         }
     };
 }

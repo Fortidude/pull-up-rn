@@ -26,7 +26,7 @@ class Events {
         if (!this.events[event]) {
             return;
         }
-
+        
         Object.keys(this.events[event]).forEach((uniqueKey) => {
             this.events[event][uniqueKey](...arg);
         })

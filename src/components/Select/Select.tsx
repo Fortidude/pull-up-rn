@@ -15,6 +15,7 @@ interface Props {
     onChange: (value: string) => void;
     placeholder?: string;
     small?: boolean;
+    medium?: boolean;
     autoSize?: boolean;
     disabled?: boolean;
     value?: string;
@@ -53,7 +54,7 @@ class Select extends React.Component<Props> {
     }
 
     render() {
-        const height = this.props.small ? 30 : 65;
+        const height = this.props.small ? 30 : this.props.medium ? 40 : 65;
         const containerStyle = this.style.formContainer;
         const inputStyle = [this.style.formInput, this.props.textStyle];
 
@@ -63,7 +64,7 @@ class Select extends React.Component<Props> {
                     style={[inputStyle, { color: this.style.placeholderColor }]}>{this.props.placeholder}</Text>}
                 {!!this.props.value && <Text
                     style={[inputStyle]}>{this.props.value}</Text>}
-                <Icon name="chevron-down" size={20} color={this.props.disabled ? this.props.theme.colors.disableText : this.props.theme.colors.textColor} style={{ position: 'absolute', right: 0 }} />
+                <Icon name="chevron-down" size={20} color={this.props.disabled ? this.props.theme.colors.disableText : this.props.theme.colors.textColor} style={{ position: 'absolute', right: 5 }} />
             </TouchableOpacity>
         );
     }

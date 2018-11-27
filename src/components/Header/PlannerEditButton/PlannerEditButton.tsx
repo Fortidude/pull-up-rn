@@ -43,12 +43,12 @@ class PlannerEditButton extends React.Component<Props, State> {
         Events.listenTo("GOAL_INFORMATION_MODAL_HIDDEN", "PlannerEditButton", () => {
             this.setState({ hide: false });
         });
+        
         Events.listenTo("FULLSCREEN_MODAL_VISIBLE", "PlannerEditButton", () => {
             this.setState({ overrideText: I18n.t('buttons.cancel'), overrideClose: () => {
                 Events.emit('HEADER_CANCEL_CLICKED');
             } });
         });
-
         Events.listenTo("FULLSCREEN_MODAL_HIDDEN", "PlannerEditButton", () => {
             this.setState({ overrideText: null, overrideClose: null });
         });

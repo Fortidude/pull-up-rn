@@ -36,12 +36,26 @@ class GoalInformationContent extends React.Component<Props, State> {
         this.style = getStyle(this.props.theme);
     }
 
+    componentDidMount() {
+        if (this.props.goalInformationModalVisible) {
+            this.emit(this.props);
+        }
+    }
+
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
+        return nextProps.goalInformationModalVisible !== this.props.goalInformationModalVisible;
+    }
+
     componentWillReceiveProps(nextProps: Props) {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = getStyle(nextProps.theme);
         }
 
-        if (nextProps.goal && nextProps.goalInformationModalVisible) {
+        this.emit(nextProps);
+    }
+
+    emit = (props: Props) => {
+        if (props.goal && props.goalInformationModalVisible) {
             Events.emit('HEADER_OVERWRITE_TITLE', '');
             Events.emit('FOOTER_BAR_CLOSE');
             Events.emit('GOAL_INFORMATION_MODAL_VISIBLE');

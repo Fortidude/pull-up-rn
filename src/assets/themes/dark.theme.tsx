@@ -56,7 +56,7 @@ const colors = {
 
     shadowColor: 'rgba(49,49,49, 0.7)',
     circleProgressShadowColor: 'rgba(49, 49, 49, 1)',
-    modalOverlayBackgroundColor: 'rgba(0,0,0, 0.6)',
+    modalOverlayBackgroundColor: 'rgba(0,0,0, 0.8)',
     modalOverlayBackgroundColorLight: 'rgba(0,0,0, 0.3)',
 
     plannerFooterButtonColor: greyColor,

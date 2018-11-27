@@ -16,6 +16,8 @@ interface Props {
 
     style?: {};
 
+    medium?: boolean;
+
     date: Date
     onChange: (date: Date) => void;
 
@@ -45,11 +47,12 @@ class DateTimeInput extends React.Component<Props> {
     }
 
     render() {
+        const height = this.props.medium ? 40 : 29
         const date = moment(this.props.date);
         const formattedDate = this.props.format ? date.format(this.props.format) : date.calendar();
 
         return (
-            <TouchableOpacity style={[this.style.dateContainer, this.props.style]} onPress={this.openDatetimePicker}>
+            <TouchableOpacity style={[this.style.dateContainer, this.props.style, {height: height}]} onPress={this.openDatetimePicker}>
                 <Text style={this.style.dateText}>{formattedDate}</Text>
             </TouchableOpacity>
         );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Animated, Text, View, TextInput } from 'react-native';
+import { Animated, Text, View, TextInput, ScrollView, Keyboard } from 'react-native';
 import moment from 'moment'
 import I18n from 'src/assets/translations';
 
@@ -52,17 +52,25 @@ class GoalCreateSetContent extends React.Component<Props, State> {
         }
     }
 
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
+        return this.state.value !== nextState.value
+            || this.state.extraWeight !== nextState.extraWeight
+            || this.state.date !== nextState.date
+            || nextProps.addSetModalVisible !== this.props.addSetModalVisible;
+    }
+
     componentDidMount() {
+        if (this.props.addSetModalVisible) {
+            this.emit(this.props);
+        }
 
-        this.emit(this.props);
-
-        Events.listenTo('HEADER_SAVE_CLICKED', 'GoalInformationModal', this.onSuccess);
-        Events.listenTo('HEADER_CANCEL_CLICKED', 'GoalInformationModal', this.onCancel);
+        Events.listenTo('HEADER_SAVE_CLICKED', 'GoalCreateSetContent', this.onSuccess);
+        Events.listenTo('HEADER_CANCEL_CLICKED', 'GoalCreateSetContent', this.onCancel);
     }
 
     componentWillUnmount() {
-        Events.remove('HEADER_SAVE_CLICKED', 'GoalInformationModal');
-        Events.remove('HEADER_CANCEL_CLICKED', 'GoalInformationModal');
+        Events.remove('HEADER_SAVE_CLICKED', 'GoalCreateSetContent');
+        Events.remove('HEADER_CANCEL_CLICKED', 'GoalCreateSetContent');
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -75,6 +83,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
 
     emit = (props: Props) => {
         if (props.goal && props.addSetModalVisible) {
+            console.log('goooo');
             Events.emit('HEADER_OVERWRITE_TITLE', '');
             Events.emit('FOOTER_BAR_CLOSE');
             Events.emit('FULLSCREEN_MODAL_VISIBLE');
@@ -95,6 +104,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
     }
 
     clear = () => {
+        Keyboard.dismiss();
         this.setState({
             value: null,
             extraWeight: null,
@@ -103,13 +113,17 @@ class GoalCreateSetContent extends React.Component<Props, State> {
     }
 
     onCancel = () => {
+        if (!this.props.addSetModalVisible) {
+            return;
+        }
         this.props.dispatch(ModalActions.addSetClose());
         this.props.dispatch(PlannerActions.selectGoal(null));
         this.props.onClose();
+        Keyboard.dismiss();
     }
 
     onSuccess = () => {
-        if (!this.state.value || this.props.createSetLoading) {
+        if (!this.state.value || this.props.createSetLoading || !this.props.addSetModalVisible) {
             return;
         }
 
@@ -119,8 +133,10 @@ class GoalCreateSetContent extends React.Component<Props, State> {
             this.state.extraWeight,
             moment.parseZone(this.state.date)
         ));
-        this.props.onClose();
+
         this.clear();
+        this.props.dispatch(PlannerActions.selectGoal(null));
+        this.props.onClose();
     }
 
     render() {
@@ -134,7 +150,10 @@ class GoalCreateSetContent extends React.Component<Props, State> {
 
         return (
             <React.Fragment>
-                <View style={this.style.content}>
+                <ScrollView style={this.style.content}
+                    onTouchStart={() => { Keyboard.dismiss() }}
+                    keyboardShouldPersistTaps="always"
+                >
                     <View style={this.style.textLine.container}>
                         {!!goal.requiredAmount && <Text style={this.style.textLine.textLeft} numberOfLines={1}>
                             {I18n.t('planner.done_of')}: {goal.doneThisCircuit} {I18n.t('mics.of')} {goal.requiredAmount}
@@ -149,23 +168,28 @@ class GoalCreateSetContent extends React.Component<Props, State> {
                     <View style={this.style.form.container}>
                         <Text style={this.style.form.label}>{I18n.t('fields.number_of_reps_done')}</Text>
                         <Input
+                            medium
                             keyboardType={"numeric"}
                             inputRef={ref => this.addSetModalRepAmountRef = ref}
-                            value={this.state.value ? this.state.value.toString() : undefined}
+                            value={this.state.value ? this.state.value.toString() : ''}
                             onChange={(value) => this.setState({ value: parseInt(value) })}
                         />
 
                         <Text style={this.style.form.label}>{I18n.t('fields.additional_weight')}</Text>
                         <Input
+                            medium
                             keyboardType={"numeric"}
                             value={this.state.extraWeight ? this.state.extraWeight.toString() : undefined}
                             onChange={(extraWeight) => this.setState({ extraWeight: parseInt(extraWeight) })}
                         />
 
                         <Text style={this.style.form.label}>{I18n.t('fields.date')}</Text>
-                        <DateTimeInput date={this.state.date} onChange={(date: Date) => { this.setState({ date }) }} />
+                        <DateTimeInput
+                            medium
+                            date={this.state.date}
+                            onChange={(date: Date) => { this.setState({ date }) }} />
                     </View>
-                </View>
+                </ScrollView>
             </React.Fragment>
         );
     }

@@ -23,11 +23,11 @@ function getStyle(theme: ThemeInterface) {
 
         cancelContainer: {
             marginTop: 10,
-            marginBottom: DetermineDevice.isIphoneX() ? 40 : 20
+            marginBottom: DetermineDevice.isIphoneX() ? 50 : 20
         },
 
         button: {
-            height: 40,
+            height: 50,
             justifyContent: 'center',
             alignItems: 'center',
         },

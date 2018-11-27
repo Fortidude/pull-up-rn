@@ -1,4 +1,5 @@
 import { AnyAction } from 'redux';
+import moment from 'moment';
 
 import { PlannerTypes } from 'src/store/actions/planner';
 import { AuthTypes } from 'src/store/actions/auth';
@@ -35,6 +36,8 @@ interface PlannerState {
 
     error: string | null;
     circuit: Circuit | null;
+
+    expires_at: string;
 }
 
 export const initialState: PlannerState = {
@@ -60,7 +63,9 @@ export const initialState: PlannerState = {
     createGoalLoading: false,
 
     error: null,
-    circuit: null
+    circuit: null,
+
+    expires_at: moment().hour(23).minute(59).format()
 };
 
 function planner(state = initialState, action: AnyAction): PlannerState {

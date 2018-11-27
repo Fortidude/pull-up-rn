@@ -59,11 +59,15 @@ class TrainingSection extends React.Component<Props, State> {
     countHeight = () => this.countGoals() * 70;
     countGoals = () => this.props.training.goals.reduce((number, goal) => {
         return number + (goal.removed ? 0 : 1);
-    }, 0)
+    }, 0);
+
     toggleList = (name: string | null) => {
         if (this.props.plannerEditMode) {
-            this.props.dispatch(PlannerActions.selectSection(name))
-            this.props.dispatch(ModalActions.goalCreateOpen());
+            //@ts-ignore
+            this.refs.listContainer.measure((x, y, width, height, windowX, windowY) => {
+                this.props.dispatch(PlannerActions.selectSection(name))
+                this.props.dispatch(ModalActions.goalCreateOpen(width, windowY));
+            });
             return;
         }
         const toggled = !this.state.toggled;
@@ -84,7 +88,7 @@ class TrainingSection extends React.Component<Props, State> {
 
     render() {
         return (
-            <View style={this.style.exerciseListContainer}>
+            <View ref="listContainer" style={this.style.exerciseListContainer}>
                 <GoalListHeader
                     empty={this.props.training.goals.length === 0}
                     active={this.state.toggled}
