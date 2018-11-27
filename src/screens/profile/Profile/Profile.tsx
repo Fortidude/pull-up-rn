@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { Dispatch } from 'redux';
 import { NavigationActions } from 'react-navigation';
 
@@ -10,12 +10,15 @@ import SettingListItem, { SettingListPlaceholder } from 'src/components/SettingL
 import I18n from 'src/assets/translations';
 import User from 'src/models/User';
 import { UserActions } from 'src/store/actions/user';
+import Planner from 'src/models/Planner';
+import { FOOTER_HEIGHT } from 'src/components/FooterBar/FooterBar.styles';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     locale: string;
     user: User;
+    emptyList: boolean;
     plannerCustomMode: boolean;
 };
 
@@ -49,9 +52,9 @@ class Profile extends React.Component<Props> {
         if (!this.props.user) {
             return null;
         }
-        
+
         return (
-            <View style={this.style.container}>
+            <ScrollView style={this.style.container}>
                 <SettingListPlaceholder />
                 <SettingListItem icon="cog" onPress={this.goToSettingsPage} text={I18n.t('settings.settings')} rightArrow />
                 <SettingListItem
@@ -70,20 +73,35 @@ class Profile extends React.Component<Props> {
                     text={I18n.t('settings.circuit_length')}
                     rightText={`${this.props.user.days_per_circuit} ${I18n.t('mics.days').toLocaleLowerCase()}`}
                 />
-                <SettingListItem
-                    last
-                    icon="list-ul"
-                    text={I18n.t('settings.planner_calendar_mode')}
-                    bottomLabel={I18n.t('settings.planner_calendar_mode_subtext')}
-                    rightOnSwitch={this.toggleUserPlannerCustomMode}
-                    rightSwitch={!this.props.plannerCustomMode}
-                />
+                {!this.props.emptyList &&
+                    <SettingListItem
+                        last
+                        icon="list-ul"
+                        text={I18n.t('settings.planner_calendar_mode')}
+                        bottomLabel={I18n.t('settings.planner_calendar_mode_subtext')}
+                        rightOnSwitch={this.toggleUserPlannerCustomMode}
+                        rightSwitch={!this.props.plannerCustomMode}
+                    />
+                }
 
                 <SettingListPlaceholder />
                 <SettingListItem icon="trash" onPress={() => { }} danger text={I18n.t('settings.remove_my_account')} last />
-            </View>
+
+                <View style={{height: FOOTER_HEIGHT * 1.5}}></View>
+            </ScrollView>
         );
     }
+}
+
+const isEmpty = (planner: Planner) => {
+    let isEmpty = true;
+    planner.trainings.forEach(training => {
+        if (training.goals.length > 0) {
+            isEmpty = false;
+        }
+    });
+
+    return isEmpty;
 }
 
 const mapStateToProps = (state: any) => ({
@@ -91,6 +109,7 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme,
     locale: state.settings.locale,
     user: state.user.current,
+    emptyList: isEmpty(state.planner.planner),
     plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false
 });
 

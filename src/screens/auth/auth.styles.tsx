@@ -18,13 +18,13 @@ function getStyle(theme: ThemeInterface) {
             paddingTop: 20,
             width: '100%',
             flex: 3,
-            justifyContent: 'flex-start'
+            justifyContent: 'flex-start',
         },
         container_footer: {
             flex: 2,
             alignItems: 'center',
-            justifyContent: 'center'
-          
+            justifyContent: 'center',
+            width: '100%'
         },
         passwordReminderButton: {
             alignSelf: 'flex-end'

@@ -14,7 +14,7 @@ import { ModalActions } from 'src/store/actions/modal';
 import Select from 'src/components/Select/Select';
 import Input from 'src/components/Input';
 import { Exercise, ExerciseVariant } from 'src/models/Exercise';
-import { NewGoalInterface } from 'src/models/Goal';
+import { NewGoalInterface, mapNewGoalInterfaceToApiRequestDataStructure } from 'src/models/Goal';
 
 import validate, { validateType } from './validate';
 import { HEADER_HEIGHT } from 'src/components/Header/Header.styles';
@@ -25,9 +25,12 @@ const HEIGHT = Dimensions.get('window').height;
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+    isOnline: boolean;
+    isLoading: boolean;
     sectionName: string;
     exercises: Exercise[];
     goalCreateModalVisible: boolean;
+    plannerCustomMode: boolean;
 
     onClose: () => void;
 };
@@ -114,6 +117,19 @@ class CreateGoalContent extends React.Component<Props, State> {
         }
     }
 
+    clear = () => {
+        this.setState({
+            name: '',
+            description: null,
+            exercise: null,
+            exerciseVariant: null,
+            type: null,
+            requiredAmount: null,
+
+            typeWithAI: false
+        });
+    }
+
     onClose = () => {
         if (!this.props.goalCreateModalVisible) {
             return;
@@ -130,6 +146,17 @@ class CreateGoalContent extends React.Component<Props, State> {
             return;
         }
 
+        if (!validate(this.state) || !this.props.isOnline || this.props.isLoading) {
+            return;
+        }
+
+        const goalApiRequestDataStructure = mapNewGoalInterfaceToApiRequestDataStructure(this.state);
+        if (this.props.plannerCustomMode) {
+            goalApiRequestDataStructure.section = this.props.sectionName || undefined;
+        }
+
+        this.props.dispatch(PlannerActions.createGoal(goalApiRequestDataStructure));
+        this.clear();
         this.onClose();
     }
 
@@ -276,6 +303,7 @@ class CreateGoalContent extends React.Component<Props, State> {
         }
 
         const keyboardHeight = event.endCoordinates.height;
+        //@ts-ignore
         this.refs.scrollView.scrollTo({ y: (HEIGHT - (HEADER_HEIGHT * 2) - keyboardHeight) });
     }
 }
@@ -283,11 +311,13 @@ class CreateGoalContent extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
+    isOnline: state.app.isOnline,
     goalCreateModalVisible: state.modal.goalCreateModalVisible,
 
     exercises: state.exercise.exercises,
     sectionName: state.planner.sectionName,
-    isLoading: state.planner.createGoalLoading
+    isLoading: state.planner.createGoalLoading,
+    plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false
 });
 
 export default connect(mapStateToProps)(CreateGoalContent);

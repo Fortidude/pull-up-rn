@@ -74,6 +74,7 @@ let translations = {
         planner: {
             add_first_training: "Dodaj swój pierwszy trening",
             done_of: "Zrobiono",
+            other: "Pozostałe",
             custom_mode: {
                 calendar: {
                     today: "Dzisiaj",

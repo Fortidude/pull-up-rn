@@ -45,8 +45,8 @@ const transitionConfig = () => {
             /**
              * For future
              */
-            const { opacity } = StackViewStyleInterpolator.forFade(sceneProps);
-            NavigationAnimated.setInterpolate(opacity);
+            //const { opacity } = StackViewStyleInterpolator.forFade(sceneProps);
+            //NavigationAnimated.setInterpolate(opacity);
             
             if (isModal) {
                 return slideFromBottom;

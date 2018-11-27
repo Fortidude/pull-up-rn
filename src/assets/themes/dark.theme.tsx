@@ -53,6 +53,7 @@ const colors = {
     borderColor: 'rgba(255,255,255, 0.2)',
     borderLightColor: 'rgba(255,255,255, 0.13)',
     borderDarkColor: 'rgba(112, 112, 112, 0.5)',
+    borderDarkerColor: 'rgba(80, 80, 80, 0.5)',
 
     shadowColor: 'rgba(49,49,49, 0.7)',
     circleProgressShadowColor: 'rgba(49, 49, 49, 1)',
@@ -104,6 +105,8 @@ const borders = {
     borderColor: colors.borderColor,
     borderLightColor: colors.borderLightColor,
     borderDarkColor: colors.borderDarkColor,
+
+    pickerItemBorderColor: colors.borderDarkerColor,
 
     modalRadius: 15
 };

@@ -155,7 +155,7 @@ function* createGoalSuccess() {
     const isPlannerByTrainingsLoaded = yield select(state => state.planner.loadedPlanner);
     console.log(`isPlannerByTrainingsLoaded, ${isPlannerByTrainingsLoaded}`);
     if (isPlannerByTrainingsLoaded) {
-        yield put(PlannerActions.loadByTrainings())
+        yield put(PlannerActions.loadPlanner())
     }
 }
 

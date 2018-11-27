@@ -105,6 +105,8 @@ const borders = {
     borderLightColor: colors.borderLightColor,
     borderDarkColor: colors.borderDarkColor,
 
+    pickerItemBorderColor: colors.borderLightColor,
+
     modalRadius: 15
 };
 

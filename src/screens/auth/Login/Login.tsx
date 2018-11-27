@@ -140,14 +140,15 @@ class Login extends Component<Props, State> {
                         onPress={this.goToPasswordReminderPage}>
                         <Text numberOfLines={1} style={this.style.passwordReminderButtonText}>{I18n.t('login.remind_password')}</Text>
                     </TouchableOpacity>
+                    <Animated.View style={{ bottom: 0, right: 0, position: 'absolute', opacity: this.userListOpacity }}>
+                        {this.state.users.map(user => {
+                            return (
+                                <LoginPreviousUserItem onPress={this._onLoginPreviousUserPress} key={user.id} user={user} />
+                            )
+                        })}
+                    </Animated.View>
                 </FormContainer>
-                <Animated.View style={{ alignSelf: 'flex-end', position: 'absolute', opacity: this.userListOpacity }}>
-                    {this.state.users.map(user => {
-                        return (
-                            <LoginPreviousUserItem onPress={this._onLoginPreviousUserPress} key={user.id} user={user} />
-                        )
-                    })}
-                </Animated.View>
+            
                 <View style={this.style.container_footer}>
                     <ButtonBig onPress={this.login} text={I18n.t('login.login')} isLoading={this.state.isLoading} />
                     <TouchableOpacity style={this.style.theButtonBelowMainButton} onPress={this.goToRegisterPage}>

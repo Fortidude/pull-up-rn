@@ -19,6 +19,7 @@ interface Props {
     theme: ThemeInterface;
     profileEditMode?: boolean;
     plannerEditMode?: boolean;
+    plannerCustomMode?: boolean;
     user: User | null;
     plannerFooterCircleComponent: PlannerFooterCircleComponent,
     currentCircuitProgress: number
@@ -60,7 +61,7 @@ class Avatar extends React.Component<Props, State> {
 
     onPress = () => {
         if (this.props.plannerEditMode) {
-            this.props.dispatch(ModalActions.addTrainingSectionOpen());
+            this.props.dispatch(ModalActions.addTrainingSectionOpen(0, 0));
             return;
         }
 
@@ -90,6 +91,10 @@ class Avatar extends React.Component<Props, State> {
     }
 
     processAnimate = (props: Props) => {
+        if (!props.plannerCustomMode) {
+            return;
+        }
+        
         Animated.timing(this.scaleValue, {
             toValue: 0,
             duration: 100,
@@ -112,7 +117,7 @@ class Avatar extends React.Component<Props, State> {
             return <Icon name="camera" style={[this.style.icon]} size={40} />
         }
 
-        if (props.plannerEditMode) {
+        if (props.plannerEditMode && props.plannerCustomMode) {
             return <Icon name="plus" style={[this.style.icon]} size={40} />;
         }
 
@@ -151,6 +156,7 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme,
     user: state.user.current,
     plannerEditMode: state.app.plannerEditMode,
+    plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false,
     plannerFooterCircleComponent: state.settings.plannerFooterCircleComponent,
     currentCircuitProgress: state.planner.statistics ? state.planner.statistics.current_circle_percent_goals_achieved : 0,
 });

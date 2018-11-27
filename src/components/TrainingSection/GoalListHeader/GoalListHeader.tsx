@@ -48,6 +48,8 @@ class GoalListHeader extends React.Component<Props, State> {
         let name = this.props.name;
         if (!this.props.plannerCustomMode) {
             name = I18n.t(`planner.custom_mode.calendar.${name}`);
+        } else if (name === 'other') {
+            name = I18n.t(`planner.other`);
         }
 
         return (
@@ -56,11 +58,13 @@ class GoalListHeader extends React.Component<Props, State> {
                     {name}
                 </Text>
                 <View style={this.style.toggleButton}>
-                    {!this.props.empty && <IconComponent active={!!this.props.active} />}
+                    {this._showIconComponent() && <IconComponent active={!!this.props.active} />}
                 </View>
             </TouchableOpacity>
         );
     }
+
+    _showIconComponent = () => !this.props.empty || (this.props.plannerEditMode && this.props.plannerCustomMode);
 }
 
 const mapStateToProps = (state: any) => ({

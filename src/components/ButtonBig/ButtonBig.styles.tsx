@@ -4,7 +4,7 @@ function getStyle(theme: ThemeInterface) {
     return {
         container: {
             backgroundColor: theme.colors.buttonBigBackgroundColor,
-            width: 295,
+            width: '90%',
             height: 50,
             borderRadius: 5,
             alignItems: 'center',

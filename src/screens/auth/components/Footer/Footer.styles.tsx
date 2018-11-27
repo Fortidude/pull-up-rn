@@ -5,7 +5,7 @@ function getStyle(theme: ThemeInterface) {
         container: {
             flexDirection: 'row',
             position: 'absolute',
-            bottom: 30,
+            bottom: 10,
             flex: 1,
             width: theme.dimensions.authContentWidth,
         },

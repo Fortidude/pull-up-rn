@@ -1,4 +1,5 @@
 import { ThemeInterface } from '../../../assets/themes';
+import { FOOTER_HEIGHT } from 'src/components/FooterBar/FooterBar.styles';
 
 function getStyle(theme: ThemeInterface) {
     return {

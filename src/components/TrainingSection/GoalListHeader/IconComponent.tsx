@@ -10,6 +10,7 @@ interface Props {
     theme: ThemeInterface;
     active: boolean;
     plannerEditMode: boolean;
+    plannerCustomMode: boolean;
 };
 
 interface State {
@@ -30,8 +31,21 @@ class IconComponent extends React.Component<Props, State> {
             scaleValue: new Animated.Value(1),
             iconPlus: props.plannerEditMode
         }
+    }
 
-     //   this.animatePlus();
+    componentDidMount() {
+        if (this.props.plannerEditMode && this.props.plannerCustomMode) {
+            console.log('animate');
+            Animated.timing(
+                this.state.spinValue,
+                {
+                    toValue: 0.5,
+                    duration: 150,
+                    easing: Easing.linear,
+                    useNativeDriver: true
+                }
+            ).start()
+        }
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -109,7 +123,7 @@ class IconComponent extends React.Component<Props, State> {
                     name={"chevron-down"} />}
                 {this.state.iconPlus && <EvilIcon
                     size={20}
-                    style={{marginTop: 15, marginRight: 7}}
+                    style={{ marginTop: 15, marginRight: 7 }}
                     color={this.props.theme.colors.main}
                     name={"close"} />}
             </Animated.View>
@@ -119,7 +133,8 @@ class IconComponent extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     theme: state.settings.theme,
-    plannerEditMode: state.app.plannerEditMode
+    plannerEditMode: state.app.plannerEditMode,
+    plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false
 });
 
 export default connect(mapStateToProps)(IconComponent);

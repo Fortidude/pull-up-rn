@@ -34,7 +34,7 @@ function getStyle(theme: ThemeInterface) {
 
         buttonBorder: {
             borderBottomWidth: theme.borders.borderWidth,
-            borderBottomColor: theme.borders.borderColor,
+            borderBottomColor: theme.borders.pickerItemBorderColor,
         },
 
         text: {
