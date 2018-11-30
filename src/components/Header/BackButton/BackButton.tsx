@@ -134,8 +134,6 @@ class BackButton extends React.Component<Props, State> {
     };
 
     onBackPress = () => {
-        HapticFeedback('impactLight');
-
         if (this.state.backActionOverwrite) {
             this.state.backActionOverwrite();
             return;

@@ -27,6 +27,7 @@ interface Props {
 
 interface State {
     component: React.ReactNode;
+    name: string;
 }
 
 class Avatar extends React.Component<Props, State> {
@@ -37,8 +38,11 @@ class Avatar extends React.Component<Props, State> {
         super(props);
 
         this.style = Styles(this.props.theme);
+
+        const { component, name } = this.getComponent(this.props);
         this.state = {
-            component: this.getComponent(this.props),
+            component: component,
+            name: name
         }
     }
 
@@ -48,14 +52,13 @@ class Avatar extends React.Component<Props, State> {
             || nextProps.theme.name !== this.props.theme.name
             || (nextProps.user && nextProps.user.avatar) !== (this.props.user && this.props.user.avatar)
             || nextProps.plannerFooterCircleComponent !== this.props.plannerFooterCircleComponent
-            || nextState.component !== this.state.component;
+            || nextState.name !== this.state.name;
 
         if (shouldUpdate) {
             this.processAnimate(nextProps);
-            return true;
         }
 
-        return false;
+        return shouldUpdate;
     }
 
     componentWillReceiveProps(nextProps: Props, nextState: State) {
@@ -105,7 +108,8 @@ class Avatar extends React.Component<Props, State> {
             duration: 100,
             useNativeDriver: true
         }).start(() => {
-            this.setState({ component: this.getComponent(props) }, () => {
+            const { name, component } = this.getComponent(props);
+            this.setState({ component: component, name: name }, () => {
                 Animated.timing(this.scaleValue, {
                     toValue: 1,
                     duration: 300,
@@ -119,40 +123,58 @@ class Avatar extends React.Component<Props, State> {
     getComponent = (props: Props) => {
 
         if (props.profileEditMode) {
-            return <Icon name="camera" style={[this.style.icon]} size={40} />
+            return {
+                name: 'camera',
+                component: <Icon name="camera" style={[this.style.icon]} size={40} />
+            }
         }
 
         if (props.plannerEditMode && props.plannerCustomMode) {
-            return <Icon name="plus" style={[this.style.icon]} size={40} />;
+            return {
+                name: 'plus',
+                component: <Icon name="plus" style={[this.style.icon]} size={40} />
+            }
         }
 
         if (props.user && props.plannerFooterCircleComponent === 'circuit_left') {
             const data = getCircuitLeftData(props.user)
-            return <CircleProgress
-                fill={data.percent}
-                backgroundColor={props.theme.colors.plannerFooterCircleProgressBackground}
-                size={70}
-                progressWidth={StyleSheet.hairlineWidth}
-                title={data.text}
-                subTitle={I18n.t('mics.circuit_end')}
-                noShadow />;
+            return {
+                name: 'circuit-left',
+                component: <CircleProgress
+                    fill={data.percent}
+                    backgroundColor={props.theme.colors.plannerFooterCircleProgressBackground}
+                    size={70}
+                    progressWidth={StyleSheet.hairlineWidth}
+                    title={data.text}
+                    subTitle={I18n.t('mics.circuit_end')}
+                    noShadow />
+            }
         }
 
         if (props.user && props.plannerFooterCircleComponent === 'circuit_progress') {
-            return <CircleProgress
-                fill={props.currentCircuitProgress}
-                backgroundColor={props.theme.colors.plannerFooterCircleProgressBackground}
-                size={70}
-                progressWidth={StyleSheet.hairlineWidth}
-                subTitle={I18n.t('mics.effectiveness')}
-                noShadow />;
+            return {
+                name: 'circuit-progress',
+                component: <CircleProgress
+                    fill={props.currentCircuitProgress}
+                    backgroundColor={props.theme.colors.plannerFooterCircleProgressBackground}
+                    size={70}
+                    progressWidth={StyleSheet.hairlineWidth}
+                    subTitle={I18n.t('mics.effectiveness')}
+                    noShadow />
+            }
         }
 
         if (props.user && props.user.avatar) {
-            return <Image style={[this.style.image]} source={{ uri: props.user.avatar }} />;
+            return {
+                name: 'avatar',
+                component: <Image style={[this.style.image]} source={{ uri: props.user.avatar }} />
+            }
         }
 
-        return <Icon name="user-ninja" style={[this.style.icon]} size={40} />;
+        return {
+            name: 'user-ninja',
+            component: <Icon name="user-ninja" style={[this.style.icon]} size={40} />
+        }
     }
 }
 
