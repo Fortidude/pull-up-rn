@@ -43,20 +43,25 @@ class Avatar extends React.Component<Props, State> {
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
-        return nextProps.plannerEditMode !== this.props.plannerEditMode
+        const shouldUpdate = nextProps.plannerEditMode !== this.props.plannerEditMode
             || nextProps.profileEditMode !== this.props.profileEditMode
             || nextProps.theme.name !== this.props.theme.name
             || (nextProps.user && nextProps.user.avatar) !== (this.props.user && this.props.user.avatar)
             || nextProps.plannerFooterCircleComponent !== this.props.plannerFooterCircleComponent
             || nextState.component !== this.state.component;
+
+        if (shouldUpdate) {
+            this.processAnimate(nextProps);
+            return true;
+        }
+
+        return false;
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    componentWillReceiveProps(nextProps: Props, nextState: State) {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
         }
-
-        this.processAnimate(nextProps);
     }
 
     onPress = () => {
@@ -76,9 +81,9 @@ class Avatar extends React.Component<Props, State> {
     render() {
         let extraSyles = {};
         if (this.props.plannerFooterCircleComponent === 'avatar') {
-            extraSyles = {...extraSyles, ...this.style.footerAvatarShadow};
+            extraSyles = { ...extraSyles, ...this.style.footerAvatarShadow };
         } else {
-            extraSyles = {borderColor: 'transparent', borderWidth: 10}
+            extraSyles = { borderColor: 'transparent', borderWidth: 10 }
         }
 
         return (
@@ -94,7 +99,7 @@ class Avatar extends React.Component<Props, State> {
         if (!props.plannerCustomMode) {
             return;
         }
-        
+
         Animated.timing(this.scaleValue, {
             toValue: 0,
             duration: 100,

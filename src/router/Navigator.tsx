@@ -22,6 +22,10 @@ const transitionConfig = () => {
         //     easing: Easing.bezier(0.95, 0.05, 0.795, 0.035),
         //     useNativeDriver: true,
         // },
+
+        /**
+         * This is optimized for this app.
+         */
         screenInterpolator: (sceneProps: any) => {
             const { position, layout, scene, index, scenes } = sceneProps
             const thisSceneIndex = scene.index
@@ -29,30 +33,31 @@ const transitionConfig = () => {
             const width = layout.initWidth
             const isModal = scenes[thisSceneIndex].descriptor.options.modal || false;
 
+            let firstScene = false;
+            if (!scenes[thisSceneIndex - 1]) {
+                firstScene = true;
+            }
+
+            const showTranslateX = !isModal && !firstScene;
+            const showTranslateY = isModal || firstScene;
+
             const translateX = position.interpolate({
                 inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex + 1],
-                outputRange: [width, 0, 0]
+                outputRange: [showTranslateX ? width : 0, 0, scene.index !== 0 ? -40 : 0]
             });
 
             const translateY = position.interpolate({
-                inputRange: [0, thisSceneIndex],
-                outputRange: [height, 0]
+                inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex + 1],
+                outputRange: [showTranslateY ? height : 0, 0, (scene.index === 0) ? -40 : 0]
             });
 
-            const slideFromRight = { transform: [{ translateX }] }
-            const slideFromBottom = { transform: [{ translateY }] }
 
-            /**
-             * For future
-             */
-            //const { opacity } = StackViewStyleInterpolator.forFade(sceneProps);
-            //NavigationAnimated.setInterpolate(opacity);
-            
-            if (isModal) {
-                return slideFromBottom;
-            }
+            const opacity = position.interpolate({
+                inputRange: [thisSceneIndex -1, thisSceneIndex, thisSceneIndex + 0.8],
+                outputRange: [0.5, 1, 0]
+            });
 
-            return slideFromRight
+            return { transform: [{ translateX }, { translateY }], opacity: opacity };
         },
     }
 }

@@ -22,12 +22,20 @@ interface Props {
     plannerCustomMode: boolean;
 };
 
-class Profile extends React.Component<Props> {
+interface State {
+    plannerCustomMode: boolean;
+}
+
+class Profile extends React.Component<Props, State> {
     style: ThemeValueInterface;
 
     constructor(props: Props) {
         super(props);
         this.style = getStyle(this.props.theme);
+
+        this.state = {
+            plannerCustomMode: props.plannerCustomMode
+        }
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -45,6 +53,7 @@ class Profile extends React.Component<Props> {
     };
 
     toggleUserPlannerCustomMode = () => {
+        this.setState({plannerCustomMode: !this.state.plannerCustomMode});
         this.props.dispatch(UserActions.togglePlannerCustomMode());
     }
 
@@ -80,7 +89,7 @@ class Profile extends React.Component<Props> {
                         text={I18n.t('settings.planner_calendar_mode')}
                         bottomLabel={I18n.t('settings.planner_calendar_mode_subtext')}
                         rightOnSwitch={this.toggleUserPlannerCustomMode}
-                        rightSwitch={!this.props.plannerCustomMode}
+                        rightSwitch={!this.state.plannerCustomMode}
                     />
                 }
 
