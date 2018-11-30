@@ -37,7 +37,7 @@ export default class Set implements SetInterface {
 }
 
 const sortSetsByDate = (setA: SetInterface, setB: SetInterface) => {
-    return moment(setA.date).diff(moment(setB.date));
+    return moment(setB.date).diff(moment(setA.date));
 }
 
 export {

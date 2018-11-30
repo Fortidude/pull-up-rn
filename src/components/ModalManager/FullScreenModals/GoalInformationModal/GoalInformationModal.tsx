@@ -71,25 +71,25 @@ class GoalInformationModal extends React.Component<Props, State> {
             transform: [
                 {
                     translateX: openProgress.interpolate({
-                        inputRange: [0.01, .99],
+                        inputRange: [0.01, 1],
                         outputRange: [openingInitTranslateX, 0]
                     })
                 },
                 {
                     translateY: openProgress.interpolate({
-                        inputRange: [0.01, .99],
+                        inputRange: [0.01, 1],
                         outputRange: [openingInitTranslateY, 0]
                     })
                 },
                 {
                     scaleX: openProgress.interpolate({
-                        inputRange: [0.01, 0.99],
+                        inputRange: [0.01, 1],
                         outputRange: [0, 1]
                     })
                 },
                 {
                     scaleY: openProgress.interpolate({
-                        inputRange: [0.01, 0.99],
+                        inputRange: [0.01, 1],
                         outputRange: [0, 1]
                     })
                 }

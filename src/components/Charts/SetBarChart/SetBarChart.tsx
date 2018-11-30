@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { Text, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
-import Styles from './SetBarChart.styles';
+import Styles, { BIG_HEIGHT, SMALL_HEIGHT } from './SetBarChart.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import { SetInterface, sortSetsByDate } from 'src/models/Set';
 import SingleBar from './SingleBar';
@@ -14,7 +14,6 @@ interface Props {
     theme: ThemeInterface;
 
     sets: SetInterface[];
-    maxHeight: number;
     big?: boolean;
 }
 
@@ -28,7 +27,7 @@ class SetBarChart extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.style = Styles(this.props.theme);
+        this.style = Styles(this.props.theme, this.props.big);
         this.state = {
             activeSetKey: null
         }
@@ -36,7 +35,7 @@ class SetBarChart extends React.Component<Props, State> {
 
     componentWillReceiveProps(nextProps: Props) {
         if (nextProps.theme.name !== this.props.theme.name) {
-            this.style = Styles(nextProps.theme);
+            this.style = Styles(nextProps.theme, nextProps.big);
         }
     }
 
@@ -44,7 +43,7 @@ class SetBarChart extends React.Component<Props, State> {
         this.setState({ activeSetKey: key });
     }
 
-    getDate = (set: SetInterface): string => { 
+    getDate = (set: SetInterface): string => {
         const today = moment();
         const date = moment(set.date);
         const diff = date.diff(today, 'days');
@@ -64,13 +63,14 @@ class SetBarChart extends React.Component<Props, State> {
 
         let maxValue = 0;
         let maxWeight = 0;
+
         this.props.sets.forEach((set: SetInterface) => {
             maxValue = set.value && set.value > maxValue ? set.value : maxValue;
             maxWeight = set.weight && set.weight > maxWeight ? set.weight : maxWeight;
         })
 
         return (
-            <View style={[this.style.container, { height: this.props.maxHeight }]}>
+            <View style={this.style.container}>
                 {this.state.activeSetKey === null && <Text style={this.style.hourText}>Wybierz słupek, aby zobaczyć godzinę</Text>}
                 {this.state.activeSetKey !== null &&
                     <Text style={this.style.hourText}>
@@ -82,6 +82,7 @@ class SetBarChart extends React.Component<Props, State> {
                         <SingleBar
                             key={key}
                             index={key}
+                            big={this.props.big}
                             maxValue={maxValue}
                             maxWeight={maxWeight}
                             onClick={this.onClick}

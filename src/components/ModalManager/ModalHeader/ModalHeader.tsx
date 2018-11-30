@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { Text, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import Styles from './ModalHeader.styles';
 import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
@@ -10,6 +10,7 @@ interface Props {
     theme: ThemeInterface;
 
     text: string;
+    style?: object;
 }
 
 class ModalHeader extends React.Component<Props> {
@@ -29,12 +30,11 @@ class ModalHeader extends React.Component<Props> {
 
     render() {
         return (
-            <View style={this.style.container}>
-
+            <Animated.View style={[this.style.container, this.props.style]}>
                 <Text style={this.style.header}>
                     {this.props.text}
                 </Text>
-            </View>
+            </Animated.View>
         );
     }
 }
