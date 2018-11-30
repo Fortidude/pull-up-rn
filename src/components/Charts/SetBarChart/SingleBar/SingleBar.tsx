@@ -46,7 +46,6 @@ class SingleBar extends React.Component<Props> {
 
         const topBarStyle = [this.style.topBar];
         if (this.props.active) {
-            console.log('active');
             topBarStyle.push(this.style.topBarActive);
             valuePercent += 0.10
         }
