@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Animated, Dimensions, Text, View } from 'react-native';
+import { Animated, Dimensions, Text, View, TouchableHighlightBase } from 'react-native';
 import moment from 'moment'
 import I18n from 'src/assets/translations';
 
@@ -17,7 +17,6 @@ import Events from 'src/service/Events';
 import { PlannerActions } from 'src/store/actions/planner';
 import { ModalActions } from 'src/store/actions/modal';
 import SetBarChart from 'src/components/Charts/SetBarChart/SetBarChart';
-import { sortSetsByDateFromSmall, sortSetsByDate } from 'src/models/Set';
 
 interface Props {
     dispatch: Dispatch;
@@ -47,7 +46,19 @@ class GoalInformationContent extends React.Component<Props, State> {
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
-        return nextProps.goalInformationModalVisible !== this.props.goalInformationModalVisible;
+        const currentSetsLength = this.props.goal ? this.props.goal.sets.length : 0;
+        const nextSetsLength = nextProps.goal ? nextProps.goal.sets.length : 0;
+
+        const should = nextProps.goalInformationModalVisible !== this.props.goalInformationModalVisible
+            || (nextProps.goal && this.props.goal && nextProps.goal.id !== this.props.goal.id)
+            || currentSetsLength !== nextSetsLength;
+
+        if (!should) {
+            console.log(nextProps.goal ? `next: ${nextProps.goal.sets.length}` : 'next non');
+            console.log(this.props.goal ? `current: ${this.props.goal.sets.length}` : 'curr non');
+        }
+
+        return should;
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -55,6 +66,7 @@ class GoalInformationContent extends React.Component<Props, State> {
             this.style = getStyle(nextProps.theme);
         }
 
+        console.log('will receive');
         this.emit(nextProps);
     }
 
@@ -88,19 +100,53 @@ class GoalInformationContent extends React.Component<Props, State> {
     }
 
     render() {
+        if (!this.props.goal) {
+            return null;
+        }
+
+        const { reps, weight, weightReps } = this.getHighest();
         return (
             <React.Fragment>
                 <ModalHeader text={this.props.goal.exercise.name} style={{ position: 'absolute', top: -45, opacity: this.opacity }} />
                 <View style={this.style.content}>
-                    <Text style={this.style.subtitle}>Wariant: {this.props.goal.exercise.exerciseVariant.name || '-'}</Text>
+                    <Text style={this.style.title}>Wariant: {this.props.goal.exercise.exerciseVariant.name || '-'}</Text>
+                    
 
-                    <View style={{position: 'absolute', bottom: 0, left: 0, right: 0}}>
-                        <SetBarChart sets={this.props.goal.sets} big/>
+                    <View style={{ position: 'absolute', left: 0, right: 0, bottom: 50 }}>
+                        <View style={{marginHorizontal: 20}}>
+                            <Text style={this.style.subtitle}>Rekord powtórzeń: {reps || '-'}</Text>
+                            <Text style={this.style.subtitle}>Rekord ciężaru: {weight || '-'} {!!weightReps ? `(${weightReps} reps)` : ''}</Text>
+                        </View>
+                        <SetBarChart sets={this.props.goal.sets} big />
                     </View>
                 </View>
                 <ModalFooter style={{ height: FOOTER_HEIGHT }} loading={false} successText={I18n.t('buttons.close')} onSuccess={this.onClose} />
             </React.Fragment>
         );
+    }
+
+    getHighest = () => {
+        let reps = 0;
+        let weight = 0;
+        let weightReps = 0;
+
+        this.props.goal.sets.forEach(set => {
+            const setValue = set.value ? set.value : (set.reps || set.time)
+            if (setValue && setValue > reps) {
+                reps = setValue;
+            }
+
+            if (set.weight && set.weight > weight) {
+                weight = set.weight;
+                weightReps = setValue || 0;
+            }
+        });
+
+        return {
+            reps,
+            weight,
+            weightReps
+        }
     }
 }
 

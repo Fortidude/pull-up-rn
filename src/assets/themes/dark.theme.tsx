@@ -89,9 +89,10 @@ const colors = {
     calendarTodayButtonBorderColor: 'transparent',
     calendarMediumDensityBackgroundColor: '#76D7C4',
     
-    barChartBackground: lightGreenColor,
-    barChartBackgroundActive: orangeColor,
-    barChartSubBackground: lightBlueColor,
+    barChartBackground: 'transparent',
+    barChartColor: lightGreenColor,
+    barChartColorActive: orangeColor,
+    barChartSubColor: lightBlueColor,
 
     linkSmallColor: '#FFF',
 

@@ -118,6 +118,6 @@ test('add Set to Goal with other Date', () => {
     expect(planner.trainings[0].goals[0].sets.length).toBe(0);
     PlannerMethods.addSetToGoal(set, planner, getMockedCurrentCircuit());
 
-    expect(planner.trainings[0].goals[0].sets.length).toBe(0);
+    expect(planner.trainings[0].goals[0].sets.length).toBe(1);
     expect(planner.trainings[0].goals[0].doneThisCircuit).toBe(0);
 });

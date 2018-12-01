@@ -13,7 +13,7 @@ function getStyle(theme: ThemeInterface, big?: boolean) {
         topContainer: {
             height: big ? TOP_BAR_BIG_HEIGHT : TOP_BAR_SMALL_HEIGHT,
             marginBottom: 3,
-            backgroundColor: 'white',
+            backgroundColor: theme.colors.barChartBackground,
             shadowColor: theme.colors.shadowColor,
             shadowOpacity: 0.20,
             shadowOffset: { width: 0, height: 3 },
@@ -22,17 +22,17 @@ function getStyle(theme: ThemeInterface, big?: boolean) {
         topBar: {
             position: 'absolute',
             bottom: 0,
-            width: big ? BAR_BIG_WIDTH - 2 : BAR_SMALL_WIDTH - 2,
+            width: big ? BAR_BIG_WIDTH : BAR_SMALL_WIDTH,
             alignItems: 'center',
             justifyContent: 'flex-end',
             borderWidth: theme.borders.borderWidth,
             borderColor: theme.borders.borderDarkColor,
-            backgroundColor: theme.colors.barChartBackground
+            backgroundColor: theme.colors.barChartColor
         },
         topBarActive: {
             width: big ? BAR_BIG_WIDTH + 2 : BAR_SMALL_WIDTH + 2,
-            marginLeft: -2,
-            backgroundColor: theme.colors.barChartBackgroundActive
+            marginLeft: -1,
+            backgroundColor: theme.colors.barChartColorActive
         },
         topBarText: {
             fontFamily: theme.fonts.mainFontFamily,
@@ -45,15 +45,13 @@ function getStyle(theme: ThemeInterface, big?: boolean) {
             marginTop: 3,
             width: big ? BAR_BIG_WIDTH : BAR_SMALL_WIDTH,
             height: big ? BOTTOM_BAR_BIG_HEIGHT : BOTTOM_BAR_SMALL_HEIGHT,
-            backgroundColor: 'white',
+            backgroundColor: theme.colors.barChartBackground,
             shadowColor: theme.colors.shadowColor,
             shadowOpacity: 0.20,
             shadowOffset: { width: 0, height: 3 },
             shadowRadius: 3
         },
         bottomContainerInactive: {
-            borderWidth: theme.borders.borderWidth,
-            borderColor: theme.borders.borderDarkColor,
             backgroundColor: 'transparent',
             shadowColor: 'transparent',
             shadowOpacity: 0,
@@ -67,7 +65,7 @@ function getStyle(theme: ThemeInterface, big?: boolean) {
             justifyContent: 'flex-start',
             borderColor: theme.borders.borderDarkColor,
             borderWidth: theme.borders.borderWidth,
-            backgroundColor: theme.colors.barChartSubBackground
+            backgroundColor: theme.colors.barChartSubColor
         },
         bottomBarText: {
             fontFamily: theme.fonts.mainFontFamily,

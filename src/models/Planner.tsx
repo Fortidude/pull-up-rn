@@ -38,9 +38,7 @@ class PlannerMethodsClass {
 
     addSetToGoal = (set: SetInterface, planner: PlannerInterface, currentCircuit: Circuit) => {
         const date = moment(set.date);
-        if (date.isBefore(moment(currentCircuit.startAt)) || date.isAfter(moment(currentCircuit.endAt))) {
-            return false;
-        }
+        
 
         let added = false;
         const goalId: string = typeof set.goal === 'string' ? set.goal : set.goal.id;
@@ -60,7 +58,9 @@ class PlannerMethodsClass {
                     goal.sets.push(set);
                     goal.sets.sort(sortSetsByDate);
 
-                    this.recountGoal(goal, set);
+                    if (!date.isBefore(moment(currentCircuit.startAt)) && !date.isAfter(moment(currentCircuit.endAt))) {
+                        this.recountGoal(goal, set);
+                    }
 
                     added = true;
                 }

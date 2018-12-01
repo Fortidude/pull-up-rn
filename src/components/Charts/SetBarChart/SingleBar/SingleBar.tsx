@@ -12,6 +12,7 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
 
+    isDayEnd?: boolean;
     big?: boolean;
     set: SetInterface;
     index: number;
@@ -38,7 +39,9 @@ class SingleBar extends React.Component<Props> {
     }
 
     render() {
-        let valuePercent = this.props.set.value ? (this.props.set.value / this.props.maxValue) : 0;
+        const setValue = this.props.set.value || this.props.set.reps || this.props.set.time || 0;
+
+        let valuePercent = setValue ? (setValue / this.props.maxValue) : 0;
         let weightPercent = this.props.set.weight ? (this.props.set.weight / this.props.maxWeight) : 0;
 
         const topBarHeight = this.props.big ? TOP_BAR_BIG_HEIGHT : TOP_BAR_SMALL_HEIGHT;
@@ -51,10 +54,10 @@ class SingleBar extends React.Component<Props> {
         }
 
         return (
-            <View style={this.style.container}>
+            <View style={[this.style.container, this.props.isDayEnd && {marginLeft: 15}]}>
                 <TouchableOpacity style={[this.style.topContainer]} onPress={() => this.props.onClick(this.props.index)}>
                     <View style={[topBarStyle, { height: topBarHeight * valuePercent }]}>
-                        <Text adjustsFontSizeToFit style={this.style.topBarText}>{this.props.set.value}</Text>
+                        <Text adjustsFontSizeToFit style={this.style.topBarText}>{setValue}</Text>
                     </View>
                 </TouchableOpacity>
                 <View style={[this.style.bottomContainer, weightPercent === 0 && this.style.bottomContainerInactive]}>

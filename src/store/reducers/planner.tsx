@@ -221,6 +221,10 @@ function planner(state = initialState, action: AnyAction): PlannerState {
             return Object.assign({}, initialState);
 
         case UserTypes.loadUserSuccess:
+            if (!action.payload.user.current_circuit) {
+                return state;
+            }
+            
             return Object.assign({}, state, { circuit: new Circuit(action.payload.user.current_circuit) })
 
         default:

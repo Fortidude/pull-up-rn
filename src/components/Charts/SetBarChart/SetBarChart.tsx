@@ -8,6 +8,7 @@ import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import { SetInterface, sortSetsByDate } from 'src/models/Set';
 import SingleBar from './SingleBar';
 import moment from 'moment';
+import data from 'src/api/data';
 
 interface Props {
     dispatch: Dispatch;
@@ -31,12 +32,16 @@ class SetBarChart extends React.Component<Props, State> {
         this.state = {
             activeSetKey: null
         }
+
+        this.props.sets.sort(sortSetsByDate);
     }
 
     componentWillReceiveProps(nextProps: Props) {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme, nextProps.big);
         }
+
+        this.props.sets.sort(sortSetsByDate);
     }
 
     onClick = (key: number) => {
@@ -59,8 +64,6 @@ class SetBarChart extends React.Component<Props, State> {
     }
 
     render() {
-        this.props.sets.sort(sortSetsByDate);
-
         let maxValue = 0;
         let maxWeight = 0;
 
@@ -69,6 +72,7 @@ class SetBarChart extends React.Component<Props, State> {
             maxWeight = set.weight && set.weight > maxWeight ? set.weight : maxWeight;
         })
 
+        let prevSetDay = '';
         return (
             <View style={this.style.container}>
                 {this.state.activeSetKey === null && <Text style={this.style.hourText}>Wybierz słupek, aby zobaczyć godzinę</Text>}
@@ -77,18 +81,24 @@ class SetBarChart extends React.Component<Props, State> {
                         {this.getDate(this.props.sets[this.state.activeSetKey])}
                     </Text>
                 }
-                <ScrollView horizontal style={this.style.scrollContainer}>
-                    {this.props.sets.map((set: SetInterface, key: number) =>
-                        <SingleBar
-                            key={key}
-                            index={key}
-                            big={this.props.big}
-                            maxValue={maxValue}
-                            maxWeight={maxWeight}
-                            onClick={this.onClick}
-                            active={this.state.activeSetKey === key}
-                            set={set} />
-                    )}
+                <ScrollView showsHorizontalScrollIndicator={false} horizontal style={this.style.scrollContainer}>
+                    {this.props.sets.map((set: SetInterface, key: number) => {
+                        const setDay = moment(set.date).format('DM');
+                        let isDayEnd = prevSetDay !== '' && setDay !== prevSetDay;
+                        prevSetDay = setDay;
+                        return (
+                            <SingleBar
+                                key={key}
+                                index={key}
+                                big={this.props.big}
+                                maxValue={maxValue}
+                                maxWeight={maxWeight}
+                                isDayEnd={isDayEnd}
+                                onClick={this.onClick}
+                                active={this.state.activeSetKey === key}
+                                set={set} />
+                        )
+                    })}
                 </ScrollView>
             </View>
         );
