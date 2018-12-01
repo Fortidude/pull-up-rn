@@ -109,13 +109,13 @@ class GoalInformationContent extends React.Component<Props, State> {
             <React.Fragment>
                 <ModalHeader text={this.props.goal.exercise.name} style={{ position: 'absolute', top: -45, opacity: this.opacity }} />
                 <View style={this.style.content}>
-                    <Text style={this.style.title}>Wariant: {this.props.goal.exercise.exerciseVariant.name || '-'}</Text>
-                    
+                    <Text style={this.style.title}>{I18n.t('mics.exercise_variant')}: {this.props.goal.exercise.exerciseVariant.name || '-'}</Text>
+
 
                     <View style={{ position: 'absolute', left: 0, right: 0, bottom: 50 }}>
-                        <View style={{marginHorizontal: 20}}>
-                            <Text style={this.style.subtitle}>Rekord powtórzeń: {reps || '-'}</Text>
-                            <Text style={this.style.subtitle}>Rekord ciężaru: {weight || '-'} {!!weightReps ? `(${weightReps} reps)` : ''}</Text>
+                        <View style={{ marginHorizontal: 20 }}>
+                            <Text style={this.style.subtitle}>{I18n.t('mics.reps_record')}: {reps || '-'}</Text>
+                            <Text style={this.style.subtitle}>{I18n.t('mics.weight_record')}: {weight || '-'} {!!weightReps ? `(x${weightReps})` : ''}</Text>
                         </View>
                         <SetBarChart sets={this.props.goal.sets} big />
                     </View>

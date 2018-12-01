@@ -3,12 +3,12 @@ import { Dispatch } from 'redux';
 import { Text, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
-import Styles, { BIG_HEIGHT, SMALL_HEIGHT } from './SetBarChart.styles';
+import I18n from 'src/assets/translations';
+import Styles from './SetBarChart.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import { SetInterface, sortSetsByDate } from 'src/models/Set';
 import SingleBar from './SingleBar';
 import moment from 'moment';
-import data from 'src/api/data';
 
 interface Props {
     dispatch: Dispatch;
@@ -75,7 +75,7 @@ class SetBarChart extends React.Component<Props, State> {
         let prevSetDay = '';
         return (
             <View style={this.style.container}>
-                {this.state.activeSetKey === null && <Text style={this.style.hourText}>Wybierz słupek, aby zobaczyć godzinę</Text>}
+                {this.state.activeSetKey === null && <Text style={this.style.hourText}>{ I18n.t('mics.pick_bar_to_check_time')}</Text>}
                 {this.state.activeSetKey !== null &&
                     <Text style={this.style.hourText}>
                         {this.getDate(this.props.sets[this.state.activeSetKey])}

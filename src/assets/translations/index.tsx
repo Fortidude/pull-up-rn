@@ -9,12 +9,17 @@ let translations = {
     pl: {
         mics: {
             circuit_end: "koniec",
+            exercise: "Ćwiczenie",
+            exercise_variant: "Wariant",
             days: "dni",
             effectiveness: "skuteczność",
+            filter: "Filtruj",
             left: "pozostało",
             of: "z",
-            filter: "Filtruj",
-            scroll_to_today: "Dzisiaj"
+            pick_bar_to_check_time: "Wybierz słupek, aby zobaczyć godzinę",
+            reps_record: "Rekord powtórzeń",
+            scroll_to_today: "Dzisiaj",
+            weight_record: "Rekord ciężaru"
         },
 
         login: {
