@@ -48,6 +48,10 @@ class Loader extends React.Component<Props, State> {
 	}
 
 	componentWillReceiveProps(nextProps: Props) {
+		if (nextProps.theme.name !== this.props.theme.name) {
+            this.style = Styles(nextProps.theme);
+        }
+
 		if (this.appIsReady(nextProps)) {
 			Animated.timing(this.state.loadingProgress, {
 				toValue: 100,
@@ -118,7 +122,7 @@ class Loader extends React.Component<Props, State> {
 					}
 				>
 					{fullScreenWhiteLayer}
-					<Animated.View style={[opacityClearToVisible, appScale, { flex: 1 }]}>
+					<Animated.View style={[opacityClearToVisible, appScale, this.style.containerStyle]}>
 						{this.props.children}
 					</Animated.View>
 				</MaskedViewIOS>

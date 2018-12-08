@@ -17,6 +17,10 @@ function getStyle(theme: ThemeInterface) {
         fullScreenWhiteLayer: {
             backgroundColor: 'white',
         },
+        containerStyle: {
+            flex: 1,
+            backgroundColor: theme.colors.backgroundColor
+        }
     };
 }
 

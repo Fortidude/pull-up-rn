@@ -26,6 +26,9 @@ const transitionConfig = () => {
         /**
          * This is optimized for this app.
          */
+        containerStyle: {
+            backgroundColor: 'transparent',
+        },  
         screenInterpolator: (sceneProps: any) => {
             const { position, layout, scene, index, scenes } = sceneProps
             const thisSceneIndex = scene.index
@@ -43,21 +46,26 @@ const transitionConfig = () => {
 
             const translateX = position.interpolate({
                 inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex + 1],
-                outputRange: [showTranslateX ? width : 0, 0, scene.index !== 0 ? -40 : 0]
+                outputRange: [showTranslateX ? width : 0, 0, scene.index !== 0 ? -100 : 0]
             });
 
             const translateY = position.interpolate({
                 inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex + 1],
-                outputRange: [showTranslateY ? height : 0, 0, (scene.index === 0) ? -40 : 0]
+                outputRange: [showTranslateY ? height : 0, 0, (scene.index === 0) ? -100 : 0]
             });
 
 
             const opacity = position.interpolate({
-                inputRange: [thisSceneIndex -1, thisSceneIndex, thisSceneIndex + 0.8],
+                inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex + 0.8],
                 outputRange: [0.5, 1, 0]
             });
 
-            return { transform: [{ translateX }, { translateY }], opacity: opacity };
+            const scale = position.interpolate({
+                inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex + 1],
+                outputRange: [isModal ? 1.1 : 1, 1, 0.8]
+            });
+
+            return { transform: [{ translateX }, { translateY }, { scale }], opacity: opacity };
         },
     }
 }

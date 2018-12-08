@@ -141,14 +141,13 @@ class GoalItem extends React.Component<Props, State> {
     }
 
     onLeftSwipeRelease = () => {
+
+        this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
+        this.props.dispatch(ModalActions.goalInformationOpen(0,0));
+        
         //@ts-ignore
-        this.refs.leftSwipeIconComponent.measure((x, y, width, height, windowX, windowY) => {
-            this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
-            this.props.dispatch(ModalActions.goalInformationOpen(windowX, windowY));
-            if (this.props.onGoalSwipeRelease) {
-                this.props.onGoalSwipeRelease(this.props.goal.id, windowX / 2, windowY);
-            }
-        })
+         this.refs.leftSwipeIconComponent.measure((x, y, width, height, windowX, windowY) => {
+         })
     }
 
     render() {
