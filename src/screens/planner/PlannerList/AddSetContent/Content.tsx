@@ -1,24 +1,18 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Animated, Text, View, TextInput, ScrollView, Keyboard } from 'react-native';
+import { Text, View, TextInput, ScrollView, Keyboard } from 'react-native';
 import moment from 'moment'
 import I18n from 'src/assets/translations';
 
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 
-import ModalFooter from 'src/components/ModalManager/ModalFooter/ModalFooter';
-import ModalHeader from 'src/components/ModalManager/ModalHeader/ModalHeader';
-import { FOOTER_HEIGHT } from 'src/components/FooterBar/FooterBar.styles';
-
-import Set from 'src/models/Set';
 import Goal from 'src/models/Goal';
 
 import getStyle from './Content.styles';
 import Input from 'src/components/Input';
 import DateTimeInput from 'src/components/DateTimeInput/DateTimeInput';
 import Events from 'src/service/Events';
-import { ModalActions } from 'src/store/actions/modal';
 import { PlannerActions } from 'src/store/actions/planner';
 
 interface Props {
@@ -27,8 +21,6 @@ interface Props {
     goal: Goal,
     createSetLoading: boolean;
     addSetModalVisible: boolean;
-
-    onClose: () => void;
 };
 
 interface State {
@@ -60,7 +52,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        if (this.props.addSetModalVisible) {
+        if (this.props.goal) {
             this.emit(this.props);
         }
 
@@ -82,8 +74,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
     }
 
     emit = (props: Props) => {
-        if (props.goal && props.addSetModalVisible) {
-            console.log('goooo');
+        if (props.goal) {
             Events.emit('HEADER_OVERWRITE_TITLE', '');
             Events.emit('FOOTER_BAR_CLOSE');
             Events.emit('FULLSCREEN_MODAL_VISIBLE');
@@ -113,20 +104,20 @@ class GoalCreateSetContent extends React.Component<Props, State> {
     }
 
     onCancel = () => {
-        if (!this.props.addSetModalVisible) {
+        if (!this.props.goal) {
             return;
         }
-        this.props.dispatch(ModalActions.addSetClose());
-        this.props.dispatch(PlannerActions.selectGoal(null));
-        this.props.onClose();
+
+        this.props.dispatch(PlannerActions.selectGoalToAddSet(null));
         Keyboard.dismiss();
     }
 
     onSuccess = () => {
-        if (!this.state.value || this.props.createSetLoading || !this.props.addSetModalVisible) {
+        if (!this.state.value || this.props.createSetLoading || !this.props.goal) {
             return;
         }
 
+        this.props.dispatch(PlannerActions.selectGoalToAddSet(null));
         this.props.dispatch(PlannerActions.createSet(
             this.props.goal,
             this.state.value,
@@ -135,8 +126,6 @@ class GoalCreateSetContent extends React.Component<Props, State> {
         ));
 
         this.clear();
-        this.props.dispatch(PlannerActions.selectGoal(null));
-        this.props.onClose();
     }
 
     render() {
@@ -198,7 +187,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    goal: state.planner.goalSelected,
+    goal: state.planner.goalToAddSetSelected,
     addSetModalVisible: state.modal.addSetModalVisible,
     createSetLoading: state.planner.createSetLoading,
 });

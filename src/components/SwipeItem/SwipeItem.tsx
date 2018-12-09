@@ -16,6 +16,7 @@ interface Props {
     leftSwipeReleaseCallback?: () => void;
     leftSwipeWidth?: number;
 
+    disable?: boolean;
     animateOut?: boolean;
 
     onMoveBegin?: () => void;
@@ -205,11 +206,15 @@ class SwipeItem extends React.Component<Props, State> {
             },
 
             onPanResponderGrant: () => {
-                if (this.props.onMoveBegin) {
+                if (this.props.onMoveBegin && !this.props.disable) {
                     this.props.onMoveBegin();
                 }
             },
             onPanResponderMove: (evt, { moveX, moveY, dx, dy }) => {
+                if (this.props.disable) {
+                    return;
+                }
+
                 const value = Math.round(dx + this.offset);
                 this.state.swipePosition.setValue(value);
 
@@ -224,6 +229,10 @@ class SwipeItem extends React.Component<Props, State> {
                 }
             },
             onPanResponderRelease: () => {
+                if (this.props.disable) {
+                    return;
+                }
+
                 if (this.props.onMoveEnd) {
                     this.props.onMoveEnd();
                 }

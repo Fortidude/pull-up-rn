@@ -10,6 +10,9 @@ function getStyle(theme: ThemeInterface) {
             height: 70,
             flexDirection: 'row'
         },
+        mockContainer: {
+            backgroundColor: theme.colors.cardBackgroundColor
+        },
         plusIconContainer: {
             flex: 2,
             height: 71,
@@ -21,6 +24,9 @@ function getStyle(theme: ThemeInterface) {
         plusIconView: {
             marginLeft: -22,
             transform: [{ rotate: '45deg' }]
+        },
+        mockPlusIconView: {
+            marginLeft: -22
         },
         summaryContent: {
             height: 70,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { LayoutAnimation, View } from 'react-native';
+import { LayoutAnimation, View, Animated } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './TrainingSection.styles';
@@ -22,7 +22,7 @@ interface Props {
     training: Training
     isFirst?: boolean;
 
-    onGoalClick?: (positionX: number, positionY: number) => void;
+    onGoalClick: () => void;
     toggleParentScroll?: (enable: boolean) => void,
 }
 
@@ -99,8 +99,8 @@ class TrainingSection extends React.Component<Props, State> {
                         {this.props.training.goals.map((goal, key) => {
                             if (!goal.removed) {
                                 return (<GoalItem
+                                    onGoalClick={this.props.onGoalClick}
                                     onMoveToSection={this.moveGoalToSection}
-                                    onPress={this.props.onGoalClick}
                                     toggleParentScroll={this.props.toggleParentScroll}
                                     isToggled={this.state.toggled}
                                     goal={goal}

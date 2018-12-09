@@ -12,7 +12,6 @@ import PickerModal from './Modals/PickerModal';
 import DateTimePickerModal from './Modals/DateTimePickerModal/DateTimePickerModal';
 
 import GoalInformationModal from './FullScreenModals/GoalInformationModal';
-import GoalCreateSetModal from './FullScreenModals/GoalCreateSetModal';
 import CreateGoalModal from './FullScreenModals/CreateGoalModal';
 
 const HEIGHT = Dimensions.get('window').height;
@@ -38,7 +37,6 @@ interface State {
     datetimePickerModal: boolean;
     datetimePickerOptions: any;
 
-    modalCreateSetOpenProgress: Animated.Value;
     modalCreateGoalOpenProgress: Animated.Value;
     modalInformationOpenProgress: Animated.Value;
 }
@@ -81,32 +79,9 @@ class ModalManager extends React.Component<Props, State> {
             datetimePickerModal: false,
             datetimePickerOptions: {},
 
-            modalCreateSetOpenProgress: new Animated.Value(0),
             modalCreateGoalOpenProgress: new Animated.Value(0),
             modalInformationOpenProgress: new Animated.Value(0)
         }
-    }
-
-    componentWillMount() {
-        let keyboardShowEvent = "keyboardDidShow";
-        let keyboardHideEvent = "keyboardDidHide";
-        if (Platform.OS === 'ios') {
-            keyboardShowEvent = "keyboardWillShow";
-            keyboardHideEvent = "keyboardWillHide";
-        }
-
-        //   this.keyboardDidShowListener = Keyboard.addListener(keyboardShowEvent, this._keyboardDidShow);
-        //   this.keyboardDidHideListener = Keyboard.addListener(keyboardHideEvent, this._keyboardDidHide);
-    }
-
-    componentWillUnmount() {
-        // if (this.keyboardDidShowListener) {
-        //     this.keyboardDidShowListener.remove();
-        // }
-
-        // if (this.keyboardDidHideListener) {
-        //     this.keyboardDidHideListener.remove();
-        // }
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
@@ -115,7 +90,6 @@ class ModalManager extends React.Component<Props, State> {
             || nextProps.modal.datetimePickerModalVisible !== this.props.modal.datetimePickerModalVisible
             || nextProps.modal.pickerModalVisible !== this.props.modal.pickerModalVisible
             
-            || nextProps.modal.addSetModalVisible !== this.props.modal.addSetModalVisible
             || nextProps.modal.goalInformationModalVisible !== this.props.modal.goalInformationModalVisible
             || nextProps.modal.goalCreateModalVisible !== this.props.modal.goalCreateModalVisible
             
@@ -143,10 +117,6 @@ class ModalManager extends React.Component<Props, State> {
 
         if (this.state.showOverlay) {
             this.hideModal();
-        }
-
-        if (nextProps.modal.addSetModalVisible) {
-            this.openFullScreenModal(this.state.modalCreateSetOpenProgress);
         }
 
         if (nextProps.modal.goalInformationModalVisible) {
@@ -218,11 +188,6 @@ class ModalManager extends React.Component<Props, State> {
                 useNativeDriver: true,
                 ...CLOSE_MODAL_ANIMATION_OPTION
             }),
-            Animated.timing(this.state.modalCreateSetOpenProgress, {
-                toValue: 0,
-                useNativeDriver: true,
-                ...CLOSE_MODAL_ANIMATION_OPTION
-            }),
             Animated.timing(this.state.modalCreateGoalOpenProgress, {
                 toValue: 0,
                 useNativeDriver: true,
@@ -250,13 +215,6 @@ class ModalManager extends React.Component<Props, State> {
                         positionX={this.props.modal.positionX}
                         positionY={this.props.modal.positionY}
                         openProgress={this.state.modalInformationOpenProgress}
-                        onClose={this.closeFullScreenModals}
-                    />
-
-                    <GoalCreateSetModal
-                        positionX={this.props.modal.positionX}
-                        positionY={this.props.modal.positionY}
-                        openProgress={this.state.modalCreateSetOpenProgress}
                         onClose={this.closeFullScreenModals}
                     />
 

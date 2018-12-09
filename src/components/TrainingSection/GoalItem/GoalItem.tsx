@@ -16,6 +16,8 @@ import SwipeItem from 'src/components/SwipeItem';
 import { ModalActions } from 'src/store/actions/modal';
 import { PlannerActions } from 'src/store/actions/planner';
 import moment from 'moment';
+import { HEADER_HEIGHT } from 'src/components/Header/Header.styles';
+import GoalItemAddSet from './GoalItemAddSet';
 
 interface Props {
     dispatch: Dispatch;
@@ -24,15 +26,16 @@ interface Props {
     plannerCustomMode: boolean;
 
     goal: Goal;
+    goalToAddSetSelected: Goal | null;
 
     isToggled: boolean;
+    onGoalClick: () => void;
     toggleParentScroll?: (enable: boolean) => void;
-    onGoalSwipeRelease?: (...props: any) => void;
     onMoveToSection: (goalId: string, onPickCallback?: () => void, onDispatchCallback?: () => void) => void;
-    onPress?: (positionX: number, positionY: number) => void;
 }
 
 interface State {
+    mockContent: boolean;
     animeteOut: boolean;
     goal: Goal;
 }
@@ -45,11 +48,16 @@ class GoalItem extends React.Component<Props, State> {
     swipeItemPosition = new Animated.Value(0);
     progressPercent = new Animated.Value(0);
 
+    mockTranslateY = new Animated.Value(0);
+    mockVisible = new Animated.Value(0);
+    mockAnimateInProgress = false;
+
     constructor(props: Props) {
         super(props);
 
         this.style = Styles(this.props.theme);
         this.state = {
+            mockContent: false,
             animeteOut: false,
             goal: Object.assign({}, props.goal)
         }
@@ -80,6 +88,23 @@ class GoalItem extends React.Component<Props, State> {
         } else if (!nextProps.plannerEditMode && this.props.plannerEditMode) {
             this.swipeItemRef.forceClose();
         }
+
+        /**
+         * ON CLOSE - ANIMATION CLOSE
+         */
+        if (this.state.mockContent && !this.mockAnimateInProgress
+            && ((!nextProps.goalToAddSetSelected)
+                || (nextProps.goalToAddSetSelected && nextProps.goalToAddSetSelected.id !== this.state.goal.id))
+        ) {
+            this.mockAnimateInProgress = true;
+            this.props.toggleParentScroll && this.props.toggleParentScroll(true);
+            setTimeout(() => {
+                Animated.parallel([
+                    Animated.timing(this.mockVisible, { toValue: 0,  useNativeDriver: true }),
+                    Animated.timing(this.mockTranslateY, { toValue: 0, duration: 400, useNativeDriver: true })
+                ]).start(() => this.setState({ mockContent: false }, () => this.mockAnimateInProgress = false));
+           }, 100);
+        }
     }
 
     componentDidUpdate() {
@@ -95,14 +120,16 @@ class GoalItem extends React.Component<Props, State> {
     }
 
     onAddSetPress = () => {
-        //@ts-ignore
-        this.refs.touchableButton.measure((x, y, width, height, windowX, windowY) => {
-            this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
-            this.props.dispatch(ModalActions.addSetOpen(windowX, windowY));
-
-            if (this.props.onPress) {
-                this.props.onPress(windowX, windowY);
-            }
+        this.props.toggleParentScroll && this.props.toggleParentScroll(false);
+        this.props.dispatch(PlannerActions.selectGoalToAddSet(this.props.goal));
+        this.setState({ mockContent: true }, () => {
+            //@ts-ignore
+            this.refs.element.measure((x, y, width, height, windowX, windowY) => {
+                Animated.parallel([
+                    Animated.spring(this.mockTranslateY, { toValue: -windowY + HEADER_HEIGHT, useNativeDriver: true }),
+                    Animated.timing(this.mockVisible, { toValue: 1, useNativeDriver: true })
+                ]).start(() => this.props.onGoalClick());
+            });
         })
     }
 
@@ -110,7 +137,7 @@ class GoalItem extends React.Component<Props, State> {
         const goal = this.props.goal;
         Animated.timing(this.progressPercent, {
             toValue: goal.requiredType !== 'none' ? (goal.doneThisCircuit / goal.requiredAmount) * 100 : 0,
-            delay: 300
+            delay: 500
         }).start();
     }
 
@@ -141,17 +168,17 @@ class GoalItem extends React.Component<Props, State> {
     }
 
     onLeftSwipeRelease = () => {
-
         this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
-        this.props.dispatch(ModalActions.goalInformationOpen(0,0));
-        
+        this.props.dispatch(ModalActions.goalInformationOpen(0, 0));
+
         //@ts-ignore
-         this.refs.leftSwipeIconComponent.measure((x, y, width, height, windowX, windowY) => {
-         })
+        // this.refs.leftSwipeIconComponent.measure((x, y, width, height, windowX, windowY) => {
+
+        // })
     }
 
     render() {
-        let goal = this.state.goal;
+        let { goal, mockContent } = this.state;
         const rightButtons = [
             <TouchableOpacity onPress={this.onMoveToOtherSection} style={[this.style.buttonReorderContainer]}>
                 <Icon name="exchange-alt" solid={true} style={this.style.iconReorder} />
@@ -173,6 +200,42 @@ class GoalItem extends React.Component<Props, State> {
             </View>
         );
 
+        const summaryContent = this._getSummaryContent(goal);
+
+        return (
+            <SwipeItem style={this.style.swipeout}
+                disable={this.state.mockContent}
+                animateOut={this.state.animeteOut}
+                ref={ref => this.swipeItemRef = ref}
+                rightButtons={rightButtons}
+                leftSwipe={leftSwipe}
+                leftSwipeReached={leftSwipeReached}
+                leftSwipeReleaseCallback={this.onLeftSwipeRelease}
+                onMoveBegin={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(false) : null}
+                onMoveEnd={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(true) : null}
+            >
+
+                <View ref="element"></View>
+                {!mockContent && <TouchableOpacity style={this.style.exerciseContainer} onPress={this.onAddSetPress}>
+                    <View style={this.style.plusIconContainer}>
+                        <View style={this.style.plusIconView}>
+                            <EvilIcon name="close" color={this.props.theme.colors.main} size={42} />
+                        </View>
+                    </View>
+                    {summaryContent}
+                </TouchableOpacity>}
+
+                {mockContent && <GoalItemAddSet
+                    visibleAnimation={this.mockVisible}
+                    summaryContentTranslateY={this.mockTranslateY}
+                >
+                    {summaryContent}
+                </GoalItemAddSet>}
+            </SwipeItem>
+        );
+    }
+
+    _getSummaryContent = (goal: Goal) => {
         const summaryContentLeft = this.swipeItemPosition.interpolate({
             inputRange: [-100, 0],
             outputRange: [50, 0],
@@ -193,56 +256,38 @@ class GoalItem extends React.Component<Props, State> {
         })
 
         return (
-            <SwipeItem style={this.style.swipeout}
-                animateOut={this.state.animeteOut}
-                ref={ref => this.swipeItemRef = ref}
-                rightButtons={rightButtons}
-                leftSwipe={leftSwipe}
-                leftSwipeReached={leftSwipeReached}
-                leftSwipeReleaseCallback={this.onLeftSwipeRelease}
-                onMoveBegin={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(false) : null}
-                onMoveEnd={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(true) : null}
-            >
-                <TouchableOpacity ref="touchableButton" style={this.style.exerciseContainer} onPress={this.onAddSetPress}>
-                    <View style={this.style.plusIconContainer}>
-                        <View style={this.style.plusIconView}>
-                            <EvilIcon name="close" color={this.props.theme.colors.main} size={42} />
-                        </View>
+            <View style={this.style.summaryContent}>
+                <Animated.View style={[this.style.summaryLeftContent, { transform: [{ translateX: summaryContentLeft }] }]}>
+                    <Text style={this.style.title}>{goal.exercise.name} </Text>
+                    {!!goal.exercise.exerciseVariant.name && <Text style={this.style.subTitle}>{goal.exercise.exerciseVariant.name} </Text>}
+                </Animated.View>
+                <Animated.View style={[this.style.summaryRightContent, { opacity: opacityContentRight }]}>
+                    <View style={this.style.infoTitleTopContainer}>
+                        {goal.requiredType !== 'none' && <Text style={[this.style.infoTitleTop, { flex: 3 }]} numberOfLines={1}>{I18n.t(`planner.types.${goal.requiredType}`)}: </Text>}
+                        {goal.requiredType === 'none' && <Text style={[this.style.infoTitleTop, { flex: 3 }]} numberOfLines={1}>{I18n.t(`planner.types.reps`)}: </Text>}
+                        <Text style={[this.style.infoTitleTop, { flex: 2, textAlign: 'right' }]} numberOfLines={1}>
+                            {this.props.goal.doneThisCircuit}
+                            {!!this.props.goal.requiredAmount && <Text> / {this.props.goal.requiredAmount}</Text>}
+                        </Text>
                     </View>
-                    <View style={this.style.summaryContent}>
-                        <Animated.View style={[this.style.summaryLeftContent, { transform: [{ translateX: summaryContentLeft }] }]}>
-                            <Text style={this.style.title}>{goal.exercise.name} </Text>
-                            {!!goal.exercise.exerciseVariant.name && <Text style={this.style.subTitle}>{goal.exercise.exerciseVariant.name} </Text>}
-                        </Animated.View>
-                        <Animated.View style={[this.style.summaryRightContent, { opacity: opacityContentRight }]}>
-                            <View style={this.style.infoTitleTopContainer}>
-                                {goal.requiredType !== 'none' && <Text style={[this.style.infoTitleTop, { flex: 3 }]} numberOfLines={1}>{I18n.t(`planner.types.${goal.requiredType}`)}: </Text>}
-                                {goal.requiredType === 'none' && <Text style={[this.style.infoTitleTop, { flex: 3 }]} numberOfLines={1}>{I18n.t(`planner.types.reps`)}: </Text>}
-                                <Text style={[this.style.infoTitleTop, { flex: 2, textAlign: 'right' }]} numberOfLines={1}>
-                                    {this.props.goal.doneThisCircuit}
-                                    {!!this.props.goal.requiredAmount && <Text> / {this.props.goal.requiredAmount}</Text>}
-                                </Text>
-                            </View>
-                            {false && <View style={this.style.infoTitleBottomContainer}>
-                                <Text style={[this.style.infoTitleBottom, { flex: 1 }]}>{I18n.t('planner.type')}: </Text>
-                                <Text style={[this.style.infoTitleBottom, { flex: 2, textAlign: 'right' }]} numberOfLines={1}>{I18n.t(`planner.types.${goal.requiredType}`)} </Text>
-                            </View>}
-                            <View style={this.style.infoTitleBottomContainer}>
-                                {this.props.plannerCustomMode && <View style={this.style.infoTitleBottomContainerTimeAgo}>
-                                    <EvilIcon name="clock" size={this.props.theme.fonts.fontSize} color={this.props.theme.colors.subTextColor} />
-                                    <Text style={[this.style.infoTitleBottom, { textAlign: 'left', marginLeft: 5 }]} numberOfLines={1}>{moment.parseZone(this.props.goal.lastSetAdded).startOf('minute').fromNow()} </Text>
-                                </View>}
-                                {!this.props.plannerCustomMode && <View style={this.style.infoTitleBottomContainerTimeAgo}>
-                                    <EvilIcon name="tag" size={this.props.theme.fonts.fontSize} color={this.props.theme.colors.subTextColor} />
-                                    <Text style={[this.style.infoTitleBottom, { textAlign: 'left', marginLeft: 5 }]} numberOfLines={1}>{this.props.goal.trainingName.toLocaleLowerCase()} </Text>
-                                </View>}
-                            </View>
-                        </Animated.View>
-                        <Animated.View style={[this.style.progressBar, { width: progressWidth }]}></Animated.View>
+                    {false && <View style={this.style.infoTitleBottomContainer}>
+                        <Text style={[this.style.infoTitleBottom, { flex: 1 }]}>{I18n.t('planner.type')}: </Text>
+                        <Text style={[this.style.infoTitleBottom, { flex: 2, textAlign: 'right' }]} numberOfLines={1}>{I18n.t(`planner.types.${goal.requiredType}`)} </Text>
+                    </View>}
+                    <View style={this.style.infoTitleBottomContainer}>
+                        {this.props.plannerCustomMode && <View style={this.style.infoTitleBottomContainerTimeAgo}>
+                            <EvilIcon name="clock" size={this.props.theme.fonts.fontSize} color={this.props.theme.colors.subTextColor} />
+                            <Text style={[this.style.infoTitleBottom, { textAlign: 'left', marginLeft: 5 }]} numberOfLines={1}>{moment.parseZone(this.props.goal.lastSetAdded).startOf('minute').fromNow()} </Text>
+                        </View>}
+                        {!this.props.plannerCustomMode && <View style={this.style.infoTitleBottomContainerTimeAgo}>
+                            <EvilIcon name="tag" size={this.props.theme.fonts.fontSize} color={this.props.theme.colors.subTextColor} />
+                            <Text style={[this.style.infoTitleBottom, { textAlign: 'left', marginLeft: 5 }]} numberOfLines={1}>{this.props.goal.trainingName.toLocaleLowerCase()} </Text>
+                        </View>}
                     </View>
-                </TouchableOpacity>
-            </SwipeItem>
-        );
+                </Animated.View>
+                <Animated.View style={[this.style.progressBar, { width: progressWidth }]}></Animated.View>
+            </View>
+        )
     }
 }
 
@@ -250,7 +295,8 @@ const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
     plannerEditMode: state.app.plannerEditMode,
-    plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false
+    plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false,
+    goalToAddSetSelected: state.planner.goalToAddSetSelected
 });
 
 export default connect(mapStateToProps)(GoalItem);

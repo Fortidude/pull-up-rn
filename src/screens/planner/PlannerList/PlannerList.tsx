@@ -24,6 +24,7 @@ import Events from 'src/service/Events';
 
 import { CLOSE_MODAL_ANIMATION_OPTION, OPEN_MODAL_ANIMATION_OPTION_SLOW, CLOSE_MODAL_ANIMATION_OPTION_SLOW } from 'src/components/ModalManager/ModalManager';
 import { ModalActions } from 'src/store/actions/modal';
+import AddSetContainer from './AddSetContainer';
 
 
 interface Props {
@@ -105,6 +106,10 @@ class PlannerList extends React.Component<Props, State> {
         })
     }
 
+    handleOnClick = () => {
+        
+    }
+
     refresh = () => {
         this.props.dispatch(ExerciseActions.loadExercises());
         this.loadPlanner();
@@ -148,6 +153,8 @@ class PlannerList extends React.Component<Props, State> {
 
         return (
             <React.Fragment>
+                <AddSetContainer/>
+
                 {!this.state.refreshing && <Animated.View style={[this.style.refreshingProgressBar, { backgroundColor: backgroundColor, width: refreshIndicatorWidth }]}></Animated.View>}
                 {this.state.refreshing && <Animated.View style={[this.style.refreshingIndicator, { opacity: indicatorOpacity }]}><Spinner /></Animated.View>}
                 <View style={this.style.listContainer}>
@@ -172,6 +179,7 @@ class PlannerList extends React.Component<Props, State> {
                             }
 
                             return <GoalList
+                                onGoalClick={this.handleOnClick}
                                 toggleParentScroll={(enable: boolean) => {
                                     this.flatListReference.getScrollResponder().setNativeProps({ scrollEnabled: enable })
                                 }}

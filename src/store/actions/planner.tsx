@@ -22,6 +22,7 @@ export enum PlannerTypes {
 
     selectGoal = '[PLANNER] SELECT GOAL',
     selectSection = '[PLANNER] SELECT SECTION',
+    selectGoalToAddSet = '[PLANNER] SELECT GOAL TO ADD SET',
 
     createSet = '[PLANNER] CREATE SET',
     createSetLoading = '[PLANNER] CREATE SET LOADING',
@@ -100,6 +101,10 @@ export const PlannerActions = {
     selectSection: (sectionName: string | null) => ({
         type: PlannerTypes.selectSection,
         payload: { sectionName }
+    }),
+    selectGoalToAddSet: (goal: Goal | null) => ({
+        type: PlannerTypes.selectGoalToAddSet,
+        payload: { goal }
     }),
 
     createSet: (goal: Goal, value: number, extraWeight: number | null, date?: moment.Moment) => ({

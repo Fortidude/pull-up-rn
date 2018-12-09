@@ -2,7 +2,7 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Animated, Dimensions, Text, View, TouchableHighlightBase } from 'react-native';
-import moment from 'moment'
+import moment, { relativeTimeRounding } from 'moment'
 import I18n from 'src/assets/translations';
 
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
@@ -45,20 +45,13 @@ class GoalInformationContent extends React.Component<Props, State> {
         }
     }
 
-    shouldComponentUpdate(nextProps: Props, nextState: State) {
+    shouldComponentUpdate(nextProps: Props) {
         const currentSetsLength = this.props.goal ? this.props.goal.sets.length : 0;
         const nextSetsLength = nextProps.goal ? nextProps.goal.sets.length : 0;
 
-        const should = nextProps.goalInformationModalVisible !== this.props.goalInformationModalVisible
+        return nextProps.goalInformationModalVisible !== this.props.goalInformationModalVisible
             || (nextProps.goal && this.props.goal && nextProps.goal.id !== this.props.goal.id)
             || currentSetsLength !== nextSetsLength;
-
-        if (!should) {
-            console.log(nextProps.goal ? `next: ${nextProps.goal.sets.length}` : 'next non');
-            console.log(this.props.goal ? `current: ${this.props.goal.sets.length}` : 'curr non');
-        }
-
-        return should;
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -66,7 +59,6 @@ class GoalInformationContent extends React.Component<Props, State> {
             this.style = getStyle(nextProps.theme);
         }
 
-        console.log('will receive');
         this.emit(nextProps);
     }
 

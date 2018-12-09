@@ -29,6 +29,7 @@ interface PlannerState {
     statisticsLoaded: boolean;
 
     goalSelected: Goal | null;
+    goalToAddSetSelected: Goal | null;
     sectionName: string | null;
 
     createSetLoading: boolean;
@@ -57,6 +58,7 @@ export const initialState: PlannerState = {
     statisticsLoaded: false,
 
     goalSelected: null,
+    goalToAddSetSelected: null,
     sectionName: null,
 
     createSetLoading: false,
@@ -139,6 +141,9 @@ function planner(state = initialState, action: AnyAction): PlannerState {
          */
         case PlannerTypes.selectGoal:
             return Object.assign({}, state, { goalSelected: action.payload.goal });
+
+        case PlannerTypes.selectGoalToAddSet:
+            return Object.assign({}, state, { goalToAddSetSelected: action.payload.goal });
 
         case PlannerTypes.selectSection:
             return Object.assign({}, state, { sectionName: action.payload.sectionName })
