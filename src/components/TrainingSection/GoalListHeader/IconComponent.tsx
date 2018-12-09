@@ -121,7 +121,7 @@ class IconComponent extends React.Component<Props, State> {
                     size={40}
                     color={this.props.active ? this.props.theme.colors.textColor : this.props.theme.colors.main}
                     name={"chevron-down"} />}
-                {this.state.iconPlus && <EvilIcon
+                {this.state.iconPlus && this.props.plannerCustomMode && <EvilIcon
                     size={20}
                     style={{ marginTop: 15, marginRight: 7 }}
                     color={this.props.theme.colors.main}

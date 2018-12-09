@@ -24,8 +24,8 @@ interface NewGoalApiRequestDataStructureInterface {
     name: string;
     description: string;
     exercise: string;
-    exerciseVariant: string | null;
-    noSpecifiedGoal: boolean;
+    exercise_variant: string | null;
+    no_specified_goal: boolean;
     sets?: number;
     reps?: number;
     time?: number;
@@ -107,8 +107,8 @@ const mapNewGoalInterfaceToApiRequestDataStructure = (data: NewGoalInterface): N
         name: data.name,
         description: data.description || "empty",
         exercise: data.exercise.id,
-        exerciseVariant: data.exerciseVariant ? data.exerciseVariant.id : null,
-        noSpecifiedGoal: type === null,
+        exercise_variant: data.exerciseVariant ? data.exerciseVariant.id : null,
+        no_specified_goal: type === null,
         sets: type === 'sets' && data.requiredAmount ? data.requiredAmount : undefined,
         reps: type === 'reps' && data.requiredAmount ? data.requiredAmount : undefined,
         time: type === 'time' && data.requiredAmount ? data.requiredAmount : undefined,

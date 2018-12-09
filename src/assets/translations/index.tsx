@@ -19,7 +19,8 @@ let translations = {
             pick_bar_to_check_time: "Wybierz słupek, aby zobaczyć godzinę",
             reps_record: "Rekord powtórzeń",
             scroll_to_today: "Dzisiaj",
-            weight_record: "Rekord ciężaru"
+            weight_record: "Rekord ciężaru",
+            your_trainings: "Lista utworzonych treningów",
         },
 
         login: {
@@ -78,6 +79,7 @@ let translations = {
 
         planner: {
             add_first_training: "Dodaj swój pierwszy trening",
+            add_training_title_information: `Nazwą treningu może być dzień tygodnia ("Poniedziałek") lub typ ćwiczeń, np. "Trening Pull" czy "Trening nóg"`,
             done_of: "Zrobiono",
             other: "Pozostałe",
             custom_mode: {

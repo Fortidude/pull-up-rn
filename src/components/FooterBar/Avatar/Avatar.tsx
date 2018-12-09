@@ -2,7 +2,11 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { StyleSheet, TouchableOpacity, Image, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
+
+//@ts-ignore
+import AntIcon from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
 import I18n from 'src/assets/translations';
 
 import Styles from './Avatar.styles';
@@ -69,8 +73,16 @@ class Avatar extends React.Component<Props, State> {
     }
 
     onPress = () => {
-        if (this.props.plannerEditMode) {
+        if (this.props.plannerEditMode && this.props.plannerCustomMode) {
             this.props.dispatch(NavigationActions.navigate({ routeName: 'AddTraining' }));
+            return;
+        }
+
+        if (this.props.plannerEditMode && !this.props.plannerCustomMode) {
+            //@ts-ignore
+            this.refs.avatar.measure((x, y, width, height, windowX, windowY) => {
+                this.props.dispatch(ModalActions.goalCreateOpen(windowX, windowY));
+            })
             return;
         }
 
@@ -90,9 +102,14 @@ class Avatar extends React.Component<Props, State> {
             extraSyles = { borderColor: 'transparent', borderWidth: 10 }
         }
 
+        const opacity = this.scaleValue.interpolate({
+            inputRange: [1, 10],
+            outputRange: [1, 0]
+        })
+
         return (
-            <TouchableOpacity onPress={this.onPress}>
-                <Animated.View style={[this.style.footerAvatar, extraSyles, { transform: [{ scale: this.scaleValue }] }]}>
+            <TouchableOpacity ref="avatar" onPress={this.onPress}>
+                <Animated.View style={[this.style.footerAvatar, extraSyles, { opacity: opacity, transform: [{ scale: this.scaleValue }] }]}>
                     {this.state.component}
                 </Animated.View>
             </TouchableOpacity>
@@ -101,7 +118,7 @@ class Avatar extends React.Component<Props, State> {
 
     processAnimate = (props: Props) => {
         if (!props.plannerCustomMode) {
-            return;
+            //    return;
         }
 
         Animated.timing(this.scaleValue, {
@@ -130,10 +147,10 @@ class Avatar extends React.Component<Props, State> {
             }
         }
 
-        if (props.plannerEditMode && props.plannerCustomMode) {
+        if (props.plannerEditMode) {
             return {
                 name: 'plus',
-                component: <Icon name="plus" style={[this.style.icon]} size={40} />
+                component: <AntIcon name="plus" style={[this.style.icon, {marginTop: 3}]} size={50} />
             }
         }
 

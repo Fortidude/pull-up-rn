@@ -12,11 +12,13 @@ import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import Training from 'src/models/Training';
 import { ModalActions } from 'src/store/actions/modal';
 import { PlannerActions } from '../../store/actions/planner';
+import { SectionInterface } from 'src/models/Section';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     plannerEditMode: boolean;
+    plannerCustomMode: boolean;
     sections: string[];
 
     training: Training
@@ -62,6 +64,10 @@ class TrainingSection extends React.Component<Props, State> {
 
     toggleList = (name: string | null) => {
         if (this.props.plannerEditMode) {
+            if (!this.props.plannerCustomMode) {
+                return;
+            }
+
             //@ts-ignore
             this.refs.listContainer.measure((x, y, width, height, windowX, windowY) => {
                 this.props.dispatch(PlannerActions.selectSection(name))
@@ -118,7 +124,8 @@ const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
     plannerEditMode: state.app.plannerEditMode,
-    sections: state.planner.planner.trainings.map((training: Training) => training.name)
+    plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false,
+    sections: state.planner.sections.map((section: SectionInterface) => section.name)
 });
 
 export default connect(mapStateToProps)(TrainingSection);

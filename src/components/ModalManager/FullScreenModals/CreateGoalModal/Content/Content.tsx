@@ -106,7 +106,7 @@ class CreateGoalContent extends React.Component<Props, State> {
     }
 
     emit = (props: Props) => {
-        if (props.sectionName && props.goalCreateModalVisible) {
+        if (props.goalCreateModalVisible) {
             Events.emit('HEADER_OVERWRITE_TITLE', '');
             Events.emit('FOOTER_BAR_CLOSE');
             Events.emit('FULLSCREEN_MODAL_VISIBLE');

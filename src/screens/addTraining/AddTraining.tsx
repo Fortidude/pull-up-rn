@@ -63,6 +63,8 @@ class AddTraining extends React.Component<Props, State> {
     }
 
     render() {
+        this.props.sections.sort((a, b) => +(a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()) || -(a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()));
+
         return (
             <View style={this.style.container}>
                 <View style={this.style.form.container}>
@@ -74,11 +76,11 @@ class AddTraining extends React.Component<Props, State> {
                         onChange={(value) => this.setState({ title: value })}
                     />
 
-                    <Text style={this.style.infoText}>Nazwą treningu może być dzień tygodnia ("Poniedziałek") lub typ ćwiczeń, np. "Trening Pull" czy "Trening nóg"</Text>
+                    <Text style={this.style.infoText}>{I18n.t('planner.add_training_title_information')}</Text>
 
                 </View>
                 <View style={this.style.existingSections.container}>
-                    <Text style={this.style.existingSections.title}>Istniejące sekcje</Text>
+                    <Text style={this.style.existingSections.title}>{I18n.t('mics.your_trainings')}:</Text>
                     <ScrollView keyboardDismissMode="on-drag">
                         {this.props.sections.map((section, index) => {
                             return (

@@ -45,8 +45,8 @@ function getStyle(theme: ThemeInterface) {
         existingSectionName: {
             container: {
                 padding: 5,
-                borderBottomColor: theme.borders.borderColor,
-                borderBottomWidth: theme.borders.borderWidth
+             //   borderBottomColor: theme.borders.borderColor,
+             //   borderBottomWidth: theme.borders.borderWidth
             },
             text: {
                 fontSize: theme.fonts.fontH3Size,

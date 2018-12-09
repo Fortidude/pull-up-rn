@@ -38,7 +38,7 @@ class PlannerMethodsClass {
 
     addSetToGoal = (set: SetInterface, planner: PlannerInterface, currentCircuit: Circuit) => {
         const date = moment(set.date);
-        
+
 
         let added = false;
         const goalId: string = typeof set.goal === 'string' ? set.goal : set.goal.id;
@@ -75,6 +75,7 @@ class PlannerMethodsClass {
         goal.doneThisCircuit = parseInt(goal.doneThisCircuit);
         // @ts-ignore
         goal.requiredAmount = parseInt(goal.requiredAmount);
+
         switch (goal.requiredType) {
             case 'sets': {
                 goal.doneThisCircuit += 1;
@@ -96,7 +97,8 @@ class PlannerMethodsClass {
                 break;
             }
             default: {
-                goal.doneThisCircuit++;
+                //@ts-ignore
+                goal.doneThisCircuit += parseInt(set.reps);
                 break;
             }
         }
@@ -106,15 +108,20 @@ class PlannerMethodsClass {
         }
     }
 
+    findSectionIndex = (planner: Planner, sectionName: string): number => {
+        return planner.trainings.findIndex(training => {
+            return training.name === sectionName
+        });
+    }
+
     /**
      * Tested by redux Planner tests
      */
     moveGoalToSection = (goalId: string, sectionName: string, planner: Planner): Planner => {
-        const newSectionIndex = planner.trainings.findIndex(training => {
-            return training.name === sectionName
-        });
+        let newSectionIndex = this.findSectionIndex(planner, sectionName);
         if (newSectionIndex === -1) {
-            throw new Error("SECTION_NOT_FOUND");
+            planner.trainings.push({ key: sectionName, name: sectionName, goals: [] });
+            newSectionIndex = this.findSectionIndex(planner, sectionName);
         }
 
         let goalIndexInOldSection: number | null = null;

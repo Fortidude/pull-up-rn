@@ -1,17 +1,14 @@
 import React from 'react';
-import { Animated, Dimensions, Image, View } from 'react-native';
+import { Animated, Dimensions, View } from 'react-native';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 
 import Styles from './GoalItem.styles';
 import { connect } from 'react-redux';
-import { HEADER_HEIGHT } from 'src/components/Header/Header.styles';
-import { FOOTER_HEIGHT } from 'src/components/FooterBar/FooterBar.styles';
 
-import EvilIcon from 'react-native-vector-icons/EvilIcons';
+//@ts-ignore
 import AwesomeIcon from 'react-native-vector-icons/AntDesign';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
-const WIDTH = Dimensions.get('window').width;
-const HEIGHT = Dimensions.get('window').height;
 
 interface Props {
     theme: ThemeInterface;
@@ -39,13 +36,10 @@ class GoalItemAddSet extends React.Component<Props, State> {
         }
 
         this.listenerId = this.props.visibleAnimation.addListener(event => {
-            console.log(event.value);
             if (event.value > 0.7 && !this.switchingIcons && this.state.closeIcon) {
-                console.log('updating');
                 this.switchingIcons = true;
                 this.setState({ closeIcon: false }, () => this.switchingIcons = false);
             } else if (event.value < 0.7 && !this.switchingIcons && !this.state.closeIcon) {
-                console.log('updating');
                 this.switchingIcons = true;
                 this.setState({ closeIcon: true }, () => this.switchingIcons = false);
             }
@@ -54,10 +48,6 @@ class GoalItemAddSet extends React.Component<Props, State> {
 
     componentWillUnmount() {
         this.props.visibleAnimation.removeListener(this.listenerId);
-    }
-
-    componentDidUpdate() {
-        console.log('updated', this.state.closeIcon);
     }
 
     componentWillReceiveProps(nextProps: Props) {
