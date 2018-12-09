@@ -100,10 +100,10 @@ class GoalItem extends React.Component<Props, State> {
             this.props.toggleParentScroll && this.props.toggleParentScroll(true);
             setTimeout(() => {
                 Animated.parallel([
-                    Animated.timing(this.mockVisible, { toValue: 0,  useNativeDriver: true }),
+                    Animated.timing(this.mockVisible, { toValue: 0, useNativeDriver: true }),
                     Animated.timing(this.mockTranslateY, { toValue: 0, duration: 400, useNativeDriver: true })
                 ]).start(() => this.setState({ mockContent: false }, () => this.mockAnimateInProgress = false));
-           }, 100);
+            }, 100);
         }
     }
 
@@ -168,13 +168,14 @@ class GoalItem extends React.Component<Props, State> {
     }
 
     onLeftSwipeRelease = () => {
-        this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
-        this.props.dispatch(ModalActions.goalInformationOpen(0, 0));
-
+        this.setState({ animeteOut: true });
+        
         //@ts-ignore
-        // this.refs.leftSwipeIconComponent.measure((x, y, width, height, windowX, windowY) => {
-
-        // })
+        this.refs.leftSwipeIconComponent.measure((x, y, width, height, windowX, windowY) => {
+            this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
+            this.props.dispatch(ModalActions.goalInformationOpen(0, windowY));
+            this.setState({ animeteOut: false });
+        })
     }
 
     render() {

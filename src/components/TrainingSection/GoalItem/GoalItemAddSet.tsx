@@ -8,7 +8,7 @@ import { HEADER_HEIGHT } from 'src/components/Header/Header.styles';
 import { FOOTER_HEIGHT } from 'src/components/FooterBar/FooterBar.styles';
 
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
-import AwesomeIcon from 'react-native-vector-icons/FontAwesome5';
+import AwesomeIcon from 'react-native-vector-icons/AntDesign';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -43,11 +43,11 @@ class GoalItemAddSet extends React.Component<Props, State> {
             if (event.value > 0.7 && !this.switchingIcons && this.state.closeIcon) {
                 console.log('updating');
                 this.switchingIcons = true;
-                this.setState({closeIcon: false}, () => this.switchingIcons = false);
+                this.setState({ closeIcon: false }, () => this.switchingIcons = false);
             } else if (event.value < 0.7 && !this.switchingIcons && !this.state.closeIcon) {
                 console.log('updating');
                 this.switchingIcons = true;
-                this.setState({closeIcon: true}, () => this.switchingIcons = false);
+                this.setState({ closeIcon: true }, () => this.switchingIcons = false);
             }
         })
     }
@@ -67,7 +67,6 @@ class GoalItemAddSet extends React.Component<Props, State> {
     }
 
     render() {
-
         const iconOpacity = this.props.visibleAnimation.interpolate({
             inputRange: [0, 0.4, 0.7, 1, 1],
             outputRange: [1, 1, 0, 1, 1]
@@ -81,12 +80,12 @@ class GoalItemAddSet extends React.Component<Props, State> {
         return (
             <Animated.View style={[this.style.mockContainer, { transform: [{ translateY: this.props.summaryContentTranslateY }] }]}>
                 <View style={this.style.exerciseContainer}>
-                    <View style={this.style.plusIconContainer}>
+                    <Animated.View style={this.style.plusIconContainer}>
                         <Animated.View style={[this.style.mockPlusIconView, { opacity: iconOpacity, transform: [{ rotate }] }]}>
-                            {!this.state.closeIcon && <AwesomeIcon name="edit" color={this.props.theme.colors.textColor} size={30} />}
+                            {!this.state.closeIcon && <AwesomeIcon brand name="edit" color={this.props.theme.colors.textColor} size={30} />}
                             {this.state.closeIcon && <EvilIcon name="close" color={this.props.theme.colors.main} size={42} />}
                         </Animated.View>
-                    </View>
+                    </Animated.View>
                     {this.props.children}
                 </View>
             </Animated.View>

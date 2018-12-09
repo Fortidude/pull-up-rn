@@ -129,8 +129,13 @@ class SwipeItem extends React.Component<Props, State> {
     render() {
         const rightButtons = this.props.rightButtons || [];
 
+        const translateX = this.state.opacity.interpolate({
+            inputRange: [0, 1],
+            outputRange: [400, 0]
+        });
+
         return (
-            <Animated.View style={[{ flexDirection: 'row', opacity: this.state.opacity }]}>
+            <Animated.View style={[{ flexDirection: 'row'}, {transform: [{translateX}] } ]}>
                 {!!this.props.leftSwipe && <Animated.View style={[{ position: 'absolute', height: '100%', transform: [{ translateX: this.getLeftSwipeComponentTranslateX() }] }]}>
                     {!this.state.leftSwipeReached && this.props.leftSwipe}
                     {this.state.leftSwipeReached && this.props.leftSwipeReached}
@@ -237,7 +242,10 @@ class SwipeItem extends React.Component<Props, State> {
                     this.props.onMoveEnd();
                 }
 
-                this.toggle();
+                if (!this.state.leftSwipeReached) {
+                    this.toggle();
+                }
+
                 this.onRelease();
             },
             onPanResponderTerminate: () => {
@@ -254,7 +262,7 @@ class SwipeItem extends React.Component<Props, State> {
             toValue: 1,
             duration: 600,
             useNativeDriver: true
-        }).start();
+        }).start(() => this.toggle());
     }
 
     _turnOffOpacity = () => {
