@@ -9,6 +9,8 @@ import Register from 'src/screens/auth/Register';
 import PasswordReminder from 'src/screens/auth/PasswordReminder';
 
 import Planner from 'src/screens/planner/Planner';
+import AddTraining from 'src/screens/addTraining';
+
 import Profile from 'src/screens/profile/Profile';
 import Settings from 'src/screens/profile/Settings';
 import ThemePicker from 'src/screens/profile/ThemePicker';
@@ -49,6 +51,14 @@ const routes = {
     },
     Planner: {
         screen: Planner
+    },
+    AddTraining: {
+        screen: AddTraining,
+        navigationOptions: {
+            modal: true,
+            allScreenDismiss: true
+            //  gesturesEnabled: false
+        }
     },
     Profile: {
         screen: Profile,

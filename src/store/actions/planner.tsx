@@ -2,12 +2,9 @@ import Planner from "../../models/Planner";
 import Goal, { NewGoalApiRequestDataStructureInterface } from "../../models/Goal";
 import Set, { SetInterface } from "../../models/Set";
 import moment from 'moment';
+import { SectionInterface } from "src/models/Section";
 
 export enum PlannerTypes {
-    loadByTrainings = '[PLANNER] LOAD BY TRAININGS',
-    loadByTrainingsSuccess = '[PLANNER] LOAD BY TRAININGS SUCCESS',
-    loadByTrainingsFailed = '[PLANNER] LOAD BY TRAININGS FAILED',
-
     loadPlanner = '[PLANNER] LOAD PLANNER',
     loadPlannerSuccess = '[PLANNER] LOAD PLANNER SUCCESS',
     loadPlannerFailed = '[PLANNER] LOAD PLANNER FAILED',
@@ -38,23 +35,14 @@ export enum PlannerTypes {
     createGoalFailed = '[PLANNER] CREATE GOAL FAILED',
 
     moveGoalToSection = '[PLANNER] MOVE GOAL TO SECTION',
-    removeGoal = '[PLANNER] REMOVE GOAL'
+    removeGoal = '[PLANNER] REMOVE GOAL',
+
+    loadSections = '[PLANNER] LOAD SECTIONS',
+    loadSectionsSuccess = '[PLANNER] LOAD SECTIONS SUCCESS',
+    loadSectionsFailed = '[PLANNER] LOAD SECTIONS FAILED'
 }
 
-export const PlannerActions = {
-    loadByTrainings: () => ({
-        type: PlannerTypes.loadByTrainings,
-        payload: {}
-    }),
-    loadByTrainingsSuccess: (planner: Planner) => ({
-        type: PlannerTypes.loadByTrainingsSuccess,
-        payload: { planner }
-    }),
-    loadByTrainingsFailed: (error: string) => ({
-        type: PlannerTypes.loadByTrainingsFailed,
-        payload: { error }
-    }),
-
+export const PlannerActions = { 
     loadPlanner: () => ({
         type: PlannerTypes.loadPlanner,
         payload: {}
@@ -157,5 +145,18 @@ export const PlannerActions = {
     removeGoal: (goalId: string) => ({
         type: PlannerTypes.removeGoal,
         payload: { goalId }
-    })
+    }),
+
+    loadSections: () => ({
+        type: PlannerTypes.loadSections,
+        payload: {}
+    }),
+    loadSectionsSuccess: (list: SectionInterface[]) => ({
+        type: PlannerTypes.loadSectionsSuccess,
+        payload: { list }
+    }),
+    loadSectionsFailed: (error: string) => ({
+        type: PlannerTypes.loadSectionsFailed,
+        payload: { error }
+    }),
 };

@@ -11,6 +11,7 @@ import Set from 'src/models/Set';
 import { StatisticsInterface } from 'src/models/Statistics';
 import { UserTypes } from '../actions/user';
 import Circuit from 'src/models/Circuit';
+import { SectionInterface } from 'src/models/Section';
 
 interface PlannerState {
     loading: boolean;
@@ -21,6 +22,9 @@ interface PlannerState {
 
     planner: Planner;
     plannerEmpty: boolean;
+
+    sections: SectionInterface[];
+    sectionsLoaded: boolean;
 
     setsHistory: { [key: string]: Set[] };
     setsHistoryLoaded: boolean;
@@ -51,6 +55,9 @@ export const initialState: PlannerState = {
     planner: new Planner({}),
     plannerEmpty: true,
 
+    sections: [],
+    sectionsLoaded: false,
+
     setsHistory: {},
     setsHistoryLoaded: false,
 
@@ -72,21 +79,6 @@ export const initialState: PlannerState = {
 
 function planner(state = initialState, action: AnyAction): PlannerState {
     switch (action.type) {
-        case PlannerTypes.loadByTrainings:
-            return Object.assign({}, state, { loading: true });
-
-        case PlannerTypes.loadByTrainingsSuccess:
-            return Object.assign({}, state, {
-                loading: false,
-                loadedPlanner: true,
-                planner: action.payload.planner,
-                plannerEmpty: action.payload.planner.trainings.length === 0
-            });
-
-        case PlannerTypes.loadByTrainingsFailed:
-            return Object.assign({}, state, { loading: false, error: action.payload.error });
-
-
         case PlannerTypes.loadPlanner:
             return Object.assign({}, state, { loading: true });
 
@@ -101,6 +93,18 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.loadPlannerFailed:
             return Object.assign({}, state, { loading: false, error: action.payload.error });
 
+        /**
+         * ------------------
+         * LOAD SECTIONS
+         */
+        case PlannerTypes.loadSections:
+            return Object.assign({}, state, { loading: true });
+
+        case PlannerTypes.loadSectionsSuccess:
+            return Object.assign({}, state, { loading: false, sections: action.payload.list });
+
+        case PlannerTypes.loadSectionsFailed:
+            return Object.assign({}, state, { loading: false, error: action.payload.error });
 
         /**
          * -------------------

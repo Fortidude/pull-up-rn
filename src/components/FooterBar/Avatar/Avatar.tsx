@@ -50,7 +50,8 @@ class Avatar extends React.Component<Props, State> {
         const shouldUpdate = nextProps.plannerEditMode !== this.props.plannerEditMode
             || nextProps.profileEditMode !== this.props.profileEditMode
             || nextProps.theme.name !== this.props.theme.name
-            || (nextProps.user && nextProps.user.avatar) !== (this.props.user && this.props.user.avatar)
+            || (nextProps.user && this.props.user && nextProps.user.id !== this.props.user.id)
+            || (nextProps.user && this.props.user && nextProps.user.avatar !== this.props.user.avatar)
             || nextProps.plannerFooterCircleComponent !== this.props.plannerFooterCircleComponent
             || nextState.name !== this.state.name;
 
@@ -69,7 +70,7 @@ class Avatar extends React.Component<Props, State> {
 
     onPress = () => {
         if (this.props.plannerEditMode) {
-            this.props.dispatch(ModalActions.addTrainingSectionOpen(0, 0));
+            this.props.dispatch(NavigationActions.navigate({ routeName: 'AddTraining' }));
             return;
         }
 

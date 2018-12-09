@@ -40,8 +40,8 @@ class Header extends React.Component<Props, State> {
         'settings',
         'themepicker',
         'notifications',
-        'languagepicker'
-        //  'effectivenessstats'
+        'languagepicker',
+        'effectivenessstats'
     ];
 
     routesWithoutBackground = [

@@ -45,39 +45,6 @@ describe('planner reducer', () => {
         expect(planner(undefined, {})).toEqual(initialState)
     })
 
-    it('should handle load planner grouped by trainings', () => {
-        const expectedStateWithLoading = {
-            ...initialState,
-            loading: true
-        };
-
-        expect(planner(initialState, { type: PlannerTypes.loadByTrainings }))
-            .toEqual(expectedStateWithLoading);
-
-
-        const expectedStateWithSuccess = Object.assign(expectedStateWithLoading, {
-            planner: new Planner({}),
-            loadedPlanner: true,
-            loading: false
-        });
-        expect(planner(expectedStateWithLoading, {
-            type: PlannerTypes.loadByTrainingsSuccess,
-            payload: { planner: new Planner({}) }
-        }))
-            .toEqual(expectedStateWithSuccess);
-
-        const expectedStateWithFailed = Object.assign(expectedStateWithLoading, {
-            planner: new Planner({}),
-            loadedPlanner: true,
-            loading: false
-        });
-        expect(planner(expectedStateWithLoading, {
-            type: PlannerTypes.loadByTrainingsSuccess,
-            payload: { planner: new Planner({}) }
-        }))
-            .toEqual(expectedStateWithFailed);
-    })
-
     it('should handle and create new section', () => {
         const newSectionName = "new training";
         const stateWithLoading = {
@@ -91,10 +58,10 @@ describe('planner reducer', () => {
         const expectedStateWithEmptyPlanner = Object.assign(stateWithLoading, {
             planner: new Planner({}),
             loadedPlanner: true,
-            loading: false
+            loading: true
         });
         expect(planner(stateWithLoading, {
-            type: PlannerTypes.loadByTrainingsSuccess,
+            type: PlannerTypes.loadPlanner,
             payload: { planner: new Planner({}) }
         }))
             .toEqual(expectedStateWithEmptyPlanner);
@@ -129,7 +96,7 @@ describe('planner reducer', () => {
         });
 
         const newState = planner(initialState, {
-            type: PlannerTypes.loadByTrainingsSuccess,
+            type: PlannerTypes.loadPlannerSuccess,
             payload: {
                 planner: new Planner({
                     "section name": [goalOne, goalTwo]

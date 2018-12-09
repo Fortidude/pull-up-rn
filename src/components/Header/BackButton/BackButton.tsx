@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { TouchableOpacity, Animated, Text } from 'react-native';
+import { TouchableOpacity, Animated, Text, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { HeaderProps, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/EvilIcons';
@@ -139,6 +139,8 @@ class BackButton extends React.Component<Props, State> {
             return;
         }
 
+        Events.emit('FULLSCREEN_MODAL_HIDDEN');
+        Keyboard.dismiss();
         this.props.dispatch(NavigationActions.back())
     };
 

@@ -58,10 +58,6 @@ class EmptyList extends React.Component<Props, State> {
         }
     }
 
-    //  openAddTrainingSectionModal = () => {
-    //   this.props.dispatch(ModalActions.addTrainingSectionOpen());
-    //  }
-
     onButtonPress = () => {
         if (this.state.formVisible) {
             this.props.dispatch(AppActions.togglePlannerEdit(true));

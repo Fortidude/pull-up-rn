@@ -9,6 +9,7 @@ import { NewGoalApiRequestDataStructureInterface } from "../models/Goal";
 import moment from 'moment';
 import Set from "src/models/Set";
 import { StatisticsInterface } from "src/models/Statistics";
+import { SectionInterface } from "src/models/Section";
 
 interface ResponseStatus { status: boolean };
 
@@ -27,9 +28,8 @@ class Data implements DataInterface {
         return Data.instance;
     }
 
-    public getPlannerByTrainings = async (): Promise<Planner> => {
-        const data = await this.getFetchData('/secured/section/list', 'goal_planner_list');
-        return new Planner(data);
+    public getSectionList = async (): Promise<SectionInterface[]> => {
+        return await this.getFetchData('/secured/section/list', 'goal_planner_list');
     }
 
     public getPlannerByDays = async (): Promise<Planner> => {

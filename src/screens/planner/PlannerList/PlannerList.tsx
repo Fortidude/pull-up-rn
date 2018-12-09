@@ -116,8 +116,8 @@ class PlannerList extends React.Component<Props, State> {
     }
 
     loadPlanner = () => {
-        // this.props.dispatch(PlannerActions.loadByTrainings());
         this.props.dispatch(PlannerActions.loadPlanner());
+        this.props.dispatch(PlannerActions.loadSections());
     }
 
     render() {

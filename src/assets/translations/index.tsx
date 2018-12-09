@@ -132,6 +132,7 @@ let translations = {
 
         routes: {
             '': '',
+            addtraining: 'Dodaj trening',
             auth: "Zaloguj się",
             calendar: "Kalendarz",
             effectivenessstats: "Skuteczność",

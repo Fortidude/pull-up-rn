@@ -3,18 +3,18 @@ import { PlannerActions, PlannerTypes } from '../actions/planner';
 import { Data } from '../../api';
 import { SetInterface } from '../../models/Set';
 
-function* loadByTrainings() {
+function* loadBySections() {
     //@ts-ignore
     const isOnline = yield select(state => state.app.isOnline);
     if (!isOnline) {
-        yield put(PlannerActions.loadByTrainingsFailed('OFFLINE'));
+        yield put(PlannerActions.loadSectionsFailed('OFFLINE'));
     }
 
     try {
-        const planner = yield Data.getPlannerByTrainings();
-        yield put(PlannerActions.loadByTrainingsSuccess(planner));
+        const planner = yield Data.getSectionList();
+        yield put(PlannerActions.loadSectionsSuccess(planner));
     } catch (err) {
-        yield put(PlannerActions.loadByTrainingsFailed(err));
+        yield put(PlannerActions.loadSectionsFailed(err));
     }
 }
 
@@ -22,14 +22,14 @@ function* loadPlanner() {
     //@ts-ignore
     const isOnline = yield select(state => state.app.isOnline);
     if (!isOnline) {
-        yield put(PlannerActions.loadByTrainingsFailed('OFFLINE'));
+        yield put(PlannerActions.loadPlannerFailed('OFFLINE'));
     }
 
     try {
         const planner = yield Data.getPlannerByDays();
         yield put(PlannerActions.loadPlannerSuccess(planner));
     } catch (err) {
-        yield put(PlannerActions.loadByTrainingsFailed(err));
+        yield put(PlannerActions.loadPlannerFailed(err));
     }
 }
 
@@ -193,8 +193,8 @@ function* removeGoal(action: any) {
 
 function* plannerSaga() {
     yield all([
-        takeEvery(PlannerTypes.loadByTrainings, loadByTrainings),
         takeEvery(PlannerTypes.loadPlanner, loadPlanner),
+        takeEvery(PlannerTypes.loadSections, loadBySections),
         takeEvery(PlannerTypes.loadSetsByDatePeriod, loadSetsHistoryByPeriod),
         takeEvery(PlannerTypes.loadGoalStatistics, loadStatistics),
         takeEvery(PlannerTypes.createSet, createSet),

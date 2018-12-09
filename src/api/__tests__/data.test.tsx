@@ -23,10 +23,10 @@ describe('testing api', () => {
         };
 
         //assert on the response
-        const response = await Data.getPlannerByTrainings();
+        const response = await Data.getPlannerByDays();
         expect(response).toEqual(expectedResponse);
 
         expect(fetch.mock.calls.length).toEqual(1)
-        expect(fetch.mock.calls[0][0]).toContain('/secured/section/list')
+        expect(fetch.mock.calls[0][0]).toContain('/secured/goal/planner/list')
     })
 })

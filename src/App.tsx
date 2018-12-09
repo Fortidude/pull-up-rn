@@ -1,3 +1,5 @@
+import './prototypes';
+
 import React from 'react';
 import AppWithNavigationState, { middleware } from './router/Navigator';
 
