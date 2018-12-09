@@ -161,7 +161,7 @@ class PlannerList extends React.Component<Props, State> {
                     {(!this.props.plannerLoaded || !this.props.user) && <PlannerListPlaceholder theme={this.props.theme} />}
                     {this.props.plannerLoaded && !!this.props.user && <FlatList
                         keyboardDismissMode={"interactive"}
-                        keyboardShouldPersistTaps="never"
+                        keyboardShouldPersistTaps="always"
                         ref={(ref: any) => this.flatListReference = ref}
                         onScrollBeginDrag={this.props.scrollBegin}
                         onScroll={event}
