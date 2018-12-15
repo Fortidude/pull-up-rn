@@ -26,7 +26,13 @@ function getStyle(theme: ThemeInterface) {
             marginBottom: DetermineDevice.isIphoneX() ? 50 : 20
         },
 
-        button: {
+        buttonOption: {
+            height: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+
+        buttonCancel: {
             height: 50,
             justifyContent: 'center',
             alignItems: 'center',

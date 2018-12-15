@@ -46,11 +46,14 @@ class Select extends React.Component<Props> {
             return;
         }
 
+        const options = this.props.options.sort((a, b) => {
+            return a.toLocaleUpperCase() > b.toLocaleUpperCase() ? 1 : -1;
+        })
         const onPick = (index: number) => {
-            this.props.onChange(this.props.options[index]);
+            this.props.onChange(options[index]);
         }
 
-        this.props.dispatch(ModalActions.pickerOpen(this.props.options, true, onPick));
+        this.props.dispatch(ModalActions.pickerOpen(options.map((string: String) => string.ucFirst()), true, onPick));
     }
 
     render() {

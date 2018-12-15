@@ -199,7 +199,7 @@ class CreateGoalContent extends React.Component<Props, State> {
                             placeholder="Brak"
                             onChange={this.pickExercise}
                             value={this.state.exercise ? this.state.exercise.name : undefined}
-                            options={this.props.exercises ? this.props.exercises.map(exercise => exercise.name) : []}
+                            options={this.getExerciseOptions()}
                         />
 
                         {/* // EXERCISE VARIANT */}
@@ -261,6 +261,7 @@ class CreateGoalContent extends React.Component<Props, State> {
         );
     }
 
+    getExerciseOptions = () => this.props.exercises ? this.props.exercises.map(exercise => exercise.name) : []
     pickExercise = (exerciseName: string) => {
         this.setState({ name: exerciseName, exercise: this._findExerciseByName(exerciseName), exerciseVariant: null });
     }

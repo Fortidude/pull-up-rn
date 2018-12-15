@@ -17,6 +17,8 @@ import Events from 'src/service/Events';
 import { PlannerActions } from 'src/store/actions/planner';
 import { ModalActions } from 'src/store/actions/modal';
 import SetBarChart from 'src/components/Charts/SetBarChart/SetBarChart';
+import Spinner from 'src/components/Spinner/Spinner';
+import { BIG_HEIGHT } from 'src/components/Charts/SetBarChart/SetBarChart.styles';
 
 interface Props {
     dispatch: Dispatch;
@@ -27,7 +29,9 @@ interface Props {
     onClose: () => void;
 };
 
-interface State { }
+interface State { 
+    showChart: boolean;
+}
 
 const HEIGHT = Dimensions.get('window').height;
 class GoalInformationContent extends React.Component<Props, State> {
@@ -37,6 +41,9 @@ class GoalInformationContent extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.style = getStyle(this.props.theme);
+        this.state = {
+            showChart: false
+        }
     }
 
     componentDidMount() {
@@ -45,12 +52,13 @@ class GoalInformationContent extends React.Component<Props, State> {
         }
     }
 
-    shouldComponentUpdate(nextProps: Props) {
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
         const currentSetsLength = this.props.goal ? this.props.goal.sets.length : 0;
         const nextSetsLength = nextProps.goal ? nextProps.goal.sets.length : 0;
 
         return nextProps.goalInformationModalVisible !== this.props.goalInformationModalVisible
             || (nextProps.goal && this.props.goal && nextProps.goal.id !== this.props.goal.id)
+            || nextState.showChart !== this.state.showChart
             || currentSetsLength !== nextSetsLength;
     }
 
@@ -87,8 +95,24 @@ class GoalInformationContent extends React.Component<Props, State> {
         }).start(() => {
             this.props.dispatch(ModalActions.goalInformationClose());
             this.props.dispatch(PlannerActions.selectGoal(null));
+            this.setState({
+                showChart: false
+            });
+
             this.props.onClose();
         })
+    }
+
+    onLayout = () => {
+        if (this.state.showChart) {
+            return;
+        }
+
+        this.setState({
+            showChart: true
+        }, () => {
+            console.log('go go');
+        });
     }
 
     render() {
@@ -100,16 +124,15 @@ class GoalInformationContent extends React.Component<Props, State> {
         return (
             <React.Fragment>
                 <ModalHeader text={this.props.goal.exercise.name} style={{ position: 'absolute', top: -45, opacity: this.opacity }} />
-                <View style={this.style.content}>
+                <View onLayout={this.onLayout} style={this.style.content}>
                     <Text style={this.style.title}>{I18n.t('mics.exercise_variant')}: {this.props.goal.exercise.exerciseVariant.name || '-'}</Text>
-
-
                     <View style={{ position: 'absolute', left: 0, right: 0, bottom: 50 }}>
                         <View style={{ marginHorizontal: 20 }}>
                             <Text style={this.style.subtitle}>{I18n.t('mics.reps_record')}: {reps || '-'}</Text>
                             <Text style={this.style.subtitle}>{I18n.t('mics.weight_record')}: {weight || '-'} {!!weightReps ? `(x${weightReps})` : ''}</Text>
                         </View>
-                        <SetBarChart sets={this.props.goal.sets} big />
+                        {this.state.showChart && <SetBarChart sets={this.props.goal.sets} big />}
+                        {!this.state.showChart && <View style={this.style.chartLoaderContainer}><Spinner large/></View>}
                     </View>
                 </View>
                 <ModalFooter style={{ height: FOOTER_HEIGHT }} loading={false} successText={I18n.t('buttons.close')} onSuccess={this.onClose} />

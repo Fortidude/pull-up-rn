@@ -54,7 +54,7 @@ class PickerModal extends React.Component<Props> {
 
                 {this.props.cancelButton &&
                     <View style={[this.style.buttonsContainer, this.style.cancelContainer]}>
-                        <TouchableOpacity style={this.style.button} onPress={this.closeModal}>
+                        <TouchableOpacity style={this.style.buttonCancel} onPress={this.closeModal}>
                             <Text style={this.style.cancelText}>{I18n.t('buttons.cancel')}</Text>
                         </TouchableOpacity>
                     </View>
@@ -72,7 +72,7 @@ class PickerModal extends React.Component<Props> {
         return this.props.options.map((option, key) => {
             let isLast = length === key;
             return <TouchableOpacity key={key}
-                style={[this.style.button, !isLast ? this.style.buttonBorder : {}]}
+                style={[this.style.buttonOption, !isLast ? this.style.buttonBorder : {}]}
                 onPress={() => this.pickOption(key)}>
                 <Text style={this.style.text}>{option}</Text>
             </TouchableOpacity>

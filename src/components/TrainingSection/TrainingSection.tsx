@@ -125,7 +125,9 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme,
     plannerEditMode: state.app.plannerEditMode,
     plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false,
-    sections: state.planner.sections.map((section: SectionInterface) => section.name)
+    sections: state.planner.sections
+        .map((section: SectionInterface) => section.name)
+        .filter((name: string) => name.length > 0)
 });
 
 export default connect(mapStateToProps)(TrainingSection);

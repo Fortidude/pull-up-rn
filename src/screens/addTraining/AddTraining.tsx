@@ -83,9 +83,12 @@ class AddTraining extends React.Component<Props, State> {
                     <Text style={this.style.existingSections.title}>{I18n.t('mics.your_trainings')}:</Text>
                     <ScrollView keyboardDismissMode="on-drag">
                         {this.props.sections.map((section, index) => {
+                            if (!section.name || section.name.length === 0) {
+                                return null;
+                            }
                             return (
                                 <View key={index} style={this.style.existingSectionName.container}>
-                                    <Text style={this.style.existingSectionName.text}>{section.name.ucFirst()}</Text>
+                                    <Text style={this.style.existingSectionName.text}>{(section.name || I18n.t('planner.other')).ucFirst()}</Text>
                                 </View>
                             )
                         })}

@@ -1,5 +1,5 @@
 interface String {
-    ucFirst(): String;
+    ucFirst(): string;
 }
 
 declare var global: any
