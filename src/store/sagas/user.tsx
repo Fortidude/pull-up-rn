@@ -3,7 +3,7 @@ import { UserActions, UserTypes } from '../actions/user';
 import { User } from '../../api';
 import { AsyncStorage } from 'react-native';
 
-const getUserFromState = (state) => state.user.current;
+const getUserFromState = (state: any) => state.user.current;
 
 export function* loadUser(action: any) {
     try {

@@ -33,6 +33,7 @@
 		5C7A79A6AC4C4F43A2BCB3AE /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF09B7C956FC45ECA3E3BAC7 /* EvilIcons.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		61FCFBF3FBB4418FB218C1FC /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 335469C59356481FBA616945 /* Entypo.ttf */; };
+		658855DDCF374EA68CC870D9 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 066B742888F347F58E64A05F /* libz.tbd */; };
 		67B5252478DC4FDF92BB0644 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E78B5EEAE42C4E30A1486429 /* libBVLinearGradient.a */; };
 		6EE4A15F9D85493C962B6832 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5612EA3ACAEE4A588397B19F /* libRNVectorIcons.a */; };
 		7E540C28D9E94B5885A8DBC3 /* libRNReactNativeHapticFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FE99061F13214A97AD1FB9AD /* libRNReactNativeHapticFeedback.a */; };
@@ -57,6 +58,7 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		AE56E0E64F8445918F81045D /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 99245B2E320D4E1895352F3E /* FontAwesome5_Solid.ttf */; };
 		B7905DA741DA41C887DFE06B /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 398E282C33D24195B377174E /* Zocial.ttf */; };
+		BC1D59024EAB49FE8A175D1E /* libBugsnagReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24B5664AA64349C79D4C157C /* libBugsnagReactNative.a */; };
 		C432BCC863A24C289CF74FA8 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E709A51A2274469D9A26DCD5 /* FontAwesome5_Regular.ttf */; };
 		CCAE550C46224DEB96E98DE3 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0EB14BD232A44F24B4616808 /* Octicons.ttf */; };
 		DDF2916F65C6444EAC33DE11 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 104EF6D748D943A19F0908E3 /* Feather.ttf */; };
@@ -365,6 +367,13 @@
 			remoteGlobalIDString = A39873CE1EA65EE60051E01A;
 			remoteInfo = "RNVectorIcons-tvOS";
 		};
+		9556FBEC21C57CBF004CAB2B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C970CC4A531E4C62BF57504A /* BugsnagReactNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8AD256131D6DE5F600C7D842;
+			remoteInfo = BugsnagReactNative;
+		};
 		957C4829216A00B8006D5871 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 47A7021B71F54EB7BCEB7D4C /* RNReactNativeHapticFeedback.xcodeproj */;
@@ -412,6 +421,7 @@
 		00E356EE1AD99517003FC87E /* PullUpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PullUpTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* PullUpTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PullUpTests.m; sourceTree = "<group>"; };
+		066B742888F347F58E64A05F /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		0B8491302AE54C3B9DF3D64E /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		0EB14BD232A44F24B4616808 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		104EF6D748D943A19F0908E3 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -427,6 +437,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		18E4FC1D494D48EABF42A339 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		1D1C7B4BDF3043D28A990B83 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
+		24B5664AA64349C79D4C157C /* libBugsnagReactNative.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBugsnagReactNative.a; sourceTree = "<group>"; };
 		28ECFF7FE4904AC8B73092B0 /* libRNI18n.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNI18n.a; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		335469C59356481FBA616945 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -463,6 +474,7 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B4CE4CF519E947D5B8A8281B /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		BAD7003F39B344A7BDD3315D /* libRNDatePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDatePicker.a; sourceTree = "<group>"; };
+		C970CC4A531E4C62BF57504A /* BugsnagReactNative.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BugsnagReactNative.xcodeproj; path = "../node_modules/bugsnag-react-native/cocoa/BugsnagReactNative.xcodeproj"; sourceTree = "<group>"; };
 		CBB7C94D8C3F45269EFAF075 /* libRNI18n-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNI18n-tvOS.a"; sourceTree = "<group>"; };
 		CF09B7C956FC45ECA3E3BAC7 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		CF8B692E2816478580BDC6D5 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
@@ -504,6 +516,8 @@
 				4206237CD2494BA9A4D78C8B /* libRNSVG.a in Frameworks */,
 				7E540C28D9E94B5885A8DBC3 /* libRNReactNativeHapticFeedback.a in Frameworks */,
 				4C613DFA7F3A428AA64B60D5 /* libRNDatePicker.a in Frameworks */,
+				BC1D59024EAB49FE8A175D1E /* libBugsnagReactNative.a in Frameworks */,
+				658855DDCF374EA68CC870D9 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,6 +644,7 @@
 			isa = PBXGroup;
 			children = (
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
+				066B742888F347F58E64A05F /* libz.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -673,6 +688,7 @@
 				18E4FC1D494D48EABF42A339 /* RNSVG.xcodeproj */,
 				47A7021B71F54EB7BCEB7D4C /* RNReactNativeHapticFeedback.xcodeproj */,
 				4FC812812D2B4D2B8477DA72 /* RNDatePicker.xcodeproj */,
+				C970CC4A531E4C62BF57504A /* BugsnagReactNative.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -723,6 +739,7 @@
 				1D1C7B4BDF3043D28A990B83 /* libRNSVG.a */,
 				FE99061F13214A97AD1FB9AD /* libRNReactNativeHapticFeedback.a */,
 				BAD7003F39B344A7BDD3315D /* libRNDatePicker.a */,
+				24B5664AA64349C79D4C157C /* libBugsnagReactNative.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -772,6 +789,14 @@
 			children = (
 				89E1D5E5212EED5800A5B80F /* libRNI18n.a */,
 				89E1D5E7212EED5800A5B80F /* libRNI18n-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9556FBE921C57CBF004CAB2B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9556FBED21C57CBF004CAB2B /* libBugsnagReactNative.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -910,6 +935,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 9556FBE921C57CBF004CAB2B /* Products */;
+					ProjectRef = C970CC4A531E4C62BF57504A /* BugsnagReactNative.xcodeproj */;
+				},
 				{
 					ProductGroup = 89E1D5D8212EED5800A5B80F /* Products */;
 					ProjectRef = 693DDA13B5124F769F5CF914 /* BVLinearGradient.xcodeproj */;
@@ -1286,6 +1315,13 @@
 			remoteRef = 950AD9F821BD5B1A0067DE70 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9556FBED21C57CBF004CAB2B /* libBugsnagReactNative.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBugsnagReactNative.a;
+			remoteRef = 9556FBEC21C57CBF004CAB2B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		957C482A216A00B8006D5871 /* libRNReactNativeHapticFeedback.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1447,12 +1483,14 @@
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-date-picker/ios/RNDatePicker/**",
+					"$(SRCROOT)/../node_modules/bugsnag-react-native/cocoa/**",
 				);
 				INFOPLIST_FILE = PullUpTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1484,12 +1522,14 @@
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-date-picker/ios/RNDatePicker/**",
+					"$(SRCROOT)/../node_modules/bugsnag-react-native/cocoa/**",
 				);
 				INFOPLIST_FILE = PullUpTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1522,6 +1562,7 @@
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-date-picker/ios/RNDatePicker/**",
+					"$(SRCROOT)/../node_modules/bugsnag-react-native/cocoa/**",
 				);
 				INFOPLIST_FILE = PullUp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1549,6 +1590,7 @@
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-haptic-feedback/ios",
 					"$(SRCROOT)/../node_modules/react-native-date-picker/ios/RNDatePicker/**",
+					"$(SRCROOT)/../node_modules/bugsnag-react-native/cocoa/**",
 				);
 				INFOPLIST_FILE = PullUp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -58,3 +58,6 @@ buck-out/
 
 # IDE
 .history
+
+ios-debug*
+ios-release*

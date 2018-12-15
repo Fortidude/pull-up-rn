@@ -3,6 +3,7 @@ import { AsyncStorage } from "react-native";
 import jwtDecode from "jwt-decode";
 
 import UserModel from '../models/User';
+import moment from 'moment';
 
 interface UserInterface {
     login: (username: string, password: string) => Promise<string>;
@@ -124,9 +125,12 @@ class User implements UserInterface {
             headers: await ApiHelper.getHeaders(true, true)
         };
 
-        let user = await AsyncStorage.getItem('user');
+        const user = await AsyncStorage.getItem('user');
         if (user) {
-            return new UserModel(JSON.parse(user));
+            const parsedUser: UserModel = JSON.parse(user);
+            if (!moment().isAfter(moment(parsedUser.current_circuit_expired_date))) {
+                return new UserModel(JSON.parse(user));
+            }
         }
 
         return await fetch(ApiHelper.getHost() + '/secured/profile/current', object)
