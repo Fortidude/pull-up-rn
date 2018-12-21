@@ -82,6 +82,16 @@ let translations = {
             add_training_title_information: `Nazwą treningu może być dzień tygodnia ("Poniedziałek") lub typ ćwiczeń, np. "Trening Pull" czy "Trening nóg"`,
             done_of: "Zrobiono",
             other: "Pozostałe",
+            difficultLevelTitle: "Trudność",
+            difficultLevels: {
+                1: "Łatwo",
+                2: "Średnio",
+                3: "Trudno",
+
+                easy: "Łatwo",
+                medium: "Średnio",
+                hard: "Trudno"
+            },
             custom_mode: {
                 calendar: {
                     today: "Dzisiaj",

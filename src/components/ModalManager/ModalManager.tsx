@@ -6,13 +6,13 @@ import { connect } from 'react-redux';
 import Styles from './ModalManager.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import { ModalState } from 'src/store/reducers/modal';
-import { ModalActions } from 'src/store/actions/modal';
 
 import PickerModal from './Modals/PickerModal';
 import DateTimePickerModal from './Modals/DateTimePickerModal/DateTimePickerModal';
 
 import GoalInformationModal from './FullScreenModals/GoalInformationModal';
 import CreateGoalModal from './FullScreenModals/CreateGoalModal';
+import ShortInformationModal from './Modals/ShortInformationModal/ShortInformationModal';
 
 const HEIGHT = Dimensions.get('window').height;
 
@@ -104,6 +104,7 @@ class ModalManager extends React.Component<Props, State> {
 
         const isPickerModalVisible = this.isPickerModalVisible(nextProps);
         const isDateTimePickerModalVisible = this.isDateTimePickerModalVisible(nextProps);
+        const isInformationModalVisible = this.isInformationModalVisible(nextProps);
 
         if (isPickerModalVisible) {
             this.showPickerModal(nextProps);
@@ -112,6 +113,11 @@ class ModalManager extends React.Component<Props, State> {
 
         if (isDateTimePickerModalVisible) {
             this.showDatetimePickerModal(nextProps);
+            return;
+        }
+
+        if (isInformationModalVisible) {
+            this.showInformationModal(nextProps);
             return;
         }
 
@@ -136,6 +142,10 @@ class ModalManager extends React.Component<Props, State> {
         return props.modal['datetimePickerModalVisible'];
     }
 
+    isInformationModalVisible = (props: Props) => {
+        return props.modal['informationModalVisible'];
+    }
+
     showPickerModal = (props: Props) => {
         this.setState({ ...this.getUpdatedState(props), showOverlay: true }, () => {
             Animated.parallel([
@@ -152,6 +162,14 @@ class ModalManager extends React.Component<Props, State> {
                 Animated.timing(this.state.datetimePickerBottomPosition, { toValue: 0, ...OPEN_MODAL_ANIMATION_OPTION_SLOW })
             ]).start();
         })
+    }
+
+    showInformationModal = (props: Props) => {
+        this.setState({ ...this.getUpdatedState(props), showOverlay: true }, () => {
+            Animated.parallel([
+                Animated.timing(this.state.overlayOpacity, { toValue: 1 }),
+            ]).start();
+        });
     }
 
     hideModal = () => {
@@ -235,6 +253,10 @@ class ModalManager extends React.Component<Props, State> {
                     <Animated.View style={{ bottom: this.state.datetimePickerBottomPosition, position: 'absolute' }}>
                         <DateTimePickerModal {...this.state.datetimePickerOptions} />
                     </Animated.View>
+
+                    {this.props.modal.informationModalVisible && <Animated.View style={{opacity: this.state.overlayOpacity}}>
+                        <ShortInformationModal/>
+                    </Animated.View>}
 
                 </Animated.View>}
             </React.Fragment>

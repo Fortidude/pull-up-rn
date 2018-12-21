@@ -21,7 +21,13 @@ export interface ModalState {
     datetimePickerOptions: {
         date: Date,
         callback: () => void;
-    }
+    };
+
+    informationModalVisible: boolean;
+    informationModalOptions: {
+        title: string;
+        text: string;
+    };
 
     positionX: number;
     positionY: number;
@@ -46,6 +52,12 @@ const initialState: ModalState = {
     datetimePickerOptions: {
         date: new Date(),
         callback: () => { }
+    },
+
+    informationModalVisible: false,
+    informationModalOptions: {
+        title: '',
+        text: ''
     },
 
     positionX: 0,
@@ -108,6 +120,11 @@ function modal(state = initialState, action: AnyAction): ModalState {
             return Object.assign({}, state, { datetimePickerModalVisible: true, datetimePickerOptions: { ...action.payload } });
         case ModalTypes.datetimePickerClose:
             return Object.assign({}, state, { datetimePickerModalVisible: false })
+
+        case ModalTypes.informationOpen:
+            return Object.assign({}, state, { informationModalVisible: true, informationModalOptions: { ...action.payload } });
+        case ModalTypes.informationClose:
+            return Object.assign({}, state, { informationModalVisible: false })
 
         case AuthTypes.logout:
             return Object.assign({}, initialState);

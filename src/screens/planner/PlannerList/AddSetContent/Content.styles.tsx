@@ -4,7 +4,7 @@ function getStyle(theme: ThemeInterface) {
     return {
         content: {
             flex: 1,
-            paddingHorizontal: 20,
+            paddingLeft: 20,
             paddingVertical: 20,
         },
 
@@ -29,12 +29,22 @@ function getStyle(theme: ThemeInterface) {
         form: {
             container: {
                 marginTop: 15,
+                flexDirection: 'row',
             },
             label: {
                 fontSize: theme.fonts.fontH3Size,
                 fontFamily: theme.fonts.mainFontFamily,
                 color: theme.colors.formLabelColor,
                 marginBottom: 1
+            },
+
+            leftSide: {
+                flex: 3,
+                marginTop: 10
+            },
+            rightSide: {
+                flex: 1,
+                alignItems: 'center'
             }
         }
     };

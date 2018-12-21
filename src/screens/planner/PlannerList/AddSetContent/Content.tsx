@@ -14,6 +14,8 @@ import Input from 'src/components/Input';
 import DateTimeInput from 'src/components/DateTimeInput/DateTimeInput';
 import Events from 'src/service/Events';
 import { PlannerActions } from 'src/store/actions/planner';
+import VerticalValueSlider from 'src/components/VerticalValueSlider/VerticalValueSlider';
+import { ModalActions } from 'src/store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;
@@ -26,6 +28,7 @@ interface Props {
 interface State {
     value: number | null;
     extraWeight: number | null;
+    difficultyLevel: number;
     date: Date;
 }
 
@@ -40,6 +43,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
         this.state = {
             value: null,
             extraWeight: null,
+            difficultyLevel: 2,
             date: new Date()
         }
     }
@@ -48,6 +52,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
         return this.state.value !== nextState.value
             || this.state.extraWeight !== nextState.extraWeight
             || this.state.date !== nextState.date
+            || this.state.difficultyLevel !== nextState.difficultyLevel
             || nextProps.addSetModalVisible !== this.props.addSetModalVisible;
     }
 
@@ -99,6 +104,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
         this.setState({
             value: null,
             extraWeight: null,
+            difficultyLevel: 2,
             date: new Date()
         });
     }
@@ -140,6 +146,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
         return (
             <React.Fragment>
                 <ScrollView style={this.style.content}
+                    scrollEnabled={false}
                     onTouchStart={() => { Keyboard.dismiss() }}
                     keyboardShouldPersistTaps="always"
                 >
@@ -150,37 +157,52 @@ class GoalCreateSetContent extends React.Component<Props, State> {
                         {!goal.requiredAmount && <Text style={this.style.textLine.textLeft} numberOfLines={1}>
                             {I18n.t('planner.done_of')}: {goal.doneThisCircuit}
                         </Text>}
-                        {variant &&
-                            <Text style={this.style.textLine.textRight} numberOfLines={1}>{variant.name}</Text>
-                        }
+                        <Text style={this.style.textLine.textLeft} numberOfLines={1}>
+                            {I18n.t('planner.difficultLevelTitle')}: {I18n.t(`planner.difficultLevels.${this.state.difficultyLevel}`)}
+                        </Text>
                     </View>
                     <View style={this.style.form.container}>
-                        <Text style={this.style.form.label}>{I18n.t('fields.number_of_reps_done')}</Text>
-                        <Input
-                            medium
-                            keyboardType={"numeric"}
-                            inputRef={ref => this.addSetModalRepAmountRef = ref}
-                            value={this.state.value ? this.state.value.toString() : ''}
-                            onChange={(value) => this.setState({ value: parseInt(value) })}
-                        />
+                        <View style={this.style.form.leftSide}>
+                            <Text style={this.style.form.label}>{I18n.t('fields.number_of_reps_done')}</Text>
+                            <Input
+                                medium
+                                keyboardType={"numeric"}
+                                inputRef={ref => this.addSetModalRepAmountRef = ref}
+                                value={this.state.value ? this.state.value.toString() : ''}
+                                onChange={(value) => this.setState({ value: parseInt(value) })}
+                            />
 
-                        <Text style={this.style.form.label}>{I18n.t('fields.additional_weight')}</Text>
-                        <Input
-                            medium
-                            keyboardType={"numeric"}
-                            value={this.state.extraWeight ? this.state.extraWeight.toString() : undefined}
-                            onChange={(extraWeight) => this.setState({ extraWeight: parseInt(extraWeight) })}
-                        />
+                            <Text style={this.style.form.label}>{I18n.t('fields.additional_weight')}</Text>
+                            <Input
+                                medium
+                                keyboardType={"numeric"}
+                                value={this.state.extraWeight ? this.state.extraWeight.toString() : undefined}
+                                onChange={(extraWeight) => this.setState({ extraWeight: parseInt(extraWeight) })}
+                            />
 
-                        <Text style={this.style.form.label}>{I18n.t('fields.date')}</Text>
-                        <DateTimeInput
-                            medium
-                            date={this.state.date}
-                            onChange={(date: Date) => { this.setState({ date }) }} />
+                            <Text style={this.style.form.label}>{I18n.t('fields.date')}</Text>
+                            <DateTimeInput
+                                medium
+                                date={this.state.date}
+                                onChange={(date: Date) => { this.setState({ date }) }} />
+                        </View>
+                        <View style={this.style.form.rightSide}>
+                            <VerticalValueSlider
+                                max={3}
+                                value={this.state.difficultyLevel}
+                                onChange={this._onSliderChange}
+                            />
+                        </View>
                     </View>
                 </ScrollView>
             </React.Fragment>
         );
+    }
+
+    _onSliderChange = (difficultyLevel: number) => {
+        if (difficultyLevel !== this.state.difficultyLevel) {
+            this.setState({ difficultyLevel })
+        }
     }
 }
 

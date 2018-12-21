@@ -15,6 +15,7 @@ const nativeBackgroundColor = '#000000';
 const lightGreenColor = '#76D7C4';
 const lightBlueColor = '#7FB3D5';
 const orangeColor = '#FF9500';
+const lightOrangeColor = '#F0B27A';
 
 const mainFontFamily = "Avenir-Light";
 
@@ -93,6 +94,10 @@ const colors = {
     barChartColor: lightGreenColor,
     barChartColorActive: orangeColor,
     barChartSubColor: lightBlueColor,
+
+    valueSliderBackgroundFilled: greyColor,
+    valueSliderBackground: '#101010',
+    valueSlider: mainColor,
 
     linkSmallColor: '#FFF',
 

@@ -15,7 +15,10 @@ export enum ModalTypes {
     pickerClose = '[MODAL] CLOSE PICKER',
 
     datetimePickerOpen = '[MODAL] OPEN DATETIME PICKER',
-    datetimePickerClose = '[MODAL] CLOSE DATETIME PICKER'
+    datetimePickerClose = '[MODAL] CLOSE DATETIME PICKER',
+
+    informationOpen = '[MODAL] OPEN INFORMATION',
+    informationClose = '[MODAL] CLOSE INFORMATION',
 }
 
 export const ModalActions = {
@@ -70,6 +73,15 @@ export const ModalActions = {
     }),
     datetimePickerClose: () => ({
         type: ModalTypes.datetimePickerClose,
+        payload: {}
+    }),
+
+    informationOpen: (title: string, text: string) => ({
+        type: ModalTypes.informationOpen,
+        payload: { title, text }
+    }),
+    informationClose: () => ({
+        type: ModalTypes.informationClose,
         payload: {}
     })
 };
