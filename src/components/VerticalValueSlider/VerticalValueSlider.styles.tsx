@@ -30,7 +30,9 @@ function getStyle(theme: ThemeInterface) {
 
         fieldBackground: {
             backgroundColor: theme.colors.valueSliderBackground,
-            borderRadius: size / 2
+            borderRadius: size / 2,
+            borderWidth: theme.borders.borderWidth,
+            borderColor: theme.borders.borderColor,
         },
 
         filled: {

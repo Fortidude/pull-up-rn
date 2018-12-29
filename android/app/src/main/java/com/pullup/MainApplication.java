@@ -3,6 +3,8 @@ package com.pullup;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.cmcewen.blurview.BlurViewPackage;
+import com.bluroverly.SajjadBlurOverlayPackage;
 import com.bugsnag.BugsnagReactNative;
 import com.henninghall.date_picker.DatePickerPackage;
 import com.reactlibrary.RNReactNativeHapticFeedbackPackage;
@@ -30,6 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new BlurViewPackage(),
+            new SajjadBlurOverlayPackage(),
             BugsnagReactNative.getPackage(),
             new DatePickerPackage(),
             new RNReactNativeHapticFeedbackPackage(),

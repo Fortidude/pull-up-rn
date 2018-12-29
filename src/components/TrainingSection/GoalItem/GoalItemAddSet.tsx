@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, Dimensions, View } from 'react-native';
+import { Animated, View } from 'react-native';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 
 import Styles from './GoalItem.styles';
@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 //@ts-ignore
 import AwesomeIcon from 'react-native-vector-icons/AntDesign';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
-
 
 interface Props {
     theme: ThemeInterface;
@@ -64,7 +63,7 @@ class GoalItemAddSet extends React.Component<Props, State> {
 
         const rotate = this.props.visibleAnimation.interpolate({
             inputRange: [0, 1],
-            outputRange: ['45deg', '360deg']
+            outputRange: ['45deg', '0deg']
         })
 
         return (

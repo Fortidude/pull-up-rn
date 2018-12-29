@@ -96,7 +96,7 @@ const colors = {
 
     valueSliderBackgroundFilled: '#FFFFFF',
     valueSliderBackground: '#FFFFFF',
-    valueSlider: lightOrangeColor,
+    valueSlider: mainColor,
 
     linkSmallColor: '#FFF',
 
