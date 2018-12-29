@@ -8,19 +8,24 @@ export const locales:{[key: string]: string} = {
 let translations = {
     pl: {
         mics: {
+            amount: "Ilość",
             circuit_end: "koniec",
-            exercise: "Ćwiczenie",
-            exercise_variant: "Wariant",
             days: "dni",
             effectiveness: "skuteczność",
+            exercise: "Ćwiczenie",
+            exercise_variant: "Wariant",
             filter: "Filtruj",
+            none: "Brak",
             left: "pozostało",
             of: "z",
             pick_bar_to_check_time: "Wybierz słupek, aby zobaczyć godzinę",
             reps_record: "Rekord powtórzeń",
             scroll_to_today: "Dzisiaj",
+            type_name: "Wpisz nazwę",
             weight_record: "Rekord ciężaru",
             your_trainings: "Lista utworzonych treningów",
+            you_have_to_pick_exercise: "Musisz wybrać ćwiczenie",
+            you_have_to_type_exercise: "Musisz wpisać ćwiczenie",
         },
 
         login: {
@@ -74,6 +79,12 @@ let translations = {
         modals: {
             addTreningSection: {
                 title: "Dodaj Trening"
+            },
+            addGoalModal: {
+                addExerciseButtonText: "Utwórz własne ćwiczenie"
+            },
+            createExerciseModal: {
+                addGoalButtonText: "Wybierz z listy"
             }
         },
 

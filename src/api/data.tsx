@@ -75,7 +75,7 @@ class Data implements DataInterface {
         return await this.postFetchData(`/secured/goal/${goalId}/disable`, {});
     }
 
-    public postUpdateSettings = async (data: {[key: string]: any}): Promise<ResponseStatus> => {
+    public postUpdateSettings = async (data: { [key: string]: any }): Promise<ResponseStatus> => {
         return await this.postFetchData(`/secured/settings/update`, data);
     }
 
@@ -101,8 +101,14 @@ class Data implements DataInterface {
                 if (__DEV__) {
                     throw error;
                 } else {
-                    // @TODO
-                    Alert.alert("FATAL ERROR");
+                
+                    global.bugsnag.notify(error, (report: any) => {
+                        report.metadata = {
+                            apiUrl: apiUrl,
+                            header: object,
+                            method: "getFetchData"
+                        }
+                    })
                 }
             });
     }
@@ -150,8 +156,13 @@ class Data implements DataInterface {
                 if (__DEV__) {
                     //  throw error;
                 } else {
-                    // @TODO
-                    Alert.alert("FATAL ERROR");
+                    global.bugsnag.notify(error, (report: any) => {
+                        report.metadata = {
+                            apiUrl: url,
+                            header: headers,
+                            method: "callManual"
+                        }
+                    })
                 }
             });
     }

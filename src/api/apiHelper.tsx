@@ -68,7 +68,14 @@ class ApiHelper implements ApiInterface {
             return response;
         }
 
-        throw new Error(DEFAULT_SERVER_ERROR_MESSAGE);
+        let error = new Error(DEFAULT_SERVER_ERROR_MESSAGE);;
+        global.bugsnag.notify(error, (report: any) => {
+            report.metadata = {
+                response: response
+            }
+        })
+        
+        throw error;
     };
 
     public guid = (): string => {

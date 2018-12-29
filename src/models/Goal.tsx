@@ -106,8 +106,8 @@ const mapNewGoalInterfaceToApiRequestDataStructure = (data: NewGoalInterface): N
     return {
         name: data.name,
         description: data.description || "empty",
-        exercise: data.exercise.id,
-        exercise_variant: data.exerciseVariant ? data.exerciseVariant.id : null,
+        exercise: data.exercise.id || data.exercise.name,
+        exercise_variant: data.exerciseVariant ? data.exerciseVariant.id || data.exerciseVariant.name : null,
         no_specified_goal: type === null,
         sets: type === 'sets' && data.requiredAmount ? data.requiredAmount : undefined,
         reps: type === 'reps' && data.requiredAmount ? data.requiredAmount : undefined,

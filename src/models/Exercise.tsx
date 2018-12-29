@@ -41,8 +41,8 @@ class ExerciseVariant implements ExerciseVariantInterface {
     }
 }
 
-const validateExercise = (exercise: Exercise | null) => {
-    return exercise !== null && typeof exercise.name === 'string' && exercise.name.length > 2 && ValidateUUID(exercise.id);
+const validateExercise = (exercise: Exercise | null, customCreated = false) => {
+    return exercise !== null && typeof exercise.name === 'string' && exercise.name.length > 2 && (customCreated || ValidateUUID(exercise.id));
 }
 
 export {

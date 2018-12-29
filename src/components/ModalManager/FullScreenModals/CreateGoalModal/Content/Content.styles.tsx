@@ -8,6 +8,31 @@ function getStyle(theme: ThemeInterface) {
             paddingVertical: 20,
         },
 
+        buttonLine: {
+            container: {
+                flexDirection: 'row',
+                justifyContent: 'flex-end'
+            },
+            switchButton: {
+                flexDirection: 'row',  
+                justifyContent: 'center',
+                alignItems: 'center', 
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                borderColor: theme.colors.borderColor,
+                borderWidth: theme.borders.borderWidth,
+                backgroundColor: theme.colors.formInputBackground
+            },
+            buttonText: {
+                fontSize: theme.fonts.fontH3Size,
+                fontFamily: theme.fonts.mainFontFamily,
+                color: theme.colors.formInputTextColor  
+            },
+            buttonIcon: {
+                color: theme.colors.blue,
+            }
+        },
+
         textLine: {
             container: {
                 flexDirection: 'row'

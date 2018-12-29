@@ -15,10 +15,10 @@ const validateRequiredAmount = (type: string | null, requiredAmount: number | nu
     return type === null || (requiredAmount !== null && requiredAmount > 0);
 }
 
-export default (state: NewGoalInterface) => {
+export default (state: NewGoalInterface, customCreated = false) => {
     return validateName(state.name)
         && validateDescription(state.description)
-        && validateExercise(state.exercise)
+        && validateExercise(state.exercise, customCreated)
         && validateType(state.type)
         && validateRequiredAmount(state.type, state.requiredAmount);
 }
