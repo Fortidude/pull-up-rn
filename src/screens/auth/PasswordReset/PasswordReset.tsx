@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Alert } from 'react-native';
+import { Text, View } from 'react-native';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
@@ -12,6 +12,7 @@ import ButtonBig from 'src/components/ButtonBig';
 import { ThemeInterface } from 'src/assets/themes';
 import FormContainer from '../components';
 import { AuthActions } from 'src/store/actions/auth';
+import { ModalActions } from 'src/store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;
@@ -75,10 +76,11 @@ class PasswordReset extends Component<Props, State> {
     }
 
     showError = (text: string) => {
-        Alert.alert(I18n.t('errors.failed'), text,
-            [{ text: I18n.t('buttons.ok'), onPress: () => { } }],
-            { cancelable: false }
-        );
+        this.props.dispatch(ModalActions.informationOpen(I18n.t('errors.failed'), text));
+        // Alert.alert(I18n.t('errors.failed'), text,
+        //     [{ text: I18n.t('buttons.ok'), onPress: () => { } }],
+        //     { cancelable: false }
+        // );
     }
 
     render() {

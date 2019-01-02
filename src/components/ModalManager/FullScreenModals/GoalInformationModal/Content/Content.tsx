@@ -121,7 +121,7 @@ class GoalInformationContent extends React.Component<Props, State> {
         const { reps, weight, weightReps } = this.getHighest();
         return (
             <React.Fragment>
-                <ModalHeader text={this.props.goal.exercise.name} style={{ position: 'absolute', top: -45, opacity: this.opacity }} />
+                <ModalHeader text={this.props.goal.exercise.name} textStyle={this.style.headerTitle} style={{ position: 'absolute', top: -45, opacity: this.opacity }} />
                 <View onLayout={this.onLayout} style={this.style.content}>
                     <Text style={this.style.title}>{I18n.t('mics.exercise_variant')}: {this.props.goal.exercise.exerciseVariant.name || '-'}</Text>
                     <View style={{ position: 'absolute', left: 0, right: 0, bottom: 50 }}>

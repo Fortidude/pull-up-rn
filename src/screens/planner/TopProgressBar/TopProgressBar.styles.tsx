@@ -78,7 +78,7 @@ function getStyle(theme: ThemeInterface) {
         },
         toggleButtonBar: {
             borderWidth: theme.borders.borderWidth,
-            borderColor: theme.borders.borderColor,
+            borderColor: theme.colors.plannerProgressBarToggleLineColor || theme.borders.borderColor,
             width: 10
         }
     };

@@ -91,6 +91,7 @@ let translations = {
         planner: {
             add_first_training: "Dodaj swój pierwszy trening",
             add_training_title_information: `Nazwą treningu może być dzień tygodnia ("Poniedziałek") lub typ ćwiczeń, np. "Trening Pull" czy "Trening nóg"`,
+            empty_list_iniformation: `Nazwą treningu może być dzień tygodnia ("Poniedziałek") lub typ ćwiczeń np. "Trening Pull" czy "Trening nóg"`,
             done_of: "Zrobiono",
             other: "Pozostałe",
             difficultLevelTitle: "Trudność",
@@ -145,7 +146,8 @@ let translations = {
 
         themes: {
             light: "Dzienny",
-            dark: "Nocny"
+            dark: "Nocny",
+            pantone: "Pantone"
         },
 
         locales: {

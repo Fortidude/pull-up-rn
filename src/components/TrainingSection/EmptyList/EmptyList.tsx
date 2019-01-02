@@ -60,12 +60,14 @@ class EmptyList extends React.Component<Props, State> {
 
     onButtonPress = () => {
         if (this.state.formVisible) {
-            this.props.dispatch(AppActions.togglePlannerEdit(true));
-            this.props.dispatch(PlannerActions.createSection(this.state.title, ''));
+            if (this._isTitleValid()) {
+                this.props.dispatch(AppActions.togglePlannerEdit(true));
+                this.props.dispatch(PlannerActions.createSection(this.state.title, ''));
+            }
 
             this.setState({ formVisible: false, title: '' });
             Keyboard.dismiss();
-            Animated.timing(this.formVisibleAnimation, {
+            Animated.spring(this.formVisibleAnimation, {
                 toValue: 0,
                 useNativeDriver: true
             }).start();
@@ -73,7 +75,7 @@ class EmptyList extends React.Component<Props, State> {
         }
 
         this.setState({ formVisible: true })
-        Animated.timing(this.formVisibleAnimation, {
+        Animated.spring(this.formVisibleAnimation, {
             toValue: 1,
             useNativeDriver: true
         }).start(() => this.addTrainingSectionModalTitleInputRef.focus());
@@ -81,11 +83,11 @@ class EmptyList extends React.Component<Props, State> {
 
     render() {
         let buttonText = this.state.formVisible ? I18n.t('buttons.close') : I18n.t('planner.add_first_training')
-        buttonText = this.state.formVisible && this.state.title.length > 0 ? I18n.t('buttons.add') : buttonText;
+        buttonText = this.state.formVisible && this._isTitleValid() ? I18n.t('buttons.add') : buttonText;
 
         const buttonTranslateY = this.formVisibleAnimation.interpolate({
             inputRange: [0, 1],
-            outputRange: [-EMPTY_LIST_HEIGHT/6, 50]
+            outputRange: [-EMPTY_LIST_HEIGHT / 6, 50]
         });
 
         const formOpacity = this.formVisibleAnimation.interpolate({
@@ -93,9 +95,15 @@ class EmptyList extends React.Component<Props, State> {
             outputRange: [0, 0.1, 1]
         });
 
+        const formScale = this.formVisibleAnimation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 1],
+            extrapolate: 'clamp'
+        });
+
         return (
             <Animated.View style={[this.style.container, { transform: [{ translateY: this.containerTranslateY }] }]}>
-                <Animated.View style={[this.style.formContainer, {opacity: formOpacity, transform: [{ scale: this.formVisibleAnimation }] }]}>
+                <Animated.View style={[this.style.formContainer, { opacity: formOpacity, transform: [{ scale: formScale }] }]}>
                     <Text style={this.style.form.label}>{I18n.t('fields.type_name')}</Text>
                     <Input medium
                         inputRef={ref => this.addTrainingSectionModalTitleInputRef = ref}
@@ -104,7 +112,7 @@ class EmptyList extends React.Component<Props, State> {
                         onChange={(value) => this.setState({ title: value })}
                     />
 
-                    <Text style={this.style.infoText}>Nazwą treningu może być dzień tygodnia ("Poniedziałek") lub typ ćwiczeń, np. "Trening Pull" czy "Trening nóg"</Text>
+                    <Text style={this.style.infoText}>{I18n.t('planner.empty_list_iniformation')}</Text>
 
                 </Animated.View>
 
@@ -115,6 +123,8 @@ class EmptyList extends React.Component<Props, State> {
 
         );
     }
+
+    _isTitleValid = () => this.state.title.length >= 3;
 
     _keyboardDidShow = () => {
         Animated.timing(this.containerTranslateY, {

@@ -30,7 +30,7 @@ function getStyle(theme: ThemeInterface) {
             text: { 
                 fontFamily: theme.fonts.mainFontFamily,
                 fontSize: theme.fonts.fontSize,
-                color: theme.colors.textColor
+                color: theme.colors.headerFontColor || theme.colors.textColor
              }
         },
         right: {

@@ -14,7 +14,7 @@ function getStyle(theme: ThemeInterface) {
         },
 
         active: {
-            backgroundColor: theme.colors.modalBackgroundColor
+            backgroundColor: theme.colors.calendarActiveDayBackground || theme.colors.modalBackgroundColor
         },
 
         mediumDensityOfSets: {

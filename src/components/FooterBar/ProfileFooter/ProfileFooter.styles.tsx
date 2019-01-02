@@ -20,7 +20,7 @@ function getStyle(theme: ThemeInterface) {
         leftMainText: {
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontSize,
-            color: theme.colors.textColor
+            color: theme.colors.footerFontColor || theme.colors.textColor
         },
         leftSubText: {
             fontFamily: theme.fonts.mainFontFamily,

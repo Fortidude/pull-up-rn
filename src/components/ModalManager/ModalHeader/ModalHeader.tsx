@@ -11,6 +11,7 @@ interface Props {
 
     text: string;
     style?: object;
+    textStyle?: object;
 }
 
 class ModalHeader extends React.Component<Props> {
@@ -31,7 +32,7 @@ class ModalHeader extends React.Component<Props> {
     render() {
         return (
             <Animated.View style={[this.style.container, this.props.style]}>
-                <Text style={this.style.header}>
+                <Text style={[this.style.header, this.props.textStyle]}>
                     {this.props.text}
                 </Text>
             </Animated.View>

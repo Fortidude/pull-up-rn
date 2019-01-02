@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { ImageBackground, KeyboardAvoidingView, StyleSheet, Animated, Keyboard, Linking, Alert } from 'react-native';
+import { ImageBackground, KeyboardAvoidingView, StyleSheet, Animated, Keyboard, Linking } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import getStyle from './Auth.styles';
@@ -16,6 +16,7 @@ import Login from './Login';
 import Register from './Register';
 import PasswordReset from './PasswordReset';
 import PasswordReminder from './PasswordReminder';
+import { ModalActions } from 'src/store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;
@@ -56,18 +57,12 @@ class Auth extends React.Component<Props, State> {
         }
 
         if (nextProps.passwordReminderLinkSend && !this.props.passwordReminderLinkSend) {
-            Alert.alert('', I18n.t(`password_reminder.link_has_been_sent`),
-                [{ text: I18n.t('buttons.ok'), onPress: () => { } }],
-                { cancelable: false }
-            );
+            this.props.dispatch(ModalActions.informationOpen('', I18n.t('password_reminder.link_has_been_sent')));
             this.switchComponent('login', true);
         }
 
         if (nextProps.passwordChanged && !this.props.passwordChanged) {
-            Alert.alert('', I18n.t(`password_reset.password_changed`),
-                [{ text: I18n.t('buttons.ok'), onPress: () => { } }],
-                { cancelable: false }
-            );
+            this.props.dispatch(ModalActions.informationOpen('', I18n.t('password_reset.password_changed')));
             this.switchComponent('login', true);
         }
     }
@@ -147,6 +142,7 @@ class Auth extends React.Component<Props, State> {
                         {this.state.componentName === 'register' && <Register
                             email={this.state.email}
                             onEmailChange={(email) => this.setState({ email })}
+                            goToLoginPage={() => this.switchComponent('login')}
                             onInputFocus={this._onInputFocus}
                             onInputBlur={this._onInputBlur} />}
                         {this.state.componentName === 'passwordreset' && <PasswordReset

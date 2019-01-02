@@ -13,13 +13,13 @@ function getStyle(theme: ThemeInterface) {
         backText: {
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontSize,
-            color: theme.colors.textColor,
+            color: theme.colors.headerFontColor || theme.colors.textColor,
             marginBottom: 11
         },
         icon: {
             marginLeft: -15,
             marginRight: -15,
-            color: theme.colors.textColor
+            color: theme.colors.headerFontColor || theme.colors.textColor
         }
     };
 }

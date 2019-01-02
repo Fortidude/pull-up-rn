@@ -14,6 +14,10 @@ function getStyle(theme: ThemeInterface) {
             paddingVertical: 20,
             height: HEIGHT - FOOTER_HEIGHT - HEADER_HEIGHT
         },
+
+        headerTitle: {
+            color: theme.colors.headerFontColor || theme.colors.textColor
+        },
         title: {
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontSize,

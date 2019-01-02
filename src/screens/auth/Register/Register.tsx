@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Alert, Text, View } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { Text, View } from 'react-native';
 
 import getStyle from '../Auth.styles';
 import I18n from 'src/assets/translations';
@@ -12,6 +11,7 @@ import ButtonBig from 'src/components/ButtonBig';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import FormContainer from '../components';
 import { AuthActions } from 'src/store/actions/auth';
+import { ModalActions } from 'src/store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;
@@ -24,6 +24,7 @@ interface Props {
 
     email: string;
     onEmailChange: (value: string) => void;
+    goToLoginPage: () => void;
 
     onInputFocus?: () => void;
     onInputBlur?: () => void;
@@ -69,18 +70,15 @@ class Login extends Component<Props, State> {
         if (/* loading was started and now it's done */this.state.isLoading && this.props.isLoading && !nextProps.isLoading) {
             this.setState({ isLoading: false }, () => {
                 if (nextProps.isRegistered) {
-                    this.goToLoginPage();
-                    Alert.alert(I18n.t('register.success_title'), I18n.t('register.success_text'),
-                        [{ text: I18n.t('login.login'), onPress: () => { } }],
-                        { cancelable: false }
-                    );
+                    this.props.goToLoginPage();
+                    this.props.dispatch(ModalActions.informationOpen(I18n.t('register.success_title'), I18n.t('register.success_text')));
+                    // Alert.alert(I18n.t('register.success_title'), I18n.t('register.success_text'),
+                    //     [{ text: I18n.t('login.login'), onPress: () => { } }],
+                    //     { cancelable: false }
+                    // );
                 }
             });
         }
-    }
-
-    goToLoginPage = () => {
-        this.props.dispatch(NavigationActions.back());
     }
 
     register = () => {
@@ -94,10 +92,7 @@ class Login extends Component<Props, State> {
     };
 
     showError = (text: string) => {
-        Alert.alert(I18n.t('errors.failed'), text,
-            [{ text: I18n.t('buttons.ok'), onPress: () => { } }],
-            { cancelable: false }
-        );
+        this.props.dispatch(ModalActions.informationOpen(I18n.t('errors.failed'), text));
     }
 
     render() {

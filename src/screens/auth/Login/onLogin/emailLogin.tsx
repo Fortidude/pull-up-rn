@@ -1,8 +1,7 @@
-import { Alert, AsyncStorage } from "react-native";
+import { Alert } from "react-native";
 
 import { User } from "../../../../api";
 import I18n from '../../../../assets/translations';
-import { Dispatch } from "redux";
 
 class EmailLogin {
     private static instance: EmailLogin;
