@@ -7,6 +7,7 @@ import Styles from './VerticalValueSlider.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 
 import { size } from './VerticalValueSlider.styles';
+import Haptic from 'src/service/Haptic';
 
 interface Props {
     dispatch: Dispatch;
@@ -18,6 +19,7 @@ interface Props {
 }
 
 interface State {
+    value: number;
     positionMax: number;
     range: number[]
 }
@@ -31,11 +33,19 @@ class VerticalValueSlider extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.style = Styles(this.props.theme);
+        this.style = Styles(props.theme);
         this.state = {
+            value: props.value,
             positionMax: 0,
-            range: [...Array(this.props.max).keys()].map(val => val + 1)
+            range: [...Array(props.max).keys()].map(val => val + 1)
         }
+
+        this.position.addListener(({ value }) => this._onMove(value));
+    }
+
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
+        return this.state.value !== nextProps.value
+            || this.state.positionMax !== nextState.positionMax;
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -47,7 +57,8 @@ class VerticalValueSlider extends React.Component<Props, State> {
     animateTo = (newPosition: number) => {
         this.positionOffset = newPosition;
         Animated.timing(this.position, {
-            toValue: newPosition
+            toValue: newPosition,
+            duration: 200
         }).start();
     }
 
@@ -56,8 +67,10 @@ class VerticalValueSlider extends React.Component<Props, State> {
             <View onLayout={this._onLayout} ref="sliderRef" style={this.style.container}>
                 <View style={[this.style.fieldBackground, { height: this.state.positionMax }]}></View>
                 <Animated.View style={[this.style.filled, { height: this.position }]}></Animated.View>
-                <Animated.View {...this._getPanHandlers().panHandlers} style={[this.style.slider, { transform: [{ translateY: this.position }] }]}>
-                    <View style={this.style.innerSlider}></View>
+                <Animated.View {...this._getPanHandlers().panHandlers} style={[this.style.sliderContainer, { transform: [{ translateY: this.position }] }]}>
+                    <View style={this.style.slider}>
+                        <View style={this.style.innerSlider}></View>
+                    </View>
                 </Animated.View>
             </View>
         );
@@ -91,7 +104,8 @@ class VerticalValueSlider extends React.Component<Props, State> {
                     return;
                 }
 
-                this.position.setValue(gestureState.dy + this.positionOffset);
+                const position = gestureState.dy + this.positionOffset;
+                this.position.setValue(position);
             },
             onPanResponderRelease: () => {
                 this._onRelease();
@@ -107,6 +121,28 @@ class VerticalValueSlider extends React.Component<Props, State> {
         let positionaValue = this.position._value;
         this.positionOffset = positionaValue;
 
+        let calculatedValue = this._calculatePosition(positionaValue);
+        calculatedValue = calculatedValue !== null ? calculatedValue : 0;
+        const newPosition = this.state.positionMax * (calculatedValue / (this.props.max - 1));
+        this.animateTo(newPosition);
+    }
+
+    _onMove = (position: number) => {
+        let calculatedValue = this._calculatePosition(position);
+
+        calculatedValue = calculatedValue !== null ? calculatedValue : 0;
+        calculatedValue += 1;
+
+        if (this.props.value !== calculatedValue) {
+            Haptic('selection');
+            this.setState({ value: calculatedValue }, () => {
+                //@ts-ignore
+                this.props.onChange(calculatedValue);
+            })
+        }
+    }
+
+    _calculatePosition = (positionaValue: number): number | null => {
         let percent = (positionaValue / this.state.positionMax);
         let percentValue = (this.props.max - 1) * percent;
         let calculatedValue: number | null = null;
@@ -128,17 +164,8 @@ class VerticalValueSlider extends React.Component<Props, State> {
             prevValue = currValue;
         })
 
-        calculatedValue = calculatedValue !== null ? calculatedValue : 0;
-
-        const newPosition = this.state.positionMax * (calculatedValue / (this.props.max - 1));
-        calculatedValue += 1;
-
-        this.animateTo(newPosition);
-
-        // //@ts-ignore
-        this.props.onChange(calculatedValue);
+        return calculatedValue;
     }
-
 }
 
 const mapStateToProps = (state: any) => ({

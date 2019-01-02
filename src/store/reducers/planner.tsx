@@ -115,12 +115,11 @@ function planner(state = initialState, action: AnyAction): PlannerState {
 
         case PlannerTypes.loadSetsByDatePeriodSuccess:
             const sets = action.payload.sets;
-            const collection = Object.assign({}, state.setsHistory);
 
             return Object.assign({}, state, {
                 loading: false,
                 setsHistoryLoaded: true,
-                setsHistory: PlannerMethods.loadSetHistory(sets, collection)
+                setsHistory: PlannerMethods.loadSetHistory(sets)
             });
 
         case PlannerTypes.loadSetsByDatePeriodFailed:

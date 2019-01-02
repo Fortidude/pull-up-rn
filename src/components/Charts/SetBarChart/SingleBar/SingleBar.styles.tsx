@@ -12,7 +12,7 @@ function getStyle(theme: ThemeInterface, big?: boolean) {
         },
         topContainer: {
             height: big ? TOP_BAR_BIG_HEIGHT : TOP_BAR_SMALL_HEIGHT,
-            marginBottom: 3,
+            marginBottom: 5,
             backgroundColor: theme.colors.barChartBackground,
             shadowColor: theme.colors.shadowColor,
             shadowOpacity: 0.20,
@@ -41,8 +41,17 @@ function getStyle(theme: ThemeInterface, big?: boolean) {
             color: theme.colors.inverseTextColor
         },
 
+        difficultyLevel: {
+            position: 'absolute',
+            width: big ? BAR_BIG_WIDTH : BAR_SMALL_WIDTH,
+            bottom: -6,
+            height: 3,
+            borderRadius: 1,
+            left: 0
+        },
+
         bottomContainer: {
-            marginTop: 3,
+            marginTop: 4,
             width: big ? BAR_BIG_WIDTH : BAR_SMALL_WIDTH,
             height: big ? BOTTOM_BAR_BIG_HEIGHT : BOTTOM_BAR_SMALL_HEIGHT,
             backgroundColor: theme.colors.barChartBackground,

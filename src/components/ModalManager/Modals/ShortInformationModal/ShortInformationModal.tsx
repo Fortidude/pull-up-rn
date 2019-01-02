@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './ShortInformationModal.styles';
@@ -24,9 +24,12 @@ class ASampleTemplate extends React.Component<Props> {
 
         this.style = Styles(this.props.theme);
 
-        setTimeout(() => {
-            this.props.dispatch(ModalActions.informationClose());
-        }, 1500);
+        const length = this.props.modalOptions.text.length;
+        if (length < 40) {
+            setTimeout(() => {
+                this.props.dispatch(ModalActions.informationClose());
+            }, length > 20 ? 2500 : 1500);
+        }
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -36,10 +39,25 @@ class ASampleTemplate extends React.Component<Props> {
     }
 
     render() {
+        const length = this.props.modalOptions.text.length;
+        let sizeStyle = {};
+        let titleStyle = {};
+
+        if (length > 20) {
+            sizeStyle = this.style.medium;
+        } else if (length > 40) {
+            sizeStyle = this.style.big;
+            titleStyle = this.style.titleBig;
+        }
+
         return (
-            <View style={this.style.container}>
-                <Text style={this.style.title}>{this.props.modalOptions.title.toLocaleUpperCase()}</Text>
-                <Text style={this.style.text}>{this.props.modalOptions.text}</Text>
+            <View style={[this.style.container, sizeStyle]}>
+                <Text style={[this.style.title, titleStyle]}>{this.props.modalOptions.title.toLocaleUpperCase()}</Text>
+                <Text numberOfLines={5} adjustsFontSizeToFit minimumFontScale={0.7} style={this.style.text}>{this.props.modalOptions.text}</Text>
+
+                {length > 40 && <TouchableOpacity onPress={() => this.props.dispatch(ModalActions.informationClose())} style={this.style.dismissButtom.container}>
+                    <Text style={this.style.dismissButtom.text}>OK</Text>
+                </TouchableOpacity>}
             </View>
         );
     }

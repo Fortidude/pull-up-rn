@@ -10,8 +10,16 @@ function getStyle(theme: ThemeInterface) {
             height: '100%'
         },
 
-        slider: {
+        sliderContainer: {
             position: 'absolute',
+            padding: size,
+            top: -size,
+            left: -size,
+            width: size*3,
+            height: size*3
+        },
+
+        slider: {
             width: size,
             height: size,
             borderRadius: size / 2,

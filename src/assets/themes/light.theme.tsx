@@ -98,6 +98,10 @@ const colors = {
     valueSliderBackground: '#FFFFFF',
     valueSlider: mainColor,
 
+    difficultyOne: greenColor,
+    difficultyTwo: lightOrangeColor,
+    difficultyThree: redColor,
+
     linkSmallColor: '#FFF',
 
     spinnerColor: mainColor,

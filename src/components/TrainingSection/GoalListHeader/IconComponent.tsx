@@ -35,7 +35,6 @@ class IconComponent extends React.Component<Props, State> {
 
     componentDidMount() {
         if (this.props.plannerEditMode && this.props.plannerCustomMode) {
-            console.log('animate');
             Animated.timing(
                 this.state.spinValue,
                 {

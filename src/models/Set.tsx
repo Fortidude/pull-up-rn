@@ -9,6 +9,8 @@ interface SetInterface {
     weight?: number | null | undefined;
     date: Date | string;
 
+    difficulty_level?: number;
+
     value?: number;
     circuit?: CircuitInterface;
 }
@@ -23,11 +25,13 @@ export default class Set implements SetInterface {
 
     value: number;
     weight: number;
+    difficultyLevel: number;
     
     constructor(data: any) {
         this.id = data.id;
         this.value = data.value;
         this.weight = data.weight ? data.weight : 0;
+        this.difficultyLevel = data.difficultyLevel ? data.difficultyLevel : data.difficulty_level ? data.difficulty_level : 0;
         this.goal = new Goal(data.goal);
         this.circuit = new Circuit(data.circuit);
 

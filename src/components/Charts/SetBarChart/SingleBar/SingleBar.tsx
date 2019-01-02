@@ -53,12 +53,26 @@ class SingleBar extends React.Component<Props> {
             valuePercent += 0.10
         }
 
+        let difficiltyLevelBackgroundColor = 'transparent';
+        const difficultyLevel = this.props.set.difficulty_level || this.props.set.difficultyLevel || 0;
+        switch (difficultyLevel) {
+            case 1: 
+                difficiltyLevelBackgroundColor = this.props.theme.colors.difficultyOne;
+                break;
+            case 2: 
+                difficiltyLevelBackgroundColor = this.props.theme.colors.difficultyTwo;
+                break;
+            case 3: 
+                difficiltyLevelBackgroundColor = this.props.theme.colors.difficultyThree;
+        }
+
         return (
             <View style={[this.style.container, this.props.isDayEnd && {marginLeft: 15}]}>
                 <TouchableOpacity style={[this.style.topContainer]} onPress={() => this.props.onClick(this.props.index)}>
                     <View style={[topBarStyle, { height: topBarHeight * valuePercent }]}>
                         <Text adjustsFontSizeToFit style={this.style.topBarText}>{setValue}</Text>
                     </View>
+                    <View style={[this.style.difficultyLevel, {backgroundColor: difficiltyLevelBackgroundColor}]}></View>
                 </TouchableOpacity>
                 <View style={[this.style.bottomContainer, weightPercent === 0 && this.style.bottomContainerInactive]}>
                     {weightPercent > 0 && <View style={[this.style.bottomBar, { height: bottomBarHeight * weightPercent }]}>

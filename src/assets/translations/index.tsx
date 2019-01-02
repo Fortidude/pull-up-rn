@@ -179,6 +179,9 @@ let translations = {
             email: "Email",
             email_validate: "Potwierdź adres email",
             number_of_reps_done: "Ilość wykonanych powtórzeń",
+            number_of_required_reps: "Ilość wykonanych powtórzeń",
+            number_of_required_time: "Ilość minutów",
+            number_of_required_sets: "Ilość setów",
             password: "Hasło",
             password_repeat: "Powtórz hasło",
             type_name: "Podaj nazwę"
@@ -198,6 +201,11 @@ let translations = {
             save: "Zapisz",
             logout: "Wyloguj się",
             ok: "OK"
+        },
+
+        warnings: {
+            attention: "Uwaga",
+            possible_swap_weight_reps: "Prawdopodobnie pomylono ilość wykonanych powtórzeń z ciężarem. Kliknij OK i ponownie Zapisz jeżeli wszystko jest prawidłowo."
         },
 
         errors: {

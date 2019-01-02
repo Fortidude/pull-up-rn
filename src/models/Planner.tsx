@@ -174,7 +174,8 @@ class PlannerMethodsClass {
         return planner;
     }
 
-    loadSetHistory = (sets: Set[], collection: { [key: string]: Set[] }) => {
+    loadSetHistory = (sets: Set[]) => {
+        let collection: { [key: string]: Set[] } = {}
 
         sets.forEach((set: Set) => {
             const date = moment(set.date).format('D-M-Y');
@@ -182,14 +183,14 @@ class PlannerMethodsClass {
                 collection[date] = [];
             }
 
-            let index;
+            let index = null;
             collection[date].forEach((existingSet: Set, key: number) => {
                 if (existingSet.id === set.id) {
                     index = key;
                 }
             })
 
-            if (index) {
+            if (index !== null) {
                 collection[date][index] = set;
                 return;
             }

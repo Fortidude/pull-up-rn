@@ -29,7 +29,10 @@ interface State {
     value: number | null;
     extraWeight: number | null;
     difficultyLevel: number;
+    difficultyLevelSlider: number;
     date: Date;
+
+    possibleSwappedWeightAndValueConfirmed: boolean;
 }
 
 class GoalCreateSetContent extends React.Component<Props, State> {
@@ -44,7 +47,10 @@ class GoalCreateSetContent extends React.Component<Props, State> {
             value: null,
             extraWeight: null,
             difficultyLevel: 2,
-            date: new Date()
+            difficultyLevelSlider: 2,
+            date: new Date(),
+
+            possibleSwappedWeightAndValueConfirmed: false
         }
     }
 
@@ -105,7 +111,10 @@ class GoalCreateSetContent extends React.Component<Props, State> {
             value: null,
             extraWeight: null,
             difficultyLevel: 2,
-            date: new Date()
+            difficultyLevelSlider: 2,
+            date: new Date(),
+
+            possibleSwappedWeightAndValueConfirmed: false
         });
     }
 
@@ -123,11 +132,19 @@ class GoalCreateSetContent extends React.Component<Props, State> {
             return;
         }
 
+        if (this._checkForPossibleSwappedWeightAndValue()) {
+            Keyboard.dismiss();
+            this.setState({ possibleSwappedWeightAndValueConfirmed: true });
+            this.props.dispatch(ModalActions.informationOpen(I18n.t('warnings.attention'), I18n.t('warnings.possible_swap_weight_reps')));
+            return;
+        }
+
         this.props.dispatch(PlannerActions.selectGoalToAddSet(null));
         this.props.dispatch(PlannerActions.createSet(
             this.props.goal,
             this.state.value,
             this.state.extraWeight,
+            this.state.difficultyLevel,
             moment.parseZone(this.state.date)
         ));
 
@@ -163,13 +180,17 @@ class GoalCreateSetContent extends React.Component<Props, State> {
                     </View>
                     <View style={this.style.form.container}>
                         <View style={this.style.form.leftSide}>
-                            <Text style={this.style.form.label}>{I18n.t('fields.number_of_reps_done')}</Text>
+                            <Text style={this.style.form.label}>
+                                {goal.requiredType === 'reps' && I18n.t(`fields.number_of_reps_done`)}
+                                {goal.requiredType === 'sets' && I18n.t(`fields.number_of_reps_done`)}
+                                {goal.requiredType === 'time' && I18n.t(`fields.number_of_required_time`)}
+                            </Text>
                             <Input
                                 medium
                                 keyboardType={"numeric"}
                                 inputRef={ref => this.addSetModalRepAmountRef = ref}
                                 value={this.state.value ? this.state.value.toString() : ''}
-                                onChange={(value) => this.setState({ value: parseInt(value) })}
+                                onChange={(value) => this.setState({ value: parseInt(value), possibleSwappedWeightAndValueConfirmed: false })}
                             />
 
                             <Text style={this.style.form.label}>{I18n.t('fields.additional_weight')}</Text>
@@ -177,7 +198,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
                                 medium
                                 keyboardType={"numeric"}
                                 value={this.state.extraWeight ? this.state.extraWeight.toString() : undefined}
-                                onChange={(extraWeight) => this.setState({ extraWeight: parseInt(extraWeight) })}
+                                onChange={(extraWeight) => this.setState({ extraWeight: parseInt(extraWeight), possibleSwappedWeightAndValueConfirmed: false })}
                             />
 
                             <Text style={this.style.form.label}>{I18n.t('fields.date')}</Text>
@@ -189,7 +210,7 @@ class GoalCreateSetContent extends React.Component<Props, State> {
                         <View style={this.style.form.rightSide}>
                             <VerticalValueSlider
                                 max={3}
-                                value={this.state.difficultyLevel}
+                                value={this.state.difficultyLevelSlider}
                                 onChange={this._onSliderChange}
                             />
                         </View>
@@ -199,10 +220,51 @@ class GoalCreateSetContent extends React.Component<Props, State> {
         );
     }
 
-    _onSliderChange = (difficultyLevel: number) => {
-        if (difficultyLevel !== this.state.difficultyLevel) {
-            this.setState({ difficultyLevel })
+    _onSliderChange = (difficultyLevelSlider: number) => {
+        let difficultyLevel = difficultyLevelSlider;
+        if (difficultyLevelSlider === 3) {
+            difficultyLevel = 1;
+        } else if (difficultyLevelSlider === 1) {
+            difficultyLevel = 3;
         }
+
+        if (difficultyLevelSlider !== this.state.difficultyLevelSlider) {
+            this.setState({ difficultyLevel, difficultyLevelSlider })
+        }
+    }
+
+    _checkForPossibleSwappedWeightAndValue = () => {
+        if (this.state.possibleSwappedWeightAndValueConfirmed) {
+            return false;
+        }
+
+        const lastSet = this.props.goal.sets[0];
+        const weight = lastSet.weight || 0;
+        const value = lastSet.value || lastSet.reps || lastSet.time || 0;
+
+        if (this.state.extraWeight !== null
+            && this.state.value !== null
+            && this.state.value > this.state.extraWeight
+            && this.props.goal.sets[0]) {
+
+            if (weight > 0 && ((weight * 0.5) < this.state.value)) {
+                return true;
+            }
+
+            if ((this.state.extraWeight * 0.5) < value) {
+                return true;
+            }
+        }
+
+        if (this.state.value && this.state.value > (value * 1.5)) {
+            return true;
+        }
+
+        if (this.state.extraWeight && weight && this.state.extraWeight < weight * 0.4) {
+            return true;
+        }
+
+        return false;
     }
 }
 

@@ -30,6 +30,44 @@ function getStyle(theme: ThemeInterface, big?: boolean) {
             color: theme.colors.subTextColor,
             marginHorizontal: big ? 20 : 0,
         },
+
+        legend: {
+            container: {
+                flexDirection: 'row',
+                paddingHorizontal: 20,
+                paddingTop: 25
+            },
+
+            textHard: {
+                flex: 1,
+                color: theme.colors.difficultyThree,
+                fontFamily: theme.fonts.mainFontFamily,
+                fontSize: theme.fonts.fontH4Size,
+            },
+
+            textMedium: {
+                flex: 1,
+                color: theme.colors.difficultyTwo,
+                fontFamily: theme.fonts.mainFontFamily,
+                fontSize: theme.fonts.fontH4Size,
+            },
+
+            textEasy: {
+                flex: 1,
+                color: theme.colors.difficultyOne,
+                fontFamily: theme.fonts.mainFontFamily,
+                fontSize: theme.fonts.fontH4Size,
+            },
+
+            textTitle: {
+                position: 'absolute',
+                bottom: 15,
+                left: 20,
+                color: theme.colors.subTextColor,
+                fontFamily: theme.fonts.mainFontFamily,
+                fontSize: theme.fonts.fontH5Size,
+            }
+        }
     };
 }
 

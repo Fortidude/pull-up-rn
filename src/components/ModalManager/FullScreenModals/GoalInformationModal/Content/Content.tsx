@@ -110,8 +110,6 @@ class GoalInformationContent extends React.Component<Props, State> {
 
         this.setState({
             showChart: true
-        }, () => {
-            console.log('go go');
         });
     }
 

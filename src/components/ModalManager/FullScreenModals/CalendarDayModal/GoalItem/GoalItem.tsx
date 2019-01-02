@@ -78,7 +78,7 @@ class GoalItem extends React.Component<Props, State> {
                 </TouchableOpacity>
 
                 <Animated.View style={[this.style.setsList.container, { height: this.state.listHeight }]}>
-                    <SetBarChart sets={this.props.goal.sets} maxHeight={144}/>
+                    <SetBarChart sets={this.props.goal.sets}/>
                 </Animated.View>
 
             </Animated.View>

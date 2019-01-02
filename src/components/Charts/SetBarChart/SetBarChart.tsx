@@ -68,19 +68,23 @@ class SetBarChart extends React.Component<Props, State> {
         let maxWeight = 0;
 
         this.props.sets.forEach((set: SetInterface) => {
-            maxValue = set.value && set.value > maxValue ? set.value : maxValue;
+            let setValue: number = set.value || set.reps || set.time || 0;
+
+            maxValue = setValue > maxValue ? setValue : maxValue;
             maxWeight = set.weight && set.weight > maxWeight ? set.weight : maxWeight;
         })
 
         let prevSetDay = '';
         return (
             <View style={this.style.container}>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
                 {this.state.activeSetKey === null && <Text style={this.style.hourText}>{ I18n.t('mics.pick_bar_to_check_time')}</Text>}
                 {this.state.activeSetKey !== null &&
                     <Text style={this.style.hourText}>
                         {this.getDate(this.props.sets[this.state.activeSetKey])}
                     </Text>
                 }
+                </View>
                 <ScrollView showsHorizontalScrollIndicator={false} horizontal style={this.style.scrollContainer}>
                     {this.props.sets.map((set: SetInterface, key: number) => {
                         const setDay = moment(set.date).format('DM');
@@ -100,6 +104,12 @@ class SetBarChart extends React.Component<Props, State> {
                         )
                     })}
                 </ScrollView>
+                {this.props.big && <View style={this.style.legend.container}>
+                    <Text style={this.style.legend.textEasy}>Łatwy</Text>
+                    <Text style={this.style.legend.textMedium}>Średni</Text>
+                    <Text style={this.style.legend.textHard}>Trudny</Text>
+                    <Text style={this.style.legend.textTitle}>Poziom trudności</Text>
+                </View>}
             </View>
         );
     }
