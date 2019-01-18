@@ -29,9 +29,11 @@ interface Props {
     goalToAddSetSelected: Goal | null;
 
     isToggled: boolean;
-    onGoalClick: () => void;
+    onGoalClick?: () => void;
     toggleParentScroll?: (enable: boolean) => void;
-    onMoveToSection: (goalId: string, onPickCallback?: () => void, onDispatchCallback?: () => void) => void;
+    onMoveToSection?: (goalId: string, onPickCallback?: () => void, onDispatchCallback?: () => void) => void;
+    onGoalClickOverride?: (goal: Goal) => void;
+    onRightSwipe?: (goal: Goal) => void;
 }
 
 interface State {
@@ -120,6 +122,11 @@ class GoalItem extends React.Component<Props, State> {
     }
 
     onAddSetPress = () => {
+        if (this.props.onGoalClickOverride) {
+            this.props.onGoalClickOverride(this.props.goal);
+            return;
+        }
+
         this.props.toggleParentScroll && this.props.toggleParentScroll(false);
         this.props.dispatch(PlannerActions.selectGoalToAddSet(this.props.goal));
         this.setState({ mockContent: true }, () => {
@@ -128,7 +135,7 @@ class GoalItem extends React.Component<Props, State> {
                 Animated.parallel([
                     Animated.spring(this.mockTranslateY, { toValue: -windowY + HEADER_HEIGHT, useNativeDriver: true }),
                     Animated.timing(this.mockVisible, { toValue: 1, useNativeDriver: true })
-                ]).start(() => this.props.onGoalClick());
+                ]).start(() => this.props.onGoalClick && this.props.onGoalClick());
             });
         })
     }
@@ -155,7 +162,9 @@ class GoalItem extends React.Component<Props, State> {
         }
 
         HapticFeedback('selection');
-        this.props.onMoveToSection(this.state.goal.id, onPickCallback, onDispatchCallback);
+        if (this.props.onMoveToSection) {
+            this.props.onMoveToSection(this.state.goal.id, onPickCallback, onDispatchCallback);
+        }
     }
 
     onRemove = () => {
@@ -167,13 +176,18 @@ class GoalItem extends React.Component<Props, State> {
         this.props.dispatch(ModalActions.pickerOpen(options, true, onSuccess))
     }
 
-    onLeftSwipeRelease = () => {
+    onRightSwipeRelease = () => {
         this.setState({ animeteOut: true });
-        
+
         //@ts-ignore
         this.refs.leftSwipeIconComponent.measure((x, y, width, height, windowX, windowY) => {
-            this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
-            this.props.dispatch(ModalActions.goalInformationOpen(0, windowY));
+            if (!this.props.onRightSwipe) {
+                this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
+                this.props.dispatch(ModalActions.goalInformationOpen(0, windowY));
+            } else {
+                this.props.onRightSwipe(this.props.goal);
+            }
+
             this.setState({ animeteOut: false });
         })
     }
@@ -211,7 +225,7 @@ class GoalItem extends React.Component<Props, State> {
                 rightButtons={rightButtons}
                 leftSwipe={leftSwipe}
                 leftSwipeReached={leftSwipeReached}
-                leftSwipeReleaseCallback={this.onLeftSwipeRelease}
+                leftSwipeReleaseCallback={this.onRightSwipeRelease}
                 onMoveBegin={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(false) : null}
                 onMoveEnd={() => this.props.toggleParentScroll ? this.props.toggleParentScroll(true) : null}
             >

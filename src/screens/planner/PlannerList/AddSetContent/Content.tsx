@@ -238,30 +238,42 @@ class GoalCreateSetContent extends React.Component<Props, State> {
             return false;
         }
 
-        const lastSet = this.props.goal.sets[0];
-        const weight = lastSet.weight || 0;
-        const value = lastSet.value || lastSet.reps || lastSet.time || 0;
-
-        if (this.state.extraWeight !== null
-            && this.state.value !== null
-            && this.state.value > this.state.extraWeight
-            && this.props.goal.sets[0]) {
-
-            if (weight > 0 && ((weight * 0.5) < this.state.value)) {
-                return true;
-            }
-
-            if ((this.state.extraWeight * 0.5) < value) {
-                return true;
-            }
-        }
-
-        if (this.state.value && this.state.value > (value * 1.5)) {
+        if (this.state.value !== null
+            && this.state.extraWeight !== null
+            && this.state.value > this.state.extraWeight) {
             return true;
         }
 
-        if (this.state.extraWeight && weight && this.state.extraWeight < weight * 0.4) {
-            return true;
+        if (this.props.goal.sets[0]) {
+            const lastSet = this.props.goal.sets[0];
+            if (!lastSet) {
+                return false;
+            }
+
+            const weight = lastSet.weight || 0;
+            const value = lastSet.value || lastSet.reps || lastSet.time || 0;
+
+            if (this.state.extraWeight !== null
+                && this.state.value !== null
+                && this.state.value > this.state.extraWeight
+                && this.props.goal.sets[0]) {
+
+                if (weight > 0 && ((weight * 0.5) < this.state.value)) {
+                    return true;
+                }
+
+                if ((this.state.extraWeight * 0.5) < value) {
+                    return true;
+                }
+            }
+
+            if (this.state.value && this.state.value > (value * 1.5)) {
+                return true;
+            }
+
+            if (this.state.extraWeight && weight && this.state.extraWeight < weight * 0.4) {
+                return true;
+            }
         }
 
         return false;

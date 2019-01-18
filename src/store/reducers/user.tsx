@@ -8,12 +8,14 @@ import User from '../../models/User';
 interface UserState {
     current: null | User;
     error: any;
+    onBoarding: boolean;
     expires_at: string;
 }
 
 const initialState: UserState = {
     current: null,
     error: null,
+    onBoarding: true,
     expires_at: moment().hour(23).minute(59).format()
 };
 
@@ -32,6 +34,12 @@ function user(state = initialState, action: AnyAction): UserState {
                 current.planner_custom_mode = !current.planner_custom_mode;
             }
             return Object.assign({}, state, { current })
+
+
+        case UserTypes.endOnBoarding:
+            return { ...state, onBoarding: false }
+        case UserTypes.manuallyGoToOnboarding:
+            return { ...state, onBoarding: true }
 
         case AuthTypes.logout:
             return Object.assign({}, initialState);

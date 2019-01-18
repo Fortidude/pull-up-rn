@@ -43,17 +43,17 @@ class ASampleTemplate extends React.Component<Props> {
         let sizeStyle = {};
         let titleStyle = {};
 
-        if (length > 20) {
-            sizeStyle = this.style.medium;
-        } else if (length > 40) {
+        if (length > 60) {
             sizeStyle = this.style.big;
             titleStyle = this.style.titleBig;
+        } else if (length > 20) {
+            sizeStyle = this.style.medium;
         }
 
         return (
             <View style={[this.style.container, sizeStyle]}>
-                <Text style={[this.style.title, titleStyle]}>{this.props.modalOptions.title.toLocaleUpperCase()}</Text>
-                <Text numberOfLines={5} adjustsFontSizeToFit minimumFontScale={0.7} style={this.style.text}>{this.props.modalOptions.text}</Text>
+                <Text numberOfLines={1} style={[this.style.title, titleStyle]}>{this.props.modalOptions.title.toLocaleUpperCase()}</Text>
+                <Text style={this.style.text}>{this.props.modalOptions.text}</Text>
 
                 {length > 40 && <TouchableOpacity onPress={() => this.props.dispatch(ModalActions.informationClose())} style={this.style.dismissButtom.container}>
                     <Text style={this.style.dismissButtom.text}>OK</Text>

@@ -21,6 +21,7 @@ interface Props {
 interface State {
     component: any;
     translateY: Animated.Value;
+    hidden: boolean;
 }
 
 class FooterBar extends React.Component<Props, State> {
@@ -58,7 +59,8 @@ class FooterBar extends React.Component<Props, State> {
         this.style = Styles(this.props.theme);
         this.state = {
             component: null,
-            translateY: new Animated.Value(0)
+            translateY: new Animated.Value(0),
+            hidden: false
         }
     }
 
@@ -74,14 +76,31 @@ class FooterBar extends React.Component<Props, State> {
         });
         Events.listenTo('FOOTER_BAR_OPEN', 'FooterBar', () => {
             if (this.actualComponentInUseRef) {
-                this.getAnimateIn().start()
+                this.getAnimateIn().start();
             }
+        });
+
+        Events.listenTo('FOOTER_BAR_DISABLE', 'FooterBar', () => {
+            this.setState({ hidden: true }, () => {
+                if (this.actualComponentInUseRef) {
+                    this.getAnimateOut().start();
+                }
+            });
+        });
+        Events.listenTo('FOOTER_BAR_ENABLE', 'FooterBar', () => {
+            this.setState({ hidden: false }, () => {
+                if (this.actualComponentInUseRef) {
+                    this.getAnimateIn().start();
+                }
+            });
         });
     }
 
     componentWillUnmount() {
         Events.remove('FOOTER_BAR_CLOSE', 'FooterBar');
         Events.remove('FOOTER_BAR_OPEN', 'FooterBar');
+        Events.remove('FOOTER_BAR_DISABLE', 'FooterBar');
+        Events.remove('FOOTER_BAR_ENABLE', 'FooterBar');
     }
 
     componentWillUpdate(nextProps: Props, nextState: State) {
@@ -103,6 +122,9 @@ class FooterBar extends React.Component<Props, State> {
     }
 
     getAnimateIn = () => {
+        if (this.state.hidden) {
+            return this.getAnimateOut();
+        }
         return Animated.timing(this.state.translateY, {
             toValue: 0,
             duration: 300,
@@ -119,6 +141,10 @@ class FooterBar extends React.Component<Props, State> {
     }
 
     onComponentLayout = () => {
+        if (this.state.hidden) {
+            return;
+        }
+
         this.getAnimateIn().start(() => {
             if (this.actualComponentInUseRef && this.actualComponentInUseRef.onAnimationInFinish) {
                 this.actualComponentInUseRef.onAnimationInFinish();

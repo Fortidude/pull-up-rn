@@ -18,12 +18,6 @@ import { ExerciseActions } from 'src/store/actions/exercise';
 import PlannerListPlaceholder from '../PlannerListPlaceholder';
 import User from 'src/models/User';
 
-import GoalCreateSetModal from 'src/components/ModalManager/FullScreenModals/GoalCreateSetModal';
-import GoalInformationModal from 'src/components/ModalManager/FullScreenModals/GoalInformationModal';
-import Events from 'src/service/Events';
-
-import { CLOSE_MODAL_ANIMATION_OPTION, OPEN_MODAL_ANIMATION_OPTION_SLOW, CLOSE_MODAL_ANIMATION_OPTION_SLOW } from 'src/components/ModalManager/ModalManager';
-import { ModalActions } from 'src/store/actions/modal';
 import AddSetContainer from './AddSetContainer';
 
 
@@ -82,7 +76,7 @@ class PlannerList extends React.Component<Props, State> {
             this.style = getStyle(nextProps.theme);
         }
 
-        if (nextProps.isOnline && !nextProps.plannerLoaded) {
+        if (nextProps.isOnline && !nextProps.plannerLoaded && !nextProps.plannerLoading) {
             this.loadPlanner();
         }
 
@@ -200,7 +194,7 @@ const mapStateToProps = (state: any) => ({
     goalSelected: state.planner.goalSelected,
     plannerEditMode: state.app.plannerEditMode,
     plannerLoaded: state.planner.loadedPlanner,
-    plannerLoading: state.planner.loading,
+    plannerLoading: state.planner.loading || state.planner.plannerLoading || state.planner.sectionsLoading,
     user: state.user.current,
     isOnline: state.app.isOnline,
     isLogged: state.auth.isLogged,

@@ -39,18 +39,20 @@ function getStyle(theme: ThemeInterface) {
             color: theme.colors.subTextColor,
             position: 'absolute',
             top: 5,
-            width: size,
+            width: '100%',
             textAlign: 'center'
         },
 
         titleBig: {
-            fontSize: theme.fonts.fontSize,
+            fontSize: theme.fonts.fontH2Size,
+            fontWeight: '500'
         },
 
         text: {
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH3Size,
             color: theme.colors.textColor,
+            fontWeight: '100',
             marginHorizontal: 20,
         },
 

@@ -7,7 +7,10 @@ export enum UserTypes {
 
     togglePlannerCustomMode = '[USER] TOGGLE PLANNER CUSTOM MODE',
     togglePlannerCustomModeSuccess = '[USER] TOGGLE PLANNER CUSTOM MODE SUCCESS',
-    togglePlannerCustomModeFailed = '[USER] TOGGLE PLANNER CUSTOM MODE FAILED'
+    togglePlannerCustomModeFailed = '[USER] TOGGLE PLANNER CUSTOM MODE FAILED',
+
+    endOnBoarding = '[USER] END ONBOARDINIG',
+    manuallyGoToOnboarding = '[USER] MANUALLY GO TO ONBOARDING'
 }
 
 export const UserActions = {
@@ -34,6 +37,14 @@ export const UserActions = {
     }),
     togglePlannerCustomModeFailed: () => ({
         type: UserTypes.togglePlannerCustomModeFailed,
+        payload: {}
+    }),
+    endOnBoarding: () => ({
+        type: UserTypes.endOnBoarding,
+        payload: {}
+    }),
+    manuallyGoToOnboarding: () => ({
+        type: UserTypes.manuallyGoToOnboarding,
         payload: {}
     })
 };

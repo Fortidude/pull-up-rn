@@ -22,6 +22,7 @@ interface Props {
     rightText?: string;
     rightArrow?: boolean;
     rightCheck?: boolean;
+    rightFailed?: boolean;
     rightSwitch?: boolean | undefined;
     rightOnSwitch?: () => void;
 
@@ -59,6 +60,7 @@ class SettingListItem extends React.Component<Props> {
                             {this.props.rightText && <Text numberOfLines={1} style={this.style.rightText}>{this.props.rightText}</Text>}
                             {this.props.rightArrow && <EvilIcon name="chevron-right" style={this.style.rightArrowIcon} />}
                             {this.props.rightCheck && <Icon name="check" style={this.style.rightCheckIcon} />}
+                            {this.props.rightFailed && <Icon name="times" style={this.style.rightFailedIcon} />}
                             {this.props.rightSwitch !== undefined && <Switch onValueChange={this.props.rightOnSwitch} value={this.props.rightSwitch} />}
                             {!this.props.rightArrow && !this.props.rightCheck && this.props.rightSwitch === undefined && <View style={this.style.rightPlaceholder}></View>}
                         </View>

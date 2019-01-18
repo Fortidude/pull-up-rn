@@ -19,7 +19,6 @@ const lightBlueColor = '#7FB3D5';
 const orangeColor = '#FF9500';
 const lightOrangeColor = '#F0B27A';
 
-const mainFontFamily = "Avenir-Light";
 
 const colors = {
     main: mainColor,
@@ -112,7 +111,9 @@ const colors = {
 
     spinnerColor: mainColor,
 
-    listItemRightIconColor: greyColor
+    listItemRightIconColor: greyColor,
+
+    tutorialTouchIconColor: 'dark'
 };
 
 const borders = {
@@ -127,7 +128,8 @@ const borders = {
 };
 
 const fonts = {
-    mainFontFamily: mainFontFamily,
+    mainFontFamily: "Avenir-Light",
+    montserratFontFamily: "Montserrat-Light",
 
     fontSize: isSmallScreen ? 16 : 18,
 

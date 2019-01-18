@@ -17,8 +17,6 @@ const lightBlueColor = '#7FB3D5';
 const orangeColor = '#FF9500';
 const lightOrangeColor = '#F0B27A';
 
-const mainFontFamily = "Avenir-Light";
-
 const colors = {
     main: mainColor,
     danger: redColor,
@@ -26,6 +24,13 @@ const colors = {
     warning: yellowColor,
     success: greenColor,
     blue: blueColor,
+
+    softOrange: '#E67E22',
+    softGreen: '#27AE60',
+    softBlue: '#2980B9',
+    softYellow: '#F1C40F',
+    softPurple: '#9B59B6',
+
 
     nativeBackgroundColor: '#F7F7F7',
 
@@ -48,7 +53,7 @@ const colors = {
 
     plannerProgressBarBackgroundColor: '#F7F7F7',
     statisticProgressBackgroundColor: '#FFFFFF',
-    
+
     settingsItemBackground: '#FFF',
 
     borderColor: 'rgba(112, 112, 112, 0.2)',
@@ -106,7 +111,9 @@ const colors = {
 
     spinnerColor: mainColor,
 
-    listItemRightIconColor: greyColor
+    listItemRightIconColor: greyColor,
+
+    tutorialTouchIconColor: 'black'
 };
 
 const borders = {
@@ -121,7 +128,8 @@ const borders = {
 };
 
 const fonts = {
-    mainFontFamily: mainFontFamily,
+    mainFontFamily: "Avenir-Light",
+    montserratFontFamily: "Montserrat-Light",
 
     fontSize: isSmallScreen ? 16 : 18,
 

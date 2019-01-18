@@ -86,6 +86,12 @@ function getStyle(theme: ThemeInterface) {
             fontSize: 10,
             paddingTop: 4
         },
+        rightFailedIcon: {
+            alignSelf: 'center',
+            color: theme.colors.danger,
+            fontSize: 10,
+            paddingTop: 4
+        },
         rightPlaceholder: {
             width: 13
         },

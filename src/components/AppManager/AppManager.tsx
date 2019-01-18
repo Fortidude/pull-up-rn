@@ -11,6 +11,7 @@ import { SyncActions } from 'src/store/actions/sync';
 import { ExerciseActions } from 'src/store/actions/exercise';
 import Calendar from 'src/service/Calendar';
 import { PlannerActions } from 'src/store/actions/planner';
+import OnBoarding from '../OnBoarding/OnBoarding';
 
 interface Props {
     dispatch: Dispatch;
@@ -18,6 +19,7 @@ interface Props {
     isOnline: boolean;
     isLogged: boolean;
     isNetworkChecked: boolean;
+    onBoarding: boolean;
     anythingToSync: boolean;
     exercisesLoaded: boolean;
     setsHistoryLoaded: boolean;
@@ -98,7 +100,11 @@ class AppManager extends React.Component<Props> {
     }
 
     render() {
-        return null;
+        return (
+            <React.Fragment>
+                {this.props.onBoarding && this.props.isLogged && <OnBoarding/>}
+            </React.Fragment>
+        );
     }
 }
 
@@ -107,6 +113,7 @@ const mapStateToProps = (state: any) => ({
     locale: state.settings.locale,
     isOnline: state.app.isOnline,
     isLogged: state.auth.isLogged,
+    onBoarding: state.user.onBoarding,
     isNetworkChecked: state.app.networkChecked,
     anythingToSync: state.sync.items.length > 0,
     exercisesLoaded: state.exercise.loaded,

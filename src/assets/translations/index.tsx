@@ -21,11 +21,41 @@ let translations = {
             pick_bar_to_check_time: "Wybierz słupek, aby zobaczyć godzinę",
             reps_record: "Rekord powtórzeń",
             scroll_to_today: "Dzisiaj",
+            tutorial: "Tutorial",
             type_name: "Wpisz nazwę",
             weight_record: "Rekord ciężaru",
             your_trainings: "Lista utworzonych treningów",
             you_have_to_pick_exercise: "Musisz wybrać ćwiczenie",
             you_have_to_type_exercise: "Musisz wpisać ćwiczenie",
+        },
+
+        boarding: {
+            step_one: {
+                line_one: {
+                    title: 'Utwórz listę ćwiczeń',
+                    description: 'Utwórz treningi (np. Pull, Push lub poniedziałek, środa itp.), a następnie uzupełnij je o ćwiczenia (np. squat, deadlift, bench press, pull up itp.)'
+                },
+                line_two: {
+                    title: 'Notuj sety i powtórzenia',
+                    description: 'Dodaj set poprzez kliknięcie utworzonego ćwiczenia, następnie uzupełnij formularz o ilość wykonanych powtórzeń, ciężar oraz wybierz poziom trudności (1-3).'
+                },
+                line_three: {
+                    title: 'Monitoruj swoje cardio',
+                    description: 'Przejdź do trybu cardio i wybierz interesujący Cię program (np. tabata, klasycznie itp.). Dodatkowo możesz wybrać jedno z utworzonych wcześniej ćwiczeń typu "czas", a cały naliczony czas zostanie dodany jako jeden set.'
+                },
+                line_four: {
+                    title: 'Zdobywaj cele treningowe',
+                    description: 'W trakcie tworzenia danego ćwiczenia możesz zdefiniować swój cel. Przykładowo wykonanie 10 setów czy 100 powtórzeń w ciągu tygodnia.'
+                },
+                line_five: {
+                    title: 'Obserwój statystyki',
+                    description: 'Aplikacja dostarcza szczegółowe statystyki odnośnie twoich treningów. Postęp (powtórzenia, ciężar), najczęściej wykonywane ćwiczenia, kalendarz ze szczegółową historią i wiele więcej.'
+                },
+                line_six: {
+                    title: 'Ustal długość obiegu',
+                    description: 'Domyślnie obieg ustawiony jest na tydzień i po tym okresie wszystkie cele treningowe zostają wyzerowane. Możesz zmienić długość obiegu z poziomu swojego profilu.'
+                }
+            }
         },
 
         login: {
@@ -59,8 +89,9 @@ let translations = {
         settings: {
             circuit_length: "Długość obiegu",
             language: "Język",
-            notifications: "Powiadomienia",
-            remove_my_account: "Remove my account",
+            show_on_boarding: "Ekran powitalny",
+            show_on_boarding_subtext: "Tutorial dla nowego użytkownika",
+            remove_my_account: "Usuń konto",
             settings: "Ustawienia",
             theme: "Motyw kolorystyczny",
             planner_calendar_mode: "Grupowanie - kalendarz",
@@ -73,6 +104,11 @@ let translations = {
                     circuit_left: "Obecny obieg (pozostało dni)",
                     circuit_progress: "Obecny obieg (%)"
                 }
+            },
+            notifications: {
+                title: "Powiadomienia",
+                turned_on: "Powiadomienia aktywne",
+                turned_off: "Powiadomienia wyłączone"
             }
         },
 
@@ -172,7 +208,8 @@ let translations = {
             progressstats: "Postęp",
             register: "Rejestracja",
             settings: "Ustawienia",
-            themepicker: "Wybierz motyw"
+            themepicker: "Wybierz motyw",
+            notifications: "Powiadomienia"
         },
 
         fields: {
@@ -207,6 +244,7 @@ let translations = {
 
         warnings: {
             attention: "Uwaga",
+            information: "Informacja",
             possible_swap_weight_reps: "Prawdopodobnie pomylono ilość wykonanych powtórzeń z ciężarem. Kliknij OK i ponownie Zapisz jeżeli wszystko jest prawidłowo."
         },
 

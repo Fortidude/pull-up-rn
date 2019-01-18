@@ -1,6 +1,8 @@
 import { ThemeInterface } from '../../assets/themes';
 import { HEADER_HEIGHT } from 'src/components/Header/Header.styles';
+import { Dimensions } from 'react-native';
 
+const HEIGHT = Dimensions.get('window').height;
 function getStyle(theme: ThemeInterface) {
     return {
         background: {
@@ -15,7 +17,7 @@ function getStyle(theme: ThemeInterface) {
         },
         container_content: {
             marginTop: HEADER_HEIGHT,
-            paddingTop: 20,
+            paddingTop: HEIGHT >= 812 ? 100 : 20,
             width: '100%',
             flex: 3,
             justifyContent: 'flex-start',

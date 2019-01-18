@@ -53,7 +53,7 @@ class Profile extends React.Component<Props, State> {
     };
 
     toggleUserPlannerCustomMode = () => {
-        this.setState({plannerCustomMode: !this.state.plannerCustomMode});
+        this.setState({ plannerCustomMode: !this.state.plannerCustomMode });
         this.props.dispatch(UserActions.togglePlannerCustomMode());
     }
 
@@ -71,7 +71,7 @@ class Profile extends React.Component<Props, State> {
                     rightArrow
                     icon="bell"
                     onPress={this.goToNotificationsPage}
-                    text={I18n.t('settings.notifications')}
+                    text={I18n.t('settings.notifications.title')}
                 />
 
                 <SettingListPlaceholder />
@@ -94,9 +94,16 @@ class Profile extends React.Component<Props, State> {
                 }
 
                 <SettingListPlaceholder />
+                <SettingListItem icon="play" onPress={() => this.props.dispatch(UserActions.manuallyGoToOnboarding())}
+                    text={I18n.t('settings.show_on_boarding')}
+                    subText={I18n.t('settings.show_on_boarding_subtext')}
+                    last
+                />
+
+                <SettingListPlaceholder />
                 <SettingListItem icon="trash" onPress={() => { }} danger text={I18n.t('settings.remove_my_account')} last />
 
-                <View style={{height: FOOTER_HEIGHT * 1.5}}></View>
+                <View style={{ height: FOOTER_HEIGHT * 1.5 }}></View>
             </ScrollView>
         );
     }
