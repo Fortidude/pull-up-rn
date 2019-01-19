@@ -1,10 +1,11 @@
 import { ThemeInterface } from 'src/assets/themes';
 import DetermineDevice from 'src/service/helpers/DetermineDevice';
 
+const isIphoneX = DetermineDevice.isIphoneX();
+
 export const FOOTER_HEIGHT = 65;
 export const FOOTER_IPHONE_X_PADDING = 20;
 
-const isIphoneX = DetermineDevice.isIphoneX();
 function getStyle(theme: ThemeInterface) {
     return {
         container: {

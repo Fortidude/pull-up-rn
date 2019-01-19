@@ -1,7 +1,6 @@
 import { ThemeInterface } from 'src/assets/themes';
 import DetermineDevice from 'src/service/helpers/DetermineDevice';
 
-console.log(DetermineDevice.isIphoneX());
 export const HEADER_HEIGHT = DetermineDevice.isIphoneX() ? 90 : 64;
 function getStyle(theme: ThemeInterface) {
     return {

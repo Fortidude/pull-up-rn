@@ -1,4 +1,8 @@
 import { ThemeInterface } from '../../../assets/themes';
+import { FOOTER_IPHONE_X_PADDING } from 'src/components/FooterBar/FooterBar.styles';
+import DetermineDevice from 'src/service/helpers/DetermineDevice';
+
+const isIphoneX = DetermineDevice.isIphoneX();
 
 function getStyle(theme: ThemeInterface) {
     return {
@@ -7,6 +11,7 @@ function getStyle(theme: ThemeInterface) {
             borderTopColor: theme.borders.borderLightColor,
             borderTopWidth: theme.borders.borderWidth,
             height: 44,
+            paddingBottom: isIphoneX ? FOOTER_IPHONE_X_PADDING : 0,
             width: '100%',
             flexDirection: 'row'
         },

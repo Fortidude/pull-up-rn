@@ -29,7 +29,7 @@ function getStyle(theme: ThemeInterface) {
         title: {
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH4Size,
-            color: theme.colors.textColor
+            color: theme.colors.statsHeaderTeextColor || theme.colors.textColor,
         },
         buttons: {
             container: {
@@ -44,7 +44,7 @@ function getStyle(theme: ThemeInterface) {
                 textTransform: 'uppercase',
                 fontFamily: theme.fonts.mainFontFamily,
                 fontSize: theme.fonts.fontH5Size - 1,
-                color: theme.colors.subTextColor,
+                color: theme.colors.statsHeaderTeextColor || theme.colors.subTextColor,
                 marginBottom: 2
             },
             button: {

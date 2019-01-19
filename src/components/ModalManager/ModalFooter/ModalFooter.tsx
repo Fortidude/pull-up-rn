@@ -48,7 +48,7 @@ class ModalFooter extends React.Component<Props> {
     render() {
         if (this.props.onlineRequired && !this.props.isOnline) {
             return (
-                <View style={this.style.container}>
+                <View style={[this.style.container, this.props.style]}>
                     <TouchableOpacity onPress={this.dismissModal} style={this.style.leftButton.container}>
                         <Text style={[this.style.offlineInformationText]}>
                             {I18n.t('errors.no_internet_connection_required_for_this_action')}
@@ -63,7 +63,7 @@ class ModalFooter extends React.Component<Props> {
 
         let loadingColor = this.props.loading ? this.props.theme.colors.disableText : this.props.theme.colors.danger;
         return (
-            <View style={[this.style.container, this.props.style || {}]}>
+            <View style={[this.style.container, this.props.style]}>
 
                 {this.props.onCancel &&
                     <TouchableOpacity onPress={this.props.onCancel} style={this.style.leftButton.container}>

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Animated, Dimensions, Text, View, TouchableHighlightBase } from 'react-native';
-import moment, { relativeTimeRounding } from 'moment'
+import { Animated, Dimensions, Text, View } from 'react-native';
 import I18n from 'src/assets/translations';
 
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
@@ -18,7 +17,6 @@ import { PlannerActions } from 'src/store/actions/planner';
 import { ModalActions } from 'src/store/actions/modal';
 import SetBarChart from 'src/components/Charts/SetBarChart/SetBarChart';
 import Spinner from 'src/components/Spinner/Spinner';
-import { BIG_HEIGHT } from 'src/components/Charts/SetBarChart/SetBarChart.styles';
 
 interface Props {
     dispatch: Dispatch;
