@@ -47,16 +47,20 @@ class PlannerFooter extends React.Component<Props> {
         this.props.dispatch(NavigationActions.navigate({ routeName: 'Calendar' }));
     }
 
+    goToCardio = () => {
+        this.props.dispatch(NavigationActions.navigate({ routeName: 'Cardio' }));
+    }
+
     render() {
         return (
             <View style={this.style.container} onLayout={this.props.onLayout}>
-                <Button iconName="list" text="Planer" isActive/>
-                <Button onPress={this.goToCalendar} iconName="calendar-alt" text="Kalendarz"/>
-        
-                <Avatar/>
-                
-                <Button iconName="stopwatch" text="Cardio"/>
-                <Button onPress={this.goToStatsScreen} iconName="chart-bar" text="Statystyki"/>
+                <Button iconName="list" text="Planer" isActive />
+                <Button onPress={this.goToCalendar} iconName="calendar-alt" text="Kalendarz" />
+
+                <Avatar />
+
+                <Button onPress={this.goToCardio} iconName="stopwatch" text="Cardio" />
+                <Button onPress={this.goToStatsScreen} iconName="chart-bar" text="Statystyki" />
             </View>
         );
     }

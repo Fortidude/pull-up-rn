@@ -28,6 +28,12 @@ const colors = {
     success: greenColor,
     blue: blueColor,
 
+    softOrange: '#E67E22',
+    softGreen: '#27AE60',
+    softBlue: '#2980B9',
+    softYellow: '#F1C40F',
+    softPurple: '#9B59B6',
+    
     nativeBackgroundColor: '#F4F2EC',
 
     white: '#ffffff',

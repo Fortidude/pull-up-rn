@@ -5,6 +5,7 @@ import createExpirationTransform from 'redux-persist-transform-expire';
 import { persistCombineReducers } from 'redux-persist'
 
 import app from './app';
+import cardio from './cardio';
 import navigation from './navigation';
 import auth from './auth';
 import user from './user';
@@ -17,6 +18,7 @@ import exercise from './exercise';
 const reducers = {
     app: app,
     auth: auth,
+    cardio: cardio,
     exercise: exercise,
     modal: modal,
     nav: navigation,

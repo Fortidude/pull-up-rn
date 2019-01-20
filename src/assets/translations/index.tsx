@@ -180,6 +180,18 @@ let translations = {
             }
         },
 
+        cardio: {
+            screen_awake_title: "Nie wyłączaj ekranu",
+            screen_awake_subtitle: "Tylko w trakcie odliczania",
+
+            start: "Start",
+            resume: "Wznów",
+            reset: "Resetuj",
+            round: "Runda",
+            pause: "Przerwa",
+            end: "Koniec"
+        },
+
         themes: {
             light: "Dzienny",
             dark: "Nocny",
@@ -196,6 +208,7 @@ let translations = {
             addtraining: 'Dodaj trening',
             auth: "Zaloguj się",
             calendar: "Kalendarz",
+            cardio: "Stoper",
             effectivenessstats: "Skuteczność",
             initpage: "Pull Up!",
             languagepicker: "Wybierz język",

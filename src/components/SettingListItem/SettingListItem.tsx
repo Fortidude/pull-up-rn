@@ -7,6 +7,7 @@ import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
 import Styles from './SettingListItem.styles';
 import { ThemeInterface, ThemeValueInterface } from '../../assets/themes';
+import Haptic from 'src/service/Haptic';
 
 interface Props {
     dispatch: Dispatch;
@@ -24,7 +25,8 @@ interface Props {
     rightCheck?: boolean;
     rightFailed?: boolean;
     rightSwitch?: boolean | undefined;
-    rightOnSwitch?: () => void;
+    rightSwitchTintColor?: string | undefined;
+    rightOnSwitch?: (value: boolean) => void;
 
     last?: boolean;
 }
@@ -41,6 +43,11 @@ class SettingListItem extends React.Component<Props> {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
         }
+    }
+
+    onSwitch = (value: boolean) => {
+        Haptic("impactLight");
+        this.props.rightOnSwitch && this.props.rightOnSwitch(value);
     }
 
     render() {
@@ -61,7 +68,7 @@ class SettingListItem extends React.Component<Props> {
                             {this.props.rightArrow && <EvilIcon name="chevron-right" style={this.style.rightArrowIcon} />}
                             {this.props.rightCheck && <Icon name="check" style={this.style.rightCheckIcon} />}
                             {this.props.rightFailed && <Icon name="times" style={this.style.rightFailedIcon} />}
-                            {this.props.rightSwitch !== undefined && <Switch onValueChange={this.props.rightOnSwitch} value={this.props.rightSwitch} />}
+                            {this.props.rightSwitch !== undefined && <Switch onTintColor={this.props.rightSwitchTintColor} onValueChange={this.onSwitch} value={this.props.rightSwitch} />}
                             {!this.props.rightArrow && !this.props.rightCheck && this.props.rightSwitch === undefined && <View style={this.style.rightPlaceholder}></View>}
                         </View>
                     </View>
