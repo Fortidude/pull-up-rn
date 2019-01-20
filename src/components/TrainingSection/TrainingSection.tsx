@@ -13,12 +13,14 @@ import Training from 'src/models/Training';
 import { ModalActions } from 'src/store/actions/modal';
 import { PlannerActions } from '../../store/actions/planner';
 import { SectionInterface } from 'src/models/Section';
+import TutorialTouchIcon from '../TutorialTouchIcon/TutorialTouchIcon';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     plannerEditMode: boolean;
     plannerCustomMode: boolean;
+    sectionsLength: number;
     sections: string[];
 
     training: Training
@@ -51,10 +53,9 @@ class TrainingSection extends React.Component<Props, State> {
             this.style = Styles(nextProps.theme);
         }
 
-        if (nextProps.plannerEditMode && !this.props.plannerEditMode) {
+        if (nextProps.plannerEditMode) {
             this.setState({ toggled: true });
         }
-
     }
 
     countHeight = () => this.countGoals() * 70;
@@ -95,6 +96,7 @@ class TrainingSection extends React.Component<Props, State> {
         return (
             <View ref="listContainer" style={this.style.exerciseListContainer}>
                 <GoalListHeader
+                    sectionsLength={this.props.sectionsLength}
                     empty={this.props.training.goals.length === 0}
                     active={this.state.toggled}
                     onButtonClick={this.toggleList}

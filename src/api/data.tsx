@@ -153,6 +153,10 @@ class Data implements DataInterface {
                 return response;
             })
             .catch((error) => {
+                if (error.message == 'SECTION_ALREADY_EXIST') {
+                    return 'remove';
+                }
+                
                 if (__DEV__) {
                     //  throw error;
                 } else {

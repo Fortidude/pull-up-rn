@@ -217,11 +217,11 @@ class Cardio extends Component<Props, State> {
             response.push(
                 <View key={key} style={containerStyle}>
                     <View style={{ flex: 1 }}></View>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 2 }}>
                         <Text style={style}>{text}</Text>
                     </View>
                     <View style={{ flex: 1 }}></View>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 2 }}>
                         <Text style={[style, { textAlign: 'center' }]}>
                             {this._formatToDouble(minutes)}:{this._formatToDouble(seconds)}
                         </Text>

@@ -10,7 +10,7 @@ import { PlannerActions } from 'src/store/actions/planner';
 import Planner from 'src/models/Planner';
 import { GoalInterface } from 'src/models/Goal';
 
-import GoalList from 'src/components/TrainingSection';
+import TrainingSection from 'src/components/TrainingSection';
 import EmptyList from 'src/components/TrainingSection/EmptyList';
 import Spinner from 'src/components/Spinner/Spinner';
 import { ExerciseActions } from 'src/store/actions/exercise';
@@ -144,6 +144,7 @@ class PlannerList extends React.Component<Props, State> {
         });
 
         let firstFound = false;
+        let amountOfTraining = this.props.planner.trainings.length;
 
         return (
             <React.Fragment>
@@ -172,12 +173,13 @@ class PlannerList extends React.Component<Props, State> {
                                 firstFound = true;
                             }
 
-                            return <GoalList
+                            return <TrainingSection
                                 onGoalClick={this.handleOnClick}
                                 toggleParentScroll={(enable: boolean) => {
                                     this.flatListReference.getScrollResponder().setNativeProps({ scrollEnabled: enable })
                                 }}
                                 training={item}
+                                sectionsLength={amountOfTraining}
                                 isFirst={isFirst} />
                         }}
                     />}
