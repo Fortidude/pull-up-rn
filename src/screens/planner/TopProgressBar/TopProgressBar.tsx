@@ -45,11 +45,17 @@ class TopProgressBar extends React.Component<Props, State> {
         this.state = {
             swipePosition: new Animated.Value(1)
         }
+
+        Events.listenTo("HEADER_CENTER_RELEASE", "TOP_PROGRESS_BAR", this.toggleHeader);
+        Events.listenTo("HEADER_CENTER_MOVE", "TOP_PROGRESS_BAR", (value) => {
+            this.state.swipePosition.setValue(value + this.offset);
+        });
     }
 
     componentWillUnmount() {
         Events.remove("FULLSCREEN_MODAL_VISIBLE", "TOP_PROGRESS_BAR");
         Events.remove("FULLSCREEN_MODAL_HIDDEN", "TOP_PROGRESS_BAR");
+        Events.remove("HEADER_CENTER_MOVE", "TOP_PROGRESS_BAR");
     }
 
     componentWillReceiveProps(nextProps: Props) {

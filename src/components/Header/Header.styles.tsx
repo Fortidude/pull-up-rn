@@ -23,9 +23,9 @@ function getStyle(theme: ThemeInterface) {
         center: {
             container: {
                 flex: 1,
-                marginBottom: 11,
+                paddingBottom: 11,
                 justifyContent: 'flex-end',
-                alignItems: 'center',
+                alignItems: 'center'
             },
             text: { 
                 fontFamily: theme.fonts.mainFontFamily,

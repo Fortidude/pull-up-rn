@@ -110,7 +110,6 @@ class TutorialTouchIcon extends React.Component<Props> {
     }
 
     stopRing = () => {
-        console.log('stopring');
         this.ringAnimation && this.ringAnimation.stop();
         this.opacityAnimation && this.opacityAnimation.stop();
         this.opacity.setValue(1);

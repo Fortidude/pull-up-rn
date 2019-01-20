@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Animated } from 'react-native';
+import { Text, View, Animated, PanResponder } from 'react-native';
 import { HeaderProps } from 'react-navigation';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
@@ -119,12 +119,33 @@ class Header extends React.Component<Props, State> {
 
         const backgroundTransparent = this.isBackgroundTransparent() ? { backgroundColor: 'transparent' } : {};
 
+        const _panResponder = PanResponder.create({
+            onStartShouldSetPanResponder: (evt, gestureState) => true,
+            onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+            onMoveShouldSetPanResponder: (evt, gestureState) => true,
+            onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+            onPanResponderTerminationRequest: (evt, gestureState) => true,
+
+            onPanResponderGrant: (evt, gestureState) => {
+
+            },
+            onPanResponderMove: (evt, gestureState) => {
+                Events.emit('HEADER_CENTER_MOVE', gestureState.dy);
+            },
+            onPanResponderRelease: () => {
+                Events.emit('HEADER_CENTER_RELEASE');
+            },
+            onPanResponderTerminate: () => {
+                Events.emit('HEADER_CENTER_RELEASE');
+            }
+        });
+
         return (
             <Animated.View style={[this.style.header, backgroundTransparent, { borderBottomColor: borderBottomColor }]}>
                 <View style={this.style.left.container}>
                     {this.getRightButton()}
                 </View>
-                <View style={this.style.center.container}>
+                <View style={this.style.center.container} {..._panResponder.panHandlers}>
                     <Animated.View style={HeaderStyleInterpolator.forCenter(this.props.headerProps)}>
                         <Text numberOfLines={1} style={[this.style.center.text]}>
                             {this.getCurrentTitle()}
@@ -133,7 +154,7 @@ class Header extends React.Component<Props, State> {
                 </View>
                 <View style={this.style.right.container}>
                     <RightIconNotification />
-                    <RightButton/>
+                    <RightButton />
                 </View>
             </Animated.View>
         );

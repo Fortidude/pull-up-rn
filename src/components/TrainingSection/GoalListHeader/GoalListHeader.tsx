@@ -49,7 +49,6 @@ class GoalListHeader extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        console.log(this.props.sectionsLength, this.props.plannerEditMode, this.props.empty);
         if (this.props.sectionsLength === 1 && this.props.plannerEditMode && this.props.empty) {
             setTimeout(() => {
                 this.tutorialTouchIcon.show();
