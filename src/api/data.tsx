@@ -5,7 +5,7 @@ import Planner from "../models/Planner";
 import { Dispatch } from "redux";
 import { SyncActions } from "../store/actions/sync";
 import { Exercise } from "../models/Exercise";
-import { NewGoalApiRequestDataStructureInterface } from "../models/Goal";
+import { NewGoalApiRequestDataStructureInterface, UpdatedGoalApiRequestStructureInterface } from "../models/Goal";
 import moment from 'moment';
 import Set from "src/models/Set";
 import { StatisticsInterface } from "src/models/Statistics";
@@ -67,6 +67,10 @@ class Data implements DataInterface {
         return await this.postFetchData('/secured/goal/create', data);
     }
 
+    public postUpdateGoal = async (id: string, data: UpdatedGoalApiRequestStructureInterface): Promise<ResponseStatus> => {
+        return await this.postFetchData(`/secured/goal/${id}/update`, data, undefined, 'PUT');
+    }
+
     public postMoveGoalToSection = async (goalId: string, data: { sectionName: string }): Promise<ResponseStatus> => {
         return await this.postFetchData(`/secured/goal/${goalId}/move-to-section`, { section_name: data.sectionName });
     }
@@ -101,7 +105,7 @@ class Data implements DataInterface {
                 if (__DEV__) {
                     throw error;
                 } else {
-                
+
                     global.bugsnag.notify(error, (report: any) => {
                         report.metadata = {
                             apiUrl: apiUrl,
@@ -113,10 +117,10 @@ class Data implements DataInterface {
             });
     }
 
-    private postFetchData = async (url: string, data: { [key: string]: any }, cacheKey?: string) => {
+    private postFetchData = async (url: string, data: { [key: string]: any }, cacheKey?: string, method?: string) => {
         const apiUrl = ApiHelper.getHost() + url;
         const object = {
-            method: 'POST',
+            method: method || 'POST',
             headers: await ApiHelper.getHeaders(true, true),
             body: JSON.stringify(data)
         };
@@ -129,6 +133,7 @@ class Data implements DataInterface {
             .then(ApiHelper.checkForResponseErrors)
             .then(response => response.json())
             .then(function (response) {
+                console.log(response);
                 return response;
             })
             .catch((error) => {
@@ -156,7 +161,7 @@ class Data implements DataInterface {
                 if (error.message == 'SECTION_ALREADY_EXIST') {
                     return 'remove';
                 }
-                
+
                 if (__DEV__) {
                     //  throw error;
                 } else {

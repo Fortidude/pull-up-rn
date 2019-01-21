@@ -26,6 +26,7 @@ interface Props {
     theme: ThemeInterface;
     planner: Planner;
     plannerLoaded: boolean;
+    plannerEmpty: boolean;
     plannerEditMode: boolean;
     plannerLoading: boolean;
     user: User;
@@ -101,7 +102,7 @@ class PlannerList extends React.Component<Props, State> {
     }
 
     handleOnClick = () => {
-        
+
     }
 
     refresh = () => {
@@ -145,15 +146,16 @@ class PlannerList extends React.Component<Props, State> {
 
         let firstFound = false;
         let amountOfTraining = this.props.planner.trainings.length;
+        let reloading = amountOfTraining === 0 && !this.props.plannerEmpty;
 
         return (
             <React.Fragment>
-                <AddSetContainer/>
+                <AddSetContainer />
 
                 {!this.state.refreshing && <Animated.View style={[this.style.refreshingProgressBar, { backgroundColor: backgroundColor, width: refreshIndicatorWidth }]}></Animated.View>}
                 {this.state.refreshing && <Animated.View style={[this.style.refreshingIndicator, { opacity: indicatorOpacity }]}><Spinner /></Animated.View>}
                 <View style={this.style.listContainer}>
-                    {(!this.props.plannerLoaded || !this.props.user) && <PlannerListPlaceholder theme={this.props.theme} />}
+                    {(!this.props.plannerLoaded || !this.props.user || reloading) && <PlannerListPlaceholder theme={this.props.theme} />}
                     {this.props.plannerLoaded && !!this.props.user && <FlatList
                         keyboardDismissMode={"interactive"}
                         keyboardShouldPersistTaps="always"
@@ -164,7 +166,7 @@ class PlannerList extends React.Component<Props, State> {
                         scrollEventThrottle={10}
                         showsVerticalScrollIndicator={false}
                         data={this.props.planner.trainings}
-                        extraData={[this.props.goalSelected, this.props.planner.trainings]}
+                        extraData={this.getExtraData()}
                         ListFooterComponent={<View style={this.style.listFooterComponent}></View>}
                         ListEmptyComponent={<EmptyList />}
                         renderItem={({ item, index }) => {
@@ -187,6 +189,15 @@ class PlannerList extends React.Component<Props, State> {
             </React.Fragment>
         );
     }
+
+    getExtraData = () => {
+        const trainings = JSON.parse(JSON.stringify(this.props.planner.trainings));
+        return [
+            this.props.goalSelected,
+            trainings,
+          //  ...trainings.map((training: any) => training),
+        ]
+    }
 }
 
 const mapStateToProps = (state: any) => ({
@@ -196,6 +207,7 @@ const mapStateToProps = (state: any) => ({
     goalSelected: state.planner.goalSelected,
     plannerEditMode: state.app.plannerEditMode,
     plannerLoaded: state.planner.loadedPlanner,
+    plannerEmpty: state.planner.plannerEmpty,
     plannerLoading: state.planner.loading || state.planner.plannerLoading || state.planner.sectionsLoading,
     user: state.user.current,
     isOnline: state.app.isOnline,

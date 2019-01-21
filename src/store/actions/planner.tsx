@@ -1,5 +1,5 @@
 import Planner from "../../models/Planner";
-import Goal, { NewGoalApiRequestDataStructureInterface } from "../../models/Goal";
+import Goal, { NewGoalApiRequestDataStructureInterface, UpdatedGoalApiRequestStructureInterface } from "../../models/Goal";
 import Set, { SetInterface } from "../../models/Set";
 import moment from 'moment';
 import { SectionInterface } from "src/models/Section";
@@ -34,6 +34,10 @@ export enum PlannerTypes {
     createGoalSuccess = '[PLANNER] CREATE GOAL SUCCESS',
     createGoalFailed = '[PLANNER] CREATE GOAL FAILED',
 
+    updateGoal = '[PLANNER] UPDATE GOAL',
+    updateGoalSuccess = '[PLANNER] UPDATE GOAL SUCCESS',
+    updateGoalFailed = '[PLANNER] UPDATE GOAL FAILED',
+
     moveGoalToSection = '[PLANNER] MOVE GOAL TO SECTION',
     removeGoal = '[PLANNER] REMOVE GOAL',
 
@@ -42,7 +46,7 @@ export enum PlannerTypes {
     loadSectionsFailed = '[PLANNER] LOAD SECTIONS FAILED'
 }
 
-export const PlannerActions = { 
+export const PlannerActions = {
     loadPlanner: () => ({
         type: PlannerTypes.loadPlanner,
         payload: {}
@@ -135,6 +139,19 @@ export const PlannerActions = {
     }),
     createGoalFailed: (error: string) => ({
         type: PlannerTypes.createGoalFailed,
+        payload: { error }
+    }),
+
+    updateGoal: (id: string, data: UpdatedGoalApiRequestStructureInterface) => ({
+        type: PlannerTypes.updateGoal,
+        payload: { id, data }
+    }),
+    updateGoalSuccess: () => ({
+        type: PlannerTypes.updateGoalSuccess,
+        payload: {}
+    }),
+    updateGoalFailed: (error: string) => ({
+        type: PlannerTypes.updateGoalFailed,
         payload: { error }
     }),
 

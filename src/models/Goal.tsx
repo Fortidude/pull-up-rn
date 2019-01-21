@@ -33,6 +33,13 @@ interface NewGoalApiRequestDataStructureInterface {
     section?: string; // actual name, not UUID
 }
 
+interface UpdatedGoalApiRequestStructureInterface {
+    sets: number,
+    reps: number,
+    weight: number,
+    time: number
+}
+
 interface NewGoalInterface {
     name: string;
     description: string | null;
@@ -92,6 +99,17 @@ class Goal implements GoalInterface {
     }
 }
 
+const mapStateToGoalDataStructure = (data: any): UpdatedGoalApiRequestStructureInterface => {
+    const type = data.type ? data.type.toLocaleLowerCase() : null;
+
+    return {
+        sets: type === 'sets' && data.requiredAmount ? data.requiredAmount : undefined,
+        reps: type === 'reps' && data.requiredAmount ? data.requiredAmount : undefined,
+        time: type === 'time' && data.requiredAmount ? data.requiredAmount : undefined,
+        weight: type === 'weight' && data.requiredAmount ? data.requiredAmount : undefined
+    }
+}
+
 const mapNewGoalInterfaceToApiRequestDataStructure = (data: NewGoalInterface): NewGoalApiRequestDataStructureInterface => {
     if (!data.name) {
         throw new Error(`NAME_CAN_NOT_BE_EMPTY_FOR_NEW_GOAL_API_REQUEST`);
@@ -109,17 +127,16 @@ const mapNewGoalInterfaceToApiRequestDataStructure = (data: NewGoalInterface): N
         exercise: data.exercise.id || data.exercise.name,
         exercise_variant: data.exerciseVariant ? data.exerciseVariant.id || data.exerciseVariant.name : null,
         no_specified_goal: type === null,
-        sets: type === 'sets' && data.requiredAmount ? data.requiredAmount : undefined,
-        reps: type === 'reps' && data.requiredAmount ? data.requiredAmount : undefined,
-        time: type === 'time' && data.requiredAmount ? data.requiredAmount : undefined,
-        weight: type === 'weight' && data.requiredAmount ? data.requiredAmount : undefined
+        ...mapStateToGoalDataStructure(data)
     }
 }
 
 export default Goal;
 export {
     NewGoalApiRequestDataStructureInterface,
+    UpdatedGoalApiRequestStructureInterface,
     NewGoalInterface,
     GoalInterface,
-    mapNewGoalInterfaceToApiRequestDataStructure
+    mapNewGoalInterfaceToApiRequestDataStructure,
+    mapStateToGoalDataStructure
 }

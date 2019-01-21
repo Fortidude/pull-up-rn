@@ -55,6 +55,8 @@ class ApiHelper implements ApiInterface {
                     throw new Error(DEFAULT_SERVER_ERROR_MESSAGE);
                 case 404:
                     throw new Error("NOT_FOUND");
+                case 405:
+                    throw new Error("METHOD_NOT_ALLOWED");
                 case 401:
                     throw new Error("UNAUTHORIZED");
                 case 400:
@@ -74,7 +76,7 @@ class ApiHelper implements ApiInterface {
                 response: response
             }
         })
-        
+
         throw error;
     };
 

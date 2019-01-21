@@ -26,6 +26,7 @@ interface Props {
 interface State {
     swipePosition: Animated.Value;
     opacity: Animated.Value;
+    swipeOut: Animated.Value;
     leftSwipeReached: boolean;
 }
 
@@ -41,6 +42,7 @@ class SwipeItem extends React.Component<Props, State> {
         this.state = {
             swipePosition: new Animated.Value(0),
             opacity: new Animated.Value(0),
+            swipeOut: new Animated.Value(1),
 
             leftSwipeReached: false
         }
@@ -52,11 +54,11 @@ class SwipeItem extends React.Component<Props, State> {
 
     componentWillReceiveProps(nextProps: Props) {
         if (!this.props.animateOut && nextProps.animateOut) {
-            this._turnOffOpacity();
+            this._swipeOut();
         }
 
         if (this.props.animateOut && !nextProps.animateOut) {
-            this._turnOnOpacity();
+            this._swipeIn();
         }
     }
 
@@ -131,13 +133,13 @@ class SwipeItem extends React.Component<Props, State> {
     render() {
         const rightButtons = this.props.rightButtons || [];
 
-        const translateX = this.state.opacity.interpolate({
+        const translateX = this.state.swipeOut.interpolate({
             inputRange: [0, 1],
             outputRange: [400, 0]
         });
 
         return (
-            <Animated.View style={[{ flexDirection: 'row'}, {transform: [{translateX}] } ]}>
+            <Animated.View style={[{ flexDirection: 'row'}, {transform: [{translateX}], opacity: this.state.opacity } ]}>
                 {!!this.props.leftSwipe && <Animated.View style={[{ position: 'absolute', height: '100%', transform: [{ translateX: this.getLeftSwipeComponentTranslateX() }] }]}>
                     {!this.state.leftSwipeReached && this.props.leftSwipe}
                     {this.state.leftSwipeReached && this.props.leftSwipeReached}
@@ -269,6 +271,22 @@ class SwipeItem extends React.Component<Props, State> {
 
     _turnOffOpacity = () => {
         Animated.timing(this.state.opacity, {
+            toValue: 0,
+            duration: 600,
+            useNativeDriver: true
+        }).start();
+    }
+
+    _swipeIn = () => {
+        Animated.timing(this.state.swipeOut, {
+            toValue: 1,
+            duration: 600,
+            useNativeDriver: true
+        }).start(() => this.toggle());
+    }
+
+    _swipeOut = () => {
+        Animated.timing(this.state.swipeOut, {
             toValue: 0,
             duration: 600,
             useNativeDriver: true

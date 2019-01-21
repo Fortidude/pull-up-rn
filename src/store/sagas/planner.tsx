@@ -160,6 +160,32 @@ function* createGoalSuccess() {
     }
 }
 
+function* updateGoal(action: any) {
+    try {
+        const { id, data } = action.payload;
+        const result = yield Data.postUpdateGoal(id, data);
+        if (!result.status) {
+            console.log(`updateGoal sagas, line 151`, result);
+            throw 'ERROR';
+        }
+
+        yield put(PlannerActions.updateGoalSuccess());
+    } catch (err) {
+        yield put(PlannerActions.updateGoalFailed(err));
+    }
+}
+
+function* updateGoalSuccess() {
+    //@ts-ignore
+    const isPlannerLoadingInProgress = yield select(state => state.planner.plannerLoading);
+    console.log(`isPlannerLoadingInProgress, ${isPlannerLoadingInProgress}`);
+    if (isPlannerLoadingInProgress) {
+        return
+    }
+
+    yield put(PlannerActions.loadPlanner());
+}
+
 function* moveGoalToSection(action: any) {
     try {
         const { goalId, section, withRequest } = action.payload;
@@ -202,6 +228,8 @@ function* plannerSaga() {
         takeEvery(PlannerTypes.createSection, createSection),
         takeEvery(PlannerTypes.createGoal, createGoal),
         takeEvery(PlannerTypes.createGoalSuccess, createGoalSuccess),
+        takeEvery(PlannerTypes.updateGoal, updateGoal),
+        takeEvery(PlannerTypes.updateGoalSuccess, updateGoalSuccess),
         takeEvery(PlannerTypes.moveGoalToSection, moveGoalToSection),
         takeEvery(PlannerTypes.removeGoal, removeGoal)
     ]);

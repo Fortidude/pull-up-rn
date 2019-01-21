@@ -12,7 +12,7 @@ import { PlannerActions } from 'src/store/actions/planner';
 import { ModalActions } from 'src/store/actions/modal';
 import Select from 'src/components/Select/Select';
 import Input from 'src/components/Input';
-import Goal from 'src/models/Goal';
+import Goal, { mapStateToGoalDataStructure } from 'src/models/Goal';
 
 import ModalHeader from 'src/components/ModalManager/ModalHeader/ModalHeader';
 
@@ -50,8 +50,9 @@ class EditGoalContent extends React.Component<Props, State> {
         this.style = getStyle(this.props.theme);
 
         this.state = {
-            type: null,
-            requiredAmount: null,
+            //@ts-ignore
+            type: props.goal && props.goal.requiredType,
+            requiredAmount: props.goal && props.goal.requiredAmount,
             typeWithAI: false
         }
     }
@@ -92,6 +93,13 @@ class EditGoalContent extends React.Component<Props, State> {
             this.style = getStyle(nextProps.theme);
         }
 
+        if (nextProps.goal) {
+            const type = nextProps.goal.requiredType;
+            const requiredAmount = nextProps.goal.requiredAmount;
+            //@ts-ignore
+            this.setState({ type, requiredAmount });
+        }
+
         this.emit(nextProps);
     }
 
@@ -128,7 +136,13 @@ class EditGoalContent extends React.Component<Props, State> {
     }
 
     onSuccess = () => {
-
+        if (!this.props.goalEditModalVisible) {
+            return;
+        }
+        
+        let data = mapStateToGoalDataStructure(this.state);
+        this.props.dispatch(PlannerActions.updateGoal(this.props.goal.id, data));
+        this.onClose();
     }
 
     pickType = (type: GoalType | string) => {

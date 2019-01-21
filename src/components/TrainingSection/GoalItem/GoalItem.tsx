@@ -178,7 +178,11 @@ class GoalItem extends React.Component<Props, State> {
 
     onRemove = () => {
         const onSuccess = () => {
-            this.props.dispatch(PlannerActions.removeGoal(this.state.goal.id));
+            this.setState({ animeteOut: true }, () => {
+                setTimeout(() => {
+                    this.props.dispatch(PlannerActions.removeGoal(this.state.goal.id));
+                }, 500);
+            });
         }
         const options = [I18n.t('buttons.remove')];
         HapticFeedback('selection');
