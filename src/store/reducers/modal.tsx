@@ -7,6 +7,7 @@ import { PlannerTypes } from '../actions/planner';
 export interface ModalState {
     [key: string]: any,
     addSetModalVisible: boolean;
+    goalEditModalVisible: boolean;
     goalCreateModalVisible: boolean;
     goalInformationModalVisible: boolean;
     addTrainingSectionModalVisible: boolean
@@ -41,6 +42,7 @@ const defaultPickerOptions = {
 
 const initialState: ModalState = {
     addSetModalVisible: false,
+    goalEditModalVisible: false,
     goalCreateModalVisible: false,
     goalInformationModalVisible: false,
     addTrainingSectionModalVisible: false,
@@ -86,6 +88,18 @@ function modal(state = initialState, action: AnyAction): ModalState {
             });
         case ModalTypes.addTrainingSectionClose:
             return Object.assign({}, state, { addTrainingSectionModalVisible: false });
+
+        /**
+         * GOAL EDIT OPEN
+         */
+        case ModalTypes.goalEditOpen:
+            return Object.assign({}, state, {
+                goalEditModalVisible: true,
+                positionX: action.payload.positionX,
+                positionY: action.payload.positionY
+            });
+        case ModalTypes.goalEditClose:
+            return Object.assign({}, state, { goalEditModalVisible: false });
 
         /**
          * GOAL CREATE OPEN

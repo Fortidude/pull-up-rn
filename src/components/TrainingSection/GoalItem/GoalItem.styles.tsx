@@ -95,6 +95,16 @@ function getStyle(theme: ThemeInterface) {
             lineHeight: 22,
            // textAlign: 'right'
         },
+        buttonEditContainer: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 1,
+            flexDirection: 'row'
+        },
+        iconEdit: {
+            color: theme.colors.success,
+            fontSize: 20,
+        },
         buttonReorderContainer: {
             justifyContent: 'center',
             alignItems: 'center',

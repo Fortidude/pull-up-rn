@@ -15,6 +15,7 @@ let translations = {
             exercise: "Ćwiczenie",
             exercise_variant: "Wariant",
             filter: "Filtruj",
+            goal_type: 'Typ celu',
             none: "Brak",
             left: "pozostało",
             of: "z",

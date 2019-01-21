@@ -11,6 +11,7 @@ import PickerModal from './Modals/PickerModal';
 import DateTimePickerModal from './Modals/DateTimePickerModal/DateTimePickerModal';
 
 import GoalInformationModal from './FullScreenModals/GoalInformationModal';
+import EditGoalModal from './FullScreenModals/EditGoalModal';
 import CreateGoalModal from './FullScreenModals/CreateGoalModal';
 import ShortInformationModal from './Modals/ShortInformationModal/ShortInformationModal';
 
@@ -37,6 +38,7 @@ interface State {
     datetimePickerModal: boolean;
     datetimePickerOptions: any;
 
+    modalEditGoalOpenProgress: Animated.Value;
     modalCreateGoalOpenProgress: Animated.Value;
     modalInformationOpenProgress: Animated.Value;
 }
@@ -79,6 +81,7 @@ class ModalManager extends React.Component<Props, State> {
             datetimePickerModal: false,
             datetimePickerOptions: {},
 
+            modalEditGoalOpenProgress: new Animated.Value(0),
             modalCreateGoalOpenProgress: new Animated.Value(0),
             modalInformationOpenProgress: new Animated.Value(0)
         }
@@ -89,10 +92,11 @@ class ModalManager extends React.Component<Props, State> {
             || nextState.showOverlay !== this.state.showOverlay
             || nextProps.modal.datetimePickerModalVisible !== this.props.modal.datetimePickerModalVisible
             || nextProps.modal.pickerModalVisible !== this.props.modal.pickerModalVisible
-            
+
             || nextProps.modal.goalInformationModalVisible !== this.props.modal.goalInformationModalVisible
             || nextProps.modal.goalCreateModalVisible !== this.props.modal.goalCreateModalVisible
-            
+            || nextProps.modal.goalEditModalVisible !== this.props.modal.goalEditModalVisible
+
             || nextState.pickerOptions !== this.state.pickerOptions
             || nextState.datetimePickerOptions !== this.state.datetimePickerOptions
     }
@@ -131,6 +135,10 @@ class ModalManager extends React.Component<Props, State> {
 
         if (nextProps.modal.goalCreateModalVisible) {
             this.openFullScreenModal(this.state.modalCreateGoalOpenProgress);
+        }
+
+        if (nextProps.modal.goalEditModalVisible) {
+            this.openFullScreenModal(this.state.modalEditGoalOpenProgress);
         }
     }
 
@@ -210,6 +218,11 @@ class ModalManager extends React.Component<Props, State> {
                 toValue: 0,
                 useNativeDriver: true,
                 ...CLOSE_MODAL_ANIMATION_OPTION
+            }),
+            Animated.timing(this.state.modalEditGoalOpenProgress, {
+                toValue: 0,
+                useNativeDriver: true,
+                ...CLOSE_MODAL_ANIMATION_OPTION
             })
         ]).start(() => {
             this.setState({ showFullScreenModal: false });
@@ -242,6 +255,13 @@ class ModalManager extends React.Component<Props, State> {
                         openProgress={this.state.modalCreateGoalOpenProgress}
                         onClose={this.closeFullScreenModals}
                     />
+
+                    <EditGoalModal
+                        positionX={this.props.modal.positionX}
+                        positionY={this.props.modal.positionY}
+                        openProgress={this.state.modalEditGoalOpenProgress}
+                        onClose={this.closeFullScreenModals}
+                    />
                 </Animated.View>}
 
                 {this.state.showOverlay && <Animated.View style={[this.style.overlay, { backgroundColor: background }]}>
@@ -254,8 +274,8 @@ class ModalManager extends React.Component<Props, State> {
                         <DateTimePickerModal {...this.state.datetimePickerOptions} />
                     </Animated.View>
 
-                    {this.props.modal.informationModalVisible && <Animated.View style={{opacity: this.state.overlayOpacity}}>
-                        <ShortInformationModal/>
+                    {this.props.modal.informationModalVisible && <Animated.View style={{ opacity: this.state.overlayOpacity }}>
+                        <ShortInformationModal />
                     </Animated.View>}
 
                 </Animated.View>}

@@ -36,10 +36,10 @@ class RightButton extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        Events.listenTo("GOAL_INFORMATION_MODAL_VISIBLE", "RightButton", () => {
+        Events.listenTo("HEADER_RIGHT_BUTTON_HIDE", "RightButton", () => {
             this.setState({ hide: true });
         });
-        Events.listenTo("GOAL_INFORMATION_MODAL_HIDDEN", "RightButton", () => {
+        Events.listenTo("HEADER_RIGHT_BUTTON_SHOW", "RightButton", () => {
             this.setState({ hide: false });
         });
         Events.listenTo("FULLSCREEN_MODAL_VISIBLE", "RightButton", () => {
@@ -55,8 +55,8 @@ class RightButton extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
-        Events.remove("GOAL_INFORMATION_MODAL_VISIBLE", "RightButton");
-        Events.remove("GOAL_INFORMATION_MODAL_HIDDEN", "RightButton");
+        Events.remove("HEADER_RIGHT_BUTTON_HIDE", "RightButton");
+        Events.remove("HEADER_RIGHT_BUTTON_SHOW", "RightButton");
         Events.remove("FULLSCREEN_MODAL_VISIBLE", "RightButton");
         Events.remove("FULLSCREEN_MODAL_HIDDEN", "RightButton");
     }

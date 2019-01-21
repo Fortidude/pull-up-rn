@@ -8,6 +8,9 @@ export enum ModalTypes {
     goalCreateOpen = '[MODAL] OPEN CREATE GOAL',
     goalCreateClose = '[MODAL] CLOSE CREATE GOAL',
 
+    goalEditOpen = '[MODAL] OPEN EDIT GOAL',
+    goalEditClose = '[MODAL] CLOSE EDIT GOAL',
+
     goalInformationOpen = '[MODAL] OPEN INFORMATION GOAL',
     goalInformationClose = '[MODAL] CLOSE INFORMATION GOAL',
 
@@ -46,6 +49,15 @@ export const ModalActions = {
     }),
     goalCreateClose: () => ({
         type: ModalTypes.goalCreateClose,
+        payload: {}
+    }),
+
+    goalEditOpen: (positionX: number, positionY: number) => ({
+        type: ModalTypes.goalEditOpen,
+        payload: { positionX, positionY }
+    }),
+    goalEditClose: () => ({
+        type: ModalTypes.goalEditClose,
         payload: {}
     }),
 

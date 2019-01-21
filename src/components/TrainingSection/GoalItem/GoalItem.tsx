@@ -46,6 +46,7 @@ class GoalItem extends React.Component<Props, State> {
     style: ThemeValueInterface;
     unMounted = false;
     swipeItemRef: any;
+    editButtonRef: any;
     scrolling: boolean;
     swipeItemPosition = new Animated.Value(0);
     progressPercent = new Animated.Value(0);
@@ -148,6 +149,14 @@ class GoalItem extends React.Component<Props, State> {
         }).start();
     }
 
+    onEdit = () => {
+        //@ts-ignore
+        this.editButtonRef.measure((x, y, width, height, windowX, windowY) => {
+            this.props.dispatch(PlannerActions.selectGoal(this.props.goal));
+            this.props.dispatch(ModalActions.goalEditOpen(windowX, windowY));
+        });
+    }
+
     onMoveToOtherSection = () => {
         const onPickCallback = () => {
             if (!this.unMounted) {
@@ -195,6 +204,9 @@ class GoalItem extends React.Component<Props, State> {
     render() {
         let { goal, mockContent } = this.state;
         const rightButtons = [
+            <TouchableOpacity ref={ref => this.editButtonRef = ref} onPress={this.onEdit} style={[this.style.buttonEditContainer]}>
+                <Icon name="edit" solid={true} style={this.style.iconEdit} />
+            </TouchableOpacity>,
             <TouchableOpacity onPress={this.onMoveToOtherSection} style={[this.style.buttonReorderContainer]}>
                 <Icon name="exchange-alt" solid={true} style={this.style.iconReorder} />
             </TouchableOpacity>,
@@ -253,7 +265,7 @@ class GoalItem extends React.Component<Props, State> {
     _getSummaryContent = (goal: Goal) => {
         const summaryContentLeft = this.swipeItemPosition.interpolate({
             inputRange: [-100, 0],
-            outputRange: [50, 0],
+            outputRange: [60, 0],
             extrapolateLeft: 'extend',
             extrapolateRight: 'clamp'
         });
@@ -274,7 +286,7 @@ class GoalItem extends React.Component<Props, State> {
             <View style={this.style.summaryContent}>
                 <Animated.View style={[this.style.summaryLeftContent, { transform: [{ translateX: summaryContentLeft }] }]}>
                     <Text style={this.style.title}>{goal.exercise.name} </Text>
-                    {!!goal.exercise.exerciseVariant.name && <Text style={this.style.subTitle}>{goal.exercise.exerciseVariant.name} </Text>}
+                    {!!goal.exercise.exerciseVariant.name && <Text numberOfLines={1} style={this.style.subTitle}>{goal.exercise.exerciseVariant.name} </Text>}
                 </Animated.View>
                 <Animated.View style={[this.style.summaryRightContent, { opacity: opacityContentRight }]}>
                     <View style={this.style.infoTitleTopContainer}>

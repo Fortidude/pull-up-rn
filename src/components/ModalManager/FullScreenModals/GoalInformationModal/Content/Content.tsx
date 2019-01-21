@@ -31,7 +31,6 @@ interface State {
     showChart: boolean;
 }
 
-const HEIGHT = Dimensions.get('window').height;
 class GoalInformationContent extends React.Component<Props, State> {
     style: ThemeValueInterface;
     opacity = new Animated.Value(0);
@@ -76,12 +75,14 @@ class GoalInformationContent extends React.Component<Props, State> {
             }).start();
             Events.emit('HEADER_OVERWRITE_TITLE', '');
             Events.emit('FOOTER_BAR_CLOSE');
-            Events.emit('GOAL_INFORMATION_MODAL_VISIBLE');
+            Events.emit('HEADER_LEFT_BUTTON_HIDE');
+            Events.emit('HEADER_RIGHT_BUTTON_HIDE');
             Events.emit('FULLSCREEN_MODAL_VISIBLE');
         } else {
             Events.emit('HEADER_OVERWRITE_TITLE', null);
             Events.emit('FOOTER_BAR_OPEN');
-            Events.emit('GOAL_INFORMATION_MODAL_HIDDEN');
+            Events.emit('HEADER_LEFT_BUTTON_SHOW');
+            Events.emit('HEADER_RIGHT_BUTTON_SHOW');
             Events.emit('FULLSCREEN_MODAL_HIDDEN');
         }
     }

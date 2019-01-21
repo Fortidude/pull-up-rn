@@ -66,6 +66,7 @@ class SwipeItem extends React.Component<Props, State> {
 
     forceOpenRight = () => {
         this.closed = false;
+        this.offset = this.getMaxLeftSwipe();
         Animated.spring(this.state.swipePosition, {
             toValue: this.getMaxLeftSwipe(),
             friction: 5,
@@ -87,6 +88,7 @@ class SwipeItem extends React.Component<Props, State> {
 
     forceClose = () => {
         this.closed = true;
+        this.offset = 0;
         Animated.spring(this.state.swipePosition, {
             toValue: 0,
             friction: 5,
