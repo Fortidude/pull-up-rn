@@ -15,6 +15,8 @@ import Input from 'src/components/Input';
 import Goal, { mapStateToGoalDataStructure } from 'src/models/Goal';
 
 import ModalHeader from 'src/components/ModalManager/ModalHeader/ModalHeader';
+import CircleProgress from 'src/components/CircleProgress/CircleProgress';
+import Set, { SetInterface } from 'src/models/Set';
 
 type GoalType = "sets" | "reps" | "time" | null;
 
@@ -139,7 +141,7 @@ class EditGoalContent extends React.Component<Props, State> {
         if (!this.props.goalEditModalVisible) {
             return;
         }
-        
+
         let data = mapStateToGoalDataStructure(this.state);
         this.props.dispatch(PlannerActions.updateGoal(this.props.goal.id, data));
         this.onClose();
@@ -162,6 +164,11 @@ class EditGoalContent extends React.Component<Props, State> {
             return null;
         }
 
+        let doneValue = this.props.goal.sets.reduce((previous, current: SetInterface) => previous + (current.value || 0), 0);
+        if (this.state.type && this.state.type.toLocaleLowerCase() === 'sets') {
+            doneValue = this.props.goal.sets.length;
+        }
+
         return (
             <View style={[this.style.container]}>
                 <ModalHeader text={"Edycja celu"} textStyle={this.style.headerTitle} style={this.style.headerContainer} />
@@ -171,10 +178,20 @@ class EditGoalContent extends React.Component<Props, State> {
                     keyboardShouldPersistTaps="always"
                 >
 
-                    <Text style={this.style.exerciseText} numberOfLines={1}>{this.props.goal.exercise.name || '-'}</Text>
-                    <Text style={this.style.variantText} numberOfLines={1}>{this.props.goal.exercise.exerciseVariant.name || '-'}</Text>
-                    <Text style={this.style.trainingText} numberOfLines={1}>{this.props.goal.trainingName}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flex: 1 }}>
+                            <Text style={this.style.exerciseText} numberOfLines={1}>{this.props.goal.exercise.name || '-'}</Text>
+                            <Text style={this.style.variantText} numberOfLines={1}>{this.props.goal.exercise.exerciseVariant.name || '-'}</Text>
+                            <Text style={this.style.trainingText} numberOfLines={1}>{this.props.goal.trainingName}</Text>
+                        </View>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
+                            <CircleProgress
 
+                                fill={(doneValue / (this.state.requiredAmount || 1)) * 100}
+                                title={`${doneValue}/${this.state.requiredAmount}`}
+                            />
+                        </View>
+                    </View>
                     <View style={this.style.form.container}>
 
                         {/* // TYPE */}

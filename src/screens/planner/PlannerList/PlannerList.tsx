@@ -191,11 +191,10 @@ class PlannerList extends React.Component<Props, State> {
     }
 
     getExtraData = () => {
-        const trainings = JSON.parse(JSON.stringify(this.props.planner.trainings));
+        const trainings = JSON.stringify(this.props.planner.trainings);
         return [
             this.props.goalSelected,
-            trainings,
-          //  ...trainings.map((training: any) => training),
+            trainings
         ]
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, Animated, PanResponder } from 'react-native';
+import { View, Animated, PanResponder, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
@@ -120,8 +120,8 @@ class TopProgressBar extends React.Component<Props, State> {
 
         Animated.spring(this.state.swipePosition, {
             toValue: toValue,
-            friction: 5,
-            tension: 40,
+            friction: 10,
+            tension: 100,
             useNativeDriver: true
         }).start();
     }
@@ -132,8 +132,8 @@ class TopProgressBar extends React.Component<Props, State> {
         }
 
         const headerTranslate = this.state.swipePosition.interpolate({
-            inputRange: [0, this.style.topContainerHeight],
-            outputRange: [-(this.style.topContainerHeight), 0],
+            inputRange: [0, this.style.topContainerHeight, 2 * this.style.topContainerHeight],
+            outputRange: [-(this.style.topContainerHeight), 0, 20],
         });
 
         const _panResponder = PanResponder.create({

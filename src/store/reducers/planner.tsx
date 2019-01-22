@@ -209,18 +209,7 @@ function planner(state = initialState, action: AnyAction): PlannerState {
 
         case PlannerTypes.createGoalFailed:
             return Object.assign({}, state, { createGoalLoading: false, error: action.payload.error });
-
-        /**
-         * -------------------
-         * UPDATE GOAL
-         */
-        case PlannerTypes.updateGoalSuccess:
-            return Object.assign({}, state, {
-                planner: new Planner({}),
-                plannerEmpty: false,
-                statisticsLoaded: false
-            });
-
+            
 
         /**
          * -------------------
