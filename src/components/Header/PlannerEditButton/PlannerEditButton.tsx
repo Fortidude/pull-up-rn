@@ -85,7 +85,7 @@ class PlannerEditButton extends React.Component<Props, State> {
     }
 
     render() {
-        if (this.state.hide) {
+        if (this.state.hide || !this.state.overrideText) {
             return null;
         }
 

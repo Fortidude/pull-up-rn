@@ -29,6 +29,7 @@ interface Props {
     rightOnSwitch?: (value: boolean) => void;
 
     last?: boolean;
+    style?: any;
 }
 
 class SettingListItem extends React.Component<Props> {
@@ -53,7 +54,7 @@ class SettingListItem extends React.Component<Props> {
     render() {
         return (
             <React.Fragment>
-                <TouchableOpacity style={this.style.container} onPress={this.props.onPress}>
+                <TouchableOpacity style={[this.style.container, this.props.style]} onPress={this.props.onPress}>
                     {this.props.icon && <View style={[this.style.leftIconContainer]}>
                         <Icon name={this.props.icon}
                             style={[this.style.leftIcon, this.props.danger ? this.style.leftIconDanger : {}]} />

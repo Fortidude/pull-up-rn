@@ -134,7 +134,7 @@ class FooterBar extends React.Component<Props, State> {
 
     getAnimateOut = () => {
         return Animated.timing(this.state.translateY, {
-            toValue: this.style.footerHeight + 50,
+            toValue: this.style.footerHeight + 150,
             duration: 200,
             useNativeDriver: true
         })

@@ -8,6 +8,7 @@ import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import Button from 'src/components/FooterBar/Button';
 import Avatar from 'src/components/FooterBar/Avatar';
 import { NavigationActions } from 'react-navigation';
+import PlannerFab from 'src/components/PlannerFab/PlannerFab';
 
 interface Props {
     onLayout?: () => void;
@@ -61,6 +62,10 @@ class PlannerFooter extends React.Component<Props> {
 
                 <Button onPress={this.goToCardio} iconName="stopwatch" text="Cardio" />
                 <Button onPress={this.goToStatsScreen} iconName="chart-bar" text="Statystyki" />
+
+                <View style={{ position: 'absolute', right: 0, top: -90 }}>
+                    <PlannerFab />
+                </View>
             </View>
         );
     }

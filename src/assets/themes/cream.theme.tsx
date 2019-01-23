@@ -90,6 +90,9 @@ const colors = {
 
     statisticsButtonBackground: '#FFFFFF',
 
+    plannerFabButtonBackground: '#332e2b',
+    plannerFabButtonText: '#F8F6F2',
+    
     buttonBigBackgroundColor: '#FFFFFF',
     buttonBigBorderColor: 'transparent',
     buttonBigShadowColor: '#000000',
@@ -120,7 +123,7 @@ const colors = {
 
     listItemRightIconColor: greyColor,
 
-    tutorialTouchIconColor: 'dark'
+    tutorialTouchIconColor: '#F8F6F2'
 };
 
 const borders = {
@@ -156,7 +159,7 @@ const dimensions = {
 };
 
 export default {
-    name: 'pantone',
+    name: 'cream',
     statusBarStyle: 'light-content',
     keyboardAppearance: 'dark',
     colors,

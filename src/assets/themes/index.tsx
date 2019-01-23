@@ -1,6 +1,6 @@
 import LightTheme from './light.theme';
 import DarkTheme from './dark.theme';
-import PantoneTheme from './pantone.theme';
+import CreamTheme from './cream.theme';
 import { StatusBarStyle,  } from 'react-native';
 
 export interface ThemeValueInterface {[key: string]: any}
@@ -17,10 +17,10 @@ export interface ThemeInterface {
 
 export default DarkTheme;
 
-export const list = ['light', 'dark', 'pantone'];
+export const list = ['light', 'dark', 'cream'];
 
 export const themes: {[key: string]: {}} = {
     light: LightTheme,
     dark: DarkTheme,
-    pantone: PantoneTheme
+    cream: CreamTheme
 };

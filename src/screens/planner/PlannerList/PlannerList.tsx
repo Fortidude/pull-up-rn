@@ -19,6 +19,7 @@ import PlannerListPlaceholder from '../PlannerListPlaceholder';
 import User from 'src/models/User';
 
 import AddSetContainer from './AddSetContainer';
+import ListHeader from './ListHeader/ListHeader';
 
 
 interface Props {
@@ -168,6 +169,7 @@ class PlannerList extends React.Component<Props, State> {
                         data={this.props.planner.trainings}
                         extraData={this.getExtraData()}
                         ListFooterComponent={<View style={this.style.listFooterComponent}></View>}
+                       // ListHeaderComponent={<ListHeader/>}
                         ListEmptyComponent={<EmptyList />}
                         renderItem={({ item, index }) => {
                             let isFirst = item.goals.length > 0 && (index === 0 || !firstFound);

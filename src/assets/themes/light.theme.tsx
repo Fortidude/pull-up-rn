@@ -84,6 +84,9 @@ const colors = {
 
     statisticsButtonBackground: '#FFFFFF',
 
+    plannerFabButtonBackground: '#F4F6F7',
+    plannerFabButtonText: '#000000',
+
     buttonBigBackgroundColor: '#FFFFFF',
     buttonBigBorderColor: 'transparent',
     buttonBigShadowColor: '#000000',

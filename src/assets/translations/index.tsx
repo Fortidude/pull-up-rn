@@ -196,7 +196,7 @@ let translations = {
         themes: {
             light: "Dzienny",
             dark: "Nocny",
-            pantone: "Pantone"
+            cream: "Kremowy"
         },
 
         locales: {
@@ -247,7 +247,7 @@ let translations = {
             close: "Zamknij",
             clickToClose: "Kliknij by anulować",
             scroll_to_now: "Przewiń do chwili obecnej",
-            edit: "Edycja",
+            edit: "Edytuj",
             finish: "Zakończ",
             now: "Teraz",
             remove: "Usuń",
