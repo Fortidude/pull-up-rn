@@ -78,6 +78,13 @@ function getStyle(theme: ThemeInterface) {
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH4Size,
             color: theme.colors.plannerFabButtonText
+        },
+
+        menuTextDisabled: {
+            fontFamily: theme.fonts.mainFontFamily,
+            fontSize: theme.fonts.fontH4Size,
+            color: theme.colors.plannerFabButtonText,
+            opacity: 0.5
         }
     };
 }

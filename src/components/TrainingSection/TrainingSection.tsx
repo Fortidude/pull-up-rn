@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { LayoutAnimation, View, Animated } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import Styles from './TrainingSection.styles';
@@ -13,7 +13,7 @@ import Training from 'src/models/Training';
 import { ModalActions } from 'src/store/actions/modal';
 import { PlannerActions } from '../../store/actions/planner';
 import { SectionInterface } from 'src/models/Section';
-import TutorialTouchIcon from '../TutorialTouchIcon/TutorialTouchIcon';
+import Events from 'src/service/Events';
 
 interface Props {
     dispatch: Dispatch;
@@ -46,6 +46,10 @@ class TrainingSection extends React.Component<Props, State> {
         this.state = {
             toggled: toggled
         }
+
+        Events.listenTo("TRAINING_SECTIONS_TOGGLE", `TrainingSection-${props.training.name}`, (toggle) => {
+            this.setState({toggled: toggle});
+        });
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -56,6 +60,10 @@ class TrainingSection extends React.Component<Props, State> {
         if (nextProps.plannerEditMode) {
             this.setState({ toggled: true });
         }
+    }
+
+    componentWillUnmount() {
+        Events.remove('TRAINING_SECTIONS_TOGGLE', `TrainingSection-${this.props.training.name}`);
     }
 
     countHeight = () => this.countGoals() * 70;

@@ -20,7 +20,8 @@ interface Props {
 
 interface State {
     hide: boolean;
-    menu: boolean
+    menu: boolean;
+    sectionsToggled: boolean;
 }
 
 class PlannerEditButton extends React.Component<Props, State> {
@@ -36,7 +37,8 @@ class PlannerEditButton extends React.Component<Props, State> {
         this.style = Styles(this.props.theme);
         this.state = {
             hide: false,
-            menu: false
+            menu: false,
+            sectionsToggled: false
         }
     }
 
@@ -71,6 +73,12 @@ class PlannerEditButton extends React.Component<Props, State> {
     onEditPress = () => {
         Animated.spring(this.menuVisible, { toValue: 0 }).start();
         this.props.dispatch(AppActions.togglePlannerEdit(true));
+    }
+
+    onToggleAll = () => {
+        this.setState({ sectionsToggled: !this.state.sectionsToggled }, () => {
+            Events.emit('TRAINING_SECTIONS_TOGGLE', this.state.sectionsToggled);
+        });
     }
 
     render() {
@@ -130,12 +138,14 @@ class PlannerEditButton extends React.Component<Props, State> {
                         <Text style={this.style.menuText}>{I18n.t('buttons.edit').toLocaleUpperCase()}</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[this.style.menuButton, {opacity: 0.5}]} onPress={() => { }}>
+                    <TouchableOpacity style={this.style.menuButton} onPress={this.onToggleAll}>
                         {/* <FontAwesome name="toggle-off" style={this.style.menuIcon} size={20} color={this.props.theme.colors.textColor}/> */}
-                        <Text style={this.style.menuText}>ZWIŃ / ROZWIŃ</Text>
+                        <Text style={[this.style.menuText, !this.state.sectionsToggled && this.style.menuTextDisabled]}>ZWIŃ</Text>
+                        <Text style={[this.style.menuText, { marginHorizontal: 5 }]}>/</Text>
+                        <Text style={[this.style.menuText, this.state.sectionsToggled && this.style.menuTextDisabled]}>ROZWIŃ</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[this.style.menuButton, {opacity: 0.5}]} onPress={() => { }}>
+                    <TouchableOpacity style={[this.style.menuButton, { opacity: 0.5 }]} onPress={() => { }}>
                         <Text style={this.style.menuText}>{"CELE < 100%"}</Text>
                     </TouchableOpacity>
                 </Animated.View>
