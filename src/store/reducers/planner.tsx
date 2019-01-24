@@ -44,6 +44,8 @@ interface PlannerState {
     createSetLoading: boolean;
     createGoalLoading: boolean;
 
+    finishedGoalsVisible: boolean;
+
     error: string | null;
     circuit: Circuit | null;
 
@@ -80,6 +82,8 @@ export const initialState: PlannerState = {
 
     createSetLoading: false,
     createGoalLoading: false,
+
+    finishedGoalsVisible: true,
 
     error: null,
     circuit: null,
@@ -209,7 +213,7 @@ function planner(state = initialState, action: AnyAction): PlannerState {
 
         case PlannerTypes.createGoalFailed:
             return Object.assign({}, state, { createGoalLoading: false, error: action.payload.error });
-            
+
 
         /**
          * -------------------
@@ -230,6 +234,16 @@ function planner(state = initialState, action: AnyAction): PlannerState {
             const { goalId } = action.payload;
             const planner = PlannerMethods.removeGoal(goalId, state.planner);
             return Object.assign({}, state, { planner: planner });
+        }
+
+
+        /**
+         * -------------------
+         * TOGGLE FINISHED GOALS
+         */
+        case PlannerTypes.toggleFinishedGoals: {
+            const { finishedGoalsVisible } = state;
+            return Object.assign({}, state, { finishedGoalsVisible: !finishedGoalsVisible });
         }
 
 

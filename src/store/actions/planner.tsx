@@ -39,6 +39,7 @@ export enum PlannerTypes {
     updateGoalFailed = '[PLANNER] UPDATE GOAL FAILED',
 
     moveGoalToSection = '[PLANNER] MOVE GOAL TO SECTION',
+    toggleFinishedGoals = '[PLANNER] TOGGLE FINISHED GOALS',
     removeGoal = '[PLANNER] REMOVE GOAL',
 
     loadSections = '[PLANNER] LOAD SECTIONS',
@@ -162,6 +163,10 @@ export const PlannerActions = {
     removeGoal: (goalId: string) => ({
         type: PlannerTypes.removeGoal,
         payload: { goalId }
+    }),
+    toggleFinishedGoals: () => ({
+        type: PlannerTypes.toggleFinishedGoals,
+        payload: {}
     }),
 
     loadSections: () => ({

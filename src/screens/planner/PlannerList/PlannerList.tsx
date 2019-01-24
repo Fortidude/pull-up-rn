@@ -29,6 +29,7 @@ interface Props {
     plannerLoaded: boolean;
     plannerEmpty: boolean;
     plannerEditMode: boolean;
+    finishedGoalsVisible: boolean;
     plannerLoading: boolean;
     user: User;
     goalSelected: GoalInterface | null;
@@ -169,7 +170,7 @@ class PlannerList extends React.Component<Props, State> {
                         data={this.props.planner.trainings}
                         extraData={this.getExtraData()}
                         ListFooterComponent={<View style={this.style.listFooterComponent}></View>}
-                       // ListHeaderComponent={<ListHeader/>}
+                        ListHeaderComponent={<ListHeader/>}
                         ListEmptyComponent={<EmptyList />}
                         renderItem={({ item, index }) => {
                             let isFirst = item.goals.length > 0 && (index === 0 || !firstFound);
@@ -196,6 +197,7 @@ class PlannerList extends React.Component<Props, State> {
         const trainings = JSON.stringify(this.props.planner.trainings);
         return [
             this.props.goalSelected,
+            this.props.finishedGoalsVisible,
             trainings
         ]
     }
@@ -209,6 +211,7 @@ const mapStateToProps = (state: any) => ({
     plannerEditMode: state.app.plannerEditMode,
     plannerLoaded: state.planner.loadedPlanner,
     plannerEmpty: state.planner.plannerEmpty,
+    finishedGoalsVisible: state.planner.finishedGoalsVisible,
     plannerLoading: state.planner.loading || state.planner.plannerLoading || state.planner.sectionsLoading,
     user: state.user.current,
     isOnline: state.app.isOnline,

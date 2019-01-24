@@ -20,6 +20,7 @@ interface Props {
     theme: ThemeInterface;
     plannerEditMode: boolean;
     plannerCustomMode: boolean;
+    finishedGoalsVisible: boolean;
     sectionsLength: number;
     sections: string[];
 
@@ -68,7 +69,16 @@ class TrainingSection extends React.Component<Props, State> {
 
     countHeight = () => this.countGoals() * 70;
     countGoals = () => this.props.training.goals.reduce((number, goal) => {
-        return number + (goal.removed ? 0 : 1);
+        if (goal.removed) {
+            return number;
+        }
+
+        console.log(goal.leftThisCircuit);
+        if (this.props.finishedGoalsVisible && goal.leftThisCircuit <= 0) {
+            return number;
+        }
+        
+        return number + 1;
     }, 0);
 
     toggleList = (name: string | null) => {
@@ -113,7 +123,8 @@ class TrainingSection extends React.Component<Props, State> {
                 <GoalListContainer active={this.state.toggled} height={this.countHeight()}>
                     <React.Fragment>
                         {this.props.training.goals.map((goal, key) => {
-                            if (!goal.removed) {
+                            if (!goal.removed && (!this.props.finishedGoalsVisible || goal.leftThisCircuit > 0)) {
+                                console.log(this.props.finishedGoalsVisible, goal.leftThisCircuit <= 0);
                                 return (<GoalItem
                                     onGoalClick={this.props.onGoalClick}
                                     onMoveToSection={this.moveGoalToSection}
@@ -135,6 +146,7 @@ const mapStateToProps = (state: any) => ({
     theme: state.settings.theme,
     plannerEditMode: state.app.plannerEditMode,
     plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false,
+    finishedGoalsVisible: state.planner.finishedGoalsVisible,
     sections: state.planner.sections
         .map((section: SectionInterface) => section.name)
         .filter((name: string) => name.length > 0)

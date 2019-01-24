@@ -92,6 +92,11 @@ const colors = {
 
     plannerFabButtonBackground: '#332e2b',
     plannerFabButtonText: '#F8F6F2',
+
+    plannerFilterBackground: '#332e2b', //plannerFabButtonBackground
+    plannerFilterText: '#F8F6F2', //plannerFabButtonText
+    plannerFilterCloseIconBackground: '#F4F2EC', //card
+    plannerFilterCloseIconText: '#332e2b',
     
     buttonBigBackgroundColor: '#FFFFFF',
     buttonBigBorderColor: 'transparent',

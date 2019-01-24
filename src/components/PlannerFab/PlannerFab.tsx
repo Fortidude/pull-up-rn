@@ -11,10 +11,12 @@ import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import HapticFeedback from 'src/service/Haptic';
 import Events from 'src/service/Events';
 import { AppActions } from 'src/store/actions/app';
+import { PlannerActions } from 'src/store/actions/planner';
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
+    finishedGoalsVisible: boolean;
     plannerEditMode: boolean;
 }
 
@@ -24,7 +26,7 @@ interface State {
     sectionsToggled: boolean;
 }
 
-class PlannerEditButton extends React.Component<Props, State> {
+class PlannerFab extends React.Component<Props, State> {
     style: ThemeValueInterface;
 
     lineOpacity = new Animated.Value(1);
@@ -43,9 +45,13 @@ class PlannerEditButton extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        Events.listenTo('FOOTER_BAR_CLOSE', 'PlannerFab', this.forceHide);
+        Events.listenTo('FOOTER_BAR_DISABLE', 'PlannerFab', this.forceHide);
     }
 
     componentWillUnmount() {
+        Events.remove('FOOTER_BAR_CLOSE', 'PlannerFab');
+        Events.remove('FOOTER_BAR_DISABLE', 'PlannerFab');
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -57,28 +63,36 @@ class PlannerEditButton extends React.Component<Props, State> {
     onPress = () => {
         HapticFeedback('impactLight');
 
-        if (this.props.plannerEditMode) {
-            this.setState({ menu: false }, () => {
-                this.animateMenu(false);
-                this.props.dispatch(AppActions.togglePlannerEdit(false));
-            })
-            return;
-        }
-
         this.setState({ menu: !this.state.menu }, () => {
             this.animateMenu(this.state.menu);
         });
     }
 
-    onEditPress = () => {
-        Animated.spring(this.menuVisible, { toValue: 0 }).start();
-        this.props.dispatch(AppActions.togglePlannerEdit(true));
+    forceHide = () => {
+        if (this.state.menu) {
+            this.animateMenu(false);
+            this.setState({ menu: false });
+        }
     }
 
-    onToggleAll = () => {
+    onEditPress = () => {
+        if (!this.props.plannerEditMode) {
+            this.forceHide();
+        }
+        this.props.dispatch(AppActions.togglePlannerEdit(!this.props.plannerEditMode));
+    }
+
+    onToggleSections = () => {
         this.setState({ sectionsToggled: !this.state.sectionsToggled }, () => {
             Events.emit('TRAINING_SECTIONS_TOGGLE', this.state.sectionsToggled);
         });
+    }
+
+    onToggleFinishedGoals = () => {
+        if (!this.props.finishedGoalsVisible) {
+            this.forceHide();
+        }
+        this.props.dispatch(PlannerActions.toggleFinishedGoals());
     }
 
     render() {
@@ -138,15 +152,15 @@ class PlannerEditButton extends React.Component<Props, State> {
                         <Text style={this.style.menuText}>{I18n.t('buttons.edit').toLocaleUpperCase()}</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={this.style.menuButton} onPress={this.onToggleAll}>
-                        {/* <FontAwesome name="toggle-off" style={this.style.menuIcon} size={20} color={this.props.theme.colors.textColor}/> */}
-                        <Text style={[this.style.menuText, !this.state.sectionsToggled && this.style.menuTextDisabled]}>ZWIŃ</Text>
-                        <Text style={[this.style.menuText, { marginHorizontal: 5 }]}>/</Text>
-                        <Text style={[this.style.menuText, this.state.sectionsToggled && this.style.menuTextDisabled]}>ROZWIŃ</Text>
+                    <TouchableOpacity style={this.style.menuButton} onPress={this.onToggleFinishedGoals}>
+                        <Text style={this.style.menuText}>{I18n.t('buttons.unfinished_goals')}</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[this.style.menuButton, { opacity: 0.5 }]} onPress={() => { }}>
-                        <Text style={this.style.menuText}>{"CELE < 100%"}</Text>
+                    <TouchableOpacity style={this.style.menuButton} onPress={this.onToggleSections}>
+                        {/* <FontAwesome name="toggle-off" style={this.style.menuIcon} size={20} color={this.props.theme.colors.textColor}/> */}
+                        <Text style={[this.style.menuText, !this.state.sectionsToggled && this.style.menuTextDisabled]}>{I18n.t('buttons.toggle_expand')}</Text>
+                        <Text style={[this.style.menuText, { marginHorizontal: 5 }]}>/</Text>
+                        <Text style={[this.style.menuText, this.state.sectionsToggled && this.style.menuTextDisabled]}>{I18n.t('buttons.toggle_collapse')}</Text>
                     </TouchableOpacity>
                 </Animated.View>
             </React.Fragment>
@@ -160,23 +174,15 @@ class PlannerEditButton extends React.Component<Props, State> {
             Animated.spring(this.menuVisible, { toValue: show ? 1 : 0, })
         ];
 
-        if (!show) {
-            // Events.emit('FOOTER_BAR_OPEN');
-            // Events.emit('TOP_PROGRESS_BAR_SHOW');
-            animations.reverse();
-            Animated.parallel(animations).start();
-        } else {
-            // Events.emit('FOOTER_BAR_CLOSE');
-            // Events.emit('TOP_PROGRESS_BAR_HIDE');
-            Animated.parallel(animations).start();
-        }
+        Animated.parallel(animations).start();
     }
 }
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
+    finishedGoalsVisible: state.planner.finishedGoalsVisible,
     plannerEditMode: state.app.plannerEditMode
 });
 
-export default connect(mapStateToProps)(PlannerEditButton);
+export default connect(mapStateToProps)(PlannerFab);

@@ -88,6 +88,11 @@ const colors = {
     plannerFabButtonBackground: '#141414',
     plannerFabButtonText: '#ffffff',
 
+    plannerFilterBackground: '#141414', //plannerFabButtonBackground
+    plannerFilterText: '#ffffff', //plannerFabButtonText
+    plannerFilterCloseIconBackground: '#000000', //card
+    plannerFilterCloseIconText: '#ffffff',
+
     buttonBigBackgroundColor: '#141414',
     buttonBigBorderColor: 'rgba(255,255,255, 0.2)',
     buttonBigShadowColor: 'transparent',

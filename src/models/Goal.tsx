@@ -12,6 +12,7 @@ interface GoalInterface {
     doneThisCircuit: number;
     name: string;
     removed: boolean;
+    hidden: boolean;
     requiredAmount: number;
     requiredReps: number;
     requiredSets: number;
@@ -63,6 +64,7 @@ class Goal implements GoalInterface {
     trainingName: string;
     name: string;
     removed: boolean;
+    hidden: boolean;
     requiredAmount: number;
     requiredReps: number;
     requiredSets: number;
@@ -83,6 +85,7 @@ class Goal implements GoalInterface {
         this.trainingName = data.traning_name;
         this.name = data.name;
         this.removed = data.removed;
+        this.hidden = false;
         this.requiredAmount = parseInt(data.required_amount);
         this.requiredReps = parseInt(data.required_reps);
         this.requiredSets = parseInt(data.required_sets);
