@@ -56,6 +56,7 @@ class Day extends React.Component<Props, State> {
 
     countSets = (): number => {
         const date = this.props.day.format('D-M-Y');
+     //   console.log(date, !!this.props.setsHistory[date]);
         if (this.props.setsHistory[date]) {
             if (this.props.exerciseToFilter !== null) {
                 let amount = 0;

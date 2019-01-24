@@ -73,7 +73,6 @@ class TrainingSection extends React.Component<Props, State> {
             return number;
         }
 
-        console.log(goal.leftThisCircuit);
         if (this.props.finishedGoalsVisible && goal.leftThisCircuit <= 0) {
             return number;
         }
@@ -124,7 +123,6 @@ class TrainingSection extends React.Component<Props, State> {
                     <React.Fragment>
                         {this.props.training.goals.map((goal, key) => {
                             if (!goal.removed && (!this.props.finishedGoalsVisible || goal.leftThisCircuit > 0)) {
-                                console.log(this.props.finishedGoalsVisible, goal.leftThisCircuit <= 0);
                                 return (<GoalItem
                                     onGoalClick={this.props.onGoalClick}
                                     onMoveToSection={this.moveGoalToSection}

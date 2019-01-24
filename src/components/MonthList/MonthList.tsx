@@ -230,6 +230,7 @@ class MonthList extends React.PureComponent<Props, State> {
 
             if (renderThisMonth) {
                 const calendar = this.getMonthCalendar(month);
+                console.log(month, calendar);
                 months[key] = <Month key={key} onLayout={this.monthsAreActive} weeks={calendar} onDayClick={this.props.onDayClick} currentMonth={month} />
             } else {
                 //@ts-ignore
@@ -255,11 +256,12 @@ class MonthList extends React.PureComponent<Props, State> {
 
         const calendar: moment.Moment[] = [];
         for (var week = startWeek; week <= endWeek; week++) {
-            if (endWeek === 53) {
-                calendar.push(moment().week(week));
-            } else {
+            //@TODO watch if its good... bug possible
+         //   if (endWeek === 53) {
+          //      calendar.push(moment().week(week));
+          //  } else {
                 calendar.push(moment().week(week).year(month.year()));
-            }
+          //  }
         }
 
         return calendar;
