@@ -36,9 +36,9 @@ function getStyle(theme: ThemeInterface) {
             backgroundColor: theme.colors.footerBackgroundColor,
             borderColor: theme.borders.borderDarkColor,
             borderWidth: theme.borders.borderWidth,
-            shadowColor: theme.colors.buttonBigShadowColor,
-            shadowOpacity: 0.2,
-            shadowOffset: { width: 1, height: 1 }
+            // shadowColor: theme.colors.buttonBigShadowColor,
+            // shadowOpacity: 0.2,
+            // shadowOffset: { width: 1, height: 1 }
         },
         line: { width: 20, height: 1, backgroundColor: theme.colors.main },
 
