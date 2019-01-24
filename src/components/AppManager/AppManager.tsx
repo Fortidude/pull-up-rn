@@ -12,6 +12,7 @@ import { ExerciseActions } from 'src/store/actions/exercise';
 import Calendar from 'src/service/Calendar';
 import { PlannerActions } from 'src/store/actions/planner';
 import OnBoarding from '../OnBoarding/OnBoarding';
+import { ModalActions } from 'src/store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;

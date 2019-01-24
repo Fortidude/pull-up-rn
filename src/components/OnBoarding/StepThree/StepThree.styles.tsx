@@ -21,7 +21,7 @@ function getStyle(theme: ThemeInterface) {
         text: {
             fontFamily: theme.fonts.montserratFontFamily,
             fontSize: theme.fonts.fontH1Size * 2,
-            color: theme.colors.textColor,
+            color: '#FFF',
             marginRight: 2
         },
     };

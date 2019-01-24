@@ -265,7 +265,7 @@ let translations = {
         warnings: {
             attention: "Uwaga",
             information: "Informacja",
-            possible_swap_weight_reps: "Prawdopodobnie pomylono ilość wykonanych powtórzeń z ciężarem. Kliknij OK i ponownie Zapisz jeżeli wszystko jest prawidłowo."
+            possible_swap_weight_reps: "Prawdopodobnie pomylono ilość wykonanych powtórzeń z ciężarem. Zignoruj wiadomość i ponownie zapisz jeżeli wszystko jest prawidłowo."
         },
 
         errors: {

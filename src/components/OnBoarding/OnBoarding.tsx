@@ -144,7 +144,7 @@ class OnBoarding extends React.Component<Props, State> {
                 <View style={[paginatorStyle.dot, currentDot === 4 && paginatorStyle.dotActive]}></View>
 
                 {this.state.currentDot !== 4 && <TouchableOpacity style={paginatorStyle.skipButton} onPress={this.close}>
-                    <Text style={paginatorStyle.skupButtonText}>SKIP</Text>
+                    <Text style={paginatorStyle.skipButtonText}>SKIP</Text>
                 </TouchableOpacity>}
             </View>
         )

@@ -30,7 +30,7 @@ function getStyle(theme: ThemeInterface) {
         text: {
             fontFamily: theme.fonts.montserratFontFamily,
             fontSize: theme.fonts.fontSize,
-            color: theme.colors.textColor,
+            color: '#FFF',
             marginRight: 2
         },
 

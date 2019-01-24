@@ -26,6 +26,7 @@ interface Props {
 interface State {
     showFullScreenModal: boolean;
     showOverlay: boolean;
+    modalWithoutOverlay: boolean;
 
     overlayOpacity: Animated.Value;
     containerTranslateY: Animated.Value;
@@ -69,6 +70,7 @@ class ModalManager extends React.Component<Props, State> {
         this.state = {
             showFullScreenModal: false,
             showOverlay: false,
+            modalWithoutOverlay: false,
 
             overlayOpacity: new Animated.Value(0),
             containerTranslateY: new Animated.Value(-HEIGHT),
@@ -90,8 +92,10 @@ class ModalManager extends React.Component<Props, State> {
     shouldComponentUpdate(nextProps: Props, nextState: State) {
         return nextProps.theme.name !== this.props.theme.name
             || nextState.showOverlay !== this.state.showOverlay
+            || nextState.modalWithoutOverlay !== this.state.modalWithoutOverlay
             || nextProps.modal.datetimePickerModalVisible !== this.props.modal.datetimePickerModalVisible
             || nextProps.modal.pickerModalVisible !== this.props.modal.pickerModalVisible
+            || nextProps.modal.informationModalVisible !== this.props.modal.informationModalVisible
 
             || nextProps.modal.goalInformationModalVisible !== this.props.modal.goalInformationModalVisible
             || nextProps.modal.goalCreateModalVisible !== this.props.modal.goalCreateModalVisible
@@ -125,7 +129,7 @@ class ModalManager extends React.Component<Props, State> {
             return;
         }
 
-        if (this.state.showOverlay) {
+        if (this.state.showOverlay || this.state.modalWithoutOverlay) {
             this.hideModal();
         }
 
@@ -173,7 +177,7 @@ class ModalManager extends React.Component<Props, State> {
     }
 
     showInformationModal = (props: Props) => {
-        this.setState({ ...this.getUpdatedState(props), showOverlay: true }, () => {
+        this.setState({ ...this.getUpdatedState(props), modalWithoutOverlay: true }, () => {
             Animated.parallel([
                 Animated.timing(this.state.overlayOpacity, { toValue: 1 }),
             ]).start();
@@ -181,12 +185,13 @@ class ModalManager extends React.Component<Props, State> {
     }
 
     hideModal = () => {
+        console.log('hideModal');
         Animated.parallel([
             Animated.timing(this.state.overlayOpacity, { toValue: 0 }),
             Animated.timing(this.state.pickerBottomPosition, { toValue: -HEIGHT, ...CLOSE_MODAL_ANIMATION_OPTION }),
             Animated.timing(this.state.datetimePickerBottomPosition, { toValue: -HEIGHT, ...CLOSE_MODAL_ANIMATION_OPTION }),
         ]).start(() => {
-            this.setState({ showOverlay: false });
+            this.setState({ showOverlay: false, modalWithoutOverlay: false });
         });
     }
 
@@ -230,7 +235,7 @@ class ModalManager extends React.Component<Props, State> {
     }
 
     render() {
-        if (!this.state.showOverlay && !this.state.showFullScreenModal) {
+        if (!this.state.showOverlay && !this.state.showFullScreenModal && !this.state.modalWithoutOverlay) {
             return (null);
         };
 
@@ -274,10 +279,10 @@ class ModalManager extends React.Component<Props, State> {
                         <DateTimePickerModal {...this.state.datetimePickerOptions} />
                     </Animated.View>
 
-                    {this.props.modal.informationModalVisible && <Animated.View style={{ opacity: this.state.overlayOpacity }}>
-                        <ShortInformationModal />
-                    </Animated.View>}
+                </Animated.View>}
 
+                {this.state.modalWithoutOverlay && <Animated.View style={[{position: 'absolute', bottom: 0}, { opacity: this.state.overlayOpacity }]}>
+                    <ShortInformationModal />
                 </Animated.View>}
             </React.Fragment>
         );

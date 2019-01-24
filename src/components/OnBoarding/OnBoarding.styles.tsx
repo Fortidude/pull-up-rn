@@ -5,7 +5,7 @@ const { width, height } = Dimensions.get('window');
 function getStyle(theme: ThemeInterface) {
     return {
         container: {
-            backgroundColor: theme.colors.backgroundColor,
+            backgroundColor: '#000000',
         },
 
         backgroundImage: {
@@ -33,12 +33,12 @@ function getStyle(theme: ThemeInterface) {
                 height: 6,
                 margin: 10,
                 borderRadius: 3,
-                borderColor: theme.colors.disableText,
+                borderColor: '#a9a9a9',
                 borderWidth: theme.borders.borderWidth
             },
 
             dotActive: {
-                backgroundColor: theme.colors.disableText
+                backgroundColor: '#a9a9a9'
             },
 
             skipButton: {
@@ -46,10 +46,10 @@ function getStyle(theme: ThemeInterface) {
                 right: 20
             },
 
-            skupButtonText: {
+            skipButtonText: {
                 fontFamily: theme.fonts.mainFontFamily,
                 fontSize: theme.fonts.fontH3Size,
-                color: theme.colors.textColor
+                color: '#FFF'
             }
         }
     };

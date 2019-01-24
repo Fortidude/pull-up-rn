@@ -1,38 +1,28 @@
 import { ThemeInterface } from 'src/assets/themes';
 import { Dimensions } from 'react-native';
+import { FOOTER_HEIGHT, FOOTER_IPHONE_X_PADDING } from 'src/components/FooterBar/FooterBar.styles';
+import DetermineDevice from 'src/service/helpers/DetermineDevice';
 
 const { width, height } = Dimensions.get('window');
-const size = width / 3;
-const mediumSize = width * 0.6;
 const bigSize = width * 0.8;
 function getStyle(theme: ThemeInterface) {
     return {
         container: {
-            backgroundColor: theme.colors.modalBackgroundColor,
-            position: 'absolute',
-            height: size,
-            width: size,
-            top: -(size / 2),
-            left: -(size / 2),
+            backgroundColor: theme.colors.modalDarkBackgroundColor || theme.colors.modalBackgroundColor,
+            borderColor: theme.borders.borderColor,
+            borderWidth: theme.borders.borderWidth,
             borderRadius: 10,
+            position: 'absolute',
+            width: bigSize,
+            left: (width - bigSize) / 2,
+            bottom: FOOTER_HEIGHT + (DetermineDevice.isIphoneX() ? FOOTER_IPHONE_X_PADDING : 0) + 30,
+            paddingHorizontal: 20,
+            paddingVertical: 5,
+            zIndex: 2,
             justifyContent: 'center',
             alignItems: 'center'
         },
 
-        medium: {
-            height: mediumSize,
-            width: mediumSize,
-            top: -(mediumSize / 2),
-            left: -(mediumSize / 2),
-        },
-
-        big: {
-            height: bigSize,
-            width: bigSize,
-            top: -(bigSize / 2),
-            left: -(bigSize / 2),
-        },
-        
         title: {
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH5Size,
@@ -51,9 +41,8 @@ function getStyle(theme: ThemeInterface) {
         text: {
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH3Size,
-            color: theme.colors.textColor,
+            color: theme.colors.modalDarkFontColor || theme.colors.textColor,
             fontWeight: '100',
-            marginHorizontal: 20,
         },
 
         dismissButtom: {

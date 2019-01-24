@@ -55,6 +55,8 @@ const colors = {
     footerBackgroundColor: '#332e2b',
     footerFontColor: '#F8F6F2',
     modalBackgroundColor: '#F4F2EC',
+    modalDarkBackgroundColor: '#332e2b',
+    modalDarkFontColor: '#F8F6F2',
 
     plannerProgressBarBackgroundColor: '#332e2b',
     plannerProgressBarToggleLineColor: '#F4F2EC',

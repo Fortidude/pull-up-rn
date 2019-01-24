@@ -19,7 +19,7 @@ function getStyle(theme: ThemeInterface) {
             marginTop: 40,
             marginBottom: 60,
             letterSpacing: 2,
-            color: theme.colors.textColor,
+            color: '#FFF',
             fontSize: theme.fonts.fontH1Size,
             fontFamily: theme.fonts.mainFontFamily
         },
@@ -27,7 +27,7 @@ function getStyle(theme: ThemeInterface) {
         text: {
             fontFamily: theme.fonts.montserratFontFamily,
             fontSize: theme.fonts.fontH3Size - 2,
-            color: theme.colors.textColor
+            color: '#FFF'
         },
 
         textIcon: {
@@ -36,7 +36,7 @@ function getStyle(theme: ThemeInterface) {
             marginLeft: 30,
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH3Size,
-            color: theme.colors.textColor
+            color: '#FFF'
         },
 
         icons: {
@@ -78,7 +78,7 @@ function getStyle(theme: ThemeInterface) {
             overlay: {
                 height: 150,
                 width: 150,
-                backgroundColor: theme.colors.white,
+                backgroundColor: '#FFF',
             }
         },
 
