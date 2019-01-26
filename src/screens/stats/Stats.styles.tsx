@@ -27,6 +27,7 @@ function getStyle(theme: ThemeInterface) {
         },
         effectivenessListContainer: {
             marginBottom: FOOTER_HEIGHT,
+            paddingBottom: isIphoneX ? FOOTER_IPHONE_X_PADDING : 0,
         },
         popularity: {
             listContainer: {
@@ -39,6 +40,12 @@ function getStyle(theme: ThemeInterface) {
                 alignItems: 'center',
                 justifyContent: 'center'
             }
+        },
+        progressContainer: {
+            marginBottom: FOOTER_HEIGHT,
+            paddingBottom: (isIphoneX ? FOOTER_IPHONE_X_PADDING : 0),
+            justifyContent: 'center',
+            flex: 1
         }
     };
 }
