@@ -611,6 +611,10 @@
   dependencies:
     "@types/i18n-js" "*"
 
+"@types/react-native-push-notification@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@types/react-native-push-notification/-/react-native-push-notification-3.0.4.tgz#b3f151a23c4a866f5797c47c16a3ded6c8884ec2"
+
 "@types/react-native-vector-icons@^4.6.3":
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-4.6.3.tgz#eb0e487c1bfbd8c9c68a297eb03d494420bb5e6b"
@@ -4818,12 +4822,9 @@ react-native-loading-placeholder@^0.0.6:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-notifications@^1.1.23:
-  version "1.1.23"
-  resolved "https://registry.yarnpkg.com/react-native-notifications/-/react-native-notifications-1.1.23.tgz#06313aea5d1d9e5ab2716e09ffb76391aaf0ebe2"
-  dependencies:
-    core-js "^1.0.0"
-    uuid "^2.0.3"
+react-native-push-notification@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-push-notification/-/react-native-push-notification-3.1.2.tgz#a6129fb2897773a19c7b42bba1b51a9a4aac7df3"
 
 react-native-safe-area-view@^0.10.0:
   version "0.10.0"
@@ -6001,10 +6002,6 @@ utils-merge@1.0.1:
 uuid@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
-
-uuid@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
 
 uuid@^3.3.2:
   version "3.3.2"

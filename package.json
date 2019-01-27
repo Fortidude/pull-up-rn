@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@types/moment": "^2.13.0",
+    "@types/react-native-push-notification": "^3.0.4",
     "babel-core": "^7.0.0-beta.47",
     "bugsnag-react-native": "^2.12.6",
     "eslint": "^5.4.0",
@@ -33,7 +34,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-loading-placeholder": "^0.0.6",
-    "react-native-notifications": "^1.1.23",
+    "react-native-push-notification": "^3.1.2",
     "react-native-svg": "^6.5.2",
     "react-native-vector-icons": "6.1.0",
     "react-navigation": "^2.11.2",

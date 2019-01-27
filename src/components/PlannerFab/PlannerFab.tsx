@@ -2,7 +2,6 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { Text, TouchableOpacity, View, Animated } from 'react-native';
 import { connect } from 'react-redux';
-import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 
 import Styles from './PlannerFab.styles';
@@ -61,7 +60,7 @@ class PlannerFab extends React.Component<Props, State> {
     }
 
     onPress = () => {
-        HapticFeedback('impactLight');
+        HapticFeedback('selection');
 
         this.setState({ menu: !this.state.menu }, () => {
             this.animateMenu(this.state.menu);

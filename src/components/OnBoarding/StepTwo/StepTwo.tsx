@@ -72,14 +72,16 @@ class StepTwo extends React.Component<Props, State> {
         this.setState({ permissionChecking: true });
 
         this.checkNotificationsInterval = setInterval(() => {
-            PushNotification.checkPersmissions().then(res => {
+            const callback = (res: any) => {
                 if (res) {
                     clearInterval(this.checkNotificationsInterval);
                     if (this.props.currentStep === 3) {
                         this.props.goNext();
                     }
                 }
-            });
+            }
+            
+            PushNotification.checkPersmissions(callback);
         }, 1000);
     }
 

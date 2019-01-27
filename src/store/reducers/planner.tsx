@@ -12,6 +12,7 @@ import { StatisticsInterface } from 'src/models/Statistics';
 import { UserTypes } from '../actions/user';
 import Circuit from 'src/models/Circuit';
 import { SectionInterface } from 'src/models/Section';
+import { AppTypes } from '../actions/app';
 
 interface PlannerState {
     loading: boolean;
@@ -252,6 +253,9 @@ function planner(state = initialState, action: AnyAction): PlannerState {
          * LOGOUT
          */
         case AuthTypes.logout:
+            return Object.assign({}, initialState);
+
+        case AppTypes.newAppVersion:
             return Object.assign({}, initialState);
 
         case UserTypes.loadUserSuccess:

@@ -193,6 +193,30 @@ class User implements UserInterface {
 
         return result;
     }
+
+    updateUserDeviceId = async (deviceId: string): Promise<boolean|string> => {
+        let object = {
+            method: "PUT",
+            headers: await ApiHelper.getHeaders(true, true),
+            body: JSON.stringify({
+                device_id: deviceId
+            })
+        };
+
+        console.log('__PUT__ updateUserDeviceId')
+
+        const result = await fetch(ApiHelper.getHost() + '/secured/profile/change-device-id', object)
+            .then(ApiHelper.checkForResponseErrors)
+            .then(response => response.json())
+            .then((response) => {
+                console.log(response);
+                return true;
+            }).catch(err => {
+                return err.message;
+            }) 
+
+        return result;
+    }
 }
 
 export default User.getInstance();

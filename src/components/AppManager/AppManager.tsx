@@ -1,4 +1,5 @@
 import React from 'React';
+import { NativeModules } from 'react-native';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -9,14 +10,19 @@ import Data from 'src/api/data';
 import { AppActions } from 'src/store/actions/app';
 import { SyncActions } from 'src/store/actions/sync';
 import { ExerciseActions } from 'src/store/actions/exercise';
-import Calendar from 'src/service/Calendar';
+import { SettingsActions } from 'src/store/actions/settings';
 import { PlannerActions } from 'src/store/actions/planner';
+
+import Calendar from 'src/service/Calendar';
 import OnBoarding from '../OnBoarding/OnBoarding';
-import { ModalActions } from 'src/store/actions/modal';
+import PushNotification from './PushNotification';
 
 interface Props {
     dispatch: Dispatch;
     locale: string;
+    themeName: string;
+    appVersion: string | null;
+    buildVersion: string | null;
     isOnline: boolean;
     isLogged: boolean;
     isNetworkChecked: boolean;
@@ -33,6 +39,14 @@ class AppManager extends React.Component<Props> {
 
         I18n.locale = props.locale;
         moment.locale(props.locale);
+
+        const { RNPullup } = NativeModules;
+        if (props.appVersion !== RNPullup.appVersion || props.buildVersion !== RNPullup.buildVersion) {
+            props.dispatch(SettingsActions.storeAppVersion(RNPullup.appVersion, RNPullup.buildVersion));
+            props.dispatch(SettingsActions.setLocale(props.locale));
+            props.dispatch(SettingsActions.setTheme(props.themeName));
+            props.dispatch(AppActions.newAppVersion());
+        }
     }
 
     componentWillMount() {
@@ -53,7 +67,6 @@ class AppManager extends React.Component<Props> {
                     this.props.dispatch(AppActions.isOnline());
                     this.props.dispatch(SyncActions.synchronize());
 
-    
                     // @TODO for test purpose
                     //this.props.dispatch(ModalActions.goalCreateOpen());
                 }
@@ -103,7 +116,8 @@ class AppManager extends React.Component<Props> {
     render() {
         return (
             <React.Fragment>
-                {this.props.onBoarding && this.props.isLogged && <OnBoarding/>}
+                {this.props.onBoarding && this.props.isLogged && <OnBoarding />}
+                <PushNotification />
             </React.Fragment>
         );
     }
@@ -112,7 +126,10 @@ class AppManager extends React.Component<Props> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     locale: state.settings.locale,
+    themeName: state.settings.theme ? state.settings.theme.name : "dark",
     isOnline: state.app.isOnline,
+    appVersion: state.settings.appVersion,
+    buildVersion: state.settings.buildVersion,
     isLogged: state.auth.isLogged,
     onBoarding: state.user.onBoarding,
     isNetworkChecked: state.app.networkChecked,

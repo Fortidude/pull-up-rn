@@ -34,7 +34,7 @@ class Notifications extends React.Component<Props, State> {
     componentDidMount() {
         PushNotification.request();
         this.checkPermissions();
-        this.checkingInterval = setInterval(this.checkPermissions, 1000);
+        this.checkingInterval = setInterval(this.checkPermissions, 2000);
     }
 
     componentWillUnmount() {
@@ -48,10 +48,11 @@ class Notifications extends React.Component<Props, State> {
     }
 
     checkPermissions = () => {
-        PushNotification.checkPersmissions()
-            .then(allowed => {
-                this.state.allowed !== allowed && this.setState({ allowed: allowed });
-            });
+        const callback = (allowed: any) => {
+            this.state.allowed !== !!allowed.alert && this.setState({ allowed: !!allowed.alert });
+        };
+
+        PushNotification.checkPersmissions(callback);
     }
 
     goToAppSettings = () => {

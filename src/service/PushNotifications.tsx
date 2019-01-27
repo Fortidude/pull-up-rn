@@ -1,5 +1,5 @@
-import NotificationsIOS from 'react-native-notifications';
-
+import PushNotificationService, { PushNotificationPermissions } from 'react-native-push-notification';
+import { User } from 'src/api';
 
 class PushNotification {
     private static instance: PushNotification;
@@ -12,44 +12,44 @@ class PushNotification {
     }
 
     private constructor() {
-       // NotificationsIOS.addEventListener('remoteNotificationsRegistered', this.onPushRegistered.bind(this));
-       // NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', this.onPushRegistrationFailed.bind(this));
     }
 
-    async checkPersmissions() {
-        const permissions = await NotificationsIOS.checkPermissions();
-        NotificationsIOS.addEventListener('remoteNotificationsRegistered', console.log);
-        if (!!permissions.badge || !!permissions.sound || !!permissions.alert) {
-            return true;
-        }
-
-        return false;
+    checkPersmissions(callback: (permissions: PushNotificationPermissions) => void) {
+        PushNotificationService.checkPermissions(callback);
     }
 
     request() {
-        NotificationsIOS.requestPermissions();
+        PushNotificationService.requestPermissions();
     }
 
-    onPushRegistered(deviceToken: string) {
-        // TODO: Send the token to my server so it could send back push notifications...
-        console.log("Device Token Received", deviceToken);
+    resetBadge() {
+        PushNotificationService.setApplicationIconBadgeNumber(0);
     }
 
-    onPushRegistrationFailed(error: any) {
-        // For example:
-        //
-        // error={
-        //   domain: 'NSCocoaErroDomain',
-        //   code: 3010,
-        //   localizedDescription: 'remote notifications are not supported in the simulator'
-        // }
+    onPushRegistered(token: { os: string; token: string }) {
+        User.updateUserDeviceId(token.token);
     }
 
-  //  componentWillUnmount() {
-        // prevent memory leaks!
-      //  NotificationsIOS.removeEventListener('remoteNotificationsRegistered', this.onPushRegistered.bind(this));
-       // NotificationsIOS.removeEventListener('remoteNotificationsRegistrationFailed', this.onPushRegistrationFailed.bind(this));
-  //  }
+    configure(onNotification: (...any: any) => void) {
+        PushNotificationService.configure({
+            onRegister: this.onPushRegistered,
+            onNotification: onNotification,
+            permissions: {
+                alert: true,
+                badge: true,
+                sound: true
+            },
+
+            popInitialNotification: true,
+
+            /**
+              * (optional) default: true
+              * - Specified if permissions (ios) and token (android and ios) will requested or not,
+              * - if not, you must call PushNotificationsHandler.requestPermissions() later
+              */
+            requestPermissions: false,
+        });
+    }
 }
 
 export default PushNotification.getInstance();

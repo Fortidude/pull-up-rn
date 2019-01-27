@@ -3,8 +3,8 @@ package com.pullup;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
-import com.wix.reactnativenotifications.RNNotificationsPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.bluroverly.SajjadBlurOverlayPackage;
 import com.bugsnag.BugsnagReactNative;
@@ -34,8 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativePushNotificationPackage(),
             new KCKeepAwakePackage(),
-            new RNNotificationsPackage(),
             new BlurViewPackage(),
             new SajjadBlurOverlayPackage(),
             BugsnagReactNative.getPackage(),

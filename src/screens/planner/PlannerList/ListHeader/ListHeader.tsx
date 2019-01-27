@@ -9,6 +9,7 @@ import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import SingleFilterItem from './SingleFilterItem';
 import { AppActions } from 'src/store/actions/app';
 import { PlannerActions } from 'src/store/actions/planner';
+import HapticFeedback from 'src/service/Haptic';
 
 interface Props {
     dispatch: Dispatch;
@@ -42,7 +43,7 @@ class ListHeader extends React.Component<Props> {
     }
 
     isAnyFilterActivate = () => (
-        this.props.finishedGoalsVisible || this.props.plannerEditMode
+        !this.props.finishedGoalsVisible || this.props.plannerEditMode
     )
 
     animateHeight = () => {
@@ -51,17 +52,19 @@ class ListHeader extends React.Component<Props> {
     }
 
     toggleFinishedGoals = () => {
+        HapticFeedback('selection');
         this.props.dispatch(PlannerActions.toggleFinishedGoals());
     }
 
     closeEdit = () => {
+        HapticFeedback('selection');
         this.props.dispatch(AppActions.togglePlannerEdit(false));
     }
 
     render() {
         return (
             <Animated.View style={[this.style.container, { height: this.height }]}>
-                <SingleFilterItem name={I18n.t('mics.hide_finished_goals')} show={this.props.finishedGoalsVisible} onClose={this.toggleFinishedGoals}/>
+                <SingleFilterItem name={I18n.t('mics.hide_finished_goals')} show={!this.props.finishedGoalsVisible} onClose={this.toggleFinishedGoals}/>
                 <SingleFilterItem name={I18n.t('mics.edit_mode')} show={this.props.plannerEditMode} onClose={this.closeEdit}/>
             </Animated.View>
         );

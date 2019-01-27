@@ -3,6 +3,7 @@ import { AnyAction } from 'redux';
 import { ExerciseTypes } from '../actions/exercise';
 import { Exercise } from '../../models/Exercise';
 import { AuthTypes } from '../actions/auth';
+import { AppTypes } from '../actions/app';
 
 interface ExerciseState {
     loaded: boolean;
@@ -37,6 +38,9 @@ function exercise(state = initialState, action: AnyAction): ExerciseState {
             return Object.assign({}, state, { exercisesToFilter: action.payload.exercise })
         }
         case AuthTypes.logout: {
+            return Object.assign({}, initialState);
+        }
+        case AppTypes.newAppVersion: {
             return Object.assign({}, initialState);
         }
         default:
