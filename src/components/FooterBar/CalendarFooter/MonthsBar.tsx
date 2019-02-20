@@ -11,7 +11,7 @@ import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import MonthItem from './MonthItem';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const SET_ACTION_FROM_X = (SCREEN_WIDTH / 2) - MONTH_ITEM_WIDTH;
+const SET_ACTION_FROM_X = MONTH_ITEM_WIDTH;
 const SCROLL_MARGIN = SET_ACTION_FROM_X + (MONTH_ITEM_WIDTH / 2);
 
 interface Props {

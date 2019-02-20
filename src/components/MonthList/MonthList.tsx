@@ -230,7 +230,6 @@ class MonthList extends React.PureComponent<Props, State> {
 
             if (renderThisMonth) {
                 const calendar = this.getMonthCalendar(month);
-                console.log(month, calendar);
                 months[key] = <Month key={key} onLayout={this.monthsAreActive} weeks={calendar} onDayClick={this.props.onDayClick} currentMonth={month} />
             } else {
                 //@ts-ignore

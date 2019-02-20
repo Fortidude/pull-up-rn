@@ -5,7 +5,7 @@ interface ApiInterface { };
 class ApiHelper implements ApiInterface {
     private static instance: ApiHelper;
 
-    private host = 'http://pullup.online'
+    private host = 'http://api.pullup.online'
     // private host = 'http://localhost'
     // private host = 'http://192.168.0.111'
 
