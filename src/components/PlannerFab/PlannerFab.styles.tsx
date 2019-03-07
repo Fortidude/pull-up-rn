@@ -65,7 +65,6 @@ function getStyle(theme: ThemeInterface) {
             borderRadius: 20,
             justifyContent: 'center',
             alignItems: 'center'
-
         },
 
         menuIcon: {

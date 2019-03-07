@@ -10,7 +10,11 @@ function getStyle(theme: ThemeInterface) {
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: theme.borders.borderWidth,
-            borderColor: theme.colors.buttonBigBorderColor
+            borderColor: theme.colors.buttonBigBorderColor,
+            flexDirection: "row",
+        },
+        containerWithIcon: {
+            justifyContent: 'flex-start',
         },
         containerShadow: {
             shadowColor: theme.colors.buttonBigShadowColor,
@@ -21,6 +25,12 @@ function getStyle(theme: ThemeInterface) {
             shadowColor: theme.colors.buttonBigShadowColor,
             shadowOpacity: 0.1,
             shadowOffset: { width: 0, height: 2 }
+        },
+        icon: {
+            color: theme.colors.buttonBigTextColor,
+            fontSize: 30,
+            marginLeft: '10%',
+            marginRight: '10%'
         },
         text: {
             fontFamily: theme.fonts.mainFontFamily,

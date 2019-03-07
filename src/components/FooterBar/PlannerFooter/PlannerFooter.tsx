@@ -15,6 +15,7 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     plannerEditMode: boolean;
+    isEmpty: boolean;
 
     onRef: (any: any) => any;
 }
@@ -64,7 +65,7 @@ class PlannerFooter extends React.Component<Props> {
                 <Button onPress={this.goToStatsScreen} iconName="chart-bar" text="Statystyki" />
 
                 <View style={{ position: 'absolute', right: 0, top: -90 }}>
-                    <PlannerFab />
+                    {!this.props.isEmpty && <PlannerFab />}
                 </View>
             </View>
         );
@@ -74,7 +75,8 @@ class PlannerFooter extends React.Component<Props> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    plannerEditMode: state.app.plannerEditMode
+    plannerEditMode: state.app.plannerEditMode,
+    isEmpty: !state.planner.planner || !state.planner.planner.trainings || state.planner.planner.trainings.length == 0
 });
 
 export default connect(mapStateToProps)(PlannerFooter);

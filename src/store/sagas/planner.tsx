@@ -72,7 +72,7 @@ function* loadStatistics() {
         const statistics = yield Data.getGoalStatistics();
         yield put(PlannerActions.loadGoalStatisticsSuccess(statistics));
     } catch (err) {
-        console.log(`loadStatistics sagas, line 61`, err);
+        console.log(`loadStatistics sagas, line 75`, err);
         yield put(PlannerActions.loadSetsByDatePeriodFailed(err));
     }
 }
@@ -98,7 +98,7 @@ function* createSet(action: any) {
 
         const result = yield Data.postCreateSet(data);
         if (!result.status) {
-            console.log(`createSet sagas, line 86`, result);
+            console.log(`createSet sagas, line 101`, result);
             throw 'ERROR';
         }
 
@@ -118,7 +118,7 @@ function* createSection(action: any) {
         const { name, description } = action.payload;
         const result = yield Data.postCreateSection(name, description);
         if (!result.status) {
-            console.log(`createSection sagas, line 101`, result);
+            console.log(`createSection sagas, line 121`, result);
             throw 'ERROR';
         }
 
@@ -133,7 +133,7 @@ function* createGoal(action: any) {
         const data = action.payload.data;
         const result = yield Data.postCreateGoal(data);
         if (!result.status) {
-            console.log(`createGoal sagas, line 116`, result);
+            console.log(`createGoal sagas, line 136`, result);
             throw 'ERROR';
         }
 
@@ -160,12 +160,28 @@ function* createGoalSuccess() {
     }
 }
 
+function* assignTrainingPlan(action: any) {
+    try {
+        const { type } = action.payload;
+        const result = yield Data.postAssignTrainingToUser(type);
+        if (!result.status) {
+            console.log(`assignTrainingPlan sagas, line 168`, result);
+            throw 'ERROR';
+        }
+
+        yield put(PlannerActions.loadPlanner());
+        yield put(PlannerActions.assignTrainingPlanSuccess());
+    } catch (err) {
+        yield put(PlannerActions.assignTrainingPlanFailed(err));
+    }
+}
+
 function* updateGoal(action: any) {
     try {
         const { id, data } = action.payload;
         const result = yield Data.postUpdateGoal(id, data);
         if (!result.status) {
-            console.log(`updateGoal sagas, line 151`, result);
+            console.log(`updateGoal sagas, line 183`, result);
             throw 'ERROR';
         }
 
@@ -195,11 +211,11 @@ function* moveGoalToSection(action: any) {
 
         const result = yield Data.postMoveGoalToSection(goalId, { sectionName: section });
         if (!result.status) {
-            console.log(`moveGoalToSection sagas, line 146`, result);
+            console.log(`moveGoalToSection sagas, line 213`, result);
             throw 'ERROR';
         }
     } catch (err) {
-        console.log(`moveGoalToSection sagas, line 150`, err);
+        console.log(`moveGoalToSection sagas, line 217`, err);
         throw err;
     }
 }
@@ -209,11 +225,11 @@ function* removeGoal(action: any) {
         const { goalId } = action.payload;
         const result = yield Data.postDisableGoal(goalId);
         if (!result.status) {
-            console.log(`removeGoal sagas, line 160`, result);
+            console.log(`removeGoal sagas, line 227`, result);
             throw 'ERROR';
         }
     } catch (err) {
-        console.log(`removeGoal sagas, line 164`, err);
+        console.log(`removeGoal sagas, line 231`, err);
         throw err;
     }
 }
@@ -224,6 +240,7 @@ function* plannerSaga() {
         takeEvery(PlannerTypes.loadSections, loadBySections),
         takeEvery(PlannerTypes.loadSetsByDatePeriod, loadSetsHistoryByPeriod),
         takeEvery(PlannerTypes.loadGoalStatistics, loadStatistics),
+        takeEvery(PlannerTypes.assignTrainingPlan, assignTrainingPlan),
         takeEvery(PlannerTypes.createSet, createSet),
         takeEvery(PlannerTypes.createSection, createSection),
         takeEvery(PlannerTypes.createGoal, createGoal),

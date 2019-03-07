@@ -67,6 +67,10 @@ class Data implements DataInterface {
         return await this.postFetchData('/secured/goal/create', data);
     }
 
+    public postAssignTrainingToUser = async (type: string): Promise<ResponseStatus> => {
+        return await this.postFetchData(`/secured/training-plan/assign-to-plan/${type}`, {});
+    }
+
     public postUpdateGoal = async (id: string, data: UpdatedGoalApiRequestStructureInterface): Promise<ResponseStatus> => {
         return await this.postFetchData(`/secured/goal/${id}/update`, data, undefined, 'PUT');
     }

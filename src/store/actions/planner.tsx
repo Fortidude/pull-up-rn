@@ -5,6 +5,10 @@ import moment from 'moment';
 import { SectionInterface } from "src/models/Section";
 
 export enum PlannerTypes {
+    assignTrainingPlan = '[PLANNER] ASSIGN TRAINING PLAN',
+    assignTrainingPlanSuccess = '[PLANNER] ASSIGN TRAINING PLAN SUCCESS',
+    assignTrainingPlanFailed = '[PLANNER] ASSIGN TRAINING PLAN FAILED',
+
     loadPlanner = '[PLANNER] LOAD PLANNER',
     loadPlannerSuccess = '[PLANNER] LOAD PLANNER SUCCESS',
     loadPlannerFailed = '[PLANNER] LOAD PLANNER FAILED',
@@ -48,6 +52,19 @@ export enum PlannerTypes {
 }
 
 export const PlannerActions = {
+    assignTrainingPlan: (type: string) => ({
+        type: PlannerTypes.assignTrainingPlan,
+        payload: { type }
+    }),
+    assignTrainingPlanSuccess: () => ({
+        type: PlannerTypes.assignTrainingPlanSuccess,
+        payload: {}
+    }),
+    assignTrainingPlanFailed: (error: string) => ({
+        type: PlannerTypes.assignTrainingPlanFailed,
+        payload: { error }
+    }),
+
     loadPlanner: () => ({
         type: PlannerTypes.loadPlanner,
         payload: {}

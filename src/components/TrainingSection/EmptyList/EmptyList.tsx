@@ -1,34 +1,37 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, Animated, Text, KeyboardAvoidingView, Keyboard } from 'react-native';
+import { Animated, Text, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
 import I18n from 'src/assets/translations';
-import Styles, { EMPTY_LIST_HEIGHT } from './EmptyList.styles';
+import Styles from './EmptyList.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import ButtonBig from '../../ButtonBig';
-import { ModalActions } from '../../../store/actions/modal';
-import Input from 'src/components/Input';
-import { PlannerActions } from 'src/store/actions/planner';
-import { AppActions } from 'src/store/actions/app';
+import AddTraining from './AddTraining';
+import PickFromList from './PickFromList';
+import Spinner from 'src/components/Spinner/Spinner';
 
 interface Props {
     dispatch: Dispatch;
-    theme: ThemeInterface
+    theme: ThemeInterface;
+    loading: boolean;
 }
 
 interface State {
-    formVisible: boolean;
-    title: string;
 }
 
 class EmptyList extends React.Component<Props, State> {
     style: ThemeValueInterface;
 
     containerTranslateY = new Animated.Value(0);
-    formVisibleAnimation = new Animated.Value(0);
+    firstVisibleAnimation = new Animated.Value(1);
 
-    addTrainingSectionModalTitleInputRef: any;
+    createOwnVisibleAnimation = new Animated.Value(0);
+    pickOneVisibleAnimation = new Animated.Value(0);
+    loaderVisible = new Animated.Value(0);
+
+    addTrainingRef: any;
+    pickRef: any;
     keyboardDidShowListener: any;
     keyboardDidHideListener: any;
 
@@ -36,10 +39,6 @@ class EmptyList extends React.Component<Props, State> {
         super(props);
 
         this.style = Styles(this.props.theme);
-        this.state = {
-            formVisible: false,
-            title: ''
-        }
     }
 
     componentDidMount() {
@@ -56,46 +55,42 @@ class EmptyList extends React.Component<Props, State> {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
         }
+
+        if (nextProps.loading && !this.props.loading) {
+            Animated.parallel([
+                Animated.timing(this.loaderVisible, { toValue: 1, useNativeDriver: true }),
+                Animated.spring(this.firstVisibleAnimation, { toValue: 0, useNativeDriver: true }),
+                Animated.spring(this.createOwnVisibleAnimation, { toValue: 0, useNativeDriver: true }),
+                Animated.spring(this.pickOneVisibleAnimation, { toValue: 0, useNativeDriver: true })
+            ]).start();
+        }
     }
 
-    onButtonPress = () => {
-        if (this.state.formVisible) {
-            if (this._isTitleValid()) {
-                this.props.dispatch(AppActions.togglePlannerEdit(true));
-                this.props.dispatch(PlannerActions.createSection(this.state.title, ''));
-            }
+    close = () => {
+        Animated.parallel([
+            Animated.spring(this.createOwnVisibleAnimation, { toValue: 0, useNativeDriver: true }),
+            Animated.spring(this.pickOneVisibleAnimation, { toValue: 0, useNativeDriver: true }),
+            Animated.spring(this.firstVisibleAnimation, { toValue: 1, useNativeDriver: true })
+        ]).start();
+    }
 
-            this.setState({ formVisible: false, title: '' });
-            Keyboard.dismiss();
-            Animated.spring(this.formVisibleAnimation, {
-                toValue: 0,
-                useNativeDriver: true
-            }).start();
-            return;
-        }
+    createOwnPress = () => {
+        this.addTrainingRef.focusInput();
+        Animated.parallel([
+            Animated.spring(this.createOwnVisibleAnimation, { toValue: 1, useNativeDriver: true }),
+            Animated.spring(this.firstVisibleAnimation, { toValue: 0, useNativeDriver: true }),
+        ]).start();
+    }
 
-        this.setState({ formVisible: true })
-        Animated.spring(this.formVisibleAnimation, {
-            toValue: 1,
-            useNativeDriver: true
-        }).start(() => this.addTrainingSectionModalTitleInputRef.focus());
+    pickOnePress = () => {
+        Animated.parallel([
+            Animated.spring(this.pickOneVisibleAnimation, { toValue: 1, useNativeDriver: true }),
+            Animated.spring(this.firstVisibleAnimation, { toValue: 0, useNativeDriver: true }),
+        ]).start();
     }
 
     render() {
-        let buttonText = this.state.formVisible ? I18n.t('buttons.close') : I18n.t('planner.add_first_training')
-        buttonText = this.state.formVisible && this._isTitleValid() ? I18n.t('buttons.add') : buttonText;
-
-        const buttonTranslateY = this.formVisibleAnimation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [-EMPTY_LIST_HEIGHT / 6, 50]
-        });
-
-        const formOpacity = this.formVisibleAnimation.interpolate({
-            inputRange: [0, 0.7, 1],
-            outputRange: [0, 0.1, 1]
-        });
-
-        const formScale = this.formVisibleAnimation.interpolate({
+        const pickStepOpacity = this.firstVisibleAnimation.interpolate({
             inputRange: [0, 1],
             outputRange: [0, 1],
             extrapolate: 'clamp'
@@ -103,28 +98,30 @@ class EmptyList extends React.Component<Props, State> {
 
         return (
             <Animated.View style={[this.style.container, { transform: [{ translateY: this.containerTranslateY }] }]}>
-                <Animated.View style={[this.style.formContainer, { opacity: formOpacity, transform: [{ scale: formScale }] }]}>
-                    <Text style={this.style.form.label}>{I18n.t('fields.type_name')}</Text>
-                    <Input medium
-                        inputRef={ref => this.addTrainingSectionModalTitleInputRef = ref}
-                        keyboardType={"default"}
-                        value={this.state.title ? this.state.title.toString() : undefined}
-                        onChange={(value) => this.setState({ title: value })}
-                    />
-
-                    <Text style={this.style.infoText}>{I18n.t('planner.empty_list_iniformation')}</Text>
-
+                <Animated.View style={[this.style.buttonContainer, { opacity: pickStepOpacity }]}>
+                    <Text style={[this.style.headerText, { textTransform: 'uppercase', marginVertical: 20, }]}>Plan treningowy</Text>
+                    <ButtonBig lightShadow icon="plus" text={I18n.t('planner.first_step.own_button_text')} onPress={this.createOwnPress} style={this.style.first_button} />
+                    <ButtonBig lightShadow icon="bars" text={I18n.t('planner.first_step.predefined_button_text')} onPress={this.pickOnePress} style={this.style.last_button} />
                 </Animated.View>
 
-                <Animated.View style={[this.style.buttonContainer, { transform: [{ translateY: buttonTranslateY }] }]}>
-                    <ButtonBig lightShadow text={buttonText} onPress={this.onButtonPress} />
+                <AddTraining
+                    getRef={ref => this.addTrainingRef = ref}
+                    visible={this.createOwnVisibleAnimation}
+                    onClose={this.close}
+                />
+                <PickFromList
+                    getRef={ref => this.pickRef = ref}
+                    visible={this.pickOneVisibleAnimation}
+                    onClose={this.close}
+                />
+
+                <Animated.View style={[this.style.buttonContainer, { transform: [{ scale: this.loaderVisible }] }]}>
+                    <Spinner large />
                 </Animated.View>
             </Animated.View>
 
         );
     }
-
-    _isTitleValid = () => this.state.title.length >= 3;
 
     _keyboardDidShow = () => {
         Animated.timing(this.containerTranslateY, {
@@ -143,7 +140,8 @@ class EmptyList extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
-    theme: state.settings.theme
+    theme: state.settings.theme,
+    loading: state.planner.loading
 });
 
 export default connect(mapStateToProps)(EmptyList);

@@ -111,6 +111,15 @@ function planner(state = initialState, action: AnyAction): PlannerState {
 
         /**
          * ------------------
+         * ASSIGN TRANING PLAN
+         */
+        case PlannerTypes.assignTrainingPlan:
+            return Object.assign({}, state, { loading: true });
+        case PlannerTypes.assignTrainingPlanFailed:
+            return Object.assign({}, state, { loading: false });
+
+        /**
+         * ------------------
          * LOAD SECTIONS
          */
         case PlannerTypes.loadSections:

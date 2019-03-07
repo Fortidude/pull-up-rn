@@ -128,7 +128,14 @@ let translations = {
         },
 
         planner: {
-            add_first_training: "Dodaj swój pierwszy trening",
+            first_step: {
+                add_first_training: "Dodaj swój pierwszy trening",
+                own_button_text: "Utwórz własny",
+                predefined_button_text: "Wybierz gotowy",
+                own: {
+                    placeholder: "np. \"Poniedziałek\" lub \"Push\"",
+                }
+            },
             add_training_title_information: `Nazwą treningu może być dzień tygodnia ("Poniedziałek") lub typ ćwiczeń, np. "Trening Pull" czy "Trening nóg"`,
             empty_list_iniformation: `Nazwą treningu może być dzień tygodnia ("Poniedziałek") lub typ ćwiczeń np. "Trening Pull" czy "Trening nóg"`,
             done_of: "Zrobiono",
@@ -269,7 +276,8 @@ let translations = {
         warnings: {
             attention: "Uwaga",
             information: "Informacja",
-            possible_swap_weight_reps: "Prawdopodobnie pomylono ilość wykonanych powtórzeń z ciężarem. Zignoruj wiadomość i ponownie zapisz jeżeli wszystko jest prawidłowo."
+            possible_swap_weight_reps: "Prawdopodobnie pomylono ilość wykonanych powtórzeń z ciężarem. Zignoruj wiadomość i ponownie zapisz jeżeli wszystko jest prawidłowo.",
+            still_during_production: "Wciąż nad tym pracujemy."
         },
 
         errors: {
