@@ -20,6 +20,7 @@ export enum PlannerTypes {
     loadGoalStatistics = '[PLANNER] LOAD GET STATISTICS',
     loadGoalStatisticsSuccess = '[PLANNER] LOAD GET STATISTICS SUCCESS',
     loadGoalStatisticsFailed = '[PLANNER] LOAD GET STATISTICS FAILED',
+    loadGoalStatisticsUseCached = '[PLANNER] LOAD GET STATISTICS USE CACHE',
 
     selectGoal = '[PLANNER] SELECT GOAL',
     selectSection = '[PLANNER] SELECT SECTION',
@@ -91,9 +92,9 @@ export const PlannerActions = {
         payload: { error }
     }),
 
-    loadGoalStatistics: () => ({
+    loadGoalStatistics: (forceReload: boolean = false) => ({
         type: PlannerTypes.loadGoalStatistics,
-        payload: {}
+        payload: { forceReload }
     }),
     loadGoalStatisticsSuccess: (statistics: any) => ({
         type: PlannerTypes.loadGoalStatisticsSuccess,
@@ -102,6 +103,10 @@ export const PlannerActions = {
     loadGoalStatisticsFailed: (error: string) => ({
         type: PlannerTypes.loadGoalStatisticsFailed,
         payload: { error }
+    }),
+    loadGoalStatisticsUseCached: () => ({
+        type: PlannerTypes.loadGoalStatisticsUseCached,
+        payload: {}
     }),
 
     selectGoal: (goal: Goal | null) => ({

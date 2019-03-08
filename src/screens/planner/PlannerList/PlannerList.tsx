@@ -109,6 +109,7 @@ class PlannerList extends React.Component<Props, State> {
 
     refresh = () => {
         this.props.dispatch(ExerciseActions.loadExercises());
+        this.props.dispatch(PlannerActions.loadGoalStatistics(true));
         this.loadPlanner();
     }
 

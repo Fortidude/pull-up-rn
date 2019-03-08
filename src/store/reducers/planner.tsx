@@ -158,6 +158,9 @@ function planner(state = initialState, action: AnyAction): PlannerState {
         case PlannerTypes.loadGoalStatistics:
             return Object.assign({}, state, { loading: true, statisticsLoading: true });
 
+        case PlannerTypes.loadGoalStatisticsUseCached:
+            return Object.assign({}, state, { loading: false, statisticsLoading: false });
+
         case PlannerTypes.loadGoalStatisticsSuccess:
             return Object.assign({}, state, { loading: false, statistics: action.payload.statistics, statisticsLoaded: true, statisticsLoading: false });
 

@@ -55,16 +55,19 @@ function* loadSetsHistoryByPeriod(action: any) {
     }
 }
 
-function* loadStatistics() {
+function* loadStatistics(action: any) {
     //@ts-ignore
     const isOnline = yield select(state => state.app.isOnline);
     if (!isOnline) {
         yield put(PlannerActions.loadSetsByDatePeriodFailed('OFFLINE'));
     }
 
+    const forceReload = action.payload && action.payload.forceReload;
+
     //@ts-ignore
     const statisticsLoaded = yield select(state => state.planner.statisticsLoaded);
-    if (statisticsLoaded) {
+    if (statisticsLoaded && !forceReload) {
+        yield put(PlannerActions.loadGoalStatisticsUseCached());
         return;
     }
 
