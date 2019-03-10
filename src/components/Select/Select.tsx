@@ -19,8 +19,10 @@ interface Props {
     autoSize?: boolean;
     disabled?: boolean;
     value?: string;
+    hideArrow?: boolean;
 
     options: string[];
+    doNotSortOptions?: boolean;
 
     containerStyle?: {}
     textStyle?: {}
@@ -46,9 +48,13 @@ class Select extends React.Component<Props> {
             return;
         }
 
-        const options = this.props.options.sort((a, b) => {
-            return a.toLocaleUpperCase() > b.toLocaleUpperCase() ? 1 : -1;
-        })
+        let options = this.props.options;
+        if (!this.props.doNotSortOptions) {
+            options = this.props.options.sort((a, b) => {
+                return a.toLocaleUpperCase() > b.toLocaleUpperCase() ? 1 : -1;
+            })
+        }
+
         const onPick = (index: number) => {
             this.props.onChange(options[index]);
         }
@@ -58,17 +64,19 @@ class Select extends React.Component<Props> {
 
     render() {
         const height = this.props.small ? 30 : this.props.medium ? 40 : 65;
-        const containerStyle = this.style.formContainer;
+        const containerStyle = [this.style.container, this.style.formContainer, this.props.containerStyle, !!this.props.small && this.style.formContainerSmall];
         const inputStyle = [this.style.formInput, this.props.textStyle];
 
         return (
-            <TouchableOpacity onPress={this.showPicker} style={[this.style.container, !this.props.autoSize && { height: height }, containerStyle, this.props.containerStyle]}>
-                {!this.props.value && <Text
-                    style={[inputStyle, { color: this.style.placeholderColor }]}>{this.props.placeholder}</Text>}
-                {!!this.props.value && <Text
-                    style={[inputStyle]}>{this.props.value}</Text>}
-                <Icon name="chevron-down" size={20} color={this.props.disabled ? this.props.theme.colors.disableText : this.props.theme.colors.textColor} style={{ position: 'absolute', right: 5 }} />
-            </TouchableOpacity>
+            <TouchableOpacity onPress={this.showPicker} style={[...containerStyle, !this.props.autoSize && { height: height }]}>
+                {!this.props.value && <Text style={[inputStyle, { color: this.style.placeholderColor }]}>
+                    {this.props.placeholder}
+                </Text>}
+                {!!this.props.value && <Text numberOfLines={1} style={[inputStyle]}>
+                    {this.props.value}
+                </Text>}
+                {!this.props.hideArrow && <Icon name="chevron-down" size={20} color={this.props.disabled ? this.props.theme.colors.disableText : this.props.theme.colors.textColor} style={{ position: 'absolute', right: 5 }} />}
+            </TouchableOpacity >
         );
     }
 }

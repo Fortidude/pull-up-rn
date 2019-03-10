@@ -42,7 +42,7 @@ const colors = {
     inverseTextColor: '#FFF',
     subTextColor: greyColor,
     disableText: '#BFBBB9',
-    statsHeaderTeextColor: '#FFF',
+    statsHeaderTextColor: '#FFF',
 
     loaderPlaceholderTextColor: '#5D534E',
     loaderPlaceholderTextColorInverse: '#fafbfb',

@@ -185,6 +185,8 @@ let translations = {
         statistics: {
             circuit: "Obieg",
             sort: "Sortowanie",
+            traning_section: "Traning",
+            all_traninings: "Wszystkie",
             exercise: "Ćwiczenie",
             effectiveness: {
                 title: "Utrzymuj wysoką skuteczność poprzez realizowanie swoich celów w każdym obiegu treningowym."

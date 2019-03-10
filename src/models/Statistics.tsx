@@ -1,8 +1,10 @@
 export interface StatisticGoalInterface {
+    id: string;
     achieved_amount: number;
     name: string;
-    percentage: number;
     variant_name: string;
+    section_name: string;
+    percentage: number;
 };
 
 export interface StatisticsInterface {

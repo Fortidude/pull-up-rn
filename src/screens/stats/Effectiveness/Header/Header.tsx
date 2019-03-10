@@ -10,20 +10,25 @@ import Select from 'src/components/Select/Select';
 import CircleProgress from 'src/components/CircleProgress/CircleProgress';
 import { StatisticsInterface } from 'src/models/Statistics';
 import { CircuitType } from '../Effectiveness';
+import { SectionInterface } from 'src/models/Section';
+
 
 interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     statistics: StatisticsInterface;
+    sections: SectionInterface[];
 
     circuitsOptions: string[];
     circuitsOptionsTranslated: string[];
 
     circuit: CircuitType;
     sortBy: 'a-z' | 'percent';
+    traningSection: string | null;
 
     toggleSort: () => void;
     changeCircuit: (circuit: CircuitType) => void;
+    changeTrainingSection: (traning: string | null) => void;
 }
 
 interface Stats { }
@@ -56,6 +61,7 @@ class Header extends React.Component<Props, Stats> {
         return 0;
     }
 
+    
     changeCircuit = (circuit: string) => {
         const indexOf = this.props.circuitsOptionsTranslated.indexOf(circuit);
         circuit = this.props.circuitsOptions[indexOf];
@@ -66,6 +72,18 @@ class Header extends React.Component<Props, Stats> {
 
         //@ts-ignore
         this.props.changeCircuit(circuit);
+    }
+
+    traningOptions = () => [I18n.t('statistics.all_traninings'), ...this.props.sections.map(section => section.name.toLocaleLowerCase())]
+    changeTraning = (value: string) => {
+        const options = this.traningOptions();
+
+        if (options.indexOf(value) === 0) {
+            this.props.changeTrainingSection(null);
+            return;
+        }
+        
+        this.props.changeTrainingSection(value)
     }
 
     render() {
@@ -86,10 +104,13 @@ class Header extends React.Component<Props, Stats> {
                 <View style={this.style.right}>
                     <Text style={this.style.title} numberOfLines={3}>{I18n.t('statistics.effectiveness.title')}</Text>
                     <View style={this.style.buttons.container}>
-                        <View style={[this.style.buttons.buttonContainer, { marginRight: 7.5 }]}>
-                            <Text style={this.style.buttons.buttonLabel}>{I18n.t('statistics.circuit')}</Text>
+                        <View style={[this.style.buttons.buttonContainer, { marginRight: 5 }]}>
+                            <Text style={this.style.buttons.buttonLabel}>
+                                {I18n.t('statistics.circuit')}
+                            </Text>
                             <Select small
                                 autoSize
+                                hideArrow
                                 value={I18n.t(`planner.circuits.${this.props.circuit}`)}
                                 onChange={(value) => this.changeCircuit(value)} options={this.props.circuitsOptionsTranslated}
                                 textStyle={selectTextStyles}
@@ -97,7 +118,22 @@ class Header extends React.Component<Props, Stats> {
                             />
                         </View>
 
-                        <View style={[this.style.buttons.buttonContainer, { marginLeft: 7.5 }]}>
+                        <View style={[this.style.buttons.buttonContainer, { marginRight: 5 }]}>
+                            <Text style={this.style.buttons.buttonLabel}>
+                                {I18n.t('statistics.traning_section')}
+                            </Text>
+                            <Select small
+                                autoSize
+                                hideArrow
+                                doNotSortOptions
+                                value={this.props.traningSection || I18n.t('statistics.all_traninings')}
+                                onChange={(value) => this.changeTraning(value)} options={this.traningOptions()}
+                                textStyle={selectTextStyles}
+                                containerStyle={this.style.buttons.button}
+                            />
+                        </View>
+
+                        <View style={[this.style.buttons.buttonContainer, {}]}>
                             <Text style={this.style.buttons.buttonLabel}>{I18n.t('statistics.sort')}</Text>
                             <TouchableOpacity
                                 onPress={this.props.toggleSort}
@@ -120,7 +156,8 @@ class Header extends React.Component<Props, Stats> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    statistics: state.planner.statistics
+    statistics: state.planner.statistics,
+    sections: state.planner.sections
 });
 
 export default connect(mapStateToProps)(Header);

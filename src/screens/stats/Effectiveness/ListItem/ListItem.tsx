@@ -13,7 +13,8 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
 
-    goal: StatisticGoalInterface
+    goal: StatisticGoalInterface;
+    showSectionName: boolean;
 }
 
 class ListItem extends React.Component<Props> {
@@ -49,14 +50,19 @@ class ListItem extends React.Component<Props> {
     }
 
     render() {
-        const { name, variant_name, percentage } = this.props.goal;
+        const { name, variant_name, section_name, percentage } = this.props.goal;
+        console.log(this.props.goal);
 
         return (
             <View style={this.style.container}>
                 <Animated.View style={[this.style.progressBackground, { transform: [{ translateX: this.progrerssTranslateX }] }]}></Animated.View>
                 <View style={this.style.leftContainer}>
-                    <Text style={this.style.title}>{name}</Text>
-                    {!!variant_name && <Text style={this.style.subTitle}>{variant_name}</Text>}
+                    <Text style={[this.style.title]}>{name}</Text>
+                    <Text style={this.style.subTitle}>
+                        {!!variant_name && <Text style={{ fontWeight: "500" }}>{variant_name}</Text>}
+                        {!!variant_name && !!this.props.showSectionName && ", "}
+                        {!!this.props.showSectionName && <Text>({section_name})</Text>}
+                    </Text>
                 </View>
                 <View style={this.style.rightContainer}>
                     {percentage < 100 && <Text style={this.style.percentText}>{percentage}%</Text>}

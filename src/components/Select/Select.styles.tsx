@@ -17,16 +17,15 @@ function getStyle(theme: ThemeInterface) {
             paddingLeft: 10,
             paddingRight: 10
         },
-        authContainer: {
-            backgroundColor: theme.colors.authInputBackground,
-            marginBottom: 10,
-            paddingLeft: 20,
-            paddingRight: 20
+        formContainerSmall: {
+            paddingLeft: 2,
+            paddingRight: 2
         },
         formInput: {
             color: theme.colors.formInputTextColor,
             fontSize: theme.fonts.fontH3Size,
-            fontFamily: theme.fonts.mainFontFamily
+            fontFamily: theme.fonts.mainFontFamily,
+            width: '80%'
         },
         authInput: {
             color: theme.colors.authInputTextColor,

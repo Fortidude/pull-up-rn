@@ -25,6 +25,7 @@ interface Props {
 interface Stats {
     circuit: CircuitType;
     sortBy: 'a-z' | 'percent';
+    traning: string | null;
 }
 
 class Effectiveness extends Component<Props, Stats> {
@@ -46,7 +47,8 @@ class Effectiveness extends Component<Props, Stats> {
         this.style = getStyle(this.props.theme);
         this.state = {
             circuit: 'current',
-            sortBy: 'percent'
+            sortBy: 'percent',
+            traning: null
         }
     }
 
@@ -67,6 +69,10 @@ class Effectiveness extends Component<Props, Stats> {
         } else {
             this.setState({ sortBy: 'a-z' });
         }
+    }
+
+    changeTraningSection = (traning: string | null) => {
+        this.setState({ traning: traning });
     }
 
     getFlatListData = () => {
@@ -103,10 +109,19 @@ class Effectiveness extends Component<Props, Stats> {
                     changeCircuit={this.changeCircuit}
                     circuitsOptions={this.circuitsOptions}
                     circuitsOptionsTranslated={this.circuitsOptionsTranslated}
+                    changeTrainingSection={this.changeTraningSection}
+                    traningSection={this.state.traning}
                 />
 
-                <ScrollView style={this.style.effectivenessListContainer} contentContainerStyle={{paddingTop: 1}}>
-                    {goals.map((goal: StatisticGoalInterface, index: number) => <ListItem key={index} goal={goal} />)}
+                <ScrollView style={this.style.effectivenessListContainer} contentContainerStyle={{ paddingTop: 1 }}>
+                    {goals.map((goal: StatisticGoalInterface, index: number) => {
+                        let showTraningSection = this.state.traning === null
+                            || this.state.traning.toLocaleLowerCase() === goal.section_name.toLocaleLowerCase();
+
+                        if (showTraningSection) {
+                            return <ListItem showSectionName={this.state.traning === null} key={index} goal={goal} />
+                        }
+                    })}
                 </ScrollView>
             </View>
         );
@@ -119,9 +134,23 @@ class Effectiveness extends Component<Props, Stats> {
     _sortByName = (goalA: StatisticGoalInterface, goalB: StatisticGoalInterface) => {
         const goalAName = goalA.name.toLocaleLowerCase();
         const goalBName = goalB.name.toLocaleLowerCase();
+
+        const goalAVariant = goalA.variant_name.toLocaleLowerCase();
+        const goalBVariant = goalB.variant_name.toLocaleLowerCase();
+
+        const goalASection = goalA.section_name.toLocaleLowerCase();
+        const goalBSection = goalB.section_name.toLocaleLowerCase();
         if (goalAName < goalBName) {
             return -1;
         } else if (goalAName > goalBName) {
+            return 1;
+        } else if (goalAVariant < goalBVariant) {
+            return -1;
+        } else if (goalAVariant > goalBVariant) {
+            return 1;
+        } else if (goalASection < goalBSection) {
+            return -1;
+        } else if (goalASection > goalBSection) {
             return 1;
         }
 

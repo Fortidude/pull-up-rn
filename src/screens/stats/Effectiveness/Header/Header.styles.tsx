@@ -44,9 +44,11 @@ function getStyle(theme: ThemeInterface) {
                 textTransform: 'uppercase',
                 fontFamily: theme.fonts.mainFontFamily,
                 fontSize: theme.fonts.fontH5Size - 1,
-                color: theme.colors.statsHeaderTeextColor || theme.colors.subTextColor,
-                marginBottom: 2
+                color: theme.colors.statsHeaderTextColor || theme.colors.subTextColor,
+                marginBottom: 2,
+                marginLeft: 2
             },
+            buttonLabelArrowColor: theme.colors.statsHeaderTextColor || theme.colors.subTextColor,
             button: {
                 flexDirection: 'row',
                 backgroundColor: theme.colors.statisticsButtonBackground,
