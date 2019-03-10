@@ -1,7 +1,8 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { StyleSheet, TouchableOpacity, Image, Animated, Easing } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image, Animated, Easing, Alert, View } from 'react-native';
 import { connect } from 'react-redux';
+import ImagePicker from 'react-native-image-picker';
 
 //@ts-ignore
 import AntIcon from 'react-native-vector-icons/AntDesign';
@@ -16,7 +17,9 @@ import HapticFeedback from 'src/service/Haptic';
 import { NavigationActions } from 'react-navigation';
 import CircleProgress from 'src/components/CircleProgress/CircleProgress';
 import User, { getCircuitLeftData } from 'src/models/User';
-import { PlannerFooterCircleComponent } from 'src/store/actions/settings';
+import { PlannerFooterCircleComponent, SettingsActions } from 'src/store/actions/settings';
+import PickAvatar from './PickAvatar';
+import { UserActions } from 'src/store/actions/user';
 
 interface Props {
     dispatch: Dispatch;
@@ -25,6 +28,7 @@ interface Props {
     plannerEditMode?: boolean;
     plannerCustomMode?: boolean;
     user: User | null;
+    avatar: string | null;
     plannerFooterCircleComponent: PlannerFooterCircleComponent,
     currentCircuitProgress: number
 }
@@ -50,26 +54,28 @@ class Avatar extends React.Component<Props, State> {
         }
     }
 
-    shouldComponentUpdate(nextProps: Props, nextState: State) {
-        const shouldUpdate = nextProps.plannerEditMode !== this.props.plannerEditMode
-            || nextProps.profileEditMode !== this.props.profileEditMode
-            || nextProps.theme.name !== this.props.theme.name
-            || (nextProps.user && this.props.user && nextProps.user.id !== this.props.user.id)
-            || (nextProps.user && this.props.user && nextProps.user.avatar !== this.props.user.avatar)
-            || nextProps.plannerFooterCircleComponent !== this.props.plannerFooterCircleComponent
-            || nextState.name !== this.state.name;
+//     shouldComponentUpdate(nextProps: Props, nextState: State) {
+//         console.log('shouldComponentUpdate');
+//         const shouldUpdate = nextProps.plannerEditMode !== this.props.plannerEditMode
+//             || nextProps.profileEditMode !== this.props.profileEditMode
+//             || nextProps.theme.name !== this.props.theme.name
+//             || (nextProps.user && this.props.user && nextProps.user.id !== this.props.user.id)
+//             || nextProps.avatar !== this.props.avatar
+//             || nextProps.plannerFooterCircleComponent !== this.props.plannerFooterCircleComponent
+//             || nextState.name !== this.state.name;
+//         if (shouldUpdate) {
+//            // this.processAnimate(nextProps);
+//         }
 
-        if (shouldUpdate) {
-            this.processAnimate(nextProps);
-        }
-
-        return shouldUpdate;
-    }
+//         return shouldUpdate;
+//     }
 
     componentWillReceiveProps(nextProps: Props, nextState: State) {
         if (nextProps.theme.name !== this.props.theme.name) {
             this.style = Styles(nextProps.theme);
         }
+
+        this.processAnimate(nextProps);
     }
 
     onPress = () => {
@@ -87,6 +93,7 @@ class Avatar extends React.Component<Props, State> {
         }
 
         if (this.props.profileEditMode) {
+            this.pickAvatar();
             return;
         }
 
@@ -140,17 +147,19 @@ class Avatar extends React.Component<Props, State> {
 
     getComponent = (props: Props) => {
 
-        if (props.profileEditMode) {
+        if (props.profileEditMode && !props.avatar) {
             return {
                 name: 'camera',
-                component: <Icon name="camera" style={[this.style.icon]} size={40} />
+                component: <View>
+                    <Icon name="camera" style={[this.style.icon]} size={40} />
+                </View>
             }
         }
 
         if (props.plannerEditMode) {
             return {
                 name: 'plus',
-                component: <AntIcon name="plus" style={[this.style.icon, {marginTop: 3}]} size={50} />
+                component: <AntIcon name="plus" style={[this.style.icon, { marginTop: 3 }]} size={50} />
             }
         }
 
@@ -182,17 +191,42 @@ class Avatar extends React.Component<Props, State> {
             }
         }
 
-        if (props.user && props.user.avatar) {
+        if (props.avatar) {
             return {
                 name: 'avatar',
-                component: <Image style={[this.style.image]} source={{ uri: props.user.avatar }} />
+                component: <View>
+                    <Image style={[this.style.image]} source={{ uri: props.avatar }} />
+                    {this.props.profileEditMode && <Icon name="camera" style={[this.style.icon, this.style.cameraIcon]} size={30} />}
+                </View>
             }
         }
 
         return {
             name: 'user-ninja',
-            component: <Icon name="user-ninja" style={[this.style.icon]} size={40} />
+            component: <View>
+                <Icon name="user-ninja" style={[this.style.icon]} size={40} />
+            </View>
         }
+    }
+
+    pickAvatar = () => {
+        const options = ["Camera", "Library"];
+        const onSuccess = (base64Image: string) => {
+            this.props.dispatch(UserActions.changeAvatar(base64Image));
+        }
+
+        this.props.dispatch(ModalActions.pickerOpen(options, true, (index) => {
+            switch (index) {
+                case 0: {
+                    PickAvatar.launchCamera(onSuccess);
+                    break;
+                }
+                case 1: {
+                    PickAvatar.launchImageLibrary(onSuccess);
+                    break;
+                }
+            }
+        }))
     }
 }
 
@@ -200,6 +234,7 @@ const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
     user: state.user.current,
+    avatar: state.user.current && state.user.current.avatar,
     plannerEditMode: state.app.plannerEditMode,
     plannerCustomMode: state.user.current ? state.user.current.planner_custom_mode : false,
     plannerFooterCircleComponent: state.settings.plannerFooterCircleComponent,

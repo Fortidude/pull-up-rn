@@ -9,6 +9,8 @@ export enum UserTypes {
     togglePlannerCustomModeSuccess = '[USER] TOGGLE PLANNER CUSTOM MODE SUCCESS',
     togglePlannerCustomModeFailed = '[USER] TOGGLE PLANNER CUSTOM MODE FAILED',
 
+    changeAvatar = '[USER] CHANGE AVATAR',
+
     endOnBoarding = '[USER] END ONBOARDINIG',
     manuallyGoToOnboarding = '[USER] MANUALLY GO TO ONBOARDING'
 }
@@ -25,6 +27,11 @@ export const UserActions = {
     loadUserFailed: (error: string) => ({
         type: UserTypes.loadUserFailed,
         payload: { error: error }
+    }),
+
+    changeAvatar: (base64avatar: string) => ({
+        type: UserTypes.changeAvatar,
+        payload: { base64avatar }
     }),
 
     togglePlannerCustomMode: () => ({

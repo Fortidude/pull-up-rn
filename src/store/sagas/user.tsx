@@ -22,7 +22,8 @@ function* updateUserInAsyncStorage() {
 function* userSaga() {
     yield all([
         takeEvery(UserTypes.loadUser, loadUser),
-        takeEvery(UserTypes.togglePlannerCustomModeSuccess, updateUserInAsyncStorage)
+        takeEvery(UserTypes.togglePlannerCustomModeSuccess, updateUserInAsyncStorage),
+        takeEvery(UserTypes.changeAvatar, updateUserInAsyncStorage)
     ]);
 }
 

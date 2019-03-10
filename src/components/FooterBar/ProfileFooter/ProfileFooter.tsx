@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, Text, TouchableOpacity, ActionSheetIOS, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -44,6 +44,7 @@ class ProfileFooter extends React.Component<Props> {
     }
 
     render() {
+        console.log('render profile');
         if (!this.props.user) {
             return null;
         }

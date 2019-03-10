@@ -101,6 +101,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>User Avatar change</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>User Avatar change</string>
+	<key>NSCameraUsageDescription</key>
+	<string>User Avatar change</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

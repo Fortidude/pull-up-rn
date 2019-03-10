@@ -29,6 +29,11 @@ export function* updateSettings(action: any) {
     }
 }
 
+function* changeAvatar(action: any) {
+    const { base64avatar } = action.payload;
+    yield updateSettings({base64avatar: base64avatar});
+}
+
 function* togglePlannerCustomMode(action: any) {
     const user: User = yield select(getUser);
     yield updateSettings({ planner_custom_mode: !user.planner_custom_mode });
@@ -36,6 +41,7 @@ function* togglePlannerCustomMode(action: any) {
 
 function* settingsSaga() {
     yield all([
+        takeEvery(UserTypes.changeAvatar, changeAvatar),
         takeEvery(UserTypes.togglePlannerCustomMode, togglePlannerCustomMode)
     ]);
 }

@@ -21,6 +21,11 @@ function getStyle(theme: ThemeInterface) {
         icon: {
             color: 'white'
         },
+        cameraIcon: {
+            position: 'absolute',
+            top: -10,
+            right: -10
+        },
         image: {
             width: 70,
             height: 70,

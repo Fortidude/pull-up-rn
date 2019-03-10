@@ -119,7 +119,7 @@ class Auth extends React.Component<Props, State> {
         let image = images.loginBackground
         let gradient = ['transparent'];
 
-        if (this.props.theme.name === 'dark') {
+        if (this.props.theme.name === 'dark' || this.props.theme.name === 'creme') {
             image = images.loginBackgroundDark;
             gradient = ['rgba(0,0,0, 1)', 'rgba(0,0,0,0)'];
         }

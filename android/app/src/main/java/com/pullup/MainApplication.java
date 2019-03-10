@@ -3,6 +3,7 @@ package com.pullup;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.cmcewen.blurview.BlurViewPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImagePickerPackage(),
             new ReactNativePushNotificationPackage(),
             new KCKeepAwakePackage(),
             new BlurViewPackage(),
