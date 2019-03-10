@@ -51,7 +51,6 @@ class ListItem extends React.Component<Props> {
 
     render() {
         const { name, variant_name, section_name, percentage } = this.props.goal;
-        console.log(this.props.goal);
 
         return (
             <View style={this.style.container}>

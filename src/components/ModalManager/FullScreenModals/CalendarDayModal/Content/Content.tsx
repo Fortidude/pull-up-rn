@@ -68,7 +68,7 @@ class DayModalItem extends React.Component<Props, State> {
                         })}
                     </ScrollView>
                 </View>
-                <ModalFooter style={{ height: FOOTER_HEIGHT }} loading={false} successText={'Zamknij'} onSuccess={this.props.onClose} />
+                <ModalFooter loading={false} successText={'Zamknij'} onSuccess={this.props.onClose} />
             </React.Fragment>
         );
     }

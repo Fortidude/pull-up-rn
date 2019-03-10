@@ -10,7 +10,7 @@ function getStyle(theme: ThemeInterface) {
             backgroundColor: 'transparent',
             borderTopColor: theme.borders.borderLightColor,
             borderTopWidth: theme.borders.borderWidth,
-            height: 44,
+            height: isIphoneX ? 85 : 65,
             paddingBottom: isIphoneX ? FOOTER_IPHONE_X_PADDING : 0,
             width: '100%',
             flexDirection: 'row'
