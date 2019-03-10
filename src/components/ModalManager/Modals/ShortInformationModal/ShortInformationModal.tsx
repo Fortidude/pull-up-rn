@@ -11,8 +11,9 @@ interface Props {
     dispatch: Dispatch;
     theme: ThemeInterface;
     modalOptions: {
-        title: string
-        text: string
+        title: string;
+        text: string;
+        big?: boolean;
     }
 }
 
@@ -43,7 +44,7 @@ class ASampleTemplate extends React.Component<Props> {
       
 
         return (
-            <View style={[this.style.container]}>
+            <View style={[this.style.container, this.props.modalOptions.big && this.style.bigContainer]}>
                 {false && <Text numberOfLines={1} style={[this.style.title]}>{this.props.modalOptions.title.toLocaleUpperCase()}</Text>}
                 <Text style={this.style.text}>{this.props.modalOptions.text}</Text>
 

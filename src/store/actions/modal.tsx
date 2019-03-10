@@ -88,9 +88,9 @@ export const ModalActions = {
         payload: {}
     }),
 
-    informationOpen: (title: string, text: string) => ({
+    informationOpen: (title: string, text: string, big?: boolean) => ({
         type: ModalTypes.informationOpen,
-        payload: { title, text }
+        payload: { title, text, big }
     }),
     informationClose: () => ({
         type: ModalTypes.informationClose,

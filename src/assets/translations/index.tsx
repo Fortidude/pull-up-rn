@@ -279,7 +279,8 @@ let translations = {
             attention: "Uwaga",
             information: "Informacja",
             possible_swap_weight_reps: "Prawdopodobnie pomylono ilość wykonanych powtórzeń z ciężarem. Zignoruj wiadomość i ponownie zapisz jeżeli wszystko jest prawidłowo.",
-            still_during_production: "Wciąż nad tym pracujemy."
+            still_during_production: "Wciąż nad tym pracujemy.",
+            user_removed_data_erased: "Wszystkie dane zostały wymazane bezpowrotnie. Zostaniesz wylogowany."
         },
 
         errors: {

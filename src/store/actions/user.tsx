@@ -11,6 +11,10 @@ export enum UserTypes {
 
     changeAvatar = '[USER] CHANGE AVATAR',
 
+    removeUser = '[USER] REMOVE USER',
+    removeUserSuccess = '[USER] REMOVE USER SUCCESS',
+    removeUserFailed = '[USER] REMOVE USER FAILED',
+
     endOnBoarding = '[USER] END ONBOARDINIG',
     manuallyGoToOnboarding = '[USER] MANUALLY GO TO ONBOARDING'
 }
@@ -32,6 +36,19 @@ export const UserActions = {
     changeAvatar: (base64avatar: string) => ({
         type: UserTypes.changeAvatar,
         payload: { base64avatar }
+    }),
+
+    removeUser: () => ({
+        type: UserTypes.removeUser,
+        payload: {}
+    }),
+    removeUserSuccess: () => ({
+        type: UserTypes.removeUserSuccess,
+        payload: {}
+    }),
+    removeUserFailed: () => ({
+        type: UserTypes.removeUserFailed,
+        payload: {}
     }),
 
     togglePlannerCustomMode: () => ({

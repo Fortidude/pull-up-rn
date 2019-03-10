@@ -28,6 +28,7 @@ export interface ModalState {
     informationModalOptions: {
         title: string;
         text: string;
+        big?: boolean;
     };
 
     positionX: number;
@@ -138,7 +139,7 @@ function modal(state = initialState, action: AnyAction): ModalState {
         case ModalTypes.informationOpen:
             return Object.assign({}, state, { informationModalVisible: true, informationModalOptions: { ...action.payload } });
         case ModalTypes.informationClose:
-            return Object.assign({}, state, { informationModalVisible: false })
+            return Object.assign({}, state, { informationModalVisible: false, informationModalOptions: {title: '', text: '', big: undefined} })
 
         case AuthTypes.logout:
             return Object.assign({}, initialState);

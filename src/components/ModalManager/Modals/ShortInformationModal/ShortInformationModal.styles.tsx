@@ -23,6 +23,11 @@ function getStyle(theme: ThemeInterface) {
             alignItems: 'center'
         },
 
+        bigContainer: {
+            height: bigSize,
+            bottom: (height - bigSize) / 2
+        },
+
         title: {
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH5Size,

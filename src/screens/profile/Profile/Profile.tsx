@@ -12,6 +12,7 @@ import User from 'src/models/User';
 import { UserActions } from 'src/store/actions/user';
 import Planner from 'src/models/Planner';
 import { FOOTER_HEIGHT } from 'src/components/FooterBar/FooterBar.styles';
+import { ModalActions } from 'src/store/actions/modal';
 
 interface Props {
     dispatch: Dispatch;
@@ -55,6 +56,18 @@ class Profile extends React.Component<Props, State> {
     toggleUserPlannerCustomMode = () => {
         this.setState({ plannerCustomMode: !this.state.plannerCustomMode });
         this.props.dispatch(UserActions.togglePlannerCustomMode());
+    }
+
+    removeUser = () => {
+        const onConfirm = () => {
+            this.props.dispatch(ModalActions.informationOpen(I18n.t('warnings.attention'), I18n.t('warnings.user_removed_data_erased'), true));
+            setTimeout(() => {
+                this.props.dispatch(UserActions.removeUser());
+            }, 2000);
+        }
+
+        const options = [I18n.t('settings.remove_my_account')];
+        this.props.dispatch(ModalActions.pickerOpen(options, true, onConfirm))
     }
 
     render() {
@@ -101,7 +114,7 @@ class Profile extends React.Component<Props, State> {
                 />
 
                 <SettingListPlaceholder />
-                <SettingListItem icon="trash" onPress={() => { }} danger text={I18n.t('settings.remove_my_account')} last />
+                <SettingListItem icon="trash" onPress={this.removeUser} danger text={I18n.t('settings.remove_my_account')} last />
 
                 <View style={{ height: FOOTER_HEIGHT * 1.5 }}></View>
             </ScrollView>

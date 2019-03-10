@@ -87,6 +87,10 @@ class Data implements DataInterface {
         return await this.postFetchData(`/secured/settings/update`, data);
     }
 
+    public deleteAccount = async (): Promise<ResponseStatus> => {
+        return await this.postFetchData(`/secured/user/delete`, {}, undefined, 'DELETE');
+    }
+
     private getFetchData = async (url: string, cacheKey?: string, useToken: boolean = true, asJson: boolean = true) => {
         const apiUrl = ApiHelper.getHost() + url;
         const object = {
