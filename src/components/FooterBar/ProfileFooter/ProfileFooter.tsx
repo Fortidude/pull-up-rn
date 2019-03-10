@@ -12,6 +12,7 @@ import I18n from 'src/assets/translations';
 
 import Avatar from 'src/components/FooterBar/Avatar';
 import { ModalActions } from '../../../store/actions/modal';
+import User from 'src/models/User';
 
 interface Props {
     onLayout?: () => void;
@@ -19,6 +20,7 @@ interface Props {
     theme: ThemeInterface;
 
     syncItems: any[];
+    user: User;
 }
 
 class ProfileFooter extends React.Component<Props> {
@@ -42,11 +44,20 @@ class ProfileFooter extends React.Component<Props> {
     }
 
     render() {
+        if (!this.props.user) {
+            return null;
+        }
+
+        let { email, name } = this.props.user;
+        if (email === name) {
+            name = name.split('@')[0];
+        }
+
         return (
             <View style={this.style.container} onLayout={this.props.onLayout}>
                 <View style={this.style.leftSide}>
-                    <Text style={this.style.leftMainText}>Username</Text>
-                    <Text style={this.style.leftSubText}>User</Text>
+                    <Text numberOfLines={1} style={this.style.leftMainText}>{name}</Text>
+                    <Text numberOfLines={1} style={this.style.leftSubText}>{email}</Text>
                 </View>
                 <Avatar profileEditMode />
                 <TouchableOpacity style={this.style.rightSide} onPress={this.logoutAsk}>
@@ -73,7 +84,7 @@ class ProfileFooter extends React.Component<Props> {
             "Pewne wykonane akcje (np. dodanie setu) zostały wykonane w trybie offline i po wylogowaniu zostaną utracone. \n\nAby temu zapobiec kliknij anuluj, następnie połącz się z internetem",
             [
                 { text: I18n.t('buttons.cancel'), onPress: () => { }, style: 'cancel' },
-                { text: I18n.t('buttons.logout'), onPress: () => this._forceLogout()},
+                { text: I18n.t('buttons.logout'), onPress: () => this._forceLogout() },
             ]
         )
     }
@@ -84,7 +95,8 @@ class ProfileFooter extends React.Component<Props> {
 const mapStateToProps = (state: any) => ({
     dispatch: state.dispatch,
     theme: state.settings.theme,
-    syncItems: state.sync.items
+    syncItems: state.sync.items,
+    user: state.user.current
 });
 
 export default connect(mapStateToProps)(ProfileFooter);
