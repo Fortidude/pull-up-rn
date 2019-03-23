@@ -9,8 +9,9 @@ import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import BottomSections from '../Components/BottomSections';
 import PushNotification from 'src/service/PushNotifications';
 import Spinner from 'src/components/Spinner/Spinner';
+import I18n from 'src/assets/translations';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const MAX_POSITION_X = width * 0.10;
 interface Props {
     dispatch: Dispatch;
@@ -115,7 +116,7 @@ class StepTwo extends React.Component<Props, State> {
 
                     <View style={this.style.textContainer}>
                         <TouchableOpacity onPress={this.turnOnNotifications} style={this.style.buttonContainer}>
-                            {!this.state.permissionChecking && <Text numberOfLines={1} style={this.style.buttonText}>Włącz powiadomienia</Text>}
+                            {!this.state.permissionChecking && <Text numberOfLines={1} style={this.style.buttonText}>{I18n.t('settings.notifications.turn_on')}</Text>}
                             {this.state.permissionChecking && <Spinner color={"white"} />}
                         </TouchableOpacity>
                     </View>

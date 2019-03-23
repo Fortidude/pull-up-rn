@@ -6,6 +6,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 import Styles from './StepThree.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
+import I18n from 'src/assets/translations';
 import BottomSections from '../Components/BottomSections';
 
 const { width, height } = Dimensions.get('window');
@@ -66,7 +67,7 @@ class StepThree extends React.Component<Props, State> {
         return (
             <Animated.View style={[this.style.container, { opacity: opacity, transform: [{ scale }, { translateX: this.positionX }] }]}>
                 <View style={this.style.textContainer}>
-                    <Text style={this.style.text}>Get started!</Text>
+                    <Text style={this.style.text}>{I18n.t('boarding.step_last.get_started')}</Text>
                 </View>
                 <BottomSections finish={this.props.finish} />
             </Animated.View>

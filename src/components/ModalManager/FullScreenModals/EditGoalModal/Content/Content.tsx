@@ -215,7 +215,7 @@ class EditGoalContent extends React.Component<Props, State> {
                                 inputRef={ref => this.inputAmountRequiredRef = ref}
                                 disabled={!this.state.type}
                                 keyboardType={"numeric"}
-                                placeholder={"Podaj wymaganą ilość"}
+                                placeholder={I18n.t('modals.edit_goal_modal.provide_the_required_quantity')}
                                 value={this.state.requiredAmount ? this.state.requiredAmount.toString() : undefined}
                                 onChange={(value) => this.setState({ requiredAmount: parseInt(value) })}
                             />

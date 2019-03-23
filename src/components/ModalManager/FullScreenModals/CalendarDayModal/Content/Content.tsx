@@ -9,7 +9,7 @@ import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
 import GoalItem from '../GoalItem';
 import ModalFooter from 'src/components/ModalManager/ModalFooter/ModalFooter';
 import ModalHeader from 'src/components/ModalManager/ModalHeader/ModalHeader';
-import { FOOTER_HEIGHT } from 'src/components/FooterBar/FooterBar.styles';
+import I18n from 'src/assets/translations';
 
 import Set from 'src/models/Set';
 import Goal from 'src/models/Goal';
@@ -54,11 +54,11 @@ class DayModalItem extends React.Component<Props, State> {
                 <ModalHeader text={text} />
                 <View style={this.style.content}>
                     <View style={[this.style.infoLine.container]}>
-                        <Text style={this.style.infoLine.label}>Ilość ćwiczeń</Text>
+                        <Text style={this.style.infoLine.label}>{I18n.t('modals.calendar_day_modal.number_of_exercise')}</Text>
                         <Text style={this.style.infoLine.value}>{goals.length}</Text>
                     </View>
                     <View style={this.style.infoLine.container}>
-                        <Text style={this.style.infoLine.label}>Ilość setów</Text>
+                        <Text style={this.style.infoLine.label}>{I18n.t('fields.number_of_required_sets')}</Text>
                         <Text style={this.style.infoLine.value}>{sets.length}</Text>
                     </View>
 
@@ -68,7 +68,7 @@ class DayModalItem extends React.Component<Props, State> {
                         })}
                     </ScrollView>
                 </View>
-                <ModalFooter loading={false} successText={'Zamknij'} onSuccess={this.props.onClose} />
+                <ModalFooter loading={false} successText={I18n.t('buttons.close')} onSuccess={this.props.onClose} />
             </React.Fragment>
         );
     }

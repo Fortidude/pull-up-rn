@@ -201,13 +201,13 @@ class CreateGoalContent extends React.Component<Props, State> {
                 <View style={this.style.buttonLine.container}>
 
                     <TouchableOpacity style={this.style.buttonLine.switchButton} onPress={this.switchBetweenCustomExerciseAndPicker}>
-                        {this.state.customExercise && <Text style={this.style.buttonLine.buttonText}>Wybierz ćwiczenie z listy</Text>}
-                        {!this.state.customExercise && <Text style={this.style.buttonLine.buttonText}>Utwórz własne ćwiczenie</Text>}
+                        {this.state.customExercise && <Text style={this.style.buttonLine.buttonText}>{I18n.t('modals.addGoalModal.pick_exercise_from_list')}</Text>}
+                        {!this.state.customExercise && <Text style={this.style.buttonLine.buttonText}>{I18n.t('modals.addGoalModal.create_own_exercise')}</Text>}
                     </TouchableOpacity>
                 </View>
 
                 <View style={this.style.textLine.container}>
-                    {this.props.sectionName && <Text style={this.style.textLine.textLeft} numberOfLines={1}>Trening: {this.props.sectionName}</Text>}
+                    {this.props.sectionName && <Text style={this.style.textLine.textLeft} numberOfLines={1}>{I18n.t('modals.addGoalModal.training')}: {this.props.sectionName}</Text>}
 
                 </View>
                 <View style={this.style.form.container}>
@@ -258,7 +258,7 @@ class CreateGoalContent extends React.Component<Props, State> {
                             inputRef={ref => this.inputAmountRequiredRef = ref}
                             disabled={!this.state.type}
                             keyboardType={"numeric"}
-                            placeholder={"Podaj wymaganą ilość"}
+                            placeholder={I18n.t('modals.addGoalModal.provide_the_required_quantity')}
                             value={this.state.requiredAmount ? this.state.requiredAmount.toString() : undefined}
                             onChange={(value) => this.setState({ requiredAmount: parseInt(value) })}
                         />

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Styles from './OnBoarding.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import images from 'src/assets/images';
-
+import I18n from 'src/assets/translations';
 
 import { BlurView } from 'react-native-blur';
 
@@ -144,7 +144,7 @@ class OnBoarding extends React.Component<Props, State> {
                 <View style={[paginatorStyle.dot, currentDot === 4 && paginatorStyle.dotActive]}></View>
 
                 {this.state.currentDot !== 4 && <TouchableOpacity style={paginatorStyle.skipButton} onPress={this.close}>
-                    <Text style={paginatorStyle.skipButtonText}>SKIP</Text>
+                    <Text style={paginatorStyle.skipButtonText}>{I18n.t('buttons.skip')}</Text>
                 </TouchableOpacity>}
             </View>
         )

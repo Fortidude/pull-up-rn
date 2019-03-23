@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 
+import I18n from 'src/assets/translations';
 import Styles from './PlannerFooter.styles';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 import Button from 'src/components/FooterBar/Button';
@@ -56,13 +57,13 @@ class PlannerFooter extends React.Component<Props> {
     render() {
         return (
             <View style={this.style.container} onLayout={this.props.onLayout}>
-                <Button iconName="list" text="Planer" isActive />
-                <Button onPress={this.goToCalendar} iconName="calendar-alt" text="Kalendarz" />
+                <Button iconName="list" text={I18n.t('routes.home').ucFirst()} isActive />
+                <Button onPress={this.goToCalendar} iconName="calendar-alt" text={I18n.t('routes.calendar').ucFirst()} />
 
                 <Avatar />
 
-                <Button onPress={this.goToCardio} iconName="stopwatch" text="Cardio" />
-                <Button onPress={this.goToStatsScreen} iconName="chart-bar" text="Statystyki" />
+                <Button onPress={this.goToCardio} iconName="stopwatch" text={I18n.t('routes.cardio').ucFirst()} />
+                <Button onPress={this.goToStatsScreen} iconName="chart-bar" text={I18n.t('routes.statistics').ucFirst()} />
 
                 <View style={{ position: 'absolute', right: 0, top: -90 }}>
                     {!this.props.isEmpty && <PlannerFab />}

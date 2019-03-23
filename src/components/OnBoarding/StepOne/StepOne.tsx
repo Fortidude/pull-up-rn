@@ -163,7 +163,7 @@ class StepOne extends React.Component<Props, State> {
 
                         <TutorialTouchIcon onRef={ref => this.tutorialTouchIcon = ref} x={150} y={-46}/>
                     </View>
-                    <Animated.Text style={[this.style.text, { opacity: textOpacity }]}>Twój osobisty dziennik treningowy</Animated.Text>
+                    <Animated.Text style={[this.style.text, { opacity: textOpacity }]}>{I18n.t('boarding.step_one.title')}</Animated.Text>
                 </View>
 
                 {this.getLogoComponent()}

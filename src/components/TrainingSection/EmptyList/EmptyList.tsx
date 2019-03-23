@@ -64,6 +64,15 @@ class EmptyList extends React.Component<Props, State> {
                 Animated.spring(this.pickOneVisibleAnimation, { toValue: 0, useNativeDriver: true })
             ]).start();
         }
+
+        if (!nextProps.loading && this.props.loading) {
+            Animated.parallel([
+                Animated.timing(this.loaderVisible, { toValue: 0, useNativeDriver: true }),
+                Animated.spring(this.firstVisibleAnimation, { toValue: 1, useNativeDriver: true }),
+                Animated.spring(this.createOwnVisibleAnimation, { toValue: 0, useNativeDriver: true }),
+                Animated.spring(this.pickOneVisibleAnimation, { toValue: 0, useNativeDriver: true })
+            ]).start();
+        }
     }
 
     close = () => {
@@ -99,7 +108,7 @@ class EmptyList extends React.Component<Props, State> {
         return (
             <Animated.View style={[this.style.container, { transform: [{ translateY: this.containerTranslateY }] }]}>
                 <Animated.View style={[this.style.buttonContainer, { opacity: pickStepOpacity }]}>
-                    <Text style={[this.style.headerText, { textTransform: 'uppercase', marginVertical: 20, }]}>Plan treningowy</Text>
+                    <Text style={[this.style.headerText, { textTransform: 'uppercase', marginVertical: 20, }]}>{I18n.t('planner.first_step.title')}</Text>
                     <ButtonBig lightShadow icon="plus" text={I18n.t('planner.first_step.own_button_text')} onPress={this.createOwnPress} style={this.style.first_button} />
                     <ButtonBig lightShadow icon="bars" text={I18n.t('planner.first_step.predefined_button_text')} onPress={this.pickOnePress} style={this.style.last_button} />
                 </Animated.View>

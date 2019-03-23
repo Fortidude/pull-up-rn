@@ -81,8 +81,8 @@ class ProfileFooter extends React.Component<Props> {
 
     _askLogoutWhenNotSync = () => {
         Alert.alert(
-            'Brak synchronizacji',
-            "Pewne wykonane akcje (np. dodanie setu) zostały wykonane w trybie offline i po wylogowaniu zostaną utracone. \n\nAby temu zapobiec kliknij anuluj, następnie połącz się z internetem",
+            I18n.t('warnings.not_synchronized'),
+            I18n.t("warnings.not_synchronized_text"),
             [
                 { text: I18n.t('buttons.cancel'), onPress: () => { }, style: 'cancel' },
                 { text: I18n.t('buttons.logout'), onPress: () => this._forceLogout() },

@@ -6,6 +6,7 @@ import moment from 'moment';
 
 import getStyle from './Day.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
+import I18n from 'src/assets/translations';
 
 interface Props {
     dispatch: Dispatch;
@@ -55,7 +56,7 @@ class DayItemText extends React.Component<Props> {
                 <Animated.View style={textContainerStyle}>
                     <Text style={[this.style.text, TextStyle]}>{this.props.day.format('D')}</Text>
                 </Animated.View>
-                {isToday && <Text style={this.style.subText}>TODAY</Text>}
+                {isToday && <Text style={this.style.subText}>{I18n.t('buttons.today').toLocaleUpperCase()}</Text>}
             </Animated.View>
         );
     }

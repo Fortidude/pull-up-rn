@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { Text, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import Styles from './ModalHeader.styles';
-import { ThemeInterface, ThemeValueInterface } from '../../../assets/themes';
+import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes';
 
 interface Props {
     dispatch: Dispatch;

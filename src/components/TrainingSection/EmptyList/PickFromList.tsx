@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
-import { View, Animated, Text, KeyboardAvoidingView, Keyboard, TouchableOpacity } from 'react-native';
+import { View, Animated, Text, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
 import I18n from 'src/assets/translations';
@@ -58,11 +58,17 @@ class PickFromList extends React.Component<Props, State> {
         this.addTrainingSectionModalTitleInputRef.focus();
     }
 
-    basicTrainingButton = () => {
+    basicFBWTrainingButton = () => {
         this.props.dispatch(PlannerActions.assignTrainingPlan('basic'));
 
         this.close();
     }
+
+    basicPushPullTrainingButton = () => {
+        this.props.dispatch(PlannerActions.assignTrainingPlan('basic-push-pull'));
+
+        this.close();
+    }  
 
     intermediateTrainingButton = () => {
         this.props.dispatch(ModalActions.informationOpen(
@@ -98,8 +104,9 @@ class PickFromList extends React.Component<Props, State> {
         return (
             <React.Fragment>
                 <Animated.View style={[this.style.buttonContainer, { opacity: formOpacity, transform: [{ scale: formScale }] }]}>
-                    <ButtonBig lightShadow text={"Jestem początkujący"} onPress={this.basicTrainingButton} style={this.style.first_button} />
-                    <ButtonBig lightShadow text={"Bywałem już na siłowni"} onPress={this.intermediateTrainingButton} style={this.style.last_button} />
+                    <ButtonBig lightShadow text={I18n.t('planner.first_step.predefined.fbw_basic')} onPress={this.basicFBWTrainingButton} style={this.style.first_button} />
+                    <ButtonBig lightShadow text={I18n.t('planner.first_step.predefined.push_pull_basic')} onPress={this.basicPushPullTrainingButton} style={this.style.last_button} />
+                    {/* {<ButtonBig lightShadow text={"Z"} onPress={this.intermediateTrainingButton} style={this.style.last_button} />} */}
                 </Animated.View>
 
                 <Animated.View style={{ position: 'absolute', right: 45, opacity: formOpacity, transform: [{ translateY: buttonTranslateY }] }}>

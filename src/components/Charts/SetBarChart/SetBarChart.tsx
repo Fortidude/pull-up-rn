@@ -105,10 +105,10 @@ class SetBarChart extends React.Component<Props, State> {
                     })}
                 </ScrollView>
                 {this.props.big && <View style={this.style.legend.container}>
-                    <Text style={this.style.legend.textEasy}>Łatwy</Text>
-                    <Text style={this.style.legend.textMedium}>Średni</Text>
-                    <Text style={this.style.legend.textHard}>Trudny</Text>
-                    <Text style={this.style.legend.textTitle}>Poziom trudności</Text>
+                    <Text style={this.style.legend.textEasy}>{I18n.t('planner.difficultLevels.1')}</Text>
+                    <Text style={this.style.legend.textMedium}>{I18n.t('planner.difficultLevels.2')}</Text>
+                    <Text style={this.style.legend.textHard}>{I18n.t('planner.difficultLevels.3')}</Text>
+                    <Text style={this.style.legend.textTitle}>{I18n.t('planner.difficultLevelTitleFull')}</Text>
                 </View>}
             </View>
         );

@@ -1,6 +1,8 @@
 import ImagePicker from 'react-native-image-picker';
 import { Alert } from 'react-native';
 
+import I18n from 'src/assets/translations';
+
 type onSuccess = (base64avatar: string) => void;
 class PickAvatar {
     options = {
@@ -23,7 +25,6 @@ class PickAvatar {
     }
 
     _process = (response: any, onSuccess: onSuccess) => {
-
         if (response.didCancel) {
             // this.setState({avatar_loading: false});
         }
@@ -33,8 +34,8 @@ class PickAvatar {
         else if (response.fileSize > 600000) {
             let size = Math.round(response.fileSize / (1024 * 1024) * 100) / 100;
             Alert.alert(
-                'Zdjęcie jest za duże',
-                'Zdjęcie zostało zmniejszone do maksymalnie 400x400 px, jednak i tak jest wielkość to ' + size + ' MB. Maksymalny rozmiar to 0.6 MB.',
+                I18n.t('settings.avatar.picture_to_big_title'),
+                I18n.t('settings.avatar.picture_to_bit_text', {size: size}),
                 [
                     { text: 'OK', onPress: () => { } },
                 ],

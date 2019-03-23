@@ -48,7 +48,7 @@ class ExerciseFromList extends React.Component<Props> {
                 <Text style={this.style.form.label}>{I18n.t('mics.exercise')}</Text>
                 <Select
                     medium
-                    placeholder="Brak"
+                    placeholder={I18n.t('planner.types.none')}
                     onChange={this.props.onChangeExercise}
                     value={this.props.exercise ? this.props.exercise.name : undefined}
                     options={this.getExerciseOptions()}
@@ -63,7 +63,7 @@ class ExerciseFromList extends React.Component<Props> {
                         placeholder={!this.props.exerciseValid ? I18n.t('mics.you_have_to_pick_exercise') : I18n.t('mics.none')}
                         onChange={this.props.onChangeExerciseVariant}
                         value={this.props.exerciseVariant ? this.props.exerciseVariant.name : undefined}
-                        options={['Brak', ...this.getExerciseVariantOptions()]}
+                        options={[I18n.t('planner.types.none'), ...this.getExerciseVariantOptions()]}
                     />
                 </View>
             </React.Fragment>

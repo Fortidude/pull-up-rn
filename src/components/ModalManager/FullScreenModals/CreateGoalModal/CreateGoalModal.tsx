@@ -2,7 +2,6 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Animated, Dimensions } from 'react-native';
-import moment from 'moment'
 
 import getStyle from './CreateGoalModal.styles';
 import { ThemeValueInterface, ThemeInterface } from 'src/assets/themes';
