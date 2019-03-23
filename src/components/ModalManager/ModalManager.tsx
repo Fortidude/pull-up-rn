@@ -281,7 +281,7 @@ class ModalManager extends React.Component<Props, State> {
 
                 </Animated.View>}
 
-                {this.state.modalWithoutOverlay && <Animated.View style={[{position: 'absolute', bottom: 0}, { opacity: this.state.overlayOpacity }]}>
+                {this.state.modalWithoutOverlay && <Animated.View style={[{position: 'absolute', top: 10}, { opacity: this.state.overlayOpacity }]}>
                     <ShortInformationModal />
                 </Animated.View>}
             </React.Fragment>

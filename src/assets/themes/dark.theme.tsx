@@ -40,6 +40,7 @@ const colors = {
     inverseTextColor: '#000000',
     subTextColor: greyColor,
     disableText: greyColor,
+    informationModalFontColor: redColor,
 
     loaderPlaceholderTextColor: '#141414',
     loaderPlaceholderTextColorInverse: '#282828',
@@ -131,6 +132,7 @@ const borders = {
     borderLightColor: colors.borderLightColor,
     borderDarkColor: colors.borderDarkColor,
 
+    informationModalBorderColor: redColor,
     pickerItemBorderColor: colors.borderDarkerColor,
 
     modalRadius: 15

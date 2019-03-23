@@ -58,9 +58,9 @@ class StatsFooter extends React.Component<Props> {
     render() {
         return (
             <View style={this.style.container} onLayout={this.props.onLayout}>
-                <Button onPress={this.goToEffectiveness} text={I18n.t('routes.effectivenessstats')} isActive={this.isRouteCurrent("EffectivenessStats")} />
-                <Button onPress={this.goToPopularity} text={I18n.t('routes.popularitystats')} isActive={this.isRouteCurrent("PopularityStats")} />
-                <Button onPress={this.goToProgress} text={I18n.t('routes.progressstats')} isActive={this.isRouteCurrent("ProgressStats")} />
+                <Button onPress={this.goToEffectiveness} text={I18n.t('routes.effectivenessstats').ucFirst()} isActive={this.isRouteCurrent("EffectivenessStats")} />
+                <Button onPress={this.goToPopularity} text={I18n.t('routes.popularitystats').ucFirst()} isActive={this.isRouteCurrent("PopularityStats")} />
+                <Button onPress={this.goToProgress} text={I18n.t('routes.progressstats').ucFirst()} isActive={this.isRouteCurrent("ProgressStats")} />
             </View>
         );
     }

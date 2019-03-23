@@ -26,7 +26,7 @@ export default {
 
     boarding: {
         step_one: {
-            titie: "Your personal traning diary",
+            title: "Your personal traning diary",
             line_one: {
                 title: 'Create exercise list',
                 description: 'Create tranings (e.g.. Pull, Push or Monday, Wednesday etc.), and then complete them with exercises (e.g. squat, deadlift, bench press, pull up etc.)'

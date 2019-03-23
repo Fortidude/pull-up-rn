@@ -2,6 +2,7 @@ import { ThemeInterface } from 'src/assets/themes';
 import { Dimensions } from 'react-native';
 import { FOOTER_HEIGHT, FOOTER_IPHONE_X_PADDING } from 'src/components/FooterBar/FooterBar.styles';
 import DetermineDevice from 'src/service/helpers/DetermineDevice';
+import { HEADER_HEIGHT } from 'src/components/Header/Header.styles';
 
 const { width, height } = Dimensions.get('window');
 const bigSize = width * 0.8;
@@ -9,18 +10,22 @@ function getStyle(theme: ThemeInterface) {
     return {
         container: {
             backgroundColor: theme.colors.modalDarkBackgroundColor || theme.colors.modalBackgroundColor,
-            borderColor: theme.borders.borderColor,
+            borderColor: theme.borders.informationModalBorderColor || theme.borders.borderColor,
             borderWidth: theme.borders.borderWidth,
             borderRadius: 10,
-            position: 'absolute',
+         //   position: 'absolute',
             width: bigSize,
+            minHeight: 50,
             left: (width - bigSize) / 2,
-            bottom: FOOTER_HEIGHT + (DetermineDevice.isIphoneX() ? FOOTER_IPHONE_X_PADDING : 0) + 30,
+            top: HEADER_HEIGHT,
             paddingHorizontal: 20,
             paddingVertical: 5,
             zIndex: 2,
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            shadowColor: theme.colors.buttonBigShadowColor,
+            shadowOpacity: 0.5,
+            shadowOffset: { width: 0, height: 3 }
         },
 
         bigContainer: {
@@ -46,8 +51,8 @@ function getStyle(theme: ThemeInterface) {
         text: {
             fontFamily: theme.fonts.mainFontFamily,
             fontSize: theme.fonts.fontH3Size,
-            color: theme.colors.modalDarkFontColor || theme.colors.textColor,
-            fontWeight: '100',
+            color: theme.colors.informationModalFontColor || theme.colors.textColor,
+            fontWeight: theme.fonts.informationModalFontWeight || '100',
         },
 
         dismissButtom: {

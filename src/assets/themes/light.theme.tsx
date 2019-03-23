@@ -41,6 +41,8 @@ const colors = {
     subTextColor: greyColor,
     disableText: greyColor,
 
+    informationModalFontColor: redColor,
+
     loaderPlaceholderTextColor: '#F4F6F7',
     loaderPlaceholderTextColorInverse: '#fafbfb',
 
@@ -130,6 +132,7 @@ const borders = {
     borderLightColor: colors.borderLightColor,
     borderDarkColor: colors.borderDarkColor,
 
+    informationModalBorderColor: redColor,
     pickerItemBorderColor: colors.borderLightColor,
 
     modalRadius: 15
@@ -149,7 +152,9 @@ const fonts = {
 
     inputFontSize: isSmallScreen ? 18 : 19,
     buttonBigFontSize: isSmallScreen ? 18 : 19,
-    linkSmallFontSize: isSmallScreen ? 14 : 15
+    linkSmallFontSize: isSmallScreen ? 14 : 15,
+
+    informationModalFontWeight: '500',
 };
 
 const dimensions = {

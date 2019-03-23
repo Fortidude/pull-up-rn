@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
-import { TouchableOpacity, ImageBackground, Text, View, KeyboardAvoidingView, Animated, Keyboard, StyleSheet, AsyncStorage, TextInput } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { TouchableOpacity, Text, View, Animated, Keyboard, AsyncStorage, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 
 import getStyle from '../Auth.styles';
 import I18n from 'src/assets/translations';
 import { ThemeInterface, ThemeValueInterface } from 'src/assets/themes/index'
-import Images from 'src/assets/images';
 import Input from 'src/components/Input';
 import ButtonBig from 'src/components/ButtonBig';
 import emailLogin from './onLogin/emailLogin';
