@@ -45,7 +45,7 @@ class LanguagePicker extends React.Component<Props> {
             return <SettingListItem key={key}
                 rightCheck={this.props.locale === locale}
                 text={locales[locale]}
-                subText={I18n.t(`locales.${this.props.locale}`)}
+                subText={I18n.t(`locales.${locale}`)}
                 onPress={() => this.changeLocale(locale)}
                 last={length === index}
             />
